@@ -157,6 +157,6 @@
     {{ parent() }}
         {% if is_granted('ROLE_HOME_MANAGER') %}
             <script type="text/javascript" src="{{ hotAsset('dist/claroline-distribution-main-core-content.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/clarolinecore/js/home/menuSettings.js') }}"></script>
+            <script type="text/javascript" src="{{ hotAsset('dist/claroline-distribution-main-core-menu-settings.js') }}"></script>
         {% endif %}
 {% endblock %}

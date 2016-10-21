@@ -80,7 +80,7 @@
     {{ parent() }}
         <script type="text/javascript" src="{{ asset('packages/fluidvids/dist/fluidvids.min.js') }}"></script>
         <script type="text/javascript" src="{{ hotAsset('dist/claroline-distribution-main-core-height.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/clarolinecore/js/home/readmore.js') }}"></script>
+        <script type="text/javascript" src="{{ hotAsset('dist/claroline-distribution-main-core-readmore.js') }}"></script>
         {% if is_granted('ROLE_HOME_MANAGER') %}
             <script type="text/javascript" src="{{ hotAsset('dist/claroline-distribution-main-core-content.js') }}"></script>
         {% endif %}
