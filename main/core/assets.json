@@ -15,7 +15,8 @@
       "content": "_old/home/content",
       "height": "_old/home/height",
       "menu-settings": "_old/home/menuSettings",
-      "readmore": "_old/home/readmore"
+      "readmore": "_old/home/readmore",
+      "topbar": "_old/topbar"
     }
   }
 }
