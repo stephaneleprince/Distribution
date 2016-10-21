@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import home from './home'
 import modal from '../modal'
 import common from '../common'
@@ -106,7 +108,7 @@ $('body').on('click', '.content-size', function (event) {
     var typeId = $(event.target).parents('.alert').data('id')
 
     modal.displayForm(
-      Routing.generate(
+      routing.generate(
         'claro_content_change_template_form',
         {'type': typeId}
       ),
@@ -252,14 +254,14 @@ $('body').on('click', '.content-size', function (event) {
       })
     })
   }).on('click', '.collapse-content', function (event) {
-  var element = $(event.target).parents('.content-element').get(0)
-  var id = $(element).data('id')
-  var type = $(element).data('type')
+    var element = $(event.target).parents('.content-element').get(0)
+    var id = $(element).data('id')
+    var type = $(element).data('type')
 
-  if (id && element) {
-    home.collapse(element, id, type)
-  }
-})
+    if (id && element) {
+      home.collapse(element, id, type)
+    }
+  })
 
 $('.contents').sortable({
   items: '> .content-element',

@@ -12,7 +12,8 @@
       "admin-home-tabs-config": "adminHomeTabsConfig/adminHomeTabsConfig",
       "workspace-home": "workspace/tools/home/workspaceHome",
       "modernizr": "modernizr/modernizr",
-      "content": "_old/home/content"
+      "content": "_old/home/content",
+      "height": "_old/home/height"
     }
   }
 }

@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 window.Claroline = window.Claroline || {}
 
 var common = window.Claroline.Common = {}
@@ -21,7 +23,6 @@ common.createElement = function (tag, className) {
  *
  */
 common.uploadfile = function (form, element, parent, callBack) {
-  var workspace = $(form).data('workspace')
   $(form).upload(
     routing.generate(
       'claro_file_upload_with_tinymce',

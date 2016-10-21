@@ -12,6 +12,7 @@ var translator = window.Translator
 var routing = window.Routing
 
 import common from './common'
+import $ from 'jquery'
 
 var modal = window.Claroline.Modal = {
   modalStack: []
@@ -65,9 +66,9 @@ modal.hide = function () {
  *
  * @param content The content to put inside this modal (this modal does not contain modal-digalog element)
  */
-modal.create = function (content, classes, styles) {
-  var classes = classes || ''
-  var styles = styles || {}
+modal.create = function (content, strClasses, oStyles) {
+  let classes = strClasses || ''
+  let styles = oStyles || {}
 
   return common.createElement('div', 'modal fade ' + classes)
     .css(styles)
@@ -271,9 +272,9 @@ modal.submitForm = function (modalElement, callBack, formId, formRenderHandler) 
 
   if (formId) {
     // this implementation works for file fields
-    var form = $(modalElement).find('form')
-    var url = form.attr('action')
-    var formData = new FormData(document.getElementById(formId))
+    let form = $(modalElement).find('form')
+    let url = form.attr('action')
+    let formData = new FormData(document.getElementById(formId))
 
     $.ajax({
       url: url,
@@ -293,9 +294,9 @@ modal.submitForm = function (modalElement, callBack, formId, formRenderHandler) 
     })
   } else {
     // this implementation doesn't work for file fields
-    var form = $('form', modalElement)
-    var url = form.attr('action')
-    var formData = form.serializeArray()
+    let form = $('form', modalElement)
+    let url = form.attr('action')
+    let formData = form.serializeArray()
 
     $.post(url, formData)
       .success(function (data, textStatus, jqXHR) {
