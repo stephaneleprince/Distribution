@@ -309,3 +309,5 @@ $(window).on('beforeunload', function () {
     return translator.trans('leave_this_page', {}, 'platform')
   }
 })
+
+export default tinymce
