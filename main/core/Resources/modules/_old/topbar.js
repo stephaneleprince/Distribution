@@ -12,8 +12,8 @@ function responsiveTopBar () {
 
 $(window).on('resize', function () {
   $('#top_bar').css('overflow', 'hidden')
+  let resizeWindow = setTimeout(responsiveTopBar, 200)
   clearTimeout(resizeWindow)
-  setTimeout(responsiveTopBar, 200)
 })
 
 $(document).ready(function () {

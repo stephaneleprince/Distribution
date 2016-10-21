@@ -16,7 +16,11 @@
       "height": "_old/home/height",
       "menu-settings": "_old/home/menuSettings",
       "readmore": "_old/home/readmore",
-      "topbar": "_old/topbar"
+      "topbar": "_old/topbar",
+      "startup": "_old/startup",
+      "activity-main": "_old/activity/activity",
+      "activity-edit": "_old/activity/edit",
+      "activity-edit-parameters": "_old/activity/editActivityParameters"
     }
   }
 }

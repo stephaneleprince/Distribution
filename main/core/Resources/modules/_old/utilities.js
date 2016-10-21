@@ -56,4 +56,4 @@ utilities.formatText = function (text, maxLengthPerLine, maxLines) {
   return newText
 }
 
-return utilities
+export default utilities

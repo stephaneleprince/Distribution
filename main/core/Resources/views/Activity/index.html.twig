@@ -121,8 +121,9 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/clarolinecore/js/activity/activity.js') }}"></script>
     {% if is_granted('edit', _resource) %}
-        <script src="{{ asset('bundles/clarolinecore/js/activity/edit.js') }}"></script>
+        <script src="{{ asset('bundles/clarolinecore/js/activity/activity-edit.js') }}"></script>
+    {% else %}
+        <script src="{{ hotAsset('dist/claroline-distribution-main-core-activity-main.js') }}"></script>
     {% endif %}
 {% endblock %}

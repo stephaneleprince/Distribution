@@ -122,7 +122,6 @@
     'bundles/clarolinecore/js/locale.js'
     'bundles/clarolinecore/js/resourceinput.js'
     'bundles/clarolinecore/js/utilities.js'
-    'bundles/clarolinecore/js/startup.js'
     'bundles/clarolinecore/js/user/user_picker.js'
 %}
     <script src="{{ asset_url }}"></script>
@@ -149,6 +148,7 @@
 <script src="{{ asset('bundles/stfalcontinymce/vendor/tinymce/tinymce.jquery.min.js') }}"></script>
 <script src="{{ asset('bundles/stfalcontinymce/vendor/tinymce/jquery.tinymce.min.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce.js') }}"></script>
+<script src="{{ hotAsset('dist/claroline-distribution-main-core-startup.js') }}"></script>
 
 {% if app.environment == 'prod' %}
     <script src="{{ hotAsset('dist/commons.js') }}"></script>
