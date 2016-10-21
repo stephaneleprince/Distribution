@@ -20,7 +20,24 @@
       "startup": "_old/startup",
       "activity-main": "_old/activity/activity",
       "activity-edit": "_old/activity/edit",
-      "activity-edit-parameters": "_old/activity/editActivityParameters"
+      "activity-edit-parameters": "_old/activity/editActivityParameters",
+      "admin-desktop-configure-tools": "_old/administration/adminDesktopConfigureTool",
+      "admin-desktop-configure-home-lock-management": "_old/administration/adminDesktopHomeLockManagement",
+      "admin-tool-roles": "_old/administration/adminToolRoles",
+      "admin-clients": "_old/administration/clients",
+      "admin-logos": "_old/administration/logos",
+      "admin-mail": "_old/administration/mail",
+      "admin-oauth": "_old/administration/oauth",
+      "admin-profile-properties": "_old/administration/profileProperties",
+      "admin-pws-resource-rights": "_old/administration/pwsResourceRights",
+      "admin-pws-tool-config": "_old/administration/pwsToolConfig",
+      "admin-registration-management": "_old/administration/registrationManagement",
+      "admin-role-list": "_old/administration/roleList",
+      "admin-security-token-form": "_old/administration/securityTokenForm",
+      "admin-security-token-list": "_old/administration/securityTokenList",
+      "admin-session": "_old/administration/session",
+      "admin-widgets-management": "_old/administration/widgetsManagement",
+      "admin-workspace-unregistration-management": "_old/administration/workspaceUnregistrationManagement"
     }
   }
 }
