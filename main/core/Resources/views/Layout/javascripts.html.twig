@@ -145,13 +145,15 @@
 {% endjavascripts %}
 
 <script src="{{ asset('bundles/stfalcontinymce/vendor/tinymce/tinymce.jquery.min.js') }}"></script>
-<script src="{{ asset('bundles/stfalcontinymce/vendor/tinymce/jquery.tinymce.min.js') }}"></script><!-- this is not duplicated file -->
+<script src="{{ asset('bundles/stfalcontinymce/vendor/tinymce/jquery.tinymce.min.js') }}"></script>< this is not duplicated file
+
+<script src="{{ hotAsset('claroline-distribution-main-core-home')}}"></script>
+<script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce.js') }}"></script>
 
 {% if app.environment == 'prod' %}
     <script src="{{ hotAsset('dist/commons.js') }}"></script>
 {% endif %}
 
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce.js') }}"></script>
 <script src="{{ asset('bundles/clarolinecore/js/tinymce/resource_picker_button.js') }}"></script>
 <script src="{{ asset('bundles/clarolinecore/js/tinymce/resource_picker.js') }}"></script>
 <script src="{{ asset('bundles/clarolinecore/js/tinymce/resource_upload_button.js') }}"></script>

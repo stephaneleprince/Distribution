@@ -3,9 +3,9 @@ import _ from 'underscore'
 import 'claroline-tinymce-mention/plugin.min'
 import 'tinymce-codemirror/plugins/codemirror/plugin.min'
 import './plugins/codemirror'
+import home from '../_old/home/home'
 
 var tinymce = window.tinymce
-var home = window.Claroline.Home
 var translator = window.Translator
 var routing = window.Routing
 
@@ -200,7 +200,6 @@ tinymce.claroline.mentionsInsert = function (item) {
 // Get theme to load inside tinymce in order to have no display differences
 var homeTheme = document.getElementById('homeTheme')
 var themeCSS = homeTheme.innerText || homeTheme.textContent
-
 tinymce.claroline.configuration = {
   'paste_data_images': true,
   'relative_urls': false,

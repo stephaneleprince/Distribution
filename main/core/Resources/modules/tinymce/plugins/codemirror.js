@@ -1,8 +1,8 @@
 var tinymce = window.tinymce
-var home = window.Claroline.Home
+import home from '../_old/home/home'
 
 tinymce.PluginManager.requireLangPack('codemirror')
-tinymce.PluginManager.add('codemirror', function (editor, url) {
+tinymce.PluginManager.add('codemirror', function (editor) {
   function showSourceEditor () {
     // Insert caret marker
     editor.focus()
@@ -19,9 +19,9 @@ tinymce.PluginManager.add('codemirror', function (editor, url) {
       maximizable: true,
       buttons: [
         { text: 'Ok', subtype: 'primary', onclick: function () {
-            var doc = document.querySelectorAll('.mce-container-body>iframe')[0]
-            doc.contentWindow.submit()
-            win.close()
+          var doc = document.querySelectorAll('.mce-container-body>iframe')[0]
+          doc.contentWindow.submit()
+          win.close()
         }},
         { text: 'Cancel', onclick: 'close' }
       ]
