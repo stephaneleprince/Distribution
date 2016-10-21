@@ -1,5 +1,5 @@
 var tinymce = window.tinymce
-import home from '../_old/home/home'
+import home from '../../_old/home/home'
 
 tinymce.PluginManager.requireLangPack('codemirror')
 tinymce.PluginManager.add('codemirror', function (editor) {
