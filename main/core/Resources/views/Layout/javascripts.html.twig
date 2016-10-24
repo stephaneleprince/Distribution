@@ -95,6 +95,7 @@
 <script src="{{ asset('packages/underscore/underscore.js') }}"></script>
 <script src="{{ asset('packages/backbone/backbone.js') }}"></script>
 
+<!-- to remove at the end -->
 {% javascripts debug=false filter='jsmin' output='vendor/claroline/js/libraries.js'
     'bundles/clarolinecore/js/common.js'
     'bundles/clarolinecore/js/modal.js'
@@ -122,10 +123,11 @@
     'bundles/clarolinecore/js/locale.js'
     'bundles/clarolinecore/js/resourceinput.js'
     'bundles/clarolinecore/js/utilities.js'
-    'bundles/clarolinecore/js/user/user_picker.js'
 %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
+
+<script src='{{ hotAsset('dist/claroline-distribution-main-core-user-picker.js') }}'></script>
 
 {# Angular JS #}
 {% javascripts debug=false filter='jsmin' output='vendor/angular.js'

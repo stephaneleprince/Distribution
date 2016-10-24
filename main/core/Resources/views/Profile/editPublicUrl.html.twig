@@ -55,5 +55,5 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script type="text/javascript" src='{{ asset('bundles/clarolinecore/js/user/public_url.js') }}'></script>
+<script src='{{ hotAsset('dist/claroline-distribution-main-core-user-public-url.js') }}'></script>
 {% endblock %}

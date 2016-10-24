@@ -50,7 +50,9 @@
       "workspace-list": "_old/workspace/workspaceList",
       "workspace-list-registration": "_old/workspace/workspaceListRegistration",
       "theme": "_old/theme/theme",
-      "iframe": "_old/iframe/iframe"
+      "iframe": "_old/iframe/iframe",
+      "user-public-url": "_old/user/publicUrl",
+      "user-picker": "_old/user/userPicker"
     }
   }
 }
