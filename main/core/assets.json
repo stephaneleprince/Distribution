@@ -48,7 +48,8 @@
       "workspace-self-registration": "_old/workspace/selfRegistration",
       "workspace-self-unregistration": "_old/workspace/selfUnregistration",
       "workspace-list": "_old/workspace/workspaceList",
-      "workspace-list-registration": "_old/workspace/workspaceListRegistration"
+      "workspace-list-registration": "_old/workspace/workspaceListRegistration",
+      "theme": "_old/theme/theme"
     }
   }
 }
