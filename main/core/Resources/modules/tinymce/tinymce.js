@@ -1,13 +1,14 @@
 import $ from 'jquery'
 import _ from 'underscore'
+import home from '../_old/home/home'
+
 import 'claroline-tinymce-mention/plugin.min'
 import 'tinymce-codemirror/plugins/codemirror/plugin.min'
 import './plugins/codemirror'
-import home from '../_old/home/home'
 
-var tinymce = window.tinymce
 var translator = window.Translator
 var routing = window.Routing
+var tinymce = window.tinymce
 
 tinymce.DOM.loadCSS(home.asset + 'packages/claroline-tinymce-mention/css/autocomplete.css')
 var codemirrorPath = home.asset + 'packages/tinymce-codemirror/plugins/codemirror/codemirror-4.8'
