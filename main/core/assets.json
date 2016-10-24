@@ -38,7 +38,17 @@
       "admin-security-token-list": "_old/administration/securityTokenList",
       "admin-session": "_old/administration/session",
       "admin-widgets-management": "_old/administration/widgetsManagement",
-      "admin-workspace-unregistration-management": "_old/administration/workspaceUnregistrationManagement"
+      "admin-workspace-unregistration-management": "_old/administration/workspaceUnregistrationManagement",
+      "my-contacts": "_old/contact/myContactsToolIndex",
+      "workspace-list-by-user": "_old/workspace/listWorkspaceByUser",
+      "workspace-manage-admin-tag": "_old/workspace/manageAdminWorkspaceTag",
+      "workspace-manage-tag": "_old/workspace/manageWorkspaceTag",
+      "workspace-organize-admin-tag": "_old/workspace/organizeAdminWorkspaceTag",
+      "workspace-organize-tag": "_old/workspace/organizeWorkspaceTag",
+      "workspace-self-registration": "_old/workspace/selfRegistration",
+      "workspace-self-unregistration": "_old/workspace/selfUnregistration",
+      "workspace-list": "_old/workspace/workspaceList",
+      "workspace-list-registration": "_old/workspace/workspaceListRegistration"
     }
   }
 }
