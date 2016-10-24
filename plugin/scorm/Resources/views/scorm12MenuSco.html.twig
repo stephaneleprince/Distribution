@@ -33,7 +33,7 @@
 {% extends layout %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/clarolinescorm/js/iframe.js') }}" type="text/javascript"></script>
+    <script src='{{ hotAsset('dist/claroline-distribution-main-core-iframe.js') }}'></script>
     <script type="text/javascript">
         window.Claroline.Iframe.resize('scorm-frame');
         $(window).resize(function() {
