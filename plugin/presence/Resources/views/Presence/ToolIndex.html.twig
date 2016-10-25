@@ -8,7 +8,7 @@
     {% set theHour =schoolYearBeginHour|date('H') %}
     {% set oneHourMore = theHour+1%}
     {% set startday =oneHourMore~':00:00'%}
-{% endif %}    
+{% endif %}
 
 {% if schoolYearEndHour|date('i')<30%}
     {% set endday =schoolYearEndHour|date('H')~':00:00'%}
@@ -16,13 +16,13 @@
     {% set theHour =schoolYearEndHour|date('H') %}
     {% set oneHourMore = theHour+1%}
     {% set endday =oneHourMore~':00:00'%}
-{% endif %} 
+{% endif %}
 
 
-{% block section_content %} 
+{% block section_content %}
 
     <div class="panel panel-default">
-        <div class="panel-body">   
+        <div class="panel-body">
             <div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
@@ -32,8 +32,8 @@
                     {% endif %}
                 </ul>
             </div>
-                        
-            
+
+
             {% if canCheckPresences %}
                 <div style="text-align: center;">
                     <H1>{{"releve_pres"|trans({},"presences")}}:</H1>
@@ -45,8 +45,8 @@
                 <br /><br /><br />
                 <div id='calendar'></div>
             {% endif %}
-            
-            {% if canViewPersonalArchives and presences is not empty%} 
+
+            {% if canViewPersonalArchives and presences is not empty%}
                 <div style="text-align: center;">
                     <H1>{{"tes_presences"|trans({},"presences")}}:</H1>
                 </div>
@@ -99,7 +99,7 @@
 
 {% endblock %}
 
-   
+
 {% block stylesheets %}
 {{ parent() }}
 <link rel='stylesheet' type='text/css' href='{{ asset('packages/fullcalendar/dist/fullcalendar.min.css') }}'/>
@@ -119,10 +119,10 @@
 
  {% block javascripts %}
      {{ parent() }}
-            
+
     <script type="text/javascript" src="{{ asset('packages/moment/min/moment-with-locales.min.js') }}"></script>
     <script type='text/javascript' src='{{ asset('packages/fullcalendar/dist/fullcalendar.min.js') }}' ></script>
-    <script type='text/javascript' src='{{ asset('bundles/clarolineagenda/js/calendar.js') }}'></script>
+    <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-calendar') }}'></script>
 <script>
 
     $(document).ready(function() {
@@ -157,7 +157,7 @@
                                start: '{{item.getDay()|date('Y-m-d')}}T{{item.getBeginHour()|date('H:i:s')}}',
                                end: '{{item.getDay()|date('Y-m-d')}}T{{item.getEndHour()|date('H:i:s')}}',
                                url:'{{path("formalibre_choix_classe", {"period":item.getId(),"date":item.getDay()|date('Y-m-d')})}}',
-                                       
+
 
         
                                 }
@@ -171,7 +171,7 @@
                             function() {},
                             function() {}
                         );
-                
+
                      }
             });
 
@@ -181,7 +181,7 @@
 
 <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/dataTables.bootstrap.min.js') }}"></script>
-    
+
 
     <!-- outils -->
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/buttons.html5.min.js') }}"></script>
@@ -191,7 +191,7 @@
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/jszip.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/pdfmake.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/vfs_fonts.js') }}"></script>
-    <script>    
+    <script>
         $(document).ready(function() {
             $('#archivesList').DataTable( {
 
@@ -208,10 +208,9 @@
                 }
             } );
         } );
-        
-        
-        
+
+
+
     </script>
 
 {% endblock javascripts %}
-
