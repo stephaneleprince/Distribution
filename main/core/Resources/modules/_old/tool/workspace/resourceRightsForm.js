@@ -1,6 +1,7 @@
 import $ from 'jquery'
 
 import modal from '../../modal'
+import simpleRights from '../../simplerights'
 
 /* global Translator */
 /* global Twig */
@@ -8,8 +9,6 @@ import modal from '../../modal'
 /* global ResourceRightsRow */
 /* global UserPicker */
 /* global resourceRightsRoles */
-
-var simpleRights = window.Claroline.SimpleRights
 
 var submitForm = function (formAction, form) {
   var formData = new FormData(form)

@@ -1,6 +1,7 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import modal from '../../../../modal'
+import simpleRights from '../../../../simplerights'
 
 /* global Backbone */
 /* global Twig */
@@ -11,7 +12,6 @@ import modal from '../../../../modal'
 window.Claroline = window.Claroline || {}
 window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
 window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-var simpleRights = window.Claroline.SimpleRights
 
 window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
   events: {
