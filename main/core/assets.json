@@ -71,7 +71,8 @@
       "checkbox-dropdown": "_old/checkboxDropdown",
       "locale": "_old/locale",
       "table": "_old/table",
-      "sidebar": "_old/sidebar"
+      "sidebar": "_old/sidebar",
+      "resourceinput": "_old/resourceinput"
     }
   }
 }
