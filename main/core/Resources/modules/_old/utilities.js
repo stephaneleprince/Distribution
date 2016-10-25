@@ -1,11 +1,11 @@
-window.Claroline = window.Claroline || {}
-var utilities = window.Claroline.Utilities = {}
-
 /**
  * Truncates a text and/or splits it into multiple lines if its length is greater
  * than maxLengthPerLine * maxLines. Truncation is marked with '...'. Multilines
  * use the html break, and avoid slicing words whenever possible.
  */
+
+var utilities = {}
+
 utilities.formatText = function (text, maxLengthPerLine, maxLines) {
   if (text.length <= maxLengthPerLine) {
     return text

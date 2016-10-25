@@ -53,7 +53,9 @@
       "iframe": "_old/iframe/iframe",
       "user-public-url": "_old/user/publicUrl",
       "user-picker": "_old/user/userPicker",
-      "jqplot": "_old/jqplot/jqplot"
+      "jqplot": "_old/jqplot/jqplot",
+      "resource-manager": "_old/resource/manager/main",
+      "resource-dnd": "_old/resource/dragndrop"
     }
   }
 }
