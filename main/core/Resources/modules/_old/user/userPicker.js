@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import modal from '../modal'
 
 /* global Routing */
 /* global Translator */
@@ -133,7 +134,6 @@ UserPicker.prototype.configure = function (configurationDatas, callBack) {
 
 UserPicker.prototype.open = function () {
   var userPicker = this
-  var modal = window.Claroline.Modal
   var route = Routing.generate(
     'claro_user_picker',
     {

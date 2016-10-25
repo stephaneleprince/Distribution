@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import modal from '../modal'
 
 /* global Routing */
 /* global Translator */
@@ -114,8 +115,8 @@ $('#subjects-table-body').on('click', '.remove-role-btn', function () {
       roleElement.remove()
     },
     error: function (jqXHR) {
-      window.Claroline.Modal.hide()
-      window.Claroline.Modal.simpleContainer(
+      modal.hide()
+      modal.simpleContainer(
         Translator.trans('error', {}, 'platform'),
         jqXHR.responseJSON.message
       )
@@ -172,7 +173,7 @@ $('#unregister-selected-subjects-btn').on('click', function () {
     )
     route += '?' + $.param(parameters)
 
-    window.Claroline.Modal.confirmRequest(
+    modal.confirmRequest(
       route,
       reloadPage,
       null,

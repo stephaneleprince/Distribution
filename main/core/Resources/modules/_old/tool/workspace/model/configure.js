@@ -265,7 +265,7 @@ $('body').on('click', '.delete-user', function (event) {
 
 $('body').on('click', '.delete-group', function (event) {
   event.preventDefault()
-  window.Claroline.Modal.confirmRequest(
+  modal.confirmRequest(
     $(event.currentTarget).attr('href'),
     removeTableRow,
     'group',

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import modal from '../modal'
 
 /* global Routing */
 /* global Translator */
@@ -16,7 +17,7 @@ var allContactIds = allContactIdsTxt !== '' ?
 var currentCategoryId
 
 $('#my-contacts-tool').on('click', '#contacts-configure-btn', function () {
-  window.Claroline.Modal.displayForm(
+  modal.displayForm(
     Routing.generate('claro_contact_options_configure_form'),
     refreshPage,
     function () {}
@@ -24,7 +25,7 @@ $('#my-contacts-tool').on('click', '#contacts-configure-btn', function () {
 })
 
 $('#my-contacts-tool').on('click', '#category-create-btn', function () {
-  window.Claroline.Modal.displayForm(
+  modal.displayForm(
     Routing.generate('claro_contact_category_create_form'),
     addCategory,
     function () {}
@@ -34,7 +35,7 @@ $('#my-contacts-tool').on('click', '#category-create-btn', function () {
 $('#my-contacts-tool').on('click', '.category-edit-btn', function () {
   var categoryId = $(this).data('category-id')
 
-  window.Claroline.Modal.displayForm(
+  modal.displayForm(
     Routing.generate('claro_contact_category_edit_form', {'category': categoryId}),
     renameCategory,
     function () {}
@@ -44,7 +45,7 @@ $('#my-contacts-tool').on('click', '.category-edit-btn', function () {
 $('#my-contacts-tool').on('click', '.category-delete-btn', function () {
   var categoryId = $(this).data('category-id')
 
-  window.Claroline.Modal.confirmRequest(
+  modal.confirmRequest(
     Routing.generate('claro_contact_category_delete', {'category': categoryId}),
     removeCategory,
     categoryId,
@@ -133,7 +134,7 @@ $('#all-my-contacts-content-body').on('change', '#max-select', function () {
 $('#all-my-contacts-content-body').on('click', '.delete-contact', function () {
   var contactId = $(this).data('contact-id')
 
-  window.Claroline.Modal.confirmRequest(
+  modal.confirmRequest(
     Routing.generate('claro_contact_delete', {'contact': contactId}),
     removeContact,
     contactId,
@@ -145,7 +146,7 @@ $('#all-my-contacts-content-body').on('click', '.delete-contact', function () {
 $('#all-my-contacts-content-body').on('click', '.add-contact-to-category', function () {
   var contactId = $(this).data('contact-id')
 
-  window.Claroline.Modal.displayForm(
+  modal.displayForm(
     Routing.generate('claro_contact_categories_transfer_form', {'user': contactId}),
     refreshPage,
     function () {}
@@ -227,7 +228,7 @@ $('.category-content-body').on('click', '.remove-contact', function () {
   var contactId = $(this).data('contact-id')
   var categoryId = $(this).data('category-id')
 
-  window.Claroline.Modal.confirmRequest(
+  modal.confirmRequest(
     Routing.generate(
       'claro_contact_category_remove',
       {'user': contactId, 'category': categoryId}
@@ -284,7 +285,7 @@ $('#searched-contacts').on('change', '#max-select', function () {
 $('#searched-contacts').on('click', '.delete-contact', function () {
   var contactId = $(this).data('contact-id')
 
-  window.Claroline.Modal.confirmRequest(
+  modal.confirmRequest(
     Routing.generate('claro_contact_delete', {'contact': contactId}),
     removeContact,
     contactId,
@@ -296,7 +297,7 @@ $('#searched-contacts').on('click', '.delete-contact', function () {
 $('#searched-contacts').on('click', '.add-contact-to-category', function () {
   var contactId = $(this).data('contact-id')
 
-  window.Claroline.Modal.displayForm(
+  modal.displayForm(
     Routing.generate('claro_contact_categories_transfer_form', {'user': contactId}),
     refreshPage,
     function () {}

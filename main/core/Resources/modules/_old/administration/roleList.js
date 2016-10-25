@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import modal from '../modal'
 
 /* global Routing */
 /* global Twig */
@@ -89,8 +90,8 @@ $('body')
     $.ajax({
       url: url,
       success: function (data) {
-        window.Claroline.Modal.hide()
-        window.Claroline.Modal.create(data).on('click', 'button.btn', function (event) {
+        modal.hide()
+        modal.create(data).on('click', 'button.btn', function (event) {
           event.preventDefault()
           submitForm('create-role-form', addRoleRow)
         })
