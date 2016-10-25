@@ -19,7 +19,7 @@
       "readmore": "_old/home/readmore",
       "topbar": "_old/topbar",
       "startup": "_old/startup",
-      "activity-main": "_old/activity/activity",
+      "activity-main": "_old/activity/main",
       "activity-edit": "_old/activity/edit",
       "activity-edit-parameters": "_old/activity/editActivityParameters",
       "admin-desktop-configure-tools": "_old/administration/adminDesktopConfigureTool",
@@ -52,7 +52,8 @@
       "theme": "_old/theme/theme",
       "iframe": "_old/iframe/iframe",
       "user-public-url": "_old/user/publicUrl",
-      "user-picker": "_old/user/userPicker"
+      "user-picker": "_old/user/userPicker",
+      "jqplot": "_old/jqplot/jqplot"
     }
   }
 }

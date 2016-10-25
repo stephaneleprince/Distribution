@@ -25,7 +25,6 @@
 
             {% include 'ClarolineCoreBundle:Layout:jqplot_script.html.twig' %}
             {% javascripts debug=false filter='jsmin' output='js/corebundle/jqplot.resources.min.js'
-            'bundles/clarolinecore/js/jqplot/jqplot.colors.js'
             'packages/jqPlot/src/plugins/jqplot.highlighter.js'
             'packages/jqPlot/src/plugins/jqplot.cursor.js'
             'packages/jqPlot/src/plugins/jqplot.canvasTextRenderer.js'
@@ -35,6 +34,7 @@
             %}
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
+            <script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
             <div class="row">
                 <div class="col-md-6">
                     {% include 'ClarolineCoreBundle:Log:resource_by_type_chart.html.twig' with {'filesImported' : true, 'resourceCount' : resourceCount, 'chartHeight' : 400, 'numberRows' : 4} %}

@@ -11,7 +11,7 @@
 
 {% if filesImported is not defined or filesImported is empty %}
     {% include 'ClarolineCoreBundle:Layout:jqplot_script.html.twig' %}
-    <script type="text/javascript" src="{{ asset('bundles/clarolinecore/js/jqplot/jqplot.colors.js') }}"></script>
+    <script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
     <script type="text/javascript" src="{{ asset('packages/jqPlot/src/plugins/jqplot.pieRenderer.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/jqPlot/src/plugins/jqplot.canvasTextRenderer.js') }}"></script>
 {% else %}

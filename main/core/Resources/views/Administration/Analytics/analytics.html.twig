@@ -147,7 +147,6 @@
 
     {% include 'ClarolineCoreBundle:Layout:jqplot_script.html.twig' %}
     {% javascripts debug=false filter='jsmin' output='js/corebundle/jqplot.analytics.min.js'
-    'bundles/clarolinecore/js/jqplot/jqplot.colors.js'
     'packages/jqPlot/src/plugins/jqplot.highlighter.js'
     'packages/jqPlot/src/plugins/jqplot.pieRenderer.js'
     'packages/jqPlot/src/plugins/jqplot.canvasTextRenderer.js'
@@ -158,6 +157,7 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
     <script type="text/javascript">
         var chartData = {{ barChartData|json_encode|raw }};
         var userPieChartData = [];
