@@ -68,7 +68,8 @@
       "tool-workspace-tool-properties": "_old/tool/workspace/toolProperties",
       "tool-workspace-display-edit-form": "_old/tool/workspace/workspaceDisplayEditForm",
       "tool-workspace-parameters-edit": "_old/tool/workspace/workspaceParametersEdit",
-      "checkbox-dropdown": "_old/checkboxDropdown"
+      "checkbox-dropdown": "_old/checkboxDropdown",
+      "locale": "_old/locale"
     }
   }
 }

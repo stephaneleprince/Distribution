@@ -101,7 +101,6 @@
     'bundles/clarolinecore/js/modal.js'
     'bundles/clarolinecore/js/simplerights.js'
     'bundles/clarolinecore/js/home/home.js'
-    'bundles/clarolinecore/js/locale.js'
     'bundles/clarolinecore/js/resourceinput.js'
 %}
     <script src="{{ asset_url }}"></script>
@@ -109,6 +108,7 @@
 
 <script src='{{ hotAsset('dist/claroline-distribution-main-core-resource-manager.js') }}'></script>
 <script src='{{ hotAsset('dist/claroline-distribution-main-core-user-picker.js') }}'></script>
+<script src='{{ hotAsset('dist/claroline-distribution-main-core-locale.js') }}'></script>
 
 {# Angular JS #}
 {% javascripts debug=false filter='jsmin' output='vendor/angular.js'
