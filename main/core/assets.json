@@ -55,7 +55,19 @@
       "user-picker": "_old/user/userPicker",
       "jqplot": "_old/jqplot/jqplot",
       "resource-manager": "_old/resource/manager/main",
-      "resource-dnd": "_old/resource/dragndrop"
+      "resource-dnd": "_old/resource/dragndrop",
+      "tool-desktop-tool-properties": "_old/tool/desktop/toolProperties",
+      "tool-desktop-user-options": "_old/tool/desktop/userOptionsEditForm",
+      "tool-workspace-analytics-activities-evaluation": "_old/tool/workspace/analytics/workspaceActivitiesEvaluations",
+      "tool-workspace-analytics-manager-activities-evaluation": "_old/tool/workspace/analytics/workspaceManagerActivityEvaluations",
+      "tool-workspace-model-configure": "_old/tool/workspace/model/configure",
+      "tool-workspace-model-index": "_old/tool/workspace/model/index",
+      "tool-workspace-resource-rights-creation-form": "_old/tool/workspace/resourceRightsCreationForm",
+      "tool-workspace-resource-rights-form": "_old/tool/workspace/resourceRightsForm",
+      "tool-workspace-roles": "_old/tool/workspace/roles",
+      "tool-workspace-tool-properties": "_old/tool/workspace/toolProperties",
+      "tool-workspace-display-edit-form": "_old/tool/workspace/workspaceDisplayEditForm",
+      "tool-workspace-parameters-edit": "_old/tool/workspace/workspaceParametersEdit"
     }
   }
 }

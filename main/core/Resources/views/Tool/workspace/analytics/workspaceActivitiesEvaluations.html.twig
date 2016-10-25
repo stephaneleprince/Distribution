@@ -202,8 +202,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/clarolinecore/js/tool/workspace/analytics/workspaceActivitiesEvaluations.js') }}">
-    </script>
+    <script src="{{ hotAsset('dist/claroline-distribution-main-core-tool-workspace-analytics-activities-evaluation.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
