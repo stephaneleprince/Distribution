@@ -128,7 +128,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ url('bazinga_jstranslation_js', { 'domain_name': 'ldap' }) }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/clarolineldap/js/ldap.js') }}"></script>
+    <script src="{{ hotAsset('dist/claroline-distribution-plugin-ldap-ldap.js') }}"></script>
     {% if users is defined and not users is empty %}
         <script>
             (function () {

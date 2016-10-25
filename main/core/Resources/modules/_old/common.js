@@ -1,9 +1,10 @@
 import $ from 'jquery'
 
+/* global Routing */
+
 window.Claroline = window.Claroline || {}
 
-var common = window.Claroline.Common = {}
-var routing = window.Routing
+import common from './common'
 
 /**
  * This function creates a new element in the document with a given class name.
@@ -24,7 +25,7 @@ common.createElement = function (tag, className) {
  */
 common.uploadfile = function (form, element, parent, callBack) {
   $(form).upload(
-    routing.generate(
+    Routing.generate(
       'claro_file_upload_with_tinymce',
       {'parent': parent}
     ),
@@ -39,7 +40,7 @@ common.uploadfile = function (form, element, parent, callBack) {
         $(element).modal('hide')
         callBack(nodes)
         $.ajax(
-          routing.generate('claro_resource_open_perms', {'node': resource.id})
+          Routing.generate('claro_resource_open_perms', {'node': resource.id})
         )
       } else {
         $('.progress', element).addClass('hide')
