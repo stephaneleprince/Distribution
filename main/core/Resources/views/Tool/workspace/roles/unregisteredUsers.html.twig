@@ -217,7 +217,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src='{{ asset('bundles/clarolinecore/js/table.js') }}' type="text/javascript"></script>
+    <script src='{{ hotAsset('dist/claroline-distribution-main-core-table.js') }}'></script>
     <script>
         createValidationBox();
 
