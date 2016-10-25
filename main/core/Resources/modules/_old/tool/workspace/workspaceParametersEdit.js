@@ -1,5 +1,7 @@
 import $ from 'jquery'
 
+/* global Routing */
+
 var twigWorkspaceId = document.getElementById('twig-workspace-id').getAttribute('data-workspaceId')
 
 $('.workspace-delete-confirmation').click(function () {
