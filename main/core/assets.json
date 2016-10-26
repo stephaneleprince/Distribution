@@ -71,7 +71,8 @@
       "locale": "_old/locale",
       "table": "_old/table",
       "sidebar": "_old/sidebar",
-      "resourceinput": "_old/resourceinput"
+      "resourceinput": "_old/resourceinput",
+      "user-picker": "_js/userPicker"
     }
   }
 }
