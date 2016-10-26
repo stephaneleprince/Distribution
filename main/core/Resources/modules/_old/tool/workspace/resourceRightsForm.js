@@ -2,12 +2,12 @@ import $ from 'jquery'
 
 import modal from '../../modal'
 import simpleRights from '../../simplerights'
+import UserPicker from '../../user/userPicker'
 
 /* global Translator */
 /* global Twig */
 /* global Routing */
 /* global ResourceRightsRow */
-/* global UserPicker */
 /* global resourceRightsRoles */
 
 var submitForm = function (formAction, form) {

@@ -2,11 +2,11 @@ import _ from 'underscore'
 import $ from 'jquery'
 import modal from '../../../../modal'
 import simpleRights from '../../../../simplerights'
+import UserPicker from '../../../../user/userPicker'
 
 /* global Backbone */
 /* global Twig */
 /* global Routing */
-/* global UserPicker */
 /* global ResourceRightsRow */
 
 window.Claroline = window.Claroline || {}

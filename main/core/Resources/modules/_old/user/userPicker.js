@@ -776,3 +776,5 @@ UserPicker.prototype.open = function () {
     }
   })
 }
+
+export default UserPicker

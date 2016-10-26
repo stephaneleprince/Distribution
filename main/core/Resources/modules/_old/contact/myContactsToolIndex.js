@@ -1,9 +1,9 @@
 import $ from 'jquery'
 import modal from '../modal'
+import UserPicker from '../user/userPicker'
 
 /* global Routing */
 /* global Translator */
-/* global UserPicker */
 
 var currentSearch = $('#contacts-datas-box').data('search')
 var currentMax = $('#contacts-datas-box').data('max')
