@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import UserPicker from '#/main/core/user/userPicker'
+import UserPicker from '#/main/core/_old/user/userPicker'
 
 /* global Strophe */
 /* global Routing */

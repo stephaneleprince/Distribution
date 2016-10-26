@@ -266,7 +266,7 @@ class CursusManager
         $cursus->setParent($parent);
         $cursus->setCourse($course);
         $cursus->setDescription($description);
-        $cursus->setBlocking($blocking);
+        $cursus->setBlocking((bool) $blocking);
         $cursus->setIcon($icon);
         $cursus->setWorkspace($workspace);
         $cursus->setDetails(['color' => $color]);
