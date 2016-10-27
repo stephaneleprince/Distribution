@@ -1,4 +1,5 @@
 import UserPicker from '#/main/core/_old/user/userPicker'
+import modal from '#/main/core/_old/modal'
 
 import $ from 'jquery'
 
@@ -29,7 +30,7 @@ var sendMailToUsers = function (datas) {
         var footer = '<button class="btn btn-default pull-right" data-dismiss="modal">' +
           Translator.trans('close', {}, 'platform') +
           '</button>'
-        window.Claroline.Modal.simpleContainer(title, body, footer)
+        modal.simpleContainer(title, body, footer)
       }
     })
   }

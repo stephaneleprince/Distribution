@@ -1,5 +1,6 @@
 import table from '#/main/core/_old/table'
 import $ from 'jquery'
+import modal from '#/main/core/_old/modal'
 
 /* global Translator */
 
@@ -25,8 +26,8 @@ $('.remove-role-button').on('click', function (event) {
       }
     },
     error: function (jqXHR) {
-      window.Claroline.Modal.hide()
-      window.Claroline.Modal.simpleContainer(
+      modal.hide()
+      modal.simpleContainer(
         Translator.trans('error', {}, 'platform'),
         jqXHR.responseJSON.message
       )

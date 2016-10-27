@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import UserPicker from '#/main/core/_old/user/userPicker'
+import modal from '#/main/core/_old/modal'
 
 /* global Strophe */
 /* global Routing */
@@ -153,7 +154,7 @@ var registrationCallBack = function (status) {
 $('.chat-user-edit-btn').on('click', function () {
   var chatUserId = $(this).data('chat-user-id')
 
-  window.Claroline.Modal.displayForm(
+  modal.displayForm(
     Routing.generate(
       'claro_chat_user_edit_form',
       {'chatUser': chatUserId}
