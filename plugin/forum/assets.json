@@ -1,7 +1,10 @@
 {
   "webpack": {
     "entry": {
-      "search-results": "_js/searchResults"
+      "search-results": "_js/searchResults",
+      "index": "_js/index",
+      "messages": "_js/Forum/messages",
+      "subjects": "_js/Forum/subjects"
     }
   }
 }
