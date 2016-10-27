@@ -72,7 +72,8 @@
       "sidebar": "_old/sidebar",
       "resourceinput": "_old/resourceinput",
       "user-picker": "_js/Form/userPicker",
-      "administration-workspace-management": "_js/Administration/Workspace/management"
+      "administration-workspace-management": "_js/Administration/Workspace/management",
+      "exception-layout": "_js/Exception/layout"
     }
   }
 }
