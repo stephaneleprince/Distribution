@@ -52,9 +52,8 @@
     {% endjavascripts %}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'competency' }) }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/frontend/typeahead.js/dist/typeahead.bundle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/hevincicompetency/js/flasher.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/hevincicompetency/js/tree.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/hevincicompetency/js/competency.js') }}"></script>
+    <script src="{{ hotAsset('dist/claroline-distribution-plugin-competency-tree.js') }}"></script>
+    <script src="{{ hotAsset('dist/claroline-distribution-plugin-competency-competency.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
