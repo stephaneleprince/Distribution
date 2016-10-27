@@ -6,9 +6,7 @@ import $ from 'jquery'
 /* global Routing */
 /* global Twig */
 
-
-window.Claroline = window.Claroline || {}
-var table = window.Claroline.Table = {}
+var table = {}
 
 /**
  * Requires the following twigjs files (located in the views/Modal folder):

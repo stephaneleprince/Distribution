@@ -70,12 +70,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {# <script src='{{ hotAsset('dist/claroline-distribution-main-core-table.js') }}'></script> #}
     <script>
-        parameters = {};
-        parameters.route = {};
-        parameters.route.action = {};
-        parameters.route.normal = {"route": "claro_admin_user_workspaces", "parameters": {'user': '{{ user.getId() }}' }};
-        Claroline.Table.initialize(parameters);
+        window.userId = {{ user.getId() }}
     </script>
+    <script src='{{ hotAsset('dist/claroline-distribution-main-core-administration-user-workspace-list.js') }}'></script>
 {% endblock %}
