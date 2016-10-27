@@ -205,3 +205,5 @@ function createValidationBox () {
 function findMaxPerPage () {
   return $('#max-select').val()
 }
+
+export default table

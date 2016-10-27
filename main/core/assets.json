@@ -69,10 +69,10 @@
       "tool-workspace-parameters-edit": "_old/tool/workspace/workspaceParametersEdit",
       "checkbox-dropdown": "_old/checkboxDropdown",
       "locale": "_old/locale",
-      "table": "_old/table",
       "sidebar": "_old/sidebar",
       "resourceinput": "_old/resourceinput",
-      "user-picker": "_js/userPicker"
+      "user-picker": "_js/Form/userPicker",
+      "administration-workspace-management": "_js/Administration/Workspace/management"
     }
   }
 }
