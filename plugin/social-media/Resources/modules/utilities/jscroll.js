@@ -25,7 +25,7 @@ export class Jscroll {
       //Remove item
       if (this.deleteUrl !== null) {
         $('.jscroll-' + this.action + '-list').on(
-          "click",
+          'click',
           '.close',
           this._deleteItem.bind(this)
         )
@@ -34,14 +34,14 @@ export class Jscroll {
   }
 
   _deleteItem(e) {
-    let itemId = $(e.currentTarget).attr("data-item-id")
+    let itemId = $(e.currentTarget).attr('data-item-id')
     $.ajax({
-      url: this.deleteUrl.replace("000", itemId),
-      method: "DELETE"
+      url: this.deleteUrl.replace('000', itemId),
+      method: 'DELETE'
     }).done(() => {
       $('#socialmedia-' + this.action + '-item-' + itemId).remove()
     }).fail(() => {
-      alert(window.Translator.trans("error_deleting", {}, "icap_socialmedia"))
+      alert(window.Translator.trans('error_deleting', {}, 'icap_socialmedia'))
     })
   }
 
