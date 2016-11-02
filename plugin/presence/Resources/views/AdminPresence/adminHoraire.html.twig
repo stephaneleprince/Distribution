@@ -88,95 +88,23 @@
                 <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-calendar') }}'></script>
                 <script type="text/javascript" src="{{ asset('packages/moment/min/moment-with-locales.min.js') }}"></script>
                 <script type='text/javascript' src='{{ asset('bundles/formalibrepresence/js/fr.js') }}'></script>
+                <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/bootstrap-datetimepicker.min.js') }}"></script>
 
             <script>
-
-
-                $(document).ready(function() {
-
-                        $('#calendar').fullCalendar({
-                                header: {
-                                            left:   'false',
-                                            center: 'false',
-                                            right:  'false'
-                                        },
-                                defaultView: 'agendaWeek',
-                                lang: 'fr',
-                                weekends: true,
-                                editable: false,
-                                firstDay:1,
-                                businessHours:{dow:[1,2,3,4,5,6]},
-                                defaultTimedEventDuration:'{{duration}}',
-                                forceEventDuration:true,
-                                timeFormat:'H(:mm)',
-                                columnFormat: 'dddd',
-                                titleFormat:'Horaire type',
-                                minTime:'{{startday}}',
-                                maxTime:'{{endday}}',
-                                dayNames:['Dimanche', 'Lundi', 'Mardi', 'Mercredi',
-                                          'Jeudi', 'Vendredi', 'Samedi'],
-                                //slotDuration:'{{duration}}',
-                                eventLimit: true, // allow "more" link when too many events
-
-                                 events: [
-                                    {% for item in periods %}
-                                       {
-                                       id: {{ item.getId }},
-                                       title: '{{ item.getName()}}',
-                                       start: '{{item.getDay()|date('Y-m-d')}}T{{item.getBeginHour()|date('H:i:s')}}',
-                                       end: '{{item.getDay()|date('Y-m-d')}}T{{item.getEndHour()|date('H:i:s')}}',
-                                       url:'{{path("formalibre_presence_modifier_horaire", {"period":item.getId()})}}',
-
-                
-                                        }
-                                      {% if loop.last %}{% else %},{% endif %}{% endfor %}
-
-                        ],
-                            eventClick: function(calEvent, jsEvent, view) {
-                         jsEvent.preventDefault();
-                        window.Claroline.Modal.displayForm(
-                            calEvent.url,
-                            function() {
-                                window.location.reload();
-                            },
-                            function() {},
-                            "ModifHoraireForm"
-                        );
-
-                     }
-                        });
-
-
-
-                });
-
-            </script>
-            <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/bootstrap-datetimepicker.min.js') }}"></script>
-            <script>
-                $(function () {
-                    $('#form_start').datetimepicker({
-                        format: 'HH:mm',
-                        locale:'fr',
-                         icons: {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up: "fa fa-arrow-up",
-                    down: "fa fa-arrow-down"
-                }
-                    });
-                });
-                $(function () {
-                    $('#form_end').datetimepicker({
-                        format: 'HH:mm',
-                        locale:'fr',
-                         icons: {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up: "fa fa-arrow-up",
-                    down: "fa fa-arrow-down"
-                }
-                    });
-                });
+                window.events = [
+                    {% for item in periods %}
+                        {
+                            id: {{ item.getId }},
+                            title: '{{ item.getName() }}',
+                            start: '{{ item.getDay()|date('Y-m-d') }}T{{ item.getBeginHour()|date('H:i:s') }}',
+                            end: '{{ item.getDay()|date('Y-m-d')}}T{{item.getEndHour()|date('H:i:s') }}',
+                            url:'{{ path("formalibre_presence_modifier_horaire", {"period":item.getId()}) }}',
+                         }
+                     {% if loop.last %}{% else %},{% endif %}{% endfor %}
+                ]
+                window.duration = '{{ duration }}'
+                window.minTime = '{{ startday }}'
+                window.maxTime = '{{ endday }}'
             </script>
 
             {% endblock javascripts %}

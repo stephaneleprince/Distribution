@@ -1,0 +1,10 @@
+{
+  "webpack": {
+    "entry": {
+      "tool-index": "_js/Presence/toolIndex",
+      "presence-supp": "_js/Presence/presenceSupp",
+      "presence-releve": "_js/Presence/presenceReleve",
+      "presence-modif": "_js/Presence/presenceModif"
+    }
+  }
+}

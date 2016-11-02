@@ -103,7 +103,7 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel='stylesheet' type='text/css' href='{{ asset('packages/fullcalendar/dist/fullcalendar.min.css') }}'/>
-<link rel='stylesheet' type='text/css' href='{{ asset('packages/fullcalendar/dist/fullcalendar.print.css') }}' media='print' />
+{# <link rel='stylesheet' type='text/css' href='{{ asset('packages/fullcalendar/dist/fullcalendar.print.css') }}' media='print' /> #}
 <style>
     .fc-day-grid-event > .fc-content {
         white-space: nowrap;
@@ -120,70 +120,28 @@
  {% block javascripts %}
      {{ parent() }}
 
-    <script type="text/javascript" src="{{ asset('packages/moment/min/moment-with-locales.min.js') }}"></script>
-    <script type='text/javascript' src='{{ asset('packages/fullcalendar/dist/fullcalendar.min.js') }}' ></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-calendar') }}'></script>
-<script>
-
-    $(document).ready(function() {
-
-            $('#calendar').fullCalendar({
-                    header: {
-                            left: 'prev,today,next',
-                            center: 'title',
-                            right: ''
-                    },
-                    defaultView: 'agendaWeek',
-                    lang: 'fr',
-                    weekends: true,
-                    editable: false,
-                    contentHeight:"auto",
-                    firstDay:1,
-                    defaultTimedEventDuration:'{{duration}}',
-                    forceEventDuration:true,
-                    timeFormat:'H(:mm)',
-                    columnFormat: 'dddd D/M',
-                    titleFormat:'MMMM YYYY',
-                    minTime:'{{startday}}',
-                    maxTime:'{{endday}}',
-                    //slotDuration:'{{duration}}',
-                    eventLimit: true, // allow "more" link when too many events
-
-                     events: [
-                            {% for item in periods %}
-                               {
-                               id: {{ item.getId }},
-                               title: '{{ item.getName()}}',
-                               start: '{{item.getDay()|date('Y-m-d')}}T{{item.getBeginHour()|date('H:i:s')}}',
-                               end: '{{item.getDay()|date('Y-m-d')}}T{{item.getEndHour()|date('H:i:s')}}',
-                               url:'{{path("formalibre_choix_classe", {"period":item.getId(),"date":item.getDay()|date('Y-m-d')})}}',
-
-
-        
-                                }
-                              {% if loop.last %}{% else %},{% endif %}{% endfor %}
-
-                        ],
-                     eventClick: function(calEvent, jsEvent, view) {
-                         jsEvent.preventDefault();
-                        window.Claroline.Modal.displayForm(
-                            calEvent.url,
-                            function() {},
-                            function() {}
-                        );
-
-                     }
-            });
-
-    });
-
-</script>
-
-<script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/jquery.dataTables.min.js') }}"></script>
+    <script>
+        window.duration = '{{ duration }}'
+        window.minTime = '{{ startday }}'
+        window.maxTime = '{{ endday }}'
+        window.events = [
+            {% for item in periods %}
+                {
+                    id: {{ item.getId }},
+                    title: '{{ item.getName()}}',
+                    start: '{{item.getDay()|date('Y-m-d')}}T{{item.getBeginHour()|date('H:i:s')}}',
+                    end: '{{item.getDay()|date('Y-m-d')}}T{{item.getEndHour()|date('H:i:s')}}',
+                    url:'{{path("formalibre_choix_classe", {"period":item.getId(),"date":item.getDay()|date('Y-m-d')})}}',
+                }
+             {% if loop.last %}{% else %},{% endif %}{% endfor %}
+        ]
+    </script>
+    <!-- outils -->
+    {# à retirer ? #}
+    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/dataTables.bootstrap.min.js') }}"></script>
 
-
-    <!-- outils -->
+    {#
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/buttons.html5.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/buttons.print.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/dataTables.buttons.min.js') }}"></script>
@@ -191,26 +149,7 @@
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/jszip.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/pdfmake.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/vfs_fonts.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('#archivesList').DataTable( {
-
-                dom: 'Bftp',
-                buttons: true,
-               "pageLength": 50,
-                "language": {
-                    "lengthMenu": "Afficher _MENU_ presences par page",
-                    "zeroRecords": "Rien trouvé - Désolé",
-                    "info": "Affichage de la page _PAGE_ sur _PAGES_",
-                    "infoEmpty": "Pas de présence valide",
-                    "infoFiltered": "(filtered from _MAX_ total records)",
-                    "search":"Trier les présences"
-                }
-            } );
-        } );
-
-
-
-    </script>
-
+    <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-calendar') }}'></script>
+    #}
+    <script src='{{ hotAsset('dist/claroline-distribution-plugin-presence-tool-index') }}'></script>
 {% endblock javascripts %}

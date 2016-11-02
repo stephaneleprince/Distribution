@@ -80,7 +80,8 @@
       "tool-workspace-unregistered-users": "_js/Tool/Workspace/roles/unregisteredUsers",
       "tool-workspace-unregistered-users-from-group": "_js/Tool/Workspace/roles/unregisteredUsersFromGroup",
       "tool-workspace-users-of-group": "_js/Tool/Workspace/roles/usersOfGroup",
-      "administration-user-workspace-list": "_js/Administration/Users/userWorkspaceList"
+      "administration-user-workspace-list": "_js/Administration/Users/userWorkspaceList",
+      "tinymce": "tinymce/main"
     }
   }
 }

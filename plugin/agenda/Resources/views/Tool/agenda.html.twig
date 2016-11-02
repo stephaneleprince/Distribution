@@ -182,9 +182,8 @@
      'js/translations/agenda/*.js'
        %}<script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/frontend/moment/min/moment-with-locales.min.js') }}"></script>
-    <script type='text/javascript' src='{{ asset(calendarPath ~ 'fullcalendar.min.js') }}' ></script>
     <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-calendar') }}'></script>
+    <script src='{{ hotAsset('dist/claroline-distribution-plugin-presence-tool-index.js') }}'></script>
     <script type='text/javascript'>
         {% if workspace is not defined %}
             $(function () {
@@ -196,7 +195,4 @@
             });
         {% endif %}
     </script>
-    <script type="text/javascript" src="{{ asset('bundles/frontend/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/frontend/jquery-ui/ui/minified/draggable.min.js') }}"> </script>
-    <script type="text/javascript" src="{{ asset('bundles/frontend/jquery-ui/ui/minified/resizable.min.js') }}"> </script>
 {% endblock javascripts %}
