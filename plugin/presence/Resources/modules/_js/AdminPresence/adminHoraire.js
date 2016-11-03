@@ -1,4 +1,10 @@
 import $ from 'jquery'
+import 'moment/min/moment-with-locales'
+import 'eonasdan-bootstrap-datetimepicker'
+import 'jquery-ui/ui/draggable'
+import 'jquery-ui/ui/resizable'
+import 'fullcalendar/dist/fullcalendar'
+
 
 $('#calendar').fullCalendar({
   header: {
