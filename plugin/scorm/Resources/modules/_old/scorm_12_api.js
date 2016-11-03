@@ -1,6 +1,5 @@
 import $ from 'jquery'
 
-
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "[api, API]" }] */
 /* global Routing */
 
