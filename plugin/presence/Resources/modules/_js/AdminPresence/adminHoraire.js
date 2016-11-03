@@ -5,6 +5,8 @@ import 'jquery-ui/ui/draggable'
 import 'jquery-ui/ui/resizable'
 import 'fullcalendar/dist/fullcalendar'
 
+import modal from '#/main/core/_old/modal'
+
 
 $('#calendar').fullCalendar({
   header: {
@@ -32,7 +34,7 @@ $('#calendar').fullCalendar({
   events: window.events,
   eventClick: function (calEvent, jsEvent) {
     jsEvent.preventDefault()
-    window.Claroline.Modal.displayForm(
+    modal.displayForm(
       calEvent.url,
       function () {
         window.location.reload()
