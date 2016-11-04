@@ -5,11 +5,5 @@
 {% endfor %}
 
 {% block javascripts %}
-    <script>
-        $(document).ready(function (){
-            $('.info-of-event').popover({
-                html: true
-            });
-        });
-    </script>
+    <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-agenda-widget') }}'></script>
 {% endblock javascripts %}
