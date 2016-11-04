@@ -384,5 +384,5 @@ function APIClass () {
   this.LMSGetDiagnostic = LMSGetDiagnostic
 }
 
-var API = new APIClass()
-var api = new APIClass()
+window.API = new APIClass()
+window.api = new APIClass()

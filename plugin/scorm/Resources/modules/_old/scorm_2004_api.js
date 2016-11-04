@@ -1256,5 +1256,5 @@ function APIClass () {
   this.GetDiagnostic = GetDiagnostic
 }
 
-var API_1484_11 = new APIClass()
-var api_1484_11 = new APIClass()
+window.API_1484_11 = new APIClass()
+window.api_1484_11 = new APIClass()

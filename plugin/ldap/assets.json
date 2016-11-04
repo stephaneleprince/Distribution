@@ -1,7 +1,9 @@
 {
   "webpack": {
     "entry": {
-      "ldap": "ldap"
+      "ldap": "main",
+      "groups": "_js/groups",
+      "users": "_js/users"
     }
   }
 }
