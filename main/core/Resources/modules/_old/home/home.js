@@ -10,8 +10,7 @@
 import $ from 'jquery'
 import modal from '../modal'
 
-window.Claroline.Home = {}
-var home = window.Claroline.Home
+var home = {}
 var routing = window.Routing
 var translator = window.Translator
 
