@@ -34,5 +34,8 @@ module.exports = {
   ],
   'es6_shim_dll': [
     'core-js/shim'
+  ],
+  'pdf_player_dll': [
+      'pdfjs-dist/build/pdf.combined'
   ]
 }

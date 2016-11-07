@@ -86,7 +86,6 @@
       "administration-analytics-analytics-connections": "_js/Administration/Analytics/analytics_connections",
       "administration-analytics-analytics": "_js/Administration/Analytics/analytics",
       "administration-parameters-general-form": "_js/Administration/Parameters/generalForm",
-      "administration-users-users-creation-form": "_js/Administration/Users/usersCreationForm",
       "administration-widget-widget-edit-modal-form": "_js/Administration/Widget/widgetEditModalForm",
       "authentication-login": "_js/Authentication/login",
       "form-button-group-select": "_js/Form/button_group_select",

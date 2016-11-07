@@ -55,7 +55,7 @@ same message when authentication has failed (no precise validation errors).
                 </p>
 
                 <button type="submit" class="btn btn-success btn-block" tabindex="3">{{ 'login'|trans({}, 'platform') }}</button>
-                
+
                 {% if selfRegistrationAllowed and showRegisterButton %}
                     <a class="btn btn-default btn-block" tabindex="3" href="{{ path('claro_registration_user_registration_form') }}" title="{{ 'register'|trans({}, 'platform') }}">
                         {{ 'register'|trans({}, 'platform') }}
@@ -66,14 +66,5 @@ same message when authentication has failed (no precise validation errors).
         </div>
     </div>
 
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            $('.claro-oauth').click(function(event) {
-                event.preventDefault();
-                var form = $('#login-form');
-                form.attr('action', $(event.target).attr('href'));
-                form.submit();
-            });
-        });
-    </script>
+    <script src="{{ hotAsset('dist/claroline-distribution-main-core-authentication')}}"></script>
 {% endblock %}

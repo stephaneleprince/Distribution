@@ -94,5 +94,5 @@
     <script type="text/javascript">
         window.chartData = {{ connections|json_encode|raw }};
     </script>
-
+    <script src='{{ hotAsset('dist/claroline-distribution-main-core-administration-analytics-analytics-connections.js') }}'></script>
 {% endblock %}
