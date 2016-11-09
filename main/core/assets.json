@@ -105,7 +105,8 @@
       "widget-desktop-widget-my-workspaces": "_js/Widget/desktopWidgetMyWorkspaces",
       "widget-resource-widget-configure-form": "_js/Widget/resourceWidgetConfigureForm",
       "workspace-layout": "_js/Workspace/layout",
-      "karma": "karma"
+      "karma": "karma",
+      "core-js": "core-js"
     }
   }
 }
