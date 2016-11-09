@@ -1,4 +1,4 @@
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "enterFullscreen" }]*/
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "enterFullscreen" }] */
 
 import $ from 'jquery'
 
