@@ -1,4 +1,4 @@
-window.Claroline.ResourcePicker = {}
+var picker = {}
 
 import $ from 'jquery'
 import _ from 'underscore'
@@ -26,7 +26,7 @@ var defaultCallback = function (nodes) {
 /**
  * Initializes every resource input on the page.
  */
-window.Claroline.ResourcePicker.initialize = function (id) {
+picker.initialize = function (id) {
   var pickerName = 'formResourcePicker'
   var field = $('#' + id)
   var element = field.next('.input-group')
@@ -151,3 +151,5 @@ function checkView (targetPicker) {
     $('.resource-view', activePicker).attr('href', '').addClass('disabled')
   }
 }
+
+export default picker

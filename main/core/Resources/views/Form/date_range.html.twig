@@ -18,7 +18,8 @@
                 window.chosenRangeKeys = ['yesterday', 'last_seven_days', 'this_month', 'last_month'];
             {% endif %}
 
-            window.formId = form.vars['id']
+            window.formId = "{{ form.vars['id'] }}"
         </script>
+        <script src="{{ hotAsset('dist/claroline-distribution-main-core-form-date-range')}}"></script>
     {% endspaceless %}
 {% endblock %}
