@@ -97,7 +97,6 @@
       "form-simple-auto-complete": "_js/Form/simple_auto_complete",
       "form-two-level-select": "_js/Form/two_level_select",
       "layout-javascript": "_js/Layout/javascripts",
-      "portal-index": "_js/Portal/index",
       "profile-edit-profile": "_js/Profile/editProfile",
       "tool-desktop-resource-manager-resource": "_js/Tool/desktop/resource_manager/resource",
       "tool-workspace-analytics-workspace-activities-past-evaluations": "_js/Tool/workspace/analytics/workspaceActivitiesPastEvaluations",

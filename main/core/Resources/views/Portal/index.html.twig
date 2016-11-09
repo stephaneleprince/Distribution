@@ -42,14 +42,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset("dist/claroline-distribution-main-core-portal.js") }}"></script>
-    <script type="text/javascript">
-        (function() {
-            'use strict';
-            angular
-                    .module('portalApp')
-                    .constant('portal.types', {{ types|json_encode|raw }});
-        })();
+    <script>
+        window.types = {{ types|json_encode|raw }}
     </script>
+    <script src="{{ hotAsset("dist/claroline-distribution-main-core-portal.js") }}"></script>
 {% endblock %}
-

@@ -1,5 +1,6 @@
 <script src="{{ hotAsset('dist/es6_shim_dll.js') }}"></script>
 <script src="{{ hotAsset('dist/angular_dll.js') }}"></script>
+<script src="{{ hotAsset('dist/pdf_player_dll.js') }}"></script> {# ?? #}
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-core-js.js') }}"></script>
 <script>
     if (window.sessionStorage.getItem('hide_brower_warning')) {
@@ -141,46 +142,6 @@
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce-resource')}}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-modernizr.js') }}"></script>
+<script src="{{ hotAsset('dist/claroline-distribution-main-core-layout-javascript.js') }}"></script>
 
-<script>
-    $('body').tooltip({
-        selector: '[data-toggle=tooltip]'
-    });
-</script>
 {{ render(controller('ClarolineCoreBundle:Layout:injectJavascript', {})) }}
-<script>
-    $('.maintenance-popover').popover();
-</script>
-
-<script>
-    $('#hide-email-confirmation').on('click', function(event) {
-        $.ajax({
-            url: Routing.generate('claro_security_validate_email_hide'),
-            type: 'GET',
-            success: function (datas) {
-                $('.alert-email-confirm').hide();
-            }
-        });
-    });
-
-    $('#close-browser-warning').on('click', function(event) {
-        window.sessionStorage.setItem('hide_brower_warning', true);
-    })
-
-    // The following code fixes the issue of unscrollable modal due to focus loss when multiple modals are opened.
-    var oldJqTrigger = jQuery.fn.trigger;
-    jQuery.fn.trigger = function()
-    {
-        if ( arguments && arguments.length > 0) {
-            if (typeof arguments[0] === 'string') {
-                if (arguments[0] === 'hidden.bs.modal') {
-                    if ($('.modal:visible').length) {
-                        $('.modal-backdrop').first().css('z-index', parseInt($('.modal:visible').last().css('z-index')) - 10);
-                        $('body').addClass('modal-open');
-                    }
-                }
-            }
-        }
-        return oldJqTrigger.apply(this, arguments);
-    };
-</script>
