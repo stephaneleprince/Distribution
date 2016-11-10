@@ -151,9 +151,9 @@
 
         {{ tinymce_init() }}
         <script>
-            var totalColumn = {{ dropzone.totalCriteriaColumn }};
-            var comment = {{ dropzone.allowCommentInCorrection ? 1 : 0 }}
+            var window.totalColumn = {{ dropzone.totalCriteriaColumn }};
+            var window.comment = {{ dropzone.allowCommentInCorrection ? 1 : 0 }}
         </script>
-        <script src="{{ asset('bundles/innovacollecticiel/js/editAppreciationForm.js') }}"></script>
+        <script src='{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-edit-appreciation-form')}}'></script>
 
     {% endblock %}
