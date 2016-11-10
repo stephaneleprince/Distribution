@@ -331,13 +331,10 @@
     <script type="text/javascript" src="{{ asset('bundles/zenstruckform/js/helper.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/frontend/select2/select2.min.js') }}"></script>
     {% if 'en' != app.request.locale %}
-        <script type="text/javascript"
-                src="{{ asset('bundles/frontend/select2/select2_locale_' ~ app.request.locale ~ '.js') }}"></script>
+        <script src="{{ asset('bundles/frontend/select2/select2_locale_' ~ app.request.locale ~ '.js') }}"></script>
     {% endif %}
-    <script type="text/javascript"
-            src="{{ asset('bundles/frontend/jquery-option-tree/jquery.optionTree.js') }}"></script>
-    <script type="text/javascript"
-            src='{{ asset('bundles/frontend/confirm-bootstrap/confirm-bootstrap.js') }}'></script>
-    <script type="text/javascript" src='{{ asset('bundles/icapbadge/js/edit.js') }}'></script>
-    <script type="text/javascript" src='{{ asset('bundles/icapbadge/js/rules.js') }}'></script>
+    <script src="{{ asset('bundles/frontend/jquery-option-tree/jquery.optionTree.js') }}"></script>
+    <script src='{{ asset('bundles/frontend/confirm-bootstrap/confirm-bootstrap.js') }}'></script>
+    <script src='{{ hotAsset('dist/claroline-distribution-plugin-badge-edit.js') }}'></script>
+    <script src='{{ hotAsset('dist/claroline-distribution-plugin-badge-rules.js') }}'></script>
 {% endblock %}

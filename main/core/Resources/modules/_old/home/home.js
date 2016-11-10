@@ -17,6 +17,7 @@ var translator = window.Translator
 home.path = $('#homePath').html() // global
 home.locale = $('#homeLocale').html() // global
 home.asset = $('#homeAsset').html() // global
+home.baseAsset = $('#baseAsset').html()
 
 if (!home.path) {
   home.path = './'

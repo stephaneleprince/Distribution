@@ -34,11 +34,5 @@
 {% if 'en' != app.request.locale %}
 <script type="text/javascript" src="{{ asset('bundles/frontend/select2/select2_locale_' ~ app.request.locale ~ '.js') }}"></script>
 {% endif %}
-<script type="text/javascript">
-    (function () {
-        "use strict";
-        ZenstruckFormHelper.initSelect2Helper();
-    }());
-</script>
+<script src='{{ hotAsset('dist/claroline-distribution-plugin-badge-form-claim.js') }}'></script>
 {% endblock %}
-
