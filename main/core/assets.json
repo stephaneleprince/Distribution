@@ -70,7 +70,7 @@
       "checkbox-dropdown": "_old/checkboxDropdown",
       "locale": "_old/locale",
       "sidebar": "_old/sidebar",
-      "resourceinput": "_old/resourceinput",
+      "resourceinput": "_old/resourceinput.index",
       "user-picker": "_js/Form/userPicker",
       "administration-workspace-management": "_js/Administration/Workspace/management",
       "exception-layout": "_js/Exception/layout",
