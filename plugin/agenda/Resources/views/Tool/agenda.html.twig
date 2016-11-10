@@ -182,17 +182,13 @@
      'js/translations/agenda/*.js'
        %}<script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-calendar') }}'></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-presence-tool-index.js') }}'></script>
-    <script type='text/javascript'>
+    <script>
+        window.editableWorkspaces = '{{ editableWorkspaces|json_encode|raw }}'
         {% if workspace is not defined %}
-            $(function () {
-                Claroline.Calendar.initialize('desktop', "undefined", '{{ editableWorkspaces|json_encode|raw }}');
-            });
+            window.workspaceId = "undefined"
         {% else %}
-            $(function () {
-                Claroline.Calendar.initialize('workspace', {{ workspace.getId() }}, '{{ editableWorkspaces|json_encode|raw }}');
-            });
+            window.workspaceId = {{ workspace.getId() }}
         {% endif %}
     </script>
+    <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-tool-agenda') }}'></script>
 {% endblock javascripts %}

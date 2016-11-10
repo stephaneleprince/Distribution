@@ -119,16 +119,10 @@
     <script src="{{ hotAsset('dist/claroline-distribution-plugin-ldap-ldap.js') }}"></script>
     {% if groups is defined and not groups is empty %}
         <script>
-            (function () {
-                'use strict';
-
-                var ldap = window.Claroline.LDAP;
-
-                ldap.setAttribute('entries', {{ groupsJSON | raw }});
-                {% if server.groupName is defined and not server.groupName is empty %}ldap.setAttribute('groupName', '{{ server.groupName }}');{% endif %}
-                {% if server.groupCode is defined and not server.groupCode is empty %}ldap.setAttribute('groupCode', '{{ server.groupCode }}');{% endif %}
-                ldap.showPreview();
-            }());
+            window.entries = {{ groupsJSON | raw }});
+            {% if server.groupName is defined and not server.groupName is empty %}window.groupName = '{{ server.groupName }}'){% endif %}
+            {% if server.groupCode is defined and not server.groupCode is empty %}window.groupCode = '{{ server.groupCode }}'){% endif %}
         </script>
+        <script src="{{ hotAsset('dist/claroline-distribution-plugin-ldap-groups.js') }}"></script>
     {% endif %}
 {% endblock %}

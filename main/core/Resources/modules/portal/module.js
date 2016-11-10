@@ -23,7 +23,7 @@ let portalApp = new register(
     'ui.fos-js-router',
     'ui.html-truster',
     'ui.translation'
-  ]);
+  ])
 
 portalApp
   .config(router)
@@ -39,5 +39,7 @@ portalApp
 
 //Bootstrap angular in body
 angular.element(document).ready(function () {
-  angular.bootstrap(document.getElementsByTagName('body')[ 0 ], [ 'portalApp' ]);
+  angular.bootstrap(document.getElementsByTagName('body')[ 0 ], [ 'portalApp' ])
 })
+
+angular.module('portalApp').constant('portal.types', window.types)

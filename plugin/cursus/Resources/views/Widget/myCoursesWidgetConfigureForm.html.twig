@@ -25,13 +25,7 @@
 
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/frontend/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js') }}">
-    </script>
-    <script>
-        $('body').on('focus', '.cursus_colorpicker', function () {
-            $(this).colorpicker();
-        });
-    </script>
+    <script src="{{ hotAsset('dist/claroline-distribution-plugin-cursus-my-courses-widget-configure-form.js')}}"></script>
 {% endblock %}
 
 {% block stylesheets %}

@@ -278,3 +278,5 @@ $('body').on('change', '#ldapObjectClass', function () {
       })
     })
   })
+
+export default ldap
