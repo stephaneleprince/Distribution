@@ -61,7 +61,7 @@ widgetElement.on('click', 'a', function (event) {
     const sessionId = $(this).data('session-id')
     const url = Routing.generate(
       'claro_courses_widget_session_informations',
-      {widgetInstance: widgetInstanceId, session: sessionId, withWorkspace: 0, withMail: 0}
+      {widgetInstance: widgetInstanceId, session: sessionId, withWorkspace: 0, withMail: 0, type: 0}
     )
     modal.fromUrl(url)
   } else if ($(this).hasClass('event-info-link')) {

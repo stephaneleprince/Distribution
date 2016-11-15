@@ -87,7 +87,7 @@ widgetElement.on('click', 'a', function (event) {
 
     if ($(this).hasClass('chronologic-link')) {
       const sessionId = $(this).data('session-id')
-      const url = Routing.generate('claro_courses_widget_session_informations', {widgetInstance: widgetInstanceId, session: sessionId})
+      const url = Routing.generate('claro_courses_widget_session_informations', {widgetInstance: widgetInstanceId, session: sessionId, type: 1})
       modal.fromUrl(url)
     } else {
       const element = event.currentTarget
