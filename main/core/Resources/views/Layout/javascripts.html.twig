@@ -1,6 +1,9 @@
 <script src="{{ hotAsset('dist/es6_shim_dll.js') }}"></script>
 <script src="{{ hotAsset('dist/angular_dll.js') }}"></script>
 <script src="{{ hotAsset('dist/pdf_player_dll.js') }}"></script> {# ?? #}
+{% if app.environment == 'prod' %}
+    <script src="{{ hotAsset('dist/commons.js') }}"></script>
+{% endif %}
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-core-js.js') }}"></script>
 <script>
     if (window.sessionStorage.getItem('hide_brower_warning')) {
@@ -103,7 +106,6 @@
 {% javascripts debug=false filter='jsmin' output='vendor/claroline/js/libraries.js'
     'bundles/clarolinecore/js/common.js'
     'bundles/clarolinecore/js/modal.js'
-    'bundles/clarolinecore/js/simplerights.js'
     'bundles/clarolinecore/js/home/home.js'
 %}
     <script src="{{ asset_url }}"></script>
@@ -135,9 +137,6 @@
 <script src="{{ asset('bundles/stfalcontinymce/vendor/tinymce/jquery.tinymce.min.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-startup.js') }}"></script>
 
-{% if app.environment == 'prod' %}
-    <script src="{{ hotAsset('dist/commons.js') }}"></script>
-{% endif %}
 
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce-resource')}}"></script>
