@@ -215,5 +215,5 @@
 {% if 'en' != app.request.locale %}
     <script type="text/javascript" src="{{ asset('packages/select2/select2_locale_' ~ app.request.locale ~ '.js') }}"></script>
 {% endif %}
-<script type="text/javascript" src='{{ asset('bundles/icapportfolio/js/visibility.js') }}'></script>
+    <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-visibility.js') }}"></script>
 {% endblock %}

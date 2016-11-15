@@ -270,30 +270,13 @@
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
         <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-checklist-model.js') }}"></script>
+        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-widgets.js') }}"></script>
+        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-badge-app-directives.js') }}"></script>
+        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-tinymce-config.js') }}"></script>
+        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-translation.js') }}"></script>
 
         {% javascripts debug=false filter='jsmin' output='js/portfolio/portfolio/script.js'
             '@IcapPortfolioBundle/Resources/public/js/utils/Array.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/portfolioApp.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/controllers/portfolioController.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/controllers/widgetController.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/controllers/commentController.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/controllers/widgetPickerController.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/services/portfolioFactory.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/services/portfolioManager.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/services/widgetsManager.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/services/widgetsConfig.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/services/widgetFactory.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/services/commentsManager.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/services/commentFactory.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/directives/widgetDirective.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/directives/portfolioDirective.js'
-            '@IcapPortfolioBundle/Resources/public/js/modules/tinymceConfig.js'
-            '@IcapPortfolioBundle/Resources/public/js/modules/scrollContainerDirective.js'
-            '@IcapPortfolioBundle/Resources/public/js/modules/loadingFormDirective.js'
-            '@IcapPortfolioBundle/Resources/public/js/modules/confirmClickDirective.js'
-            '@IcapPortfolioBundle/Resources/public/js/modules/bindHtmlDirective.js'
-            '@IcapPortfolioBundle/Resources/public/js/portfolio/directives/commentsDirective.js'
-            '@IcapPortfolioBundle/Resources/public/js/modules/translation.js'
             '@IcapPortfolioBundle/Resources/public/js/modules/urlInterpolator.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
