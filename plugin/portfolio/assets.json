@@ -14,7 +14,9 @@
       "url-interpolator": "modules/urlInterpolator",
       "guides": "guides",
       "index": "index",
-      "visibility": "visibility"
+      "visibility": "visibility",
+      "analytics-portfolio-usage-visibility-chart": "_js/analytics/portfolio_usage_visibility_chart",
+      "portfolio-view": "_js/Portfolio/view"
     }
   }
 }
