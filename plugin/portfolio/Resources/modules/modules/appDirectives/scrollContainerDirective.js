@@ -3,7 +3,6 @@ import CollectionFormController from './collectionFormController'
 import CollectionFormDirective from './collectionFormDirective'
 import ConfirmClickDirective from './confirmClickDirective'
 import LoadingFormDirective from './loadingFormDirective'
-import ScrollContainerDirective from './scrollContainerDirective'
 
 import angular from 'angular'
 
@@ -31,5 +30,4 @@ appDirectives.directive('bindHtml', ['$compile', BindHtmlDirective])
 appDirectives.controller('collectionFormController', ['$scope', '$attrs', CollectionFormController])
 appDirectives.directive('collectionForm', CollectionFormDirective)
 appDirectives.directive('confirmClick', ['$parse', 'translationService', ConfirmClickDirective])
-appDirectives.directive('loadingForm', ['$parse', ScrollContainerDirective])
 appDirectives.directive('loadingForm', ['$parse', LoadingFormDirective])
