@@ -1,11 +1,11 @@
 //import tinymce from '../tinymce'
-import home from '../../../_old/home/home'
-import modal from '../../../_old/modal'
+import common from '#main/core/_old/common'
+import modal from '#main/core/_old/modal'
 import $ from 'jquery'
 import _ from 'underscore'
+import tinymce from 'tinymce-dist'
+import resourceManager from '#/main/core/_old/resource/manager/manager'
 
-var tinymce = window.tinymce
-var resourceManager = window.Claroline.ResourceManager
 var buttons = tinymce.claroline.buttons || {}
 
 /**

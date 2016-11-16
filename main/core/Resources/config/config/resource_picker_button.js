@@ -1,7 +1,8 @@
-var tinymce = window.tinymce
+import tinymce from 'tinymce-dist'
+
 var translator = window.Translator
 
-tinymce.PluginManager.add('resourcePicker', function (editor) {
+var callback = function (editor) {
   editor.addButton('resourcePicker', {
     'icon': 'none fa fa-folder-open',
     'classes': 'widget btn',
@@ -11,6 +12,8 @@ tinymce.PluginManager.add('resourcePicker', function (editor) {
       tinymce.claroline.buttons.resourcePickerOpen()
     }
   })
-})
+}
 
-tinymce.claroline.plugins.resourcePicker = true
+module.exports = {
+    'callback': callback
+}

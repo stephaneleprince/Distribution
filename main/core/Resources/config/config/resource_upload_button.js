@@ -1,5 +1,5 @@
-import common from '../../../_old/common'
-import modal from '../../../_old/modal'
+import common from '#main/core/_old/common'
+import modal from '#main/core/_old/modal'
 import $ from 'jquery'
 
 var resourceManager = window.Claroline.ResourceManager

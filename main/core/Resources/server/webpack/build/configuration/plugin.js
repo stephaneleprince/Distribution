@@ -8,12 +8,15 @@ function ConfigurationPlugin() {
 
 ConfigurationPlugin.prototype.apply = function(compiler) {
   var generated = false
-  compiler.plugin('compile', function(compilation) {
+  compiler.plugin('emit', function(compilation, callback) {
     if (!generated) {
       console.log('\nGenerating claroline configuration file...')
       str = `module.exports = {${getConfigurations()}}`
-      fs.writeFileSync(paths.root() + '/web/dist/plugins-config.js', str)
+      //fs.writeFileSync(paths.root() + '/web/dist/plugins-config.js', str)
       generated = true
+      console.error(compilation.assets)
+      compilation.assets['plugin-config']
+      callback()
     }
   })
 }
