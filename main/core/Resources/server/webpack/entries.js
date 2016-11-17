@@ -12,7 +12,7 @@ function collectEntries () {
   const packageNames = webpackPackages.map(def => def.name)
   const normalizedPackages = normalizeNames(webpackPackages)
 
-  return extractEntries(normalizedPackages)
+  return addBundleConfigEntry(extractEntries(normalizedPackages));
 }
 
 /**
@@ -32,6 +32,12 @@ function collectPackages (rootDir) {
   }
 
   return getPackageDefinitions(rootDir)
+}
+
+function addBundleConfigEntry(entries) {
+    entries['bundle-configs'] = paths.root() + '/web/dist/plugins-config'
+
+    return entries
 }
 
 /**

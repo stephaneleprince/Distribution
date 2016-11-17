@@ -28,7 +28,7 @@ module.exports = {
     plugins.rejectBuildErrors(),
     plugins.exitWithErrorCode(),
     plugins.clarolineConfiguration(),
-    plugins.configShortcut(),
+    //plugins.configShortcut(),
     ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {

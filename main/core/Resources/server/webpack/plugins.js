@@ -48,9 +48,11 @@ const distributionShortcut = () => {
  *
  * import from 'clarolineconfig'
  */
+
+
 const configShortcut = () => {
   return new webpack.NormalModuleReplacementPlugin(/^bundle-configs$/, request => {
-    request.request = paths.root() + '/web/dist/plugins-config.js'
+    request.request = paths.root() + '/web/dist/plugin-configs.js'
   })
 }
 

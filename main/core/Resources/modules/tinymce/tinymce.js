@@ -5,7 +5,7 @@ import home from '../_old/home/home'
 import 'claroline-tinymce-mention/plugin.min'
 import 'tinymce-codemirror/plugins/codemirror/plugin.min'
 import './plugins/codemirror'
-import tinymce from 'tinymce-dist'
+import tinymce from 'tinymce'
 
 var translator = window.Translator
 var routing = window.Routing
