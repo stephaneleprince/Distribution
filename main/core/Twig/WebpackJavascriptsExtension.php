@@ -92,7 +92,7 @@ class WebpackJavascriptsExtension extends \Twig_Extension
     {
         $scriptsHtml = '';
         foreach ($this->scriptsToLoad as $script) {
-            $scriptsHtml .= '<script src="'.$script.'"></script>\n';
+            $scriptsHtml .= '<script src="'.$script.'"></script>'.PHP_EOL;
         }
 
         return $scriptsHtml;
