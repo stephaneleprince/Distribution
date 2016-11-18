@@ -154,6 +154,6 @@
                 shown_workspaces: {{ shownWorkspaceIds|json_encode }}
             };
         </script>
-        <script src="{{ hotAsset('dist/claroline-distribution-main-core-user-picker.js') }}"></script>
+        {{ hotAsset('dist/claroline-distribution-main-core-user-picker.js')|appendScript }}
     {% endspaceless %}
 {% endblock %}

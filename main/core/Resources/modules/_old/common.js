@@ -3,7 +3,7 @@ import $ from 'jquery'
 /* global Routing */
 
 window.Claroline = window.Claroline || {}
-var common = window.Claroline.Common
+var common = window.Claroline.Common || {}
 
 /**
  * This function creates a new element in the document with a given class name.

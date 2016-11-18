@@ -9,4 +9,4 @@ $(document).on('shown.bs.modal', '.modal', function () {
 })
 
 manager.createFullManager(window.managerConfig)
-FileAPI = { debug: false, pingUrl: false }
+window.FileAPI = { debug: false, pingUrl: false }
