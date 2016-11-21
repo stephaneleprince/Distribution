@@ -3,7 +3,7 @@ import $ from 'jquery'
 /* global Routing */
 
 window.Claroline = window.Claroline || {}
-var common = window.Claroline.Common
+var common = window.Claroline.Common || {}
 
 /**
  * This function creates a new element in the document with a given class name.
@@ -11,7 +11,7 @@ var common = window.Claroline.Common
  * @param tag The tag name of the new element.
  * @param className The class name of the new element.
  */
-common.createElement = function (tag, className) {
+common.createElement = function(tag, className) {
   return $(document.createElement(tag)).addClass(className)
 }
 
@@ -22,13 +22,13 @@ common.createElement = function (tag, className) {
  * @param element A HTML modal element.
  *
  */
-common.uploadfile = function (form, element, parent, callBack) {
+common.uploadfile = function(form, element, parent, callBack) {
   $(form).upload(
     Routing.generate(
       'claro_file_upload_with_tinymce',
       {'parent': parent}
     ),
-    function (done) {
+    function(done) {
       if (done.getResponseHeader('Content-Type') === 'application/json') {
         // for upload without personal workspace; it goes directory in the upload/files folder.
         var data = $.parseJSON(done.responseText)
@@ -47,7 +47,7 @@ common.uploadfile = function (form, element, parent, callBack) {
         $('.progress-bar', element).attr('aria-valuenow', 0).css('width', '0%').find('sr-only').text('0%')
       }
     },
-    function (progress) {
+    function(progress) {
       var percent = Math.round((progress.loaded * 100) / progress.totalSize)
 
       $('.progress', element).removeClass('hide')
@@ -63,7 +63,7 @@ common.uploadfile = function (form, element, parent, callBack) {
 /**
  * If has namespace
  */
-common.hasNamespace = function (element, namespace) {
+common.hasNamespace = function(element, namespace) {
   if (element.hasOwnProperty('namespace') && element.namespace === namespace) {
     return true
   }
@@ -76,7 +76,7 @@ common.hasNamespace = function (element, namespace) {
  * @param condition A boolean
  * @param className The class name, if this value is undefined 'hide' will be used
  */
-common.toggle = function (element, condition, className) {
+common.toggle = function(element, condition, className) {
   className = className !== undefined ? className : 'hide'
 
   if (condition) {
@@ -101,14 +101,14 @@ common.toggle = function (element, condition, className) {
  * )
  *
  */
-$.fn.upload = function (remote, successFn, progressFn) {
-  return this.each(function () {
+$.fn.upload = function(remote, successFn, progressFn) {
+  return this.each(function() {
     var formData = new FormData($(this).parents('form').get(0))
 
     $.ajax({
       url: remote,
       type: 'POST',
-      xhr: function () {
+      xhr: function() {
         var myXhr = $.ajaxSettings.xhr()
         if (myXhr.upload && progressFn) {
           myXhr.upload.addEventListener('progress', progressFn, false)
@@ -119,7 +119,7 @@ $.fn.upload = function (remote, successFn, progressFn) {
       cache: false,
       contentType: false,
       processData: false,
-      complete: function (res) {
+      complete: function(res) {
         if (successFn) {
           successFn(res)
         }

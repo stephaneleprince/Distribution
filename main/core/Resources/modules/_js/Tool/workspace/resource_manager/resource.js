@@ -4,9 +4,9 @@ import $ from 'jquery'
 /* global FileAPI */
 /* eslint no-unused-vars: ["error", { "vars": "local" }] */
 
-$(document).on('shown.bs.modal', '.modal', function () {
+$(document).on('shown.bs.modal', '.modal', function() {
   $(this).find('[autofocus]').focus()
 })
 
 manager.createFullManager(window.managerConfig)
-FileAPI = { debug: false, pingUrl: false }
+window.FileAPI = { debug: false, pingUrl: false }

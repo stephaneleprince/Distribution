@@ -41,6 +41,6 @@
     <script type="text/javascript">
         window.options = {{ options|json_encode()|raw }}
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-form-date-time-picker')}}"></script>
+    {{ hotAsset('dist/claroline-distribution-main-core-form-date-time-picker')|appendScript }}
 
 {% endblock %}

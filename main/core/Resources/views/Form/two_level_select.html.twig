@@ -11,6 +11,6 @@
             window.formId = "{{ form.vars['id'] }}"
         </script>
         <script src="{{ asset('packages/jquery-option-tree/jquery.optionTree.js') }}"></script>
-        <script src="{{ hotAsset('dist/claroline-distribution-main-core-form-two-level-select')}}"></script>
+        {{ hotAsset('dist/claroline-distribution-main-core-form-two-level-select')|appendScript }}
     {% endspaceless %}
 {% endblock %}

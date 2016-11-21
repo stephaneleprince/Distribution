@@ -11,6 +11,6 @@
         <script type="text/javascript">
             window.formId = "{{ form.vars['id'] }}"
         </script>
-        <script src="{{ hotAsset('dist/claroline-distribution-main-core-form-select2')}}"></script>
+        {{ hotAsset('dist/claroline-distribution-main-core-form-select2')|appendScript }}
     {% endspaceless %}
 {% endblock %}

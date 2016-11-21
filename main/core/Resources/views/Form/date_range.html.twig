@@ -20,6 +20,6 @@
 
             window.formId = "{{ form.vars['id'] }}"
         </script>
-        <script src="{{ hotAsset('dist/claroline-distribution-main-core-form-date-range')}}"></script>
+        {{ hotAsset('dist/claroline-distribution-main-core-form-date-range')|appendScript }}
     {% endspaceless %}
 {% endblock %}
