@@ -65,6 +65,7 @@
     "system.js": "0.19.20",
     "tablesorter": "#774576308e",
     "tag-it": "#6ccd2de95e",
+    "tinymce": "4.3.13",
     "tinymce-codemirror": "https://github.com/christiaan/tinymce-codemirror.git#20c1bbe708",
     "toastr": "2.1.2",
     "typeahead.js": "0.11.1",

@@ -1,10 +1,12 @@
-import common from '#main/core/_old/common'
-import modal from '#main/core/_old/modal'
+import common from '#/main/core/_old/common'
+import modal from '#/main/core/_old/modal'
 import $ from 'jquery'
+import /*tinymce from*/ '#/main/core/tinymce/tinymce'
+import tinymce from 'tinymce/tinymce'
+import ResourceManager from '#/main/core/_old/resource/manager/manager'
+import pickerButtons from './resource_picker'
 
-var resourceManager = window.Claroline.ResourceManager
 var translator = window.Translator
-var tinymce = window.tinymce
 
 /**
  * Open a directory picker from a TinyMCE editor.
@@ -25,15 +27,15 @@ var directoryPickerCallBack = function (nodes) {
  * Open a resource picker from a TinyMCE editor.
  */
 var directoryPickerOpen = function () {
-  if (!resourceManager.hasPicker('tinyMceDirectoryPicker')) {
-    resourceManager.createPicker('tinyMceDirectoryPicker', {
+  if (!ResourceManager.hasPicker('tinyMceDirectoryPicker')) {
+    ResourceManager.createPicker('tinyMceDirectoryPicker', {
       callback: directoryPickerCallBack,
       resourceTypes: ['directory'],
       isDirectorySelectionAllowed: true,
       isPickerMultiSelectAllowed: false
     }, true)
   } else {
-    resourceManager.picker('tinyMceDirectoryPicker', 'open')
+    ResourceManager.picker('tinyMceDirectoryPicker', 'open')
   }
 }
 
@@ -46,7 +48,7 @@ tinymce.PluginManager.add('fileUpload', function (editor) {
       tinymce.activeEditor = editor
       modal.fromRoute('claro_upload_modal', null, function (element) {
         element.on('click', '.resourcePicker', function () {
-          tinymce.claroline.buttons.resourcePickerOpen()
+          pickerButtons.resourcePickerOpen()
         })
           .on('click', '.filePicker', function () {
             $('#file_form_file').click()
@@ -61,12 +63,10 @@ tinymce.PluginManager.add('fileUpload', function (editor) {
               this,
               element,
               $('#file_form_destination').val(),
-              tinymce.claroline.buttons.resourcePickerCallBack
+              pickerButtons.resourcePickerCallBack
             )
           })
       })
     }
   })
 })
-
-tinymce.claroline.plugins.fileUpload = true

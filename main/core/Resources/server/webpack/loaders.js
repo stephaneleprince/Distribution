@@ -1,3 +1,5 @@
+ const paths = require('./paths')
+
 /**
  * Transpiles es6 and jsx files with babel.
  */
@@ -50,6 +52,16 @@ const css = () => {
 }
 
 /**
+ * Enables fonts files imports.
+ */
+ const font = () => {
+   return {
+       test: /\.(eot|svg|ttf|woff|woff2)$/,
+       loader: 'url-loader?limit=100000' 
+   }
+ }
+
+/**
  * Encodes small images as base64 URIs.
  */
 const imageUris = () => {
@@ -69,14 +81,43 @@ const modernizr = () => {
     test: /\.modernizrrc$/,
     loader: 'modernizr'
   }
+}
 
+const loadConfig = () => {
+  return {
+    test: /bundle-configs/,
+    loader: 'raw-loader!./dist/plugins-config'
+  }
+}
+
+const tinymceImport = () => {
+  return {
+    test: require.resolve(paths.bower() + '/tinymce/tinymce'),
+    loaders: [
+      'imports?this=>window',
+      'exports?window.tinymce'
+    ]
+  }
+}
+
+const tinymceWrapper = () => {
+  return {
+    test: /tinymce\/(themes|plugins)\//,
+    loaders: [
+      'imports?this=>window'
+    ]
+  }
 }
 
 module.exports = {
   babel,
+  loadConfig,
   rawHtml,
   jqueryUiNoAmd,
   css,
+  font,
   imageUris,
+  tinymceImport,
+  tinymceWrapper,
   modernizr
 }

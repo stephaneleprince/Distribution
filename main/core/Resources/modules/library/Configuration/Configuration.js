@@ -3,6 +3,8 @@ import union from 'lodash/union'
 import get from 'lodash/get'
 import defaults from 'lodash/defaults'
 
+//var config = window.Claroline.BundlesConfiguration
+
 class Configuration {
   constructor(config) {
     // set the default actions here
@@ -27,6 +29,16 @@ class Configuration {
     }
 
     return actions
+  }
+
+  getTinyMcePlugins() {
+    let plugins = []
+
+    for (var bundle in this.config) {
+      plugins = union(plugins, get(this.config[bundle], 'tinymce', []))
+    }
+
+    return plugins
   }
 }
 

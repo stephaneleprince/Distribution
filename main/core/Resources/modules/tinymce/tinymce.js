@@ -1,26 +1,57 @@
 import $ from 'jquery'
-import _ from 'underscore'
+import _ from 'lodash'
 import home from '../_old/home/home'
+import Configuration from '#/main/core/library/Configuration/Configuration'
 
-import 'claroline-tinymce-mention/plugin.min'
-import 'tinymce-codemirror/plugins/codemirror/plugin.min'
-import './plugins/codemirror'
-import tinymce from 'tinymce'
+//css
+import 'tinymce/skins/lightgray/content.min.css'
+import 'tinymce/skins/lightgray/skin.min.css'
+
+import tinymce from 'tinymce/tinymce'
+import 'tinymce/themes/modern/theme'
+
+// Plugins
+import 'tinymce/plugins/paste/plugin'
+import 'tinymce/plugins/link/plugin'
+import 'tinymce/plugins/autoresize/plugin'
+import 'tinymce/plugins/table/plugin'
+import 'tinymce/plugins/directionality/plugin'
+import 'tinymce/plugins/template/plugin'
+import 'tinymce/plugins/textcolor/plugin'
+import 'tinymce/plugins/visualchars/plugin'
+import 'tinymce/plugins/fullscreen/plugin'
+import 'tinymce/plugins/insertdatetime/plugin'
+import 'tinymce/plugins/media/plugin'
+import 'tinymce/plugins/preview/plugin'
+import 'tinymce/plugins/hr/plugin'
+import 'tinymce/plugins/anchor/plugin'
+import 'tinymce/plugins/pagebreak/plugin'
+import 'tinymce/plugins/searchreplace/plugin'
+import 'tinymce/plugins/wordcount/plugin'
+import 'tinymce/plugins/advlist/plugin'
+import 'tinymce/plugins/autolink/plugin'
+import 'tinymce/plugins/lists/plugin'
+import 'tinymce/plugins/image/plugin'
+import 'tinymce/plugins/charmap/plugin'
+import 'tinymce/plugins/print/plugin'
+import 'tinymce/plugins/visualblocks/plugin'
+import 'tinymce/plugins/nonbreaking/plugin'
+import 'tinymce/plugins/save/plugin'
+import 'tinymce/plugins/emoticons/plugin'
+import 'tinymce/plugins/code/plugin'
+
+/*
+import 'tinymce-dist/tinymce.jquery'
+import 'tinymce-dist/jquery.tinymce'*/
 
 var translator = window.Translator
-var routing = window.Routing
-
-tinymce.DOM.loadCSS(home.asset + 'packages/claroline-tinymce-mention/css/autocomplete.css')
-var codemirrorPath = home.asset + 'packages/tinymce-codemirror/plugins/codemirror/codemirror-4.8'
 
 /**
  * Claroline TinyMCE parameters and methods.
  */
-tinymce.claroline = {
+var clarolineTinymce = {
   'disableBeforeUnload': false,
-  'domChange': null,
-  'buttons': {},
-  'plugins': {}
+  'domChange': null
 }
 
 /**
@@ -30,7 +61,7 @@ tinymce.claroline = {
  * @param editor A TinyMCE editor object.
  *
  */
-tinymce.claroline.editorChange = function(editor) {
+clarolineTinymce.editorChange = function(editor) {
   setTimeout(function() {
     var container = $(editor.getContainer()).find('iframe').first()
     var height = container.contents().height()
@@ -38,11 +69,11 @@ tinymce.claroline.editorChange = function(editor) {
     var min = 'autoresize_min_height'
 
     switch (true) {
-      case ( height <= tinymce.claroline.configuration[min]):
-        container.css('height', tinymce.claroline.configuration[min])
+      case (height <= clarolineTinymce.configuration[min]):
+        container.css('height', clarolineTinymce.configuration[min])
         break
-      case ( height >= tinymce.claroline.configuration[max]):
-        container.css('height', tinymce.claroline.configuration[max])
+      case (height >= clarolineTinymce.configuration[max]):
+        container.css('height', clarolineTinymce.configuration[max])
         container.css('overflow', 'scroll')
         break
       default:
@@ -58,13 +89,13 @@ tinymce.claroline.editorChange = function(editor) {
  *  @param args TinyMCE paste plugin arguments.
  *
  */
-tinymce.claroline.paste = function(plugin, args) {
+clarolineTinymce.paste = function(plugin, args) {
   if ($('#platform-configuration').attr('data-enable-opengraph') === '1') {
     var link = $('<div>' + args.content + '</div>').text().trim() // inside div because a bug of jquery
 
     home.canGenerateContent(link, function(data) {
       tinymce.activeEditor.insertContent('<div>' + data + '</div>')
-      tinymce.claroline.editorChange(tinymce.activeEditor)
+      clarolineTinymce.editorChange(tinymce.activeEditor)
     })
   }
 }
@@ -75,8 +106,8 @@ tinymce.claroline.paste = function(plugin, args) {
  * @return boolean.
  *
  */
-tinymce.claroline.checkBeforeUnload = function() {
-  if (!tinymce.claroline.disableBeforeUnload) {
+clarolineTinymce.checkBeforeUnload = function() {
+  if (!clarolineTinymce.disableBeforeUnload) {
     for (var id in tinymce.editors) {
       if (tinymce.editors.hasOwnProperty(id) &&
         tinymce.editors[id].isBeforeUnloadActive &&
@@ -97,7 +128,7 @@ tinymce.claroline.checkBeforeUnload = function() {
  * @param editor A TinyMCE editor object.
  *
  */
-tinymce.claroline.setBeforeUnloadActive = function(editor) {
+clarolineTinymce.setBeforeUnloadActive = function(editor) {
   if ($(editor.getElement()).data('before-unload') !== 'off') {
     editor.isBeforeUnloadActive = true
   } else {
@@ -111,7 +142,7 @@ tinymce.claroline.setBeforeUnloadActive = function(editor) {
  * @param editor A TinyMCE editor object.
  *
  */
-tinymce.claroline.toggleFullscreen = function(element) {
+clarolineTinymce.toggleFullscreen = function(element) {
   $(element).parents('.modal').first().toggleClass('fullscreen')
 }
 
@@ -121,18 +152,18 @@ tinymce.claroline.toggleFullscreen = function(element) {
  * @param editor A TinyMCE editor object.
  *
  */
-tinymce.claroline.setup = function(editor) {
+clarolineTinymce.setup = function(editor) {
   editor.on('change', function() {
     if (editor.getElement()) {
       editor.getElement().value = editor.getContent()
       if (editor.isBeforeUnloadActive) {
         $(editor.getElement()).data('saved', 'false')
-        tinymce.claroline.disableBeforeUnload = false
+        clarolineTinymce.disableBeforeUnload = false
       }
     }
   }).on('LoadContent', function() {
-    tinymce.claroline.editorChange(editor)
-    tinymce.claroline.customInit(editor)
+    clarolineTinymce.editorChange(editor)
+    clarolineTinymce.customInit(editor)
   })
 
   editor.on('BeforeRenderUI', function() {
@@ -155,7 +186,7 @@ tinymce.claroline.setup = function(editor) {
     }
   })
 
-  tinymce.claroline.setBeforeUnloadActive(editor)
+  clarolineTinymce.setBeforeUnloadActive(editor)
 
   $('body').bind('ajaxComplete', function() {
     setTimeout(function() {
@@ -167,60 +198,19 @@ tinymce.claroline.setup = function(editor) {
 }
 
 /**
- * @todo documentation
- */
-tinymce.claroline.mentionsSource = function(query, process, delimiter) {
-  if (!_.isUndefined(window.Workspace) && !_.isNull(window.Workspace.id)) {
-    if (delimiter === '@' && query.length > 0) {
-      var searchUserInWorkspaceUrl = routing.generate('claro_user_search_in_workspace') + '/'
-
-      $.getJSON(searchUserInWorkspaceUrl + window.Workspace.id + '/' + query, function(data) {
-        if (!_.isEmpty(data) && !_.isUndefined(data.users) && !_.isEmpty(data.users)) {
-          process(data.users)
-        }
-      })
-    }
-  }
-}
-
-/**
- * @todo documentation
- */
-tinymce.claroline.mentionsItem = function(item) {
-  var avatar = '<i class="fa fa-user"></i>'
-  if (item.avatar !== null) {
-    avatar = '<img src="' + home.asset + 'uploads/pictures/' + item.avatar + '" alt="' + item.name +
-      '" class="img-responsive">'
-  }
-
-  return '<li>' +
-  '<a href="javascript:;"><span class="user-picker-dropdown-avatar">' + avatar + '</span>' +
-  '<span class="user-picker-dropdown-name">' + item.name + '</span>' +
-  '<small class="user-picker-avatar-mail text-muted">(' + item.mail + ')</small></a>' +
-  '</li>'
-}
-
-/**
- * @todo documentation
- */
-tinymce.claroline.mentionsInsert = function(item) {
-  var publicProfileUrl = routing.generate('claro_public_profile_view') + '/'
-
-  return '<user id="' + item.id + '"><a href="' + publicProfileUrl + item.id + '">' + item.name + '</a></user>'
-}
-
-/**
  * Configuration and parameters of a TinyMCE editor.
  */
 
 // Get theme to load inside tinymce in order to have no display differences
 var homeTheme = document.getElementById('homeTheme')
 var themeCSS = homeTheme.innerText || homeTheme.textContent
-tinymce.claroline.configuration = {
+
+clarolineTinymce.configuration = {
   'paste_data_images': true,
   'relative_urls': false,
+  'remove_script_host': false,
   'theme': 'modern',
-  'language': home.locale.trim(),
+  //'language': home.locale.trim(),
   'browser_spellcheck': true,
   'autoresize_min_height': 100,
   'autoresize_max_height': 500,
@@ -231,24 +221,12 @@ tinymce.claroline.configuration = {
   'toolbar2': 'styleselect | undo redo | forecolor backcolor | bullist numlist | outdent indent | ' +
     'media link charmap | print preview code',
   'extended_valid_elements': 'user[id], a[data-toggle|data-parent]',
-  'paste_preprocess': tinymce.claroline.paste,
-  'setup': tinymce.claroline.setup,
-  'mentions': {
-    'source': tinymce.claroline.mentionsSource,
-    'render': tinymce.claroline.mentionsRender,
-    'insert': tinymce.claroline.mentionsInsert,
-    'delay': 200
-  },
-  'picker': {
-    'openResourcesInNewTab': false
-  },
-  'codemirror': {
-    'path': codemirrorPath
-  }
+  'paste_preprocess': clarolineTinymce.paste,
+  'setup': clarolineTinymce.setup
 }
 
-tinymce.claroline.customInit = function(editor) {
-  $.each(tinymce.claroline.init, function(key, func) {
+clarolineTinymce.customInit = function(editor) {
+  $.each(clarolineTinymce.init, function(key, func) {
     func(editor)
   })
 }
@@ -256,37 +234,48 @@ tinymce.claroline.customInit = function(editor) {
 /**
  * Initialization function for TinyMCE editors.
  */
-tinymce.claroline.initialization = function() {
+clarolineTinymce.initialization = function() {
   $('textarea.claroline-tiny-mce:not(.tiny-mce-done)').each(function() {
-    var element = $(this)
+    //var element = $(this)
     var config = null
 
     var plugins = [
       'autoresize advlist autolink lists link image charmap print preview hr anchor pagebreak',
       'searchreplace wordcount visualblocks visualchars fullscreen',
       'insertdatetime media nonbreaking save table directionality',
-      'template paste textcolor emoticons code -mention -accordion -codemirror'
+      'template paste textcolor emoticons code'
     ]
 
     var toolbar1 = 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen displayAllButtons'
+    const tinyPlugins = Configuration.getTinyMcePlugins()
 
-    $.each(tinymce.claroline.plugins, function(key, value) {
-      if (value === true) {
-        plugins.push(key)
-        toolbar1 += ' ' + key
+    $.each(tinyPlugins, function(key, value) {
+      plugins.push(value.name)
+      toolbar1 += ' ' + value.name
+
+      if (value.config) {
+        clarolineTinymce.configuration = _.merge(clarolineTinymce.configuration, value.config)
+      }
+
+      if (value.plugin) {
+        plugins.push(value.plugin)
       }
     })
 
-    tinymce.claroline.configuration.plugins = plugins
-    tinymce.claroline.configuration.toolbar1 = toolbar1
-
+    clarolineTinymce.configuration.plugins = plugins
+    clarolineTinymce.configuration.toolbar1 = toolbar1
+/*
     if (element.data('newTab') === 'yes') {
-      config = _.extend({}, tinymce.claroline.configuration)
+      config = _.extend({}, clarolineTinymce.configuration)
       config.picker.openResourcesInNewTab = true
-    } else {
-      config = tinymce.claroline.configuration
-    }
+  } else {*/
+    config = clarolineTinymce.configuration
+    //}
 
+    config.selector = '.claroline-tiny-mce'
+    tinymce.init(config)
+    //element.tinymce(config)
+/*
     element.tinymce(config)
       .on('remove', function() {
         var editor = tinymce.get(element.attr('id'))
@@ -294,36 +283,37 @@ tinymce.claroline.initialization = function() {
           editor.destroy()
         }
       })
-      .addClass('tiny-mce-done')
+      .addClass('tiny-mce-done')*/
   })
 }
 
 /** Events **/
 
 $('body').bind('ajaxComplete', function() {
-  tinymce.claroline.initialization()
+  clarolineTinymce.initialization()
 })
   .on('click', '.mce-widget.mce-btn[aria-label="Fullscreen"]', function() {
-    tinymce.claroline.toggleFullscreen(this)
+    clarolineTinymce.toggleFullscreen(this)
     $(window).scrollTop($(this).parents('.mce-tinymce.mce-container.mce-panel').first().offset().top)
     window.dispatchEvent(new window.Event('resize'))
   })
   .bind('DOMSubtreeModified', function() {
-    clearTimeout(tinymce.claroline.domChange)
-    tinymce.claroline.domChange = setTimeout(tinymce.claroline.initialization, 10)
+    clearTimeout(clarolineTinymce.domChange)
+    clarolineTinymce.domChange = setTimeout(clarolineTinymce.initialization, 10)
   })
   .on('click', 'form *[type=submit]', function() {
-    tinymce.claroline.disableBeforeUnload = true
+    clarolineTinymce.disableBeforeUnload = true
   })
 
 $(document).ready(function() {
-  tinymce.claroline.initialization()
+  clarolineTinymce.initialization()
 })
 
 $(window).on('beforeunload', function() {
-  if (tinymce.claroline.checkBeforeUnload()) {
+  if (clarolineTinymce.checkBeforeUnload()) {
     return translator.trans('leave_this_page', {}, 'platform')
   }
 })
 
-export default tinymce
+//this could be removed
+export default clarolineTinymce

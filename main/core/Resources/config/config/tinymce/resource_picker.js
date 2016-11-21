@@ -1,12 +1,11 @@
-//import tinymce from '../tinymce'
-import common from '#main/core/_old/common'
-import modal from '#main/core/_old/modal'
+import modal from '#/main/core/_old/modal'
+import home from '#/main/core/_old/home/home'
 import $ from 'jquery'
 import _ from 'underscore'
-import tinymce from 'tinymce-dist'
-import resourceManager from '#/main/core/_old/resource/manager/manager'
+import clarolineTinymce from '#/main/core/tinymce/tinymce'
+import tinymce from 'tinymce/tinymce'
+import ResourceManager from '#/main/core/_old/resource/manager/manager'
 
-var buttons = tinymce.claroline.buttons || {}
 
 /**
  * This method is fired when one or more resources are added to the editor
@@ -15,7 +14,7 @@ var buttons = tinymce.claroline.buttons || {}
  * @param nodes An array of resource nodes.
  *
  */
-buttons.resourcePickerCallBack = function (nodes, currentDirectoryId, isWidget) {
+var resourcePickerCallBack = function (nodes, currentDirectoryId, isWidget) {
   if (!isWidget) {
     // if it's not a resource node...
     var nodeId = _.keys(nodes)[0]
@@ -26,7 +25,7 @@ buttons.resourcePickerCallBack = function (nodes, currentDirectoryId, isWidget) 
       .done(function (data) {
         tinymce.activeEditor.insertContent(data)
         if (!tinymce.activeEditor.plugins.fullscreen.isFullscreen()) {
-          tinymce.claroline.editorChange(tinymce.activeEditor)
+          clarolineTinymce.editorChange(tinymce.activeEditor)
         }
       })
       .error(function () {
@@ -47,7 +46,7 @@ buttons.resourcePickerCallBack = function (nodes, currentDirectoryId, isWidget) 
       .done(function (data) {
         tinymce.activeEditor.insertContent(data)
         if (!tinymce.activeEditor.plugins.fullscreen.isFullscreen()) {
-          tinymce.claroline.editorChange(tinymce.activeEditor)
+          clarolineTinymce.editorChange(clarolineTinymce.activeEditor)
         }
       })
       .error(function () {
@@ -59,13 +58,18 @@ buttons.resourcePickerCallBack = function (nodes, currentDirectoryId, isWidget) 
 /**
  * Open a resource picker from a TinyMCE editor.
  */
-buttons.resourcePickerOpen = function () {
-  if (!resourceManager.hasPicker('tinyMcePicker')) {
-    resourceManager.createPicker('tinyMcePicker', {
-      callback: tinymce.claroline.buttons.resourcePickerCallBack,
+var resourcePickerOpen = function () {
+  if (!ResourceManager.hasPicker('tinyMcePicker')) {
+    ResourceManager.createPicker('tinyMcePicker', {
+      callback: resourcePickerCallBack,
       isTinyMce: true
     }, true)
   } else {
-    resourceManager.picker('tinyMcePicker', 'open')
+    ResourceManager.picker('tinyMcePicker', 'open')
   }
+}
+
+export default {
+    'resourcePickerCallBack': resourcePickerCallBack,
+    'resourcePickerOpen': resourcePickerOpen
 }

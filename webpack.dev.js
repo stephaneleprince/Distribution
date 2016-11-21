@@ -25,12 +25,16 @@ module.exports = {
   ],
   module: {
     loaders: [
+      loaders.css(),
+      loaders.font(),
       loaders.babel(),
+      //loaders.loadConfig(),
       loaders.rawHtml(),
       loaders.jqueryUiNoAmd(),
-      loaders.css(),
       loaders.imageUris(),
-      loaders.modernizr()
+      loaders.modernizr(),
+      loaders.tinymceImport(),
+      loaders.tinymceWrapper()
     ]
   },
   externals: shared.externals(),

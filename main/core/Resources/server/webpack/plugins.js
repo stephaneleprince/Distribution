@@ -52,7 +52,7 @@ const distributionShortcut = () => {
 
 const configShortcut = () => {
   return new webpack.NormalModuleReplacementPlugin(/^bundle-configs$/, request => {
-    request.request = paths.root() + '/web/dist/plugin-configs.js'
+    request.request = paths.root() + '/web/dist/plugins-config.js'
   })
 }
 

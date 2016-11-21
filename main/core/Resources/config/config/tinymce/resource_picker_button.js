@@ -1,19 +1,17 @@
-import tinymce from 'tinymce-dist'
+import '#/main/core/tinymce/tinymce'
+import tinymce from 'tinymce/tinymce'
+import pickerButtons from './resource_picker'
 
 var translator = window.Translator
 
-var callback = function (editor) {
+tinymce.PluginManager.add('resourcePicker',  function (editor) {
   editor.addButton('resourcePicker', {
     'icon': 'none fa fa-folder-open',
     'classes': 'widget btn',
     'tooltip': translator.trans('resources', {}, 'platform'),
     'onclick': function () {
       tinymce.activeEditor = editor
-      tinymce.claroline.buttons.resourcePickerOpen()
+      pickerButtons.resourcePickerOpen()
     }
   })
-}
-
-module.exports = {
-    'callback': callback
-}
+})
