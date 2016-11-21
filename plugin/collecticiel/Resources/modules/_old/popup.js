@@ -3,15 +3,13 @@ import $ from 'jquery'
 /* global Routing */
 /* global tinyMCE */
 /* global resetTiny */
-/* global initTinyMCE */
-/* global stfalcon_tinymce_config */
 
 var selector
 
 var totalColumn = window.totalColumn
 var comment = window.comment
 
-$('#add-criterion-button-innova2').on('click', function (event) {
+$('#add-criterion-button-innova2').on('click', function(event) {
   event.preventDefault()
 
   $('.disabled-during-edition').attr('disabled', 'disabled')
@@ -25,9 +23,9 @@ $('#add-criterion-button-innova2').on('click', function (event) {
     url: $form.attr('action'),
     type: $form.attr('method'),
     data: $form.serialize(),
-    success: function () {
+    success: function() {
       $.get($('.add-criterion-button').attr('href'))
-        .done(function (data) {
+        .done(function(data) {
           resetTiny()
           $('.new-criteria-zone').empty()
           $('.criterion-row > .criterion-edit').empty()
@@ -45,7 +43,6 @@ $('#add-criterion-button-innova2').on('click', function (event) {
           $('.new-criteria-zone > .template-criteria-zone .form-buttons').hide()
 
           $('.add-remove-column').show()
-          initTinyMCE(stfalcon_tinymce_config)
 
           var top = $('#new-criteria').offset().top
           top = top - 50
@@ -56,25 +53,25 @@ $('#add-criterion-button-innova2').on('click', function (event) {
   })
 })
 
-$(document).ready(function () {
+$(document).ready(function() {
   'use strict'
   var modalNewForm = null
 
-  $('a.launch-modal').on('click', function (event) {
+  $('a.launch-modal').on('click', function(event) {
     event.preventDefault()
     var currentPath = $(this).attr('href')
     $.get(currentPath)
-      .always(function () {
+      .always(function() {
         if (modalNewForm !== null) {
           modalNewForm.remove()
         }
       })
-      .done(function (data) {
+      .done(function(data) {
         $('body').append(data)
         modalNewForm = $('#modal-content')
         modalNewForm.modal('show')
 
-        modalNewForm.on('hidden.bs.modal', function () {
+        modalNewForm.on('hidden.bs.modal', function() {
           modalNewForm.remove()
         })
       })
@@ -84,7 +81,7 @@ $(document).ready(function () {
   // Appel de cette fonction quand on affiche la liste des documents d'UN collecticiel
   // Appel pour le traitement en Ajax des états du document
   //
-  $('.td_action').each(function () {
+  $('.td_action').each(function() {
     //
     // Récupération des données, voir documentItem.html.twig.
     //
@@ -148,11 +145,11 @@ $(document).ready(function () {
 
   // InnovaERV
   // Ajout pour le traitement des 2 actions du bouton "Action"
-  $('.inputReturnReceipt').on('click', function () {
+  $('.inputReturnReceipt').on('click', function() {
     var checkOneAtLeast = false
 
     $('input[type=\'checkbox\']:checked').each(
-      function () {
+      function() {
         checkOneAtLeast = true
         //                $(selectorDocument).prop('checked', true); // Cocher la case "Valider"
 
@@ -169,7 +166,7 @@ $(document).ready(function () {
 
   // InnovaERV
   // Ajout pour le traitement de la case Ã  cocher pour la crÃ©ation de commentaire Ã  la volÃ©e
-  $('.comment_validate').on('click', function (event) {
+  $('.comment_validate').on('click', function(event) {
     event.preventDefault()
 
     // Récupération de l'id du document
@@ -179,7 +176,7 @@ $(document).ready(function () {
     var arrayDropsId = []
 
     $('input[type=\'checkbox\']:checked').each(
-      function () {
+      function() {
         if ($(this).attr('id') !== 'document_id_0') {
           arrayDocsId.push($(this).attr('id'))
           arrayDropsId.push($(this).attr('data-drop_id'))
@@ -195,7 +192,7 @@ $(document).ready(function () {
         arrayDocsId: arrayDocsId,
         arrayDropsId: arrayDropsId
       },
-      complete: function (data) {
+      complete: function(data) {
         var data_link = $.parseJSON(data.responseText)
         //                    var resource = data[0]
 
@@ -208,7 +205,7 @@ $(document).ready(function () {
 
   // InnovaERV
   // Ajout pour le traitement de la case à cocher lors de la soumission de documents
-  $('#validate-modal').on('show.bs.modal', function (event) {
+  $('#validate-modal').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var documentId = button.data('document_id') // Extract info from data-* attributes
 
@@ -231,7 +228,7 @@ $(document).ready(function () {
 
   // InnovaERV
   // Ajout pour le traitement du clic sur le bouton "Oui, valider"
-  $('#modal_confirm').on('click', function () {
+  $('#modal_confirm').on('click', function() {
     selector = '#document_id_' + $(this).attr('data-document_id') // Extract info from data-* attributes
     var documentId = $(this).attr('data-document_id')
     var button = document.getElementById('delete_' + documentId)
@@ -271,7 +268,7 @@ $(document).ready(function () {
       data: {
         documentId: docId
       },
-      complete: function (data) {
+      complete: function(data) {
         $('#is-validate-' + docId).html(data.responseText)
       }
     })
@@ -282,7 +279,7 @@ $(document).ready(function () {
 
   // InnovaERV
   // Ajout pour le traitement du clic sur le bouton "Oui, valider"
-  $('.modal_transmit_confirm').on('click', function () {
+  $('.modal_transmit_confirm').on('click', function() {
     selector = '#document_id_' + $(this).attr('data-document_id') // Extract info from data-* attributes
     var documentId = $(this).attr('data-document_id')
     var button = document.getElementById('delete_' + documentId)
@@ -329,7 +326,7 @@ $(document).ready(function () {
         documentId: docId,
         dropzoneId: dropzoneId
       },
-      complete: function (data) {
+      complete: function(data) {
         var data_link = $.parseJSON(data.responseText)
 
         if (data_link !== 'false') {
@@ -344,7 +341,7 @@ $(document).ready(function () {
 
   // InnovaERV
   // Ajout pour le traitement de la case à cocher lors de la soumission de documents
-  $('#validate-modal-return-receipt').on('show.bs.modal', function (event) {
+  $('#validate-modal-return-receipt').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var documentId = button.data('document_id') // Extract info from data-* attributes
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -365,28 +362,28 @@ $(document).ready(function () {
   })
 
   // Si je choisis un "accusé de réception" alors je réactive le bouton "OK"
-  $('#choix0').on('click', function () {
+  $('#choix0').on('click', function() {
     document.getElementById('modal_confirm_return_receipt').disabled = false
   })
-  $('#choix1').on('click', function () {
+  $('#choix1').on('click', function() {
     document.getElementById('modal_confirm_return_receipt').disabled = false
   })
-  $('#choix2').on('click', function () {
+  $('#choix2').on('click', function() {
     document.getElementById('modal_confirm_return_receipt').disabled = false
   })
-  $('#choix3').on('click', function () {
+  $('#choix3').on('click', function() {
     document.getElementById('modal_confirm_return_receipt').disabled = false
   })
-  $('#choix4').on('click', function () {
+  $('#choix4').on('click', function() {
     document.getElementById('modal_confirm_return_receipt').disabled = false
   })
-  $('#choix5').on('click', function () {
+  $('#choix5').on('click', function() {
     document.getElementById('modal_confirm_return_receipt').disabled = false
   })
 
   // InnovaERV
   // Ajout pour le traitement de la modal de choix du type d'accusÃ© de rÃ©ception
-  $('#modal_confirm_return_receipt').on('click', function (event) {
+  $('#modal_confirm_return_receipt').on('click', function(event) {
     event.preventDefault()
 
     var returnReceiptId
@@ -419,7 +416,7 @@ $(document).ready(function () {
 
     if (!documentId) {
       $('input[type=\'checkbox\']:checked').each(
-        function () {
+        function() {
           var chaineCaractere = $(this).attr('id')
           var splitChaine = chaineCaractere.split('_')
           if (splitChaine[2] != '0') {
@@ -440,7 +437,7 @@ $(document).ready(function () {
       data: {
         arrayDocsId: arrayDocsId
       },
-      complete: function (data) {
+      complete: function(data) {
         var data_link = $.parseJSON(data.responseText)
 
         if (data_link !== 'false') {
@@ -455,7 +452,7 @@ $(document).ready(function () {
 
   // InnovaERV
   // Ajout pour le traitement de la modal de choix du type d'accusÃ© de rÃ©ception
-  $('.modal_confirm_notation_record').on('click', function (event) {
+  $('.modal_confirm_notation_record').on('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
 
@@ -520,7 +517,7 @@ $(document).ready(function () {
         arrayCriteriaName: arrayCriteriaName,
         arrayCriteriaValue: arrayCriteriaValue
       },
-      complete: function (data) {
+      complete: function(data) {
         var data_link = $.parseJSON(data.responseText)
 
         if (data_link !== 'false') {
@@ -535,7 +532,7 @@ $(document).ready(function () {
 
   // InnovaERV
   // Ajout pour le traitement de la modal de choix du type d'accusé de réception
-  $('.modal_confirm_notation_transmit').on('click', function (event) {
+  $('.modal_confirm_notation_transmit').on('click', function(event) {
     event.preventDefault()
     event.stopPropagation()
 
@@ -600,7 +597,7 @@ $(document).ready(function () {
         arrayCriteriaName: arrayCriteriaName,
         arrayCriteriaValue: arrayCriteriaValue
       },
-      complete: function (data) {
+      complete: function(data) {
         var data_link = $.parseJSON(data.responseText)
 
         if (data_link !== 'false') {
@@ -616,11 +613,11 @@ $(document).ready(function () {
   // InnovaERV
   // Ajout pour le traitement de la demande de commentaire : mise à jour de la table Document
   // Mise Ã  jour de la colonne "validate"
-  $('.document_validate').on('click', function () {})
+  $('.document_validate').on('click', function() {})
 
   // InnovaERV
   // Ajout pour le traitement de la case à cocher lors de la soumission de documents
-  $('#validate-cancel-modal').on('show.bs.modal', function (event) {
+  $('#validate-cancel-modal').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var documentId = button.data('document_id') // Extract info from data-* attributes
 
@@ -630,7 +627,7 @@ $(document).ready(function () {
 
   // InnovaERV
   // Appel lors de la suppression d'un document
-  $('#modal_confirm-cancel').on('click', function (event) {
+  $('#modal_confirm-cancel').on('click', function(event) {
     event.preventDefault()
     var docId = $(this).attr('data-document_id')
 
@@ -656,7 +653,7 @@ $(document).ready(function () {
       data: {
         adminInnova: adminInnova
       },
-      complete: function (data) {
+      complete: function(data) {
         $('#is-validate-' + docId).html(data.responseText)
       }
     })
@@ -666,15 +663,15 @@ $(document).ready(function () {
   })
 
   // InnovaERV : sélection et déselection dans la liste des demandes adressées.
-  $('#document_id_0').on('click', function () {
+  $('#document_id_0').on('click', function() {
     if ($(this).is(':checked')) {
-      $('input[type=checkbox]').each(function (i, k) {
+      $('input[type=checkbox]').each(function(i, k) {
         $('#actionReturnReceipt').removeClass('disabled') // Ne pas pouvoir modifier cette ligne
         $('#actionReturnReceipt2').removeClass('disabled') // Ne pas pouvoir modifier cette ligne
         $(k).prop('checked', true)
       })
     } else {
-      $('input[type=checkbox]').each(function (i, k) {
+      $('input[type=checkbox]').each(function(i, k) {
         $('#actionReturnReceipt').addClass('disabled') // Ne pas pouvoir modifier cette ligne
         $('#actionReturnReceipt2').addClass('disabled') // Ne pas pouvoir modifier cette ligne
         $(k).prop('checked', false)
@@ -682,12 +679,12 @@ $(document).ready(function () {
     }
   })
 
-  $('input[type=checkbox]').not('#document_id_0').click(function () {
+  $('input[type=checkbox]').not('#document_id_0').click(function() {
     $('#document_id_0').prop('indeterminate', true)
   })
 
   // InnovaERV : To update Dropzone when I click on "Gérer l'évaluation"
-  $('.validation_edit_common').on('click', function () {
+  $('.validation_edit_common').on('click', function() {
     // Variable initialization
     var dropzoneId = 0
     var instruction = 0
@@ -786,7 +783,7 @@ $(document).ready(function () {
         picture: picture,
         username: username
       },
-      complete: function (data) {
+      complete: function(data) {
         var data_link = $.parseJSON(data.responseText)
 
         if (data_link !== 'false') {
@@ -798,7 +795,7 @@ $(document).ready(function () {
 
   // InnovaERV : ajout du bouton "Retour" dans la liste des commentaires.
   // InnovaERV : ajout de la redirection via Ajax.
-  $('.backLink').on('click', function (event) {
+  $('.backLink').on('click', function(event) {
     event.preventDefault()
 
     var dropzoneId = $(this).attr('data-resource_id')
@@ -809,7 +806,7 @@ $(document).ready(function () {
       }),
       method: 'GET',
       data: {},
-      complete: function (data) {
+      complete: function(data) {
         var data_link = $.parseJSON(data.responseText)
 
         if (data_link !== 'false') {
@@ -820,7 +817,7 @@ $(document).ready(function () {
   })
 
   // Pour changer et traduire le message "Veuillez renseigner ce champ."
-  $('#submitTitle').on('click', function () {
+  $('#submitTitle').on('click', function() {
     var text = null
 
     // Input

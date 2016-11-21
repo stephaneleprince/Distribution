@@ -1,18 +1,16 @@
 import $ from 'jquery'
 
 /* global tinyMCE */
-/* global initTinyMCE */
-/* global stfalcon_tinymce_config */
 
 var manualSubmit = false
 var totalColumn = window.totalColumn
 var comment = window.comment
 var nbCorrection, nbResults
 
-$(document).ready(function () {
+$(document).ready(function() {
   setSaveListener()
   $('#innova_collecticiel_criteria_form_goBack').val(0)
-  $('.back-button').on('click', function (event) {
+  $('.back-button').on('click', function(event) {
     event.preventDefault()
     $('#innova_collecticiel_criteria_form_goBack').val(1)
     $('.save-submit').trigger('click')
@@ -21,7 +19,7 @@ $(document).ready(function () {
   $('.column-input').hide()
   $('.column-input-js').show()
 
-  $('#innova_collecticiel_criteria_form_allowCommentInCorrection').on('click', function () {
+  $('#innova_collecticiel_criteria_form_allowCommentInCorrection').on('click', function() {
     if (comment == 0) {
       comment = 1
     } else {
@@ -30,14 +28,14 @@ $(document).ready(function () {
     $('.comment-input input').val(comment)
   })
 
-  var setColumnInput = function () {
+  var setColumnInput = function() {
     $('.column-container').empty()
     for (var i = 0; i < totalColumn; i++) {
       $('.column-container').append('<input type="radio" disabled style="margin-right: 4px; margin-left: 0px; padding-right: 0px; padding-left: 0px"/>')
     }
   }
 
-  $('.add-column').on('click', function (event) {
+  $('.add-column').on('click', function(event) {
     event.preventDefault()
     if (totalColumn < 10) {
       totalColumn++
@@ -47,7 +45,7 @@ $(document).ready(function () {
     }
   })
 
-  $('.remove-column').on('click', function (event) {
+  $('.remove-column').on('click', function(event) {
     event.preventDefault()
     if (totalColumn > 3) {
       totalColumn--
@@ -57,14 +55,14 @@ $(document).ready(function () {
     }
   })
 
-  function resetTiny () {
-    $('.tinymce').each(function () {
+  function resetTiny() {
+    $('.tinymce').each(function() {
       $(this).tinymce().remove()
     })
   }
 
   // var form_count = 0
-  $('.add-criterion-button-innova').on('click', function (event) {
+  $('.add-criterion-button-innova').on('click', function(event) {
     event.preventDefault()
 
     $('.disabled-during-edition').attr('disabled', 'disabled')
@@ -78,9 +76,9 @@ $(document).ready(function () {
       url: $form.attr('action'),
       type: $form.attr('method'),
       data: $form.serialize(),
-      success: function () {
+      success: function() {
         $.get($('.add-criterion-button').attr('href'))
-          .done(function (data) {
+          .done(function(data) {
             resetTiny()
             $('.new-criteria-zone').empty()
             $('.criterion-row > .criterion-edit').empty()
@@ -98,7 +96,6 @@ $(document).ready(function () {
             $('.new-criteria-zone > .template-criteria-zone .form-buttons').hide()
 
             $('.add-remove-column').show()
-            initTinyMCE(stfalcon_tinymce_config)
 
             var top = $('#new-criteria').offset().top
             top = top - 50
@@ -109,7 +106,7 @@ $(document).ready(function () {
     })
   })
 
-  $('.delete-criteria-button').click(function (event) {
+  $('.delete-criteria-button').click(function(event) {
     event.preventDefault()
     var $form = $('#global_form')
     $('#addCriteriaReRouting').val('add-criterion')
@@ -118,14 +115,14 @@ $(document).ready(function () {
       url: $form.attr('action'),
       type: $form.attr('method'),
       data: $form.serialize(),
-      success: function () {
+      success: function() {
         $.get($link.attr('href'))
       }
     })
   })
 
   var temp_edit_criteria_url = null
-  $('.edit-criterion-button').on('click', function (event) {
+  $('.edit-criterion-button').on('click', function(event) {
     event.preventDefault()
     temp_edit_criteria_url = $(this).attr('href')
     $('.disabled-during-edition').attr('disabled', 'disabled')
@@ -139,9 +136,9 @@ $(document).ready(function () {
       url: $form.attr('action'),
       type: $form.attr('method'),
       data: $form.serialize(),
-      success: function () {
+      success: function() {
         $.get(temp_edit_criteria_url)
-          .done(function (data) {
+          .done(function(data) {
             temp_edit_criteria_url = null
             resetTiny()
             $('.new-criteria-zone').empty()
@@ -160,38 +157,37 @@ $(document).ready(function () {
 
             $('#' + criterionId + ' .criterion-edit  .template-criteria-zone .form-buttons').hide()
 
-            initTinyMCE(stfalcon_tinymce_config)
             setSaveListener()
           })
       }
     })
   })
 
-  $('form').submit(function (e) {
+  $('form').submit(function(e) {
     if (nbCorrection > 0 && !manualSubmit) {
       e.preventDefault()
       $('#recalculateAskPopup').modal('show')
       manualSubmit = true
-      $('#recalculateButton').unbind('click').click(function () {
+      $('#recalculateButton').unbind('click').click(function() {
         $('#innova_collecticiel_criteria_form_recalculateGrades').val(1)
         $('form').submit()
       })
 
-      $('#notRecalculateButton').unbind('click').click(function () {
+      $('#notRecalculateButton').unbind('click').click(function() {
         $('form').submit()
       })
     }
   })
 })
 
-function setSaveListener () {
-  $('.form-submit').unbind('click').click(function (event) {
+function setSaveListener() {
+  $('.form-submit').unbind('click').click(function(event) {
     event.preventDefault()
     // I do the "click" on submit button for keep html5 warning
     $('.inline-body button[type="submit"]').trigger('click')
   })
 
-  $('.form-cancel').unbind('click').click(function (event) {
+  $('.form-cancel').unbind('click').click(function(event) {
     event.preventDefault()
     var criterionId = $(this).data('criterion')
     if (criterionId == 'new') {

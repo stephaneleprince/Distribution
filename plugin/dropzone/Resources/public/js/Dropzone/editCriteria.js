@@ -99,7 +99,6 @@ $(document).ready(function () {
                         $('.new-criteria-zone > .template-criteria-zone .form-buttons').hide();
 
                         $('.add-remove-column').show();
-                        initTinyMCE(stfalcon_tinymce_config);
 
                         var top = $('#new-criteria').offset().top;
                         top = top - 50;
@@ -164,7 +163,6 @@ $(document).ready(function () {
 
                         $('#' + criterionId + ' .criterion-edit  .template-criteria-zone .form-buttons').hide();
 
-                        initTinyMCE(stfalcon_tinymce_config);
                         setSaveListener();
                     })
                 ;

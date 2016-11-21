@@ -49,16 +49,7 @@
     <div id="homeAsset" class="hide">{{ homeAsset }}</div>
     <div id="baseAsset" class="hide">{{ asset('') }}</div>
     <div id="homeTheme" class="hide">{{ macros.getTheme(config)|trim }}</div>
-    <div id="homeLocale" class="hide">{% spaceless %}
-            {% if asset_exists("bundles/stfalcontinymce/vendor/tinymce/langs/" ~ app.request.locale ~ ".js") %}
-                {{ app.request.locale }}
-            {% elseif asset_exists("bundles/stfalcontinymce/vendor/tinymce/langs/" ~ app.request.locale ~ "_" ~ app.request.locale | upper ~ ".js") %}
-                {{ app.request.locale ~ '_' ~ app.request.locale | upper }}
-            {% else %}
-                en
-            {% endif %}
-        {% endspaceless %}
-    </div>
+    <div id="homeLocale" class="hide">{{ app.request.locale }}</div>
     <div id="wrap">
         <div class="please-wait">
             <h4><span class="label label-warning"> {{ 'please_wait'|trans({}, 'platform') }} </span></h4>
