@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
 import UserPicker from '#/main/core/_old/user/userPicker'
+import clarolineTinymce from '#/main/core/tinymce/tinymce'
 
 /* global Routing */
 /* global Translator */
@@ -11,32 +12,32 @@ var nbUsers = $('#team-datas').data('nb-users')
 var workspaceId = $('#team-datas').data('workspace-id')
 var currentManagerId = $('#team-datas').data('team-manager-id')
 
-$('#edit-params-btn').on('click', function () {
+$('#edit-params-btn').on('click', function() {
   modal.displayForm(
     Routing.generate(
       'claro_team_edit_form',
       {'team': teamId}
     ),
     refreshPage,
-    function () {}
+    function() {}
   )
 })
 
-$('#register-users-btn').on('click', function () {
+$('#register-users-btn').on('click', function() {
   $.ajax({
     url: Routing.generate(
       'claro_team_registration_unregistered_users_list',
       {'team': teamId}
     ),
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       $('#view-registration-users-body').html(datas)
       $('#view-registration-users-box').modal('show')
     }
   })
 })
 
-$('#view-registration-users-body').on('click', 'a', function (event) {
+$('#view-registration-users-body').on('click', 'a', function(event) {
   event.preventDefault()
   event.stopPropagation()
   var url = $(this).attr('href')
@@ -45,13 +46,13 @@ $('#view-registration-users-body').on('click', 'a', function (event) {
     url: url,
     type: 'GET',
     async: false,
-    success: function (result) {
+    success: function(result) {
       $('#view-registration-users-body').html(result)
     }
   })
 })
 
-$('#view-registration-users-body').on('click', '#search-user-btn', function () {
+$('#view-registration-users-body').on('click', '#search-user-btn', function() {
   var search = $('#search-user-input').val()
 
   $.ajax({
@@ -64,13 +65,13 @@ $('#view-registration-users-body').on('click', '#search-user-btn', function () {
     ),
     type: 'GET',
     async: false,
-    success: function (result) {
+    success: function(result) {
       $('#view-registration-users-body').html(result)
     }
   })
 })
 
-$('#view-registration-users-box').on('click', '.register-btn', function () {
+$('#view-registration-users-box').on('click', '.register-btn', function() {
   var userId = $(this).data('user-id')
   var firstName = $(this).data('user-first-name')
   var lastName = $(this).data('user-last-name')
@@ -85,7 +86,7 @@ $('#view-registration-users-box').on('click', '.register-btn', function () {
       }
     ),
     type: 'POST',
-    success: function () {
+    success: function() {
       nbUsers++
       $('#registration-row-user-' + userId).remove()
       var userRow = '<tr id="row-user-' + userId + '">' +
@@ -116,7 +117,7 @@ $('#view-registration-users-box').on('click', '.register-btn', function () {
   })
 })
 
-$('#users-list-table').on('click', '.unregister-btn', function () {
+$('#users-list-table').on('click', '.unregister-btn', function() {
   var userId = $(this).data('user-id')
   var firstName = $(this).data('user-first-name')
   var lastName = $(this).data('user-last-name')
@@ -137,7 +138,7 @@ $('#users-list-table').on('click', '.unregister-btn', function () {
   )
 })
 
-$('#select-team-manager-btn').on('click', function () {
+$('#select-team-manager-btn').on('click', function() {
   var userPicker = new UserPicker()
   var params = {
     picker_name: 'team-manager-picker',
@@ -152,7 +153,7 @@ $('#select-team-manager-btn').on('click', function () {
   userPicker.open()
 })
 
-$('body').on('click', '#remove-team-manager-btn', function () {
+$('body').on('click', '#remove-team-manager-btn', function() {
   modal.confirmRequest(
     Routing.generate(
       'claro_team_manager_unregister_manager',
@@ -166,7 +167,7 @@ $('body').on('click', '#remove-team-manager-btn', function () {
   currentManagerId = -1
 })
 
-var registerManager = function (userId) {
+var registerManager = function(userId) {
   if (userId !== null) {
     currentManagerId = userId
 
@@ -176,7 +177,7 @@ var registerManager = function (userId) {
         {'user': userId}
       ),
       type: 'GET',
-      success: function (datas) {
+      success: function(datas) {
         var firstName = datas['firstName']
         var lastName = datas['lastName']
 
@@ -187,7 +188,7 @@ var registerManager = function (userId) {
           ),
           type: 'POST',
           async: false,
-          success: function () {
+          success: function() {
             var managerBox = firstName + ' ' + lastName + ' ' +
               '<span>' +
               '<i id="remove-team-manager-btn"' +
@@ -207,17 +208,17 @@ var registerManager = function (userId) {
   }
 }
 
-var refreshPage = function () {
-  window.tinymce.claroline.disableBeforeUnload = true
+var refreshPage = function() {
+  clarolineTinymce.disableBeforeUnload = true
   window.location.reload()
 }
 
-var removeUserRow = function (event, userId) {
+var removeUserRow = function(event, userId) {
   nbUsers--
   $('#row-user-' + userId).remove()
 }
 
-var emptyTeamManagerBox = function () {
+var emptyTeamManagerBox = function() {
   var noneMsg = '[' + Translator.trans('none', {}, 'platform') + ']'
   $('#team-manager-box').html(noneMsg)
 }

@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
+import clarolineTinymce from '#/main/core/tinymce/tinymce'
 
 /* global Routing */
 /* global Translator */
@@ -7,7 +8,7 @@ import modal from '#/main/core/_old/modal'
 var currentTeamId
 var workspaceId = $('#datas-box').data('workspace-id')
 
-$('.delete-team-btn').on('click', function () {
+$('.delete-team-btn').on('click', function() {
   currentTeamId = $(this).data('team-id')
   var teamName = $(this).data('team-name')
   $('#delete-team-directory-chk').prop('checked', false)
@@ -15,7 +16,7 @@ $('.delete-team-btn').on('click', function () {
   $('#delete-team-validation-box').modal('show')
 })
 
-$('#delete-team-confirm-btn').on('click', function () {
+$('#delete-team-confirm-btn').on('click', function() {
   var deleteDirectory = $('#delete-team-directory-chk').prop('checked') ?
     1 :
     0
@@ -29,14 +30,14 @@ $('#delete-team-confirm-btn').on('click', function () {
       }
     ),
     type: 'POST',
-    success: function () {
+    success: function() {
       $('#row-team-' + currentTeamId).remove()
       $('#delete-team-validation-box').modal('hide')
     }
   })
 })
 
-$('.register-users-btn').on('click', function () {
+$('.register-users-btn').on('click', function() {
   currentTeamId = $(this).data('team-id')
   var teamName = $(this).data('team-name')
 
@@ -46,7 +47,7 @@ $('.register-users-btn').on('click', function () {
       {'team': currentTeamId}
     ),
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       $('#view-registration-users-header').html(teamName)
       $('#view-registration-users-body').html(datas)
       $('#view-registration-users-box').modal('show')
@@ -54,7 +55,7 @@ $('.register-users-btn').on('click', function () {
   })
 })
 
-$('#view-registration-users-box').on('click', '.register-btn', function () {
+$('#view-registration-users-box').on('click', '.register-btn', function() {
   var registerBtn = $(this)
   var userId = $(this).data('user-id')
   var teamId = $(this).data('team-id')
@@ -68,7 +69,7 @@ $('#view-registration-users-box').on('click', '.register-btn', function () {
       }
     ),
     type: 'POST',
-    success: function () {
+    success: function() {
       registerBtn.removeClass('btn-success')
       registerBtn.removeClass('register-btn')
       registerBtn.addClass('btn-danger')
@@ -87,7 +88,7 @@ $('#view-registration-users-box').on('click', '.register-btn', function () {
   })
 })
 
-$('#view-registration-users-box').on('click', '.unregister-btn', function () {
+$('#view-registration-users-box').on('click', '.unregister-btn', function() {
   var unregisterBtn = $(this)
   var userId = $(this).data('user-id')
   var teamId = $(this).data('team-id')
@@ -101,7 +102,7 @@ $('#view-registration-users-box').on('click', '.unregister-btn', function () {
       }
     ),
     type: 'POST',
-    success: function () {
+    success: function() {
       unregisterBtn.removeClass('btn-danger')
       unregisterBtn.removeClass('unregister-btn')
       unregisterBtn.addClass('btn-success')
@@ -116,7 +117,7 @@ $('#view-registration-users-box').on('click', '.unregister-btn', function () {
   })
 })
 
-$('.view-users-list-btn').on('click', function () {
+$('.view-users-list-btn').on('click', function() {
   var teamId = $(this).data('team-id')
   var teamName = $(this).data('team-name')
 
@@ -126,7 +127,7 @@ $('.view-users-list-btn').on('click', function () {
       {'team': teamId}
     ),
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       $('#view-registered-users-header').html(teamName)
       $('#view-registered-users-body').html(datas)
       $('#view-registered-users-box').modal('show')
@@ -134,7 +135,7 @@ $('.view-users-list-btn').on('click', function () {
   })
 })
 
-$('.view-team-description-btn').on('click', function () {
+$('.view-team-description-btn').on('click', function() {
   var teamId = $(this).data('team-id')
   var teamName = $(this).data('team-name')
 
@@ -144,7 +145,7 @@ $('.view-team-description-btn').on('click', function () {
       {'team': teamId}
     ),
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       $('#view-team-description-header').html(teamName)
       $('#view-team-description-body').html(datas)
       $('#view-team-description-box').modal('show')
@@ -152,7 +153,7 @@ $('.view-team-description-btn').on('click', function () {
   })
 })
 
-$('#view-registration-users-body').on('click', 'a', function (event) {
+$('#view-registration-users-body').on('click', 'a', function(event) {
   event.preventDefault()
   event.stopPropagation()
   var url = $(this).attr('href')
@@ -161,13 +162,13 @@ $('#view-registration-users-body').on('click', 'a', function (event) {
     url: url,
     type: 'GET',
     async: false,
-    success: function (result) {
+    success: function(result) {
       $('#view-registration-users-body').html(result)
     }
   })
 })
 
-$('#view-registration-users-body').on('click', '#search-user-btn', function () {
+$('#view-registration-users-body').on('click', '#search-user-btn', function() {
   var teamId = $(this).data('team-id')
   var search = $('#search-user-input').val()
 
@@ -181,13 +182,13 @@ $('#view-registration-users-body').on('click', '#search-user-btn', function () {
     ),
     type: 'GET',
     async: false,
-    success: function (result) {
+    success: function(result) {
       $('#view-registration-users-body').html(result)
     }
   })
 })
 
-$('.edit-team-btn').on('click', function () {
+$('.edit-team-btn').on('click', function() {
   var teamId = $(this).data('team-id')
 
   modal.displayForm(
@@ -196,11 +197,11 @@ $('.edit-team-btn').on('click', function () {
       {'team': teamId}
     ),
     refreshPage,
-    function () {}
+    function() {}
   )
 })
 
-$('.team-chk').on('change', function () {
+$('.team-chk').on('change', function() {
   var nbChecked = $('.team-chk:checked').length
 
   if (nbChecked > 0) {
@@ -210,19 +211,19 @@ $('.team-chk').on('change', function () {
   }
 })
 
-$('#delete-teams-btn').on('click', function () {
+$('#delete-teams-btn').on('click', function() {
   $('#delete-teams-directory-chk').prop('checked', false)
   $('#delete-teams-validation-box').modal('show')
 })
 
-$('#delete-teams-confirm-btn').on('click', function () {
+$('#delete-teams-confirm-btn').on('click', function() {
   var deleteDirectory = $('#delete-teams-directory-chk').prop('checked') ?
     1 :
     0
   var i = 0
   var queryString = {}
   var teams = []
-  $('.team-chk:checked').each(function (index, element) {
+  $('.team-chk:checked').each(function(index, element) {
     teams[i] = element.value
     i++
   })
@@ -240,17 +241,17 @@ $('#delete-teams-confirm-btn').on('click', function () {
   $.ajax({
     url: route,
     type: 'POST',
-    success: function () {
+    success: function() {
       window.location.reload()
     }
   })
 })
 
-$('#empty-teams-btn').on('click', function () {
+$('#empty-teams-btn').on('click', function() {
   var i = 0
   var queryString = {}
   var teams = []
-  $('.team-chk:checked').each(function (index, element) {
+  $('.team-chk:checked').each(function(index, element) {
     teams[i] = element.value
     i++
   })
@@ -271,11 +272,11 @@ $('#empty-teams-btn').on('click', function () {
   )
 })
 
-$('#fill-teams-btn').on('click', function () {
+$('#fill-teams-btn').on('click', function() {
   var i = 0
   var queryString = {}
   var teams = []
-  $('.team-chk:checked').each(function (index, element) {
+  $('.team-chk:checked').each(function(index, element) {
     teams[i] = element.value
     i++
   })
@@ -297,7 +298,7 @@ $('#fill-teams-btn').on('click', function () {
   )
 })
 
-$('.team-directory-btn').on('click', function () {
+$('.team-directory-btn').on('click', function() {
   var directoryNodeId = $(this).data('node-id')
 
   window.location = Routing.generate(
@@ -309,7 +310,7 @@ $('.team-directory-btn').on('click', function () {
   ) + '#resources/' + directoryNodeId
 })
 
-var refreshPage = function () {
-  window.tinymce.claroline.disableBeforeUnload = true
+var refreshPage = function() {
+  clarolineTinymce.disableBeforeUnload = true
   window.location.reload()
 }

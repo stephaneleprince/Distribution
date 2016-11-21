@@ -1,10 +1,11 @@
 import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
+import clarolineTinymce from '#/main/core/tinymce/tinymce'
 
 /* global Routing */
 /* global Translator */
 
-$('#unregister-btn').on('click', function () {
+$('#unregister-btn').on('click', function() {
   var teamId = $(this).data('team-id')
   var teamName = $(this).data('team-name')
 
@@ -20,7 +21,7 @@ $('#unregister-btn').on('click', function () {
   )
 })
 
-$('#edit-team-btn').on('click', function () {
+$('#edit-team-btn').on('click', function() {
   var teamId = $(this).data('team-id')
 
   modal.displayForm(
@@ -29,11 +30,11 @@ $('#edit-team-btn').on('click', function () {
       {'team': teamId}
     ),
     refreshPage,
-    function () {}
+    function() {}
   )
 })
 
-$('.unregister-user-btn').on('click', function () {
+$('.unregister-user-btn').on('click', function() {
   var teamId = $(this).data('team-id')
   var userId = $(this).data('user-id')
   var firstName = $(this).data('user-first-name')
@@ -55,7 +56,7 @@ $('.unregister-user-btn').on('click', function () {
   )
 })
 
-var teamMenuPage = function () {
+var teamMenuPage = function() {
   var workspaceId = $('#datas-block').data('workspace-id')
   window.location = Routing.generate(
     'claro_team_user_menu',
@@ -63,11 +64,11 @@ var teamMenuPage = function () {
   )
 }
 
-var refreshPage = function () {
-  window.tinymce.claroline.disableBeforeUnload = true
+var refreshPage = function() {
+  clarolineTinymce.disableBeforeUnload = true
   window.location.reload()
 }
 
-var removeUserRow = function (event, userId) {
+var removeUserRow = function(event, userId) {
   $('#row-user-' + userId).remove()
 }

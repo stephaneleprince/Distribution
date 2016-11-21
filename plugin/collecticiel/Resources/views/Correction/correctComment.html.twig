@@ -95,7 +95,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ tinymce_init() }}
     <script>
         {% if dropzone.forceCommentInCorrection  == true and not admin %}
             window.forceCorrection = true

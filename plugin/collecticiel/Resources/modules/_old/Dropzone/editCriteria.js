@@ -67,7 +67,6 @@ $(document).ready(function() {
 
     $('.disabled-during-edition').attr('disabled', 'disabled')
     tinyMCE.get('innova_collecticiel_criteria_form_correctionInstruction').getBody().setAttribute('contenteditable', false)
-    // $('.innova_collecticiel_criteria_form_correctionInstruction').attr('disabled','disabled')
     $('.criteria-form-button').attr('disabled', 'disabled')
 
     var $form = $('#global_form')

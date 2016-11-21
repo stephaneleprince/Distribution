@@ -149,7 +149,6 @@
     {% block javascripts %}
         {{ parent() }}
 
-        {{ tinymce_init() }}
         <script>
             var window.totalColumn = {{ dropzone.totalCriteriaColumn }};
             var window.comment = {{ dropzone.allowCommentInCorrection ? 1 : 0 }}

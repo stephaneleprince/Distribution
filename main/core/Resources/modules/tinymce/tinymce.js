@@ -205,30 +205,58 @@ clarolineTinymce.setup = function(editor) {
 var homeTheme = document.getElementById('homeTheme')
 var themeCSS = homeTheme.innerText || homeTheme.textContent
 
-clarolineTinymce.configuration = {
-  'paste_data_images': true,
-  'relative_urls': false,
-  'remove_script_host': false,
-  'theme': 'modern',
-  //'language': home.locale.trim(),
-  'browser_spellcheck': true,
-  'autoresize_min_height': 100,
-  'autoresize_max_height': 500,
-  'content_css': [
-    themeCSS,
-    home.asset + 'bundles/clarolinecore/css/common/tinymce.css'
-  ],
-  'toolbar2': 'styleselect | undo redo | forecolor backcolor | bullist numlist | outdent indent | ' +
-    'media link charmap | print preview code',
-  'extended_valid_elements': 'user[id], a[data-toggle|data-parent]',
-  'paste_preprocess': clarolineTinymce.paste,
-  'setup': clarolineTinymce.setup
-}
-
 clarolineTinymce.customInit = function(editor) {
   $.each(clarolineTinymce.init, function(key, func) {
     func(editor)
   })
+}
+
+clarolineTinymce.getConfiguration = function() {
+  var configuration = {
+    'paste_data_images': true,
+    'relative_urls': false,
+    'remove_script_host': false,
+    'theme': 'modern',
+      //'language': home.locale.trim(),
+    'browser_spellcheck': true,
+    'autoresize_min_height': 100,
+    'autoresize_max_height': 500,
+    'content_css': [
+      themeCSS,
+      home.asset + 'bundles/clarolinecore/css/common/tinymce.css'
+    ],
+    'toolbar2': 'styleselect | undo redo | forecolor backcolor | bullist numlist | outdent indent | ' +
+        'media link charmap | print preview code',
+    'extended_valid_elements': 'user[id], a[data-toggle|data-parent]'
+  }
+
+  var plugins = [
+    'autoresize advlist autolink lists link image charmap print preview hr anchor pagebreak',
+    'searchreplace wordcount visualblocks visualchars fullscreen',
+    'insertdatetime media nonbreaking save table directionality',
+    'template paste textcolor emoticons code'
+  ]
+
+  var toolbar1 = 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen displayAllButtons'
+  const tinyPlugins = Configuration.getTinyMcePlugins()
+
+  $.each(tinyPlugins, function(key, value) {
+    plugins.push(value.name)
+    toolbar1 += ' ' + value.name
+
+    if (value.config) {
+      configuration = _.merge(configuration, value.config)
+    }
+
+    if (value.plugin) {
+      plugins.push(value.plugin)
+    }
+  })
+
+  configuration.plugins = plugins
+  configuration.toolbar1 = toolbar1
+
+  return configuration
 }
 
 /**
@@ -237,39 +265,15 @@ clarolineTinymce.customInit = function(editor) {
 clarolineTinymce.initialization = function() {
   $('textarea.claroline-tiny-mce:not(.tiny-mce-done)').each(function() {
     //var element = $(this)
-    var config = null
-
-    var plugins = [
-      'autoresize advlist autolink lists link image charmap print preview hr anchor pagebreak',
-      'searchreplace wordcount visualblocks visualchars fullscreen',
-      'insertdatetime media nonbreaking save table directionality',
-      'template paste textcolor emoticons code'
-    ]
-
-    var toolbar1 = 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen displayAllButtons'
-    const tinyPlugins = Configuration.getTinyMcePlugins()
-
-    $.each(tinyPlugins, function(key, value) {
-      plugins.push(value.name)
-      toolbar1 += ' ' + value.name
-
-      if (value.config) {
-        clarolineTinymce.configuration = _.merge(clarolineTinymce.configuration, value.config)
-      }
-
-      if (value.plugin) {
-        plugins.push(value.plugin)
-      }
-    })
-
-    clarolineTinymce.configuration.plugins = plugins
-    clarolineTinymce.configuration.toolbar1 = toolbar1
+    let config = clarolineTinymce.getConfiguration()
+    //avoid conflicts with angular tinymce
+    config.paste_preprocess = clarolineTinymce.paste
+    config.setup = clarolineTinymce.setup
 /*
     if (element.data('newTab') === 'yes') {
       config = _.extend({}, clarolineTinymce.configuration)
       config.picker.openResourcesInNewTab = true
   } else {*/
-    config = clarolineTinymce.configuration
     //}
 
     config.selector = '.claroline-tiny-mce'
@@ -286,34 +290,6 @@ clarolineTinymce.initialization = function() {
       .addClass('tiny-mce-done')*/
   })
 }
-
-/** Events **/
-
-$('body').bind('ajaxComplete', function() {
-  clarolineTinymce.initialization()
-})
-  .on('click', '.mce-widget.mce-btn[aria-label="Fullscreen"]', function() {
-    clarolineTinymce.toggleFullscreen(this)
-    $(window).scrollTop($(this).parents('.mce-tinymce.mce-container.mce-panel').first().offset().top)
-    window.dispatchEvent(new window.Event('resize'))
-  })
-  .bind('DOMSubtreeModified', function() {
-    clearTimeout(clarolineTinymce.domChange)
-    clarolineTinymce.domChange = setTimeout(clarolineTinymce.initialization, 10)
-  })
-  .on('click', 'form *[type=submit]', function() {
-    clarolineTinymce.disableBeforeUnload = true
-  })
-
-$(document).ready(function() {
-  clarolineTinymce.initialization()
-})
-
-$(window).on('beforeunload', function() {
-  if (clarolineTinymce.checkBeforeUnload()) {
-    return translator.trans('leave_this_page', {}, 'platform')
-  }
-})
 
 //this could be removed
 export default clarolineTinymce
