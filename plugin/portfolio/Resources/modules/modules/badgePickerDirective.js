@@ -1,9 +1,10 @@
-import angular from 'angular'
+import 'angular'
 
+/* global angular */
 /* global Routing */
 
 angular.module('ui.badgePicker', [])
-    .directive('uiBadgePicker', function () {
+    .directive('uiBadgePicker', function() {
       var url = Routing.generate('icap_badge_badge_picker')
       var data = {
         mode: 'user'
@@ -11,7 +12,7 @@ angular.module('ui.badgePicker', [])
 
       return {
         restrict: 'A',
-        link: function ($scope, element, attrs) {
+        link: function($scope, element, attrs) {
           var customData = {}
           var successCallback = function() {
             return null
@@ -25,7 +26,7 @@ angular.module('ui.badgePicker', [])
 
           var closeCallback = function(nodes) {
             var newSelectedValue = []
-            angular.forEach(nodes, function (element) {
+            angular.forEach(nodes, function(element) {
               newSelectedValue.push(element.id)
             })
 
@@ -35,11 +36,11 @@ angular.module('ui.badgePicker', [])
                 // Initialize badge picker object
           window.Claroline.BadgePicker.configureBadgePicker(url, data, successCallback, closeCallback)
 
-          $scope.badgePickerOpen = function () {
+          $scope.badgePickerOpen = function() {
             window.Claroline.BadgePicker.openBadgePicker()
           }
 
-          element[0].onclick = function (event) {
+          element[0].onclick = function(event) {
             event.preventDefault()
             $scope.badgePickerOpen()
           }

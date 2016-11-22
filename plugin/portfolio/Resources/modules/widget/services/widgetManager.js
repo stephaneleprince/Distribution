@@ -1,6 +1,7 @@
-import angular from 'angular'
+import 'angular'
 
 /* global Routing */
+/* global angular */
 
 export default function($http, $q, widgetFactory){
   return {

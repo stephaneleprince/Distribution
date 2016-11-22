@@ -1,9 +1,10 @@
 import $ from 'jquery'
-import angular from 'angular'
+import 'angular'
 import toastr from 'toastr/toastr'
 import modal from '#/main/core/_old/modal'
 
 /* global Translator */
+/* global angular */
 
 var locationhash = window.location.hash
 if (locationhash.substr(0,2) == '#!') {
@@ -49,7 +50,7 @@ var elementsToModalized = [
     message: Translator.trans('portfolio_update_guides_ajax_notification', {}, 'icap_portfolio'),
     exchangeSpaceNeedUpdate: false
   }]
-elementsToModalized.forEach(function (element) {
+elementsToModalized.forEach(function(element) {
   modalized(element)
 })
 
@@ -134,19 +135,19 @@ function submitForm(modalElement, form, message, exchangeSpaceNeedUpdate) {
 }
 
 function modalized(element) {
-  $('#list').on('click', element.target, function (event) {
+  $('#list').on('click', element.target, function(event) {
     event.preventDefault()
     modal.fromUrl(
     event.target.href,
     function(modalElement) {
       var modalForm = $('form', modalElement)
 
-      modalElement.on('click', 'button[type="submit"]', function (event) {
+      modalElement.on('click', 'button[type="submit"]', function(event) {
         event.preventDefault()
         submitForm(modalElement, modalForm, element.message, element.exchangeSpaceNeedUpdate)
       })
 
-      modalElement.on('keypress', function (event) {
+      modalElement.on('keypress', function(event) {
         if (event.keyCode === 13 && event.target.nodeName !== 'TEXTAREA') {
           event.preventDefault()
           submitForm(modalElement, modalForm, element.message, element.exchangeSpaceNeedUpdate)

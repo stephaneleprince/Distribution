@@ -1,5 +1,7 @@
-import angular from 'angular'
+import 'angular'
 import clarolineTinymce from '#/main/core/tinymce/tinymce'
+
+/* global angular */
 
 var appDirectives = angular.module('app.config', [])
 

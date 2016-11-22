@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import moment from 'moment'
 
-export default function ($scope, portfolioManager, $filter, $http, urlInterpolator, translationService) {
+export default function($scope, portfolioManager, $filter, $http, urlInterpolator, translationService) {
   $scope.selectedPortfolio = ''
   $scope.period = {
     date: {startDate: moment().startOf('month'), endDate: moment().endOf('month')}

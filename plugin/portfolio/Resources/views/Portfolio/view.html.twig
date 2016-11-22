@@ -267,8 +267,9 @@
             '@IcapPortfolioBundle/Resources/public/js/vendor/javascript-detect-element-resize/jquery.resize.js'
             'packages/angular-gridster/dist/angular-gridster.min.js'
         %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {#<script type="text/javascript" src="{{ asset_url }}"></script>#}
         {% endjavascripts %}
+        //portfolioapp.js
         <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-checklist-model.js') }}"></script>
         <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-widgets.js') }}"></script>
         <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-badge-app-directives.js') }}"></script>

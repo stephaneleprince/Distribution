@@ -1,6 +1,8 @@
 /* global Routing */
 
-import angular from 'angular'
+import 'angular'
+
+/* global angular */
 
 export default function($http, $q, portfolioFactory){
   return {
@@ -8,16 +10,16 @@ export default function($http, $q, portfolioFactory){
     getPortfolios: function() {
       var deferred = $q.defer()
       $http.get(Routing.generate('icap_portfolio_internal_portfolio'))
-                    .success(function(data) {
-                      var portfolios = []
-                      angular.forEach(data, function(rawPortfolio) {
-                        portfolios.push(new portfolioFactory(rawPortfolio))
-                      })
-                      portfolios.$resolved = true
-                      deferred.resolve(portfolios)
-                    }).error(function(msg) {
-                      deferred.reject(msg)
-                    })
+    .success(function(data) {
+      var portfolios = []
+      angular.forEach(data, function(rawPortfolio) {
+        portfolios.push(new portfolioFactory(rawPortfolio))
+      })
+      portfolios.$resolved = true
+      deferred.resolve(portfolios)
+    }).error(function(msg) {
+      deferred.reject(msg)
+    })
       return deferred.promise
     },
     save: function(portfolio) {
@@ -28,7 +30,7 @@ export default function($http, $q, portfolioFactory){
 
       return portfolio.$update(success, failed)
     },
-    updateViewCommentsDate: function (portfolio) {
+    updateViewCommentsDate: function(portfolio) {
       portfolio.commentsViewAt = new Date()
       this.save(portfolio)
     }

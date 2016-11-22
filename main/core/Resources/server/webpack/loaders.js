@@ -57,7 +57,7 @@ const css = () => {
  const font = () => {
    return {
        test: /\.(eot|svg|ttf|woff|woff2)$/,
-       loader: 'url-loader?limit=100000' 
+       loader: 'url-loader?limit=100000'
    }
  }
 

@@ -1,6 +1,7 @@
-import angular from 'angular'
-
 /* global Translator */
+/* global angular */
+
+import 'angular'
 
 var appTranslation = angular.module('app.translation', [])
 

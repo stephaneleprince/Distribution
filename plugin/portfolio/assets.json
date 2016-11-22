@@ -1,17 +1,7 @@
 {
   "webpack": {
     "entry": {
-      "checklist-model": "checklist-model",
-      "comments": "comments/commentsApp",
       "index-app": "index/indexApp",
-      "statistics": "statistics/statisticsApp",
-      "widgets": "widget/widgetsApp",
-      "badge-picker-directive": "modules/badgePickerDirective",
-      "app-directives": "modules/appDirectives/scrollContainerDirective",
-      "date-picker-directive": "modules/datepickerDirective",
-      "tinymce-config": "modules/tinymceConfig",
-      "translation": "modules/translation",
-      "url-interpolator": "modules/urlInterpolator",
       "guides": "guides",
       "index": "index",
       "visibility": "visibility",

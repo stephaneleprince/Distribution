@@ -3,7 +3,27 @@ import WidgetDirective from './directives/widgetDirective'
 import WidgetFactory from './services/widgetFactory'
 import WidgetManager from './services/widgetManager'
 
-import angular from 'angular'
+import 'angular'
+import 'angular-resource'
+import 'angular-sanitize'
+import 'angular-animate'
+import 'angular-ui-tinymce'
+import 'angular-datetime'
+
+import '../modules/translation'
+import '../modules/urlInterpolator'
+import '../modules/tinymceConfig'
+import '../modules/appDirectives/appDirectives'
+import '../modules/datepickerDirective'
+import '../modules/badgePickerDirective'
+
+import 'angular-strap/dist/angular-strap.min'
+import 'angular-strap/dist/angular-strap.tpl.min'
+import 'angular-ui-resource-picker/angular-resource-picker'
+import 'angular-bootstrap/ui-bootstrap.min.js'
+import 'angular-bootstrap/ui-bootstrap-tpls.min.js'
+
+/* global angular */
 
 var widgetsApp = angular.module('widgetsApp', ['ngResource', 'ngSanitize', 'ngAnimate', 'ui.tinymce',
   'ui.resourcePicker', 'ui.badgePicker', 'ui.datepicker', 'datetime', 'mgcrea.ngStrap.popover',
@@ -24,7 +44,7 @@ widgetsApp.config(['$httpProvider', function($http) {
 }])
 widgetsApp.value('assetPath', window.assetPath)
 
-widgetsApp.controller('widgetController', ['$scope', 'widgetManager', '$attrs', 'tinyMceConfig', WidgetController])
 widgetsApp.directive('widgetContainer', WidgetDirective)
 widgetsApp.factory('widgetFactory', ['$resource', 'urlInterpolator', WidgetFactory])
 widgetsApp.factory('widgetManager', ['$http', '$q', 'widgetFactory', '$filter', WidgetManager])
+widgetsApp.controller('widgetController', ['$scope', 'widgetManager', '$attrs', 'tinyMceConfig', WidgetController])

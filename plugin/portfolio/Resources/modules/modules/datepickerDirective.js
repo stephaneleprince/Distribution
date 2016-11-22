@@ -1,4 +1,7 @@
-import angular from 'angular'
+import 'angular'
+import 'bootstrap-datepicker/dist/js/bootstrap-datepicker'
+
+/* global angular */
 
 angular.module('ui.datepicker', []).
     directive('bDatepicker', function() {

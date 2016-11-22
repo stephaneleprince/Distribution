@@ -35,7 +35,7 @@ function collectPackages (rootDir) {
 }
 
 function addBundleConfigEntry(entries) {
-    entries['bundle-configs'] = paths.root() + '/web/dist/plugins-config'
+    entries['bundle-configs'] = [paths.root() + '/web/dist/plugins-config']
 
     return entries
 }

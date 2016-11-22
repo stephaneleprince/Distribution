@@ -28,12 +28,13 @@ module.exports = {
     plugins.rejectBuildErrors(),
     plugins.exitWithErrorCode(),
     plugins.clarolineConfiguration(),
-    //plugins.configShortcut(),
+    plugins.configShortcut(),
     ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {
     loaders: [
       loaders.babel(),
+      loaders.font(),
       loaders.rawHtml(),
       loaders.jqueryUiNoAmd(),
       loaders.css(),

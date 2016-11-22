@@ -42,7 +42,8 @@ import 'tinymce/plugins/code/plugin'
 
 /*
 import 'tinymce-dist/tinymce.jquery'
-import 'tinymce-dist/jquery.tinymce'*/
+import 'tinymce-dist/jquery.tinymce'
+*/
 
 var translator = window.Translator
 
@@ -291,5 +292,4 @@ clarolineTinymce.initialization = function() {
   })
 }
 
-//this could be removed
 export default clarolineTinymce

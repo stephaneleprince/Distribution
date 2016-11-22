@@ -10,7 +10,7 @@ ConfigurationPlugin.prototype.apply = function(compiler) {
   var generated = false
   compiler.plugin('compile', function(compilation) {
     if (!generated) {
-      console.log('\nGenerating claroline configuration file...')
+      //console.log('\nGenerating claroline configuration file...')
       str = `module.exports = window.Claroline.BundlesConfiguration = {${getConfigurations()}}`
       fs.writeFileSync(paths.root() + '/web/dist/plugins-config.js', str)
       generated = true

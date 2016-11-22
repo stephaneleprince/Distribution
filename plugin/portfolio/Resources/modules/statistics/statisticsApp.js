@@ -1,7 +1,15 @@
-import angular from 'angular'
+import 'angular'
+import 'angular-toArrayFilter/toArrayFilter'
+import 'angular-daterangepicker'
+//import '../comments/commentsApp'
+
+import '../modules/urlInterpolator'
+import '../modules/translation'
 
 import Directive from './directives/statisticsViewDirective'
 import Controller from './controllers/statisticsViewController'
+
+/* global angular */
 
 var statisticsApp = angular.module('statisticsApp', ['angular-toArrayFilter', 'daterangepicker'])
 

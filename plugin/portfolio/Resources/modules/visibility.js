@@ -35,7 +35,7 @@ $(function() {
     addingButtonClick(event, $(this), teamSelect2Field)
   })
 
-  var addingButtonClick = function (event, element, select2Field) {
+  var addingButtonClick = function(event, element, select2Field) {
     event.preventDefault()
 
     var $container = element.siblings('div[data-prototype]').first()
@@ -68,7 +68,7 @@ $(function() {
     select2FieldChange(event, addingTeamButton)
   })
 
-  var select2FieldChange = function (event, button) {
+  var select2FieldChange = function(event, button) {
     var existingFieldValue = $('.form-collection input[value=' + event.val + ']', button.parent())
     if (0 >= existingFieldValue.length) {
                 //console.log("change " + JSON.stringify({val: event.val, added: event.added, removed: event.removed}));
