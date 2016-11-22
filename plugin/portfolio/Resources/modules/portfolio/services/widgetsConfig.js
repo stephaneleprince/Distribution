@@ -1,5 +1,5 @@
-import angular from 'angular'
-
+import 'angular'
+/* global angular */
 export default function(){
   return {
     config: JSON.parse(window.widgetsConfig),

@@ -1,6 +1,7 @@
 import $ from 'jquery'
+import tinymce from 'tinymce/tinymce'
 
-/* global tinyMCE */
+// global tinyMCE */
 
 var manualSubmit = false
 var totalColumn = window.totalColumn
@@ -66,7 +67,7 @@ $(document).ready(function() {
     event.preventDefault()
 
     $('.disabled-during-edition').attr('disabled', 'disabled')
-    tinyMCE.get('innova_collecticiel_criteria_form_correctionInstruction').getBody().setAttribute('contenteditable', false)
+    tinymce.get('innova_collecticiel_criteria_form_correctionInstruction').getBody().setAttribute('contenteditable', false)
     $('.criteria-form-button').attr('disabled', 'disabled')
 
     var $form = $('#global_form')
@@ -203,6 +204,6 @@ function setSaveListener() {
 
     $('.disabled-during-edition').attr('disabled', null)
     $('.criteria-form-button').attr('disabled', null)
-    tinyMCE.get('innova_collecticiel_criteria_form_correctionInstruction').getBody().setAttribute('contenteditable', true)
+    tinymce.get('innova_collecticiel_criteria_form_correctionInstruction').getBody().setAttribute('contenteditable', true)
   })
 }

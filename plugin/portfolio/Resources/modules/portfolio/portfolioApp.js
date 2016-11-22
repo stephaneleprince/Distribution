@@ -16,6 +16,23 @@ import WidgetConfig from './services/widgetsConfig'
 import WidgetManager from './services/widgetsManager'
 
 import 'angular'
+import 'angular-resource'
+import 'angular-sanitize'
+import 'angular-ui-tinymce'
+
+import '../modules/translation'
+import '../modules/urlInterpolator'
+import '../modules/appDirectives/appDirectives'
+
+import 'angular-strap/dist/angular-strap.min'
+import 'angular-strap/dist/angular-strap.tpl.min'
+import 'angular-ui-resource-picker/angular-resource-picker'
+import 'angular-bootstrap/ui-bootstrap.min.js'
+import 'angular-bootstrap/ui-bootstrap-tpls.min.js'
+
+//gridster
+//checklist-model
+
 /* global angular */
 
 var portfolioApp = angular.module('portfolioApp', ['ngResource', 'ngSanitize', 'ui.tinymce',
@@ -43,6 +60,14 @@ angular.element(document).ready(function() {
   angular.bootstrap(document, ['portfolioApp'], {strictDi: true})
 })
 
+portfolioApp.factory('commentFactory', ['$resource', CommentFactory])
+portfolioApp.factory('commentsManager', ['commentFactory', CommentsManager])
+portfolioApp.factory('portfolioFactory', ['$resource', PortfolioFactory])
+portfolioApp.factory('portfolioManager', ['portfolioFactory', 'widgetsManager', 'commentsManager', PortfolioManager])
+portfolioApp.factory('widgetFactory', ['$resource', 'urlInterpolator', WidgetFactory])
+portfolioApp.factory('widgetsConfig', [WidgetConfig])
+portfolioApp.factory('widgetsManager', ['$http', 'widgetsConfig', 'widgetFactory', '$q', 'urlInterpolator', WidgetManager])
+
 portfolioApp.controller('commentController', ['$scope', 'portfolioManager', 'commentsManager', '$timeout', CommentController])
 portfolioApp.controller('portfolioController', ['$scope', 'portfolioManager', 'widgetsManager', 'commentsManager', '$attrs', 'widgetsConfig', 'assetPath', '$uibModal', '$timeout', PortfolioController])
 portfolioApp.controller('widgetController', ['$scope', 'widgetsManager', '$uibModal', '$timeout', WidgetController])
@@ -51,11 +76,3 @@ portfolioApp.controller('widgetPickerController', ['$scope', '$uibModalInstance'
 portfolioApp.directive('commentsContainer', CommentsDirective)
 portfolioApp.directive('portfolioContainer', PortfolioDirective)
 portfolioApp.directive('widget', WidgetDirective)
-
-portfolioApp.factory('commentFactory', ['$resource', CommentFactory])
-portfolioApp.factory('commentsManager', ['commentFactory', CommentsManager])
-portfolioApp.factory('portfolioFactory', ['$resource', PortfolioFactory])
-portfolioApp.factory('portfolioManager', ['portfolioFactory', 'widgetsManager', 'commentsManager', PortfolioManager])
-portfolioApp.factory('widgetFactory', ['$resource', 'urlInterpolator', WidgetFactory])
-portfolioApp.factory('widgetsConfig', [WidgetConfig])
-portfolioApp.factory('widgetsManager', ['$http', 'widgetsConfig', 'widgetFactory', '$q', 'urlInterpolator', WidgetManager])

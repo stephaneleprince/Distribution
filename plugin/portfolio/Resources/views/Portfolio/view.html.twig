@@ -254,42 +254,12 @@
             '@IcapBadgeBundle/Resources/public/js/badge_picker.js'
             'packages/confirm-bootstrap/confirm-bootstrap.js'
             'packages/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
-            'packages/angular/angular.min.js'
-            'packages/angular-resource/angular-resource.min.js'
-            'packages/angular-sanitize/angular-sanitize.min.js'
-            'packages/angular-animate/angular-animate.min.js'
-            'packages/angular-ui-tinymce/dist/tinymce.min.js'
-            'packages/moment/min/moment.min.js'
-            'packages/angular-strap/dist/angular-strap.min.js'
-            'packages/angular-strap/dist/angular-strap.tpl.min.js'
-            'packages/angular-bootstrap/ui-bootstrap.js'
-            'packages/angular-bootstrap/ui-bootstrap-tpls.js'
             '@IcapPortfolioBundle/Resources/public/js/vendor/javascript-detect-element-resize/jquery.resize.js'
             'packages/angular-gridster/dist/angular-gridster.min.js'
         %}
             {#<script type="text/javascript" src="{{ asset_url }}"></script>#}
         {% endjavascripts %}
-        //portfolioapp.js
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-checklist-model.js') }}"></script>
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-widgets.js') }}"></script>
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-badge-app-directives.js') }}"></script>
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-tinymce-config.js') }}"></script>
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-translation.js') }}"></script>
-
-        {% javascripts debug=false filter='jsmin' output='js/portfolio/portfolio/script.js'
-            '@IcapPortfolioBundle/Resources/public/js/utils/Array.js'
-            '@IcapPortfolioBundle/Resources/public/js/modules/urlInterpolator.js'
-        %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
     {% else %}
-        {% javascripts debug=false output='js/portfolio/portfolio/vendor_view.js'
-            'packages/angular/angular.min.js'
-            'packages/angular-sanitize/angular-sanitize.min.js'
-            'packages/angular-gridster/dist/angular-gridster.min.js'
-        %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
         <script type="text/javascript">
             window.widgets = {{ widgets|json_encode()|raw }};
         </script>

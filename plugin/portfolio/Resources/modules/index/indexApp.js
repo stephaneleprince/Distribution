@@ -6,6 +6,7 @@ import '../comments/commentsApp'
 import '../widget/widgetsApp'
 import '../statistics/statisticsApp'
 import '../widget/widgetsApp'
+import '../utils/Array'
 
 /* global angular */
 

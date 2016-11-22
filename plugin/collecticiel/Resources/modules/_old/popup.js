@@ -1,7 +1,8 @@
 import $ from 'jquery'
+import tinymce from 'tinymce/tinymce'
 
 /* global Routing */
-/* global tinyMCE */
+/*** global tinyMCE */
 /* global resetTiny */
 
 var selector
@@ -13,7 +14,7 @@ $('#add-criterion-button-innova2').on('click', function(event) {
   event.preventDefault()
 
   $('.disabled-during-edition').attr('disabled', 'disabled')
-  tinyMCE.get('innova_collecticiel_criteria_form_correctionInstruction').getBody().setAttribute('contenteditable', false)
+  tinymce.get('innova_collecticiel_criteria_form_correctionInstruction').getBody().setAttribute('contenteditable', false)
   // $('.icap_dropzone_criteria_form_correctionInstruction').attr('disabled','disabled')
   $('.criteria-form-button').attr('disabled', 'disabled')
 
@@ -835,7 +836,7 @@ $(document).ready(function() {
     }
 
     // Textarea
-    var doc = tinyMCE.get('innova_collecticiel_document_file_form_document').getContent()
+    var doc = tinymce.get('innova_collecticiel_document_file_form_document').getContent()
     var translation_doc_id = document.getElementById('translation_doc_id').value
 
     if (doc.length == 0) {

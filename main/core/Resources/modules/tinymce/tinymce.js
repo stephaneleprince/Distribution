@@ -7,9 +7,6 @@ import Configuration from '#/main/core/library/Configuration/Configuration'
 import 'tinymce/skins/lightgray/content.min.css'
 import 'tinymce/skins/lightgray/skin.min.css'
 
-import tinymce from 'tinymce/tinymce'
-import 'tinymce/themes/modern/theme'
-
 // Plugins
 import 'tinymce/plugins/paste/plugin'
 import 'tinymce/plugins/link/plugin'
@@ -40,12 +37,15 @@ import 'tinymce/plugins/save/plugin'
 import 'tinymce/plugins/emoticons/plugin'
 import 'tinymce/plugins/code/plugin'
 
-/*
-import 'tinymce-dist/tinymce.jquery'
-import 'tinymce-dist/jquery.tinymce'
-*/
+import tinymce from 'tinymce/tinymce'
+import 'tinymce/themes/modern/theme'
+
+//import 'tinymce/tinymce.jquery'
+import 'tinymce/jquery.tinymce'
 
 var translator = window.Translator
+//hack for tinymce.jquery
+//window.tinymce = tinymce
 
 /**
  * Claroline TinyMCE parameters and methods.
@@ -265,7 +265,7 @@ clarolineTinymce.getConfiguration = function() {
  */
 clarolineTinymce.initialization = function() {
   $('textarea.claroline-tiny-mce:not(.tiny-mce-done)').each(function() {
-    //var element = $(this)
+    var element = $(this)
     let config = clarolineTinymce.getConfiguration()
     //avoid conflicts with angular tinymce
     config.paste_preprocess = clarolineTinymce.paste
@@ -278,8 +278,8 @@ clarolineTinymce.initialization = function() {
     //}
 
     config.selector = '.claroline-tiny-mce'
-    tinymce.init(config)
-    //element.tinymce(config)
+    //tinymce.init(config)
+    element.tinymce(config)
 /*
     element.tinymce(config)
       .on('remove', function() {

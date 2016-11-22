@@ -34,7 +34,8 @@ module.exports = {
       loaders.imageUris(),
       loaders.modernizr(),
       loaders.tinymceImport(),
-      loaders.tinymceWrapper()
+      loaders.tinymceWrapper(),
+      loaders.tinymceJquery()
     ]
   },
   externals: shared.externals(),
