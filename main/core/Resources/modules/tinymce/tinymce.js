@@ -40,40 +40,6 @@ import 'tinymce/plugins/code/plugin'
 import tinymce from 'tinymce/tinymce'
 import 'tinymce/themes/modern/theme'
 
-
-//we can't use the jquery from tinymce with webpack. Well maybe we can but it's awfully buggy with plugins
-//http://stackoverflow.com/questions/5706837/get-unique-selector-of-element-in-jquery
-/*
-$.fn.extend({
-  getPath: function() {
-    var path, node = this
-    while (node.length) {
-      var realNode = node[0], name = realNode.localName
-      if (!name) break
-      name = name.toLowerCase()
-
-      var parent = node.parent()
-
-      var sameTagSiblings = parent.children(name)
-      if (sameTagSiblings.length > 1) {
-        var allSiblings = parent.children()
-        var index = allSiblings.index(realNode) + 1
-        if (index > 1) {
-          name += ':nth-child(' + index + ')'
-        }
-      }
-
-      path = name + (path ? '>' + path : '')
-      node = parent
-    }
-
-    return path
-  }
-})*/
-/*
-import 'tinymce/tinymce.jquery'
-import 'tinymce/jquery.tinymce'*/
-
 var translator = window.Translator
 
 /**
@@ -248,8 +214,8 @@ clarolineTinymce.getConfiguration = function() {
     'relative_urls': false,
     'remove_script_host': false,
     'theme': 'modern',
-    'inline': true,
-      //'language': home.locale.trim(),
+    //'mode' : "specific_textareas",
+    //'editor_selector' : "claroline-tiny-mce",
     'browser_spellcheck': true,
     'autoresize_min_height': 100,
     'autoresize_max_height': 500,
