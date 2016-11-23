@@ -40,12 +40,41 @@ import 'tinymce/plugins/code/plugin'
 import tinymce from 'tinymce/tinymce'
 import 'tinymce/themes/modern/theme'
 
-//import 'tinymce/tinymce.jquery'
-import 'tinymce/jquery.tinymce'
+
+//we can't use the jquery from tinymce with webpack. Well maybe we can but it's awfully buggy with plugins
+//http://stackoverflow.com/questions/5706837/get-unique-selector-of-element-in-jquery
+/*
+$.fn.extend({
+  getPath: function() {
+    var path, node = this
+    while (node.length) {
+      var realNode = node[0], name = realNode.localName
+      if (!name) break
+      name = name.toLowerCase()
+
+      var parent = node.parent()
+
+      var sameTagSiblings = parent.children(name)
+      if (sameTagSiblings.length > 1) {
+        var allSiblings = parent.children()
+        var index = allSiblings.index(realNode) + 1
+        if (index > 1) {
+          name += ':nth-child(' + index + ')'
+        }
+      }
+
+      path = name + (path ? '>' + path : '')
+      node = parent
+    }
+
+    return path
+  }
+})*/
+/*
+import 'tinymce/tinymce.jquery'
+import 'tinymce/jquery.tinymce'*/
 
 var translator = window.Translator
-//hack for tinymce.jquery
-//window.tinymce = tinymce
 
 /**
  * Claroline TinyMCE parameters and methods.
@@ -68,13 +97,14 @@ clarolineTinymce.editorChange = function(editor) {
     var height = container.contents().height()
     var max = 'autoresize_max_height'
     var min = 'autoresize_min_height'
+    var configuration = clarolineTinymce.getConfiguration()
 
     switch (true) {
-      case (height <= clarolineTinymce.configuration[min]):
-        container.css('height', clarolineTinymce.configuration[min])
+      case (height <= configuration[min]):
+        container.css('height', configuration[min])
         break
-      case (height >= clarolineTinymce.configuration[max]):
-        container.css('height', clarolineTinymce.configuration[max])
+      case (height >= configuration[max]):
+        container.css('height', configuration[max])
         container.css('overflow', 'scroll')
         break
       default:
@@ -218,6 +248,7 @@ clarolineTinymce.getConfiguration = function() {
     'relative_urls': false,
     'remove_script_host': false,
     'theme': 'modern',
+    'inline': true,
       //'language': home.locale.trim(),
     'browser_spellcheck': true,
     'autoresize_min_height': 100,
@@ -264,12 +295,12 @@ clarolineTinymce.getConfiguration = function() {
  * Initialization function for TinyMCE editors.
  */
 clarolineTinymce.initialization = function() {
-  $('textarea.claroline-tiny-mce:not(.tiny-mce-done)').each(function() {
-    var element = $(this)
-    let config = clarolineTinymce.getConfiguration()
+  //$('textarea.claroline-tiny-mce:not(.tiny-mce-done)').each(function() {
+  //var element = $(this)
+  let config = clarolineTinymce.getConfiguration()
     //avoid conflicts with angular tinymce
-    config.paste_preprocess = clarolineTinymce.paste
-    config.setup = clarolineTinymce.setup
+  config.paste_preprocess = clarolineTinymce.paste
+  config.setup = clarolineTinymce.setup
 /*
     if (element.data('newTab') === 'yes') {
       config = _.extend({}, clarolineTinymce.configuration)
@@ -277,9 +308,9 @@ clarolineTinymce.initialization = function() {
   } else {*/
     //}
 
-    config.selector = '.claroline-tiny-mce'
-    //tinymce.init(config)
-    element.tinymce(config)
+  config.selector = '.claroline-tiny-mce'
+  tinymce.init(config)
+//    element.tinymce(config)
 /*
     element.tinymce(config)
       .on('remove', function() {
@@ -289,7 +320,7 @@ clarolineTinymce.initialization = function() {
         }
       })
       .addClass('tiny-mce-done')*/
-  })
+  //})
 }
 
 export default clarolineTinymce
