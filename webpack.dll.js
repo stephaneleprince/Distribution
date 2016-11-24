@@ -2,6 +2,7 @@ const paths = require('./main/core/Resources/server/webpack/paths')
 const plugins = require('./main/core/Resources/server/webpack/plugins')
 const libraries = require('./main/core/Resources/server/webpack/libraries')
 const loaders = require('./main/core/Resources/server/webpack/loaders')
+const shared = require('./main/core/Resources/server/webpack/shared')
 
 module.exports = {
   entry: libraries,
@@ -28,7 +29,8 @@ module.exports = {
       loaders.tinymceImport(),
       loaders.tinymceWrapper(),
       loaders.tinymceJquery()
-    //add other loaders here  
+    //add other loaders here
     ]
   },
+  externals: shared.externals(),
 }

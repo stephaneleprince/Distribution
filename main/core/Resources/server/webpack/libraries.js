@@ -81,14 +81,33 @@ module.exports = {
       'tinymce/plugins/code/plugin',
       //css
       'tinymce/skins/lightgray/content.min.css',
-      'tinymce/skins/lightgray/skin.min.css'
+      'tinymce/skins/lightgray/skin.min.css',
+      //themes
+      'tinymce/themes/modern/theme'
   ],
   'jqueryui_dll': [
       'jquery-ui/jquery-ui',
+      'jquery-ui/jquery-ui.min',
       'jquery-ui/ui/draggable',
       'jquery-ui/ui/resizable'
-  ]/*,
+  ],
+  'bootstrapui_dll': [
+      'bootstrap-daterangepicker',
+      'mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
+      'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker',
+      'eonasdan-bootstrap-datetimepicker'
+  ],
+  'libraries_dll': [
+      'underscore',
+      'Datejs/build/date'
+  ],
+  'wavesurfer_dll': [
+      'wavesurfer.js/dist/wavesurfer',
+      'wavesurfer.js/dist/plugin/wavesurfer.minimap.min',
+      'wavesurfer.js/dist/plugin/wavesurfer.timeline.min',
+      'wavesurfer.js/dist/plugin/wavesurfer.regions.min'
+  ],
   'calendar_dll': [
       'fullcalendar/dist/fullcalendar'
-  ]*/
+  ]
 }
