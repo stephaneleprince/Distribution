@@ -31,10 +31,10 @@ module.exports = {
     'ng-file-upload',
     'at-table/dist/angular-table',
     'angular-dragula',
-    'angular-strap/dist/angular-strap.min.js', //not used a lot: portfolio
-    'angular-strap/dist/angular-strap.tpl.min.js', //not used a lot: portfolio
-    'angular-bootstrap/ui-bootstrap.min.js',
-    'angular-bootstrap/ui-bootstrap-tpls.min.js'
+    'angular-strap/dist/angular-strap.min', //not used a lot: portfolio
+    'angular-strap/dist/angular-strap.tpl.min', //not used a lot: portfolio
+    'angular-bootstrap/ui-bootstrap.min',
+    'angular-bootstrap/ui-bootstrap-tpls.min'
   ],
   'es6_shim_dll': [
     'core-js/shim'
