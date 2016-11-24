@@ -1,4 +1,4 @@
-//import tinymce from 'tinymce/tinymce'
+import tinymce from 'tinymce/tinymce'
 
-//tinymce.activeEditor.selection.select(tinyMCE.activeEditor.getBody(), true);
-//tinymce.activeEditor.selection.collapse(false);
+tinymce.activeEditor.selection.select(tinymce.activeEditor.getBody(), true)
+tinymce.activeEditor.selection.collapse(false)

@@ -1,8 +1,6 @@
 import $ from 'jquery'
 import tinymce from 'tinymce/tinymce'
 
-// global tinyMCE */
-
 var manualSubmit = false
 var totalColumn = window.totalColumn
 var comment = window.comment
@@ -57,9 +55,7 @@ $(document).ready(function() {
   })
 
   function resetTiny() {
-    $('.tinymce').each(function() {
-      $(this).tinymce().remove()
-    })
+    tinymce.remove()
   }
 
   // var form_count = 0

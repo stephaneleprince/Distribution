@@ -43,13 +43,13 @@ let registerApp = new register('app',
 registerApp
   .config(EditAppConfig.config)
   .run(EditAppConfig.run)
-  .value('tinyMceConfig', new tinyMceConfig())
+  .value('tinyMceConfig', tinyMceConfig)
   .filter('trustAsHtml', ['$sce', $sce => text => $sce.trustAsHtml(text)])
   .filter('trustAsResourceUrl', ['$sce', $sce => text => $sce.trustAsResourceUrl(text)])
   .service('websiteOptions', websiteOptions)
   .controller('MainController', MainController)
 
 //Bootstrap angular in body
-angular.element(document).ready(function () {
+angular.element(document).ready(function() {
   angular.bootstrap(document.getElementsByTagName('body')[ 0 ], [ 'app' ])
 })

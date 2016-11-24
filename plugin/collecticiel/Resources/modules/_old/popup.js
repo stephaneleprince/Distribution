@@ -2,8 +2,6 @@ import $ from 'jquery'
 import tinymce from 'tinymce/tinymce'
 
 /* global Routing */
-/*** global tinyMCE */
-/* global resetTiny */
 
 var selector
 
@@ -27,7 +25,7 @@ $('#add-criterion-button-innova2').on('click', function(event) {
     success: function() {
       $.get($('.add-criterion-button').attr('href'))
         .done(function(data) {
-          resetTiny()
+          tinymce.remove()
           $('.new-criteria-zone').empty()
           $('.criterion-row > .criterion-edit').empty()
 
