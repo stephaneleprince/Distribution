@@ -242,6 +242,7 @@
                 };
                 window.assetPath = "{{ asset('') }}";
             })();
+            alert('yolo')
         </script>
 
         <script type="text/javascript" src="{{ url('bazinga_jstranslation_js', { 'domain': 'icap_portfolio' }) }}"></script>
@@ -251,7 +252,6 @@
         {% endif %}
 
         {% javascripts debug=false output='js/portfolio/portfolio/vendor.js'
-            '@IcapBadgeBundle/Resources/public/js/badge_picker.js'
             'packages/confirm-bootstrap/confirm-bootstrap.js'
             'packages/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
             '@IcapPortfolioBundle/Resources/public/js/vendor/javascript-detect-element-resize/jquery.resize.js'
@@ -259,6 +259,7 @@
         %}
             {#<script type="text/javascript" src="{{ asset_url }}"></script>#}
         {% endjavascripts %}
+        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-portfolio-app.js') }}"></script>
     {% else %}
         <script type="text/javascript">
             window.widgets = {{ widgets|json_encode()|raw }};

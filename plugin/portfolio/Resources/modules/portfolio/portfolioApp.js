@@ -29,9 +29,13 @@ import 'angular-strap/dist/angular-strap.tpl.min'
 import 'angular-ui-resource-picker/angular-resource-picker'
 import 'angular-bootstrap/ui-bootstrap.min.js'
 import 'angular-bootstrap/ui-bootstrap-tpls.min.js'
+import 'confirm-bootstrap/confirm-bootstrap'
 
-//gridster
-//checklist-model
+import {} from 'checklist-model'
+import {} from 'lodash'
+import 'angular-gridster/dist/angular-gridster.min.js'
+
+import '../utils/Array'
 
 /* global angular */
 

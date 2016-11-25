@@ -34,7 +34,8 @@ module.exports = {
     'angular-strap/dist/angular-strap.min', //not used a lot: portfolio
     'angular-strap/dist/angular-strap.tpl.min', //not used a lot: portfolio
     'angular-bootstrap/ui-bootstrap.min',
-    'angular-bootstrap/ui-bootstrap-tpls.min'
+    'angular-bootstrap/ui-bootstrap-tpls.min',
+    'angular-gridster/dist/angular-gridster.min.js'
   ],
   'es6_shim_dll': [
     'core-js/shim'
@@ -95,7 +96,8 @@ module.exports = {
       'bootstrap-daterangepicker',
       'mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
       'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker',
-      'eonasdan-bootstrap-datetimepicker'
+      'eonasdan-bootstrap-datetimepicker',
+      'confirm-bootstrap/confirm-bootstrap'
   ],
   'libraries_dll': [
       'underscore',

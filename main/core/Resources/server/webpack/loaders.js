@@ -100,6 +100,16 @@
    }
  }
 
+ const angularImport = () => {
+   return {
+     test: require.resolve(paths.bower() + '/angular/angular'),
+     loaders: [
+       'imports?this=>window',
+       'exports?window.angular'
+     ]
+   }
+ }
+
  const tinymceWrapper = () => {
    return {
      test: /tinymce\/(themes|plugins)\//,
@@ -127,5 +137,6 @@
    tinymceImport,
    tinymceWrapper,
    tinymceJquery,
-   modernizr
+   modernizr,
+   angularImport
  }

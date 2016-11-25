@@ -1,4 +1,6 @@
-import angular from 'angular'
+import 'angular'
+
+/* global angular */
 
 export default function($http, widgetsConfig, widgetFactory, $q, urlInterpolator){
   return {

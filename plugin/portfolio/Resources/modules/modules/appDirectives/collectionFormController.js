@@ -1,5 +1,7 @@
-import angular from 'angular'
+import 'angular'
 import $ from 'jquery'
+
+/* global angular */
 
 export default function($scope, $attrs) {
   $scope.emptyChild = $.parseJSON($attrs.collectionForm.replace(/'/g, '"'))
@@ -9,8 +11,8 @@ export default function($scope, $attrs) {
 
   $scope.resourcePickerConfig = {
     isPickerMultiSelectAllowed: true,
-    callback: function (nodes) {
-      angular.forEach(nodes, function (element, index) {
+    callback: function(nodes) {
+      angular.forEach(nodes, function(element, index) {
         var newChild = angular.copy($scope.emptyChild)
         newChild.resource = index
         newChild.id = index
@@ -23,7 +25,7 @@ export default function($scope, $attrs) {
   }
 
   var selectedValue = []
-  angular.forEach($scope.collection, function (element) {
+  angular.forEach($scope.collection, function(element) {
     selectedValue.push(element.badge)
   })
 
@@ -32,21 +34,21 @@ export default function($scope, $attrs) {
       multiple: true,
       value: selectedValue
     },
-    successCallback: function (nodes) {
+    successCallback: function(nodes) {
       var receivedValue = []
-      angular.forEach(nodes, function (element) {
+      angular.forEach(nodes, function(element) {
         receivedValue.push(element.id)
       })
       var badgeToRemove = selectedValue.diff(receivedValue)
       var badgeToAdd    = receivedValue.diff(selectedValue)
 
-      angular.forEach($scope.collection, function (element) {
+      angular.forEach($scope.collection, function(element) {
         var id = parseInt(element.badge)
         if (badgeToRemove.inArray(id)) {
           $scope.deleteChild(element)
         }
       })
-      angular.forEach(nodes, function (element) {
+      angular.forEach(nodes, function(element) {
         var id = parseInt(element.id)
         if (badgeToAdd.inArray(id)) {
           var badgeAboutToBeDelete = $scope.collection.filter(function(element) {return id === element.badge})
@@ -65,7 +67,7 @@ export default function($scope, $attrs) {
       })
       $scope.$apply()
       selectedValue = []
-      angular.forEach($scope.collection, function (element) {
+      angular.forEach($scope.collection, function(element) {
         if (!element.toDelete) {
           selectedValue.push(element.badge)
         }

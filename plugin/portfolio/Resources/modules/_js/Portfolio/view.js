@@ -1,4 +1,9 @@
-import angular from 'angular'
+import 'angular'
+
+import 'angular-sanitize'
+import 'angular-gridster/dist/angular-gridster.min.js'
+
+/* global angular */
 
 var viewApp = angular.module('viewApp', ['ngSanitize', 'gridster'])
 
@@ -7,7 +12,7 @@ angular.element(document).ready(function() {
   angular.bootstrap(document, ['viewApp'], {strictDi: true})
 })
 
-viewApp.controller('viewCtrl', ['$scope', function ($scope) {
+viewApp.controller('viewCtrl', ['$scope', function($scope) {
   $scope.gridsterOptions = {
     columns:    16, // the width of the grid, in columns
     swapping:   true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size

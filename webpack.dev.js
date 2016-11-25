@@ -32,10 +32,7 @@ module.exports = {
       loaders.rawHtml(),
       loaders.jqueryUiNoAmd(),
       loaders.imageUris(),
-      loaders.modernizr(),
-      loaders.tinymceImport(),
-      loaders.tinymceWrapper(),
-      loaders.tinymceJquery()
+      loaders.modernizr()
     ]
   },
   externals: shared.externals(),

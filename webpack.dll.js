@@ -28,7 +28,9 @@ module.exports = {
       loaders.imageUris(),
       loaders.tinymceImport(),
       loaders.tinymceWrapper(),
-      loaders.tinymceJquery()
+      loaders.tinymceJquery(),
+      //required for angular gridster
+      loaders.angularImport()
     //add other loaders here
     ]
   },
