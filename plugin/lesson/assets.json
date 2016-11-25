@@ -5,7 +5,7 @@
       "lesson": "_old/lesson.js",
       "ajaxify-lesson": "_old/ajaxifyLesson.js",
       "ng-view-chapter": "_js/Lesson/viewChapter.ng.js",
-      "delete-chapter-popup": "_js/Lesson/deleteChapterPopup.ng.js"
+      "delete-chapter-popup": "_js/Lesson/deleteChapterPopup.js"
     }
   }
 }
