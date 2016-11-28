@@ -21,6 +21,9 @@ module.exports = {
     plugins.distributionShortcut(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
+    plugins.dedupeModules(),
+    plugins.occurrenceOrder(),
+    plugins.commonsChunk(),
     ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {

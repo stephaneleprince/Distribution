@@ -54,15 +54,15 @@ const configShortcut = () => {
   })
 }
 
-
 /**
  * Builds a independent bundle for frequently requested modules (might require
- * minChunks adjustments).
+ * minuunks adjustments).
  */
 const commonsChunk = () => {
   return new webpack.optimize.CommonsChunkPlugin({
     name: 'commons',
-    minChunks: 5
+    filename: "commons.js",
+    minChunks: Infinity
   })
 }
 
@@ -142,6 +142,10 @@ const clarolineConfiguration = () => {
   return new ConfigurationPlugin()
 }
 
+const occurrenceOrder = () => {
+    return new webpack.optimize.OccurrenceOrderPlugin(true)
+}
+
 module.exports = {
   bowerFileLookup,
   distributionShortcut,
@@ -154,5 +158,6 @@ module.exports = {
   dllReferences,
   dlls,
   configShortcut,
-  clarolineConfiguration
+  clarolineConfiguration,
+  occurrenceOrder
 }

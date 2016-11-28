@@ -5,13 +5,13 @@ import _ from 'underscore'
 
 import common from './common'
 import modal from './modal'
-import manager from './resource/manager/manager'
+import manager from '#/main/core/_old/resource/manager/manager'
 
 /* global Routing */
 
 var activePicker = null
 
-var defaultCallback = function (nodes) {
+var defaultCallback = function(nodes) {
   var nodeId = _.keys(nodes)[0]
   var name = nodes[_.keys(nodes)][0]
   var type = nodes[_.keys(nodes)][1]
@@ -26,13 +26,13 @@ var defaultCallback = function (nodes) {
 /**
  * Initializes every resource input on the page.
  */
-picker.initialize = function (id) {
+picker.initialize = function(id) {
   var pickerName = 'formResourcePicker'
   var field = $('#' + id)
   var element = field.next('.input-group')
 
   $('input.form-control', element)
-    .on('focus', function () {
+    .on('focus', function() {
       activePicker = this.parentNode
       openPicker(pickerName, customParameters)
     })
@@ -40,22 +40,22 @@ picker.initialize = function (id) {
   var inputGroupButton = $('.input-group-btn', element)
 
   $('button.resource-browse', inputGroupButton)
-    .on('click', function () {
+    .on('click', function() {
       activePicker = this.parentNode.parentNode
       openPicker(pickerName, customParameters)
     })
 
   $('button.resource-download', inputGroupButton)
-    .on('click', function () {
+    .on('click', function() {
       activePicker = this.parentNode.parentNode
-      modal.fromRoute('claro_upload_modal', null, function (element) {
-        element.on('click', '.resourcePicker', function () {
+      modal.fromRoute('claro_upload_modal', null, function(element) {
+        element.on('click', '.resourcePicker', function() {
           openPicker(pickerName, customParameters)
         })
-          .on('click', '.filePicker', function () {
+          .on('click', '.filePicker', function() {
             $('#file_form_file').click()
           })
-          .on('change', '#file_form_file', function () {
+          .on('change', '#file_form_file', function() {
             common.uploadfile(this, element, defaultCallback)
           })
       })
@@ -77,7 +77,7 @@ picker.initialize = function (id) {
   checkView(element)
 }
 
-function processCustomParameters (datas) {
+function processCustomParameters(datas) {
   var customParameters = null
 
   var simpleParameterList = [
@@ -112,14 +112,14 @@ function processCustomParameters (datas) {
 /**
  * Opens a resource picker.
  */
-function openPicker (pickerName, customParameters) {
+function openPicker(pickerName, customParameters) {
   if (!manager.hasPicker(pickerName)) {
     var parameters = {
       callback: defaultCallback
     }
 
     if (customParameters) {
-      _.keys(customParameters).forEach(function (parameter) {
+      _.keys(customParameters).forEach(function(parameter) {
         parameters[parameter] = customParameters[parameter]
       })
     }
@@ -133,7 +133,7 @@ function openPicker (pickerName, customParameters) {
 /**
  * Checks if a resource was selected and if so, enables the "view" button
  */
-function checkView (targetPicker) {
+function checkView(targetPicker) {
   activePicker = targetPicker || activePicker
 
   var nodeId = $(activePicker).prev().val()

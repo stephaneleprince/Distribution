@@ -1,5 +1,8 @@
 {% import 'ClarolineCoreBundle:Layout:javascripts.macros.html.twig' as jsmacros %}
 
+{# Loads webpack commons.js and libraries.js (minified) files #}
+{{ jsmacros.getCommonJavascripts() }}
+
 {# Loads all necessary libs (Backbone, underscore) and Dlls (Angular, es6-shim, pdf-player) #}
 {{ jsmacros.getLibsAndDlls() }}
 
@@ -24,9 +27,6 @@
 {# Loads all necessary twigjs files #}
 {{ jsmacros.getTwigJs() }}
 
-{# Loads webpack commons.js and libraries.js (minified) files #}
-{{ jsmacros.getCommonJavascripts() }}
-
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-core-js.js') }}"></script>
 
 <script>
@@ -45,10 +45,8 @@
 <script src='{{ hotAsset('dist/claroline-distribution-main-core-locale.js') }}'></script>
 <script src='{{ hotAsset('dist/claroline-distribution-main-core-resourceinput.js') }}'></script>
 
-
-
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-startup.js') }}"></script>
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce.js') }}"></script>
+<script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce-main.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-modernizr.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-layout-javascript.js') }}"></script>
 

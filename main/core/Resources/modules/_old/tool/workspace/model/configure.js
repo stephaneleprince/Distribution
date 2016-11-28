@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import modal from '../../../modal'
-import resourceManager from '../../../resource/manager/manager'
+import resourceManager from '#/main/core/_old/resource/manager/manager'
 
 /* global Routing */
 /* global Translator */
@@ -18,7 +18,7 @@ resourceManager.createPicker(
   {
     'isPickerMultiSelectAllowed': true,
     'directoryId': rootId,
-    'callback': function (nodes) {
+    'callback': function(nodes) {
       var ids = []
       for (var id in nodes) {
         ids.push(id)
@@ -28,7 +28,7 @@ resourceManager.createPicker(
       var url = Routing.generate('ws_model_resource_copy_add', {'model': modelId}) + '?' + $.param(queryString)
       $.ajax({
         url: url,
-        success: function (data) {
+        success: function(data) {
           for (var i = 0; i < data.length; i++) {
             var html = Twig.render(ModelResource, {'resourceModelId': data[i].resourceModelId, 'name': data[i].name})
             $('#list-resnode-copy').append(html)
@@ -46,7 +46,7 @@ resourceManager.createPicker(
     'isPickerMultiSelectAllowed': true,
     'directoryId': rootId,
     'isDirectorySelectionAllowed': false,
-    'callback': function (nodes) {
+    'callback': function(nodes) {
       var ids = []
       for (var id in nodes) {
         ids.push(id)
@@ -56,7 +56,7 @@ resourceManager.createPicker(
       var url = Routing.generate('ws_model_resource_link_add', {'model': modelId}) + '?' + $.param(queryString)
       $.ajax({
         url: url,
-        success: function (data) {
+        success: function(data) {
           for (var i = 0; i < data.length; i++) {
             var html = Twig.render(ModelResource, {'resourceModelId': data[i].resourceModelId, 'name': data[i].name})
             $('#list-resnode-link').append(html)
@@ -72,10 +72,10 @@ var currentType = ''
 var typeMap = {'user': [], 'group': []}
 modelId = $('#div-data').attr('data-model-id')
 
-function displayPager (url) {
+function displayPager(url) {
   $.ajax({
     url: url,
-    success: function (datas) {
+    success: function(datas) {
       $('.modal-body').empty()
       $('.modal-body').append(datas)
       currentType === 'user' ? displayUsersStatus() : displayGroupsStatus()
@@ -85,8 +85,8 @@ function displayPager (url) {
 }
 
 // checks the checkbox of users if they were checked before
-function displayUsersStatus () {
-  $('.user-chk').each(function () {
+function displayUsersStatus() {
+  $('.user-chk').each(function() {
     var contactId = $(this).attr('user-id')
 
     if (typeMap[currentType].indexOf(contactId) >= 0) {
@@ -96,8 +96,8 @@ function displayUsersStatus () {
 }
 
 // check the checkbox of groups if the were checked before
-function displayGroupsStatus () {
-  $('.group-chk').each(function () {
+function displayGroupsStatus() {
+  $('.group-chk').each(function() {
     var contactId = $(this).attr('group-id')
 
     if (typeMap[currentType].indexOf(contactId) >= 0) {
@@ -106,7 +106,7 @@ function displayGroupsStatus () {
   })
 }
 
-function addGroups () {
+function addGroups() {
   var queryString = {}
   queryString.groupIds = typeMap['group']
   var route = Routing.generate('ws_share_groups_add', {'model': modelId})
@@ -114,7 +114,7 @@ function addGroups () {
 
   $.ajax({
     url: route,
-    success: function (data) {
+    success: function(data) {
       for (var i = 0; i < data['groups'].length; i++) {
         $('#table-group-body').append(
           Twig.render(GroupModelRow, {'model': data['model'], 'group': data['groups'][i]})
@@ -124,7 +124,7 @@ function addGroups () {
   })
 }
 
-function addUsers () {
+function addUsers() {
   var queryString = {}
   queryString.userIds = typeMap['user']
   var route = Routing.generate('ws_share_users_add', {'model': modelId})
@@ -132,7 +132,7 @@ function addUsers () {
 
   $.ajax({
     url: route,
-    success: function (data) {
+    success: function(data) {
       for (var i = 0; i < data['users'].length; i++) {
         $('#table-user-body').append(
           Twig.render(UserModelRow, {'model': data['model'], 'user': data['users'][i]})
@@ -142,38 +142,38 @@ function addUsers () {
   })
 }
 
-var removeResourceElement = function (event, successParameter) {
+var removeResourceElement = function(event, successParameter) {
   successParameter.remove()
 }
 
-var removeTabElement = function (event, successParameter) {
+var removeTabElement = function(event, successParameter) {
   successParameter.remove()
 }
 
-var removeTableRow = function (event, successParameter, data) {
+var removeTableRow = function(event, successParameter, data) {
   $('#' + successParameter + '-' + data.id).remove()
 }
 
-$('#add-resnode-copy').on('click', function () {
+$('#add-resnode-copy').on('click', function() {
   resourceManager.picker('copy', 'open')
 })
 
-$('#add-resnode-link').on('click', function () {
+$('#add-resnode-link').on('click', function() {
   resourceManager.picker('link', 'open')
 })
 
-$('#add-tab').on('click', function (event) {
+$('#add-tab').on('click', function(event) {
   event.preventDefault()
   var url = $(event.currentTarget).attr('href')
   $.ajax({
     url: url,
-    success: function (data) {
+    success: function(data) {
       modal.confirmContainer(Translator.trans('add_tab', {}, 'platform'), data)
-        .on('click', '.btn-primary', function () {
+        .on('click', '.btn-primary', function() {
           var parameters = {}
           var array = []
           var i = 0
-          $('.hometab-chk:checked').each(function (index, element) {
+          $('.hometab-chk:checked').each(function(index, element) {
             if (array.indexOf(element.value) === -1) {
               array[i] = element.value
               i++
@@ -186,9 +186,9 @@ $('#add-tab').on('click', function (event) {
           $.ajax({
             url: route,
             type: 'GET',
-            success: function (data) {
+            success: function(data) {
               $('.tab-model').remove()
-              $.each(data, function (index, value) {
+              $.each(data, function(index, value) {
                 var html = Twig.render(ModelTab, value)
                 $('#tab-list').append(html)
               })
@@ -200,7 +200,7 @@ $('#add-tab').on('click', function (event) {
   })
 })
 
-$('body').on('click', '.delete-resourceModel', function (event) {
+$('body').on('click', '.delete-resourceModel', function(event) {
   event.preventDefault()
   modal.Modal.confirmRequest(
     $(event.currentTarget).attr('href'),
@@ -211,7 +211,7 @@ $('body').on('click', '.delete-resourceModel', function (event) {
   )
 })
 
-$('body').on('click', '.delete-tabModel', function (event) {
+$('body').on('click', '.delete-tabModel', function(event) {
   event.preventDefault()
   modal.confirmRequest(
     $(event.currentTarget).attr('href'),
@@ -222,37 +222,37 @@ $('body').on('click', '.delete-tabModel', function (event) {
   )
 })
 
-$('#add-user-btn').on('click', function () {
+$('#add-user-btn').on('click', function() {
   currentType = 'user'
   typeMap['user'] = []
   modal.confirmContainer(Translator.trans('add_user', {}, 'platform'), '')
-    .on('click', '.btn-primary', function () { addUsers() })
+    .on('click', '.btn-primary', function() { addUsers() })
   displayPager(Routing.generate('ws_share_user_list', {'model': modelId}))
 })
 
-$('#add-group-btn').on('click', function () {
+$('#add-group-btn').on('click', function() {
   currentType = 'group'
   typeMap['group'] = []
   modal.confirmContainer(Translator.trans('add_group', {}, 'platform'), '')
-    .on('click', '.btn-primary', function () { addGroups() })
+    .on('click', '.btn-primary', function() { addGroups() })
   displayPager(Routing.generate('ws_share_group_list', {'model': modelId}))
 })
 
 // from userShare.html.twig
-$('body').on('click', '#search-users', function () {
+$('body').on('click', '#search-users', function() {
   var search = $('#search-users-txt').val()
   var url = Routing.generate('ws_share_user_list_search', {'search': search, 'model': modelId})
   displayPager(url)
 })
 
 // from groupShare.html.twig
-$('body').on('click', '#search-groups', function () {
+$('body').on('click', '#search-groups', function() {
   var search = $('#search-groups-txt').val()
   var url = Routing.generate('ws_share_group_list_search', {'search': search, 'model': modelId})
   displayPager(url)
 })
 
-$('body').on('click', '.delete-user', function (event) {
+$('body').on('click', '.delete-user', function(event) {
   event.preventDefault()
   modal.confirmRequest(
     $(event.currentTarget).attr('href'),
@@ -263,7 +263,7 @@ $('body').on('click', '.delete-user', function (event) {
   )
 })
 
-$('body').on('click', '.delete-group', function (event) {
+$('body').on('click', '.delete-group', function(event) {
   event.preventDefault()
   modal.confirmRequest(
     $(event.currentTarget).attr('href'),
@@ -275,7 +275,7 @@ $('body').on('click', '.delete-group', function (event) {
 })
 
 // select users groups and put them into an array.
-$('body').on('click', '.user-chk', function () {
+$('body').on('click', '.user-chk', function() {
   var userId = $(this).attr('user-id')
   var checked = $(this).prop('checked')
   var index = typeMap[currentType].indexOf(userId)
@@ -283,14 +283,14 @@ $('body').on('click', '.user-chk', function () {
 })
 
 // select groups and put them into an array.
-$('body').on('click', '.group-chk', function () {
+$('body').on('click', '.group-chk', function() {
   var groupId = $(this).attr('group-id')
   var checked = $(this).prop('checked')
   var index = typeMap[currentType].indexOf(groupId)
   checked && index < 0 ? typeMap['group'].push(groupId) : typeMap[currentType].splice(index, 1)
 })
 
-$('body').on('click', '.pagination > ul > li > a', function (event) {
+$('body').on('click', '.pagination > ul > li > a', function(event) {
   event.preventDefault()
   event.stopPropagation()
   var element = event.currentTarget

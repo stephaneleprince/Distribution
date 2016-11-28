@@ -29,6 +29,7 @@ module.exports = {
     plugins.exitWithErrorCode(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
+    plugins.occurrenceOrder(),
     ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {

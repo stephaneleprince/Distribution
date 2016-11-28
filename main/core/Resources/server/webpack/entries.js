@@ -6,13 +6,13 @@ const paths = require('./paths')
  * packages "assets.json" manifests. Entries are automatically prefixed to
  * avoid name collisions across bundles.
  */
-function collectEntries () {
+function collectEntries() {
   const packages = collectPackages(paths.root())
   const webpackPackages = packages.filter(def => def.assets && def.assets.webpack)
   const packageNames = webpackPackages.map(def => def.name)
   const normalizedPackages = normalizeNames(webpackPackages)
 
-  return addBundleConfigEntry(extractEntries(normalizedPackages));
+  return addBundleConfigEntry(extractEntries(normalizedPackages))
 }
 
 /**
@@ -24,7 +24,7 @@ function collectEntries () {
  *  - path:      path of the package source directory
  *  - assets:    package assets config declared its assets.json file, if any
  */
-function collectPackages (rootDir) {
+function collectPackages(rootDir) {
   const stats = fs.statSync(rootDir)
 
   if (!stats.isDirectory()) {
@@ -35,24 +35,32 @@ function collectPackages (rootDir) {
 }
 
 function addBundleConfigEntry(entries) {
-    entries['bundle-configs'] = [paths.root() + '/web/dist/plugins-config']
+  entries['bundle-configs'] = [paths.root() + '/web/dist/plugins-config']
 
-    return entries
+  return entries
 }
 
 /**
  * Merges "entry" sections of package configs into one object,
  * prefixing entry names and paths with package names/paths.
  */
-function extractEntries (packages) {
+function extractEntries(packages) {
   return packages
     .filter(def => def.assets.webpack && def.assets.webpack.entry)
     .reduce((entries, def) => {
       Object.keys(def.assets.webpack.entry).forEach(entry => {
-        def.meta ?
-          entries[`${def.name}-${def.assets.webpack.entry[entry].dir}-${entry}`] =
-            `${def.assets.webpack.entry[entry].prefix}/Resources/modules/${def.assets.webpack.entry[entry].name}` :
-          entries[`${def.name}-${entry}`] = `${def.path}/Resources/modules/${def.assets.webpack.entry[entry]}`
+        var isArray = Array.isArray(def.assets.webpack.entry[entry].name)
+        if (def.meta) {
+          var el = isArray ?
+            [`${def.assets.webpack.entry[entry].prefix}/Resources/modules/${def.assets.webpack.entry[entry].name}`]:
+            `${def.assets.webpack.entry[entry].prefix}/Resources/modules/${def.assets.webpack.entry[entry].name}`
+          entries[`${def.name}-${def.assets.webpack.entry[entry].dir}-${entry}`] = el
+        } else {
+          var el = isArray ?
+            [`${def.path}/Resources/modules/${def.assets.webpack.entry[entry]}`]:
+            `${def.path}/Resources/modules/${def.assets.webpack.entry[entry]}`
+          entries[`${def.name}-${entry}`] = el
+        }
       })
 
       return entries
@@ -65,14 +73,14 @@ function extractEntries (packages) {
  *
  * "foo/bar-bundle" -> "foo-bar"
  */
-function normalizeNames (packages) {
+function normalizeNames(packages) {
   return packages.map(def => {
     def.name = normalizeName(def.name)
     return def
   })
 }
 
-function normalizeName (name) {
+function normalizeName(name) {
   var parts = name.split(/\/|\-/)
 
   if (parts[parts.length - 1] === 'bundle') {
@@ -84,7 +92,7 @@ function normalizeName (name) {
   return name
 }
 
-function getPackageDefinitions (rootDir) {
+function getPackageDefinitions(rootDir) {
   const file = `${rootDir}/vendor/composer/installed.json`
   var data
 
@@ -106,7 +114,7 @@ function getPackageDefinitions (rootDir) {
   return filteredPackages.map(extractPackageInfo(rootDir))
 }
 
-function extractPackageInfo (rootDir) {
+function extractPackageInfo(rootDir) {
   return def => {
     const targetDir = def['target-dir'] ? `/${def['target-dir']}` : ''
     const path = `${rootDir}/vendor/${def.name}${targetDir}`
@@ -132,7 +140,7 @@ function extractPackageInfo (rootDir) {
   }
 }
 
-function getMetaEntries (targetDir) {
+function getMetaEntries(targetDir) {
   var data
   var metadata = { webpack: { entry: {} } }
 
@@ -156,7 +164,7 @@ function getMetaEntries (targetDir) {
   return metadata
 }
 
-function getMetaBundles (targetDir) {
+function getMetaBundles(targetDir) {
   var bundles = []
   const src = ['main', 'plugin']
 
@@ -169,7 +177,7 @@ function getMetaBundles (targetDir) {
   return bundles
 }
 
-function isMetaPackage (rootDir) {
+function isMetaPackage(rootDir) {
   return fs.existsSync(rootDir + '/main')
 }
 

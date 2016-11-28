@@ -64,7 +64,7 @@
     "system.js": "0.19.20",
     "tablesorter": "#774576308e",
     "tag-it": "#6ccd2de95e",
-    "tinymce": "4.3.13",
+    "tinymce": "4.5.0",
     "tinymce-codemirror": "https://github.com/christiaan/tinymce-codemirror.git#20c1bbe708",
     "tinymce-mention": "4.0.1",
     "toastr": "2.1.2",
