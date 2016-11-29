@@ -24,12 +24,13 @@ module.exports = {
     plugins.distributionShortcut(),
     plugins.defineProdEnv(),
     plugins.commonsChunk(),
-    plugins.dedupeModules(),
+    //plugins.dedupeModules(),
     plugins.rejectBuildErrors(),
     plugins.exitWithErrorCode(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
     plugins.occurrenceOrder(),
+    plugins.runtime(),
     ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {

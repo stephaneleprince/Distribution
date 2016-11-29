@@ -11,8 +11,9 @@ function collectEntries() {
   const webpackPackages = packages.filter(def => def.assets && def.assets.webpack)
   const packageNames = webpackPackages.map(def => def.name)
   const normalizedPackages = normalizeNames(webpackPackages)
+  const entries = addBundleConfigEntry(extractEntries(normalizedPackages))
 
-  return addBundleConfigEntry(extractEntries(normalizedPackages))
+  return entries
 }
 
 /**

@@ -1,5 +1,8 @@
 {% import 'ClarolineCoreBundle:Layout:javascripts.macros.html.twig' as jsmacros %}
 
+{# Loads all necessary twigjs files #}
+{{ jsmacros.getTwigJs() }}
+
 {# Loads webpack commons.js and libraries.js (minified) files #}
 {{ jsmacros.getCommonJavascripts() }}
 
@@ -24,9 +27,6 @@
 {# Loads fosJsRouter js files #}
 {{ jsmacros.getFosRouterJs() }}
 
-{# Loads all necessary twigjs files #}
-{{ jsmacros.getTwigJs() }}
-
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-core-js.js') }}"></script>
 
 <script>
@@ -41,12 +41,10 @@
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-topbar.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-sidebar.js') }}"></script>
 
-<script src='{{ hotAsset('dist/claroline-distribution-main-core-resource-manager.js') }}'></script>
 <script src='{{ hotAsset('dist/claroline-distribution-main-core-locale.js') }}'></script>
 <script src='{{ hotAsset('dist/claroline-distribution-main-core-resourceinput.js') }}'></script>
 
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-startup.js') }}"></script>
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-tinymce-main.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-modernizr.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-layout-javascript.js') }}"></script>
 

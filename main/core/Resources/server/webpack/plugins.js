@@ -1,8 +1,10 @@
 const webpack = require('webpack')
 const AssetsPlugin = require('assets-webpack-plugin')
 const FailPlugin = require('webpack-fail-plugin')
+const RuntimePlugin = require('runtime-webpack-plugin')
 const paths = require('./paths')
 const ConfigurationPlugin = require('./build/configuration/plugin')
+const entries = require('./entries')
 
 /**
  * Allows webpack to discover entry files of modules stored in the bower
@@ -56,14 +58,26 @@ const configShortcut = () => {
 
 /**
  * Builds a independent bundle for frequently requested modules (might require
- * minuunks adjustments).
+ * minChunks adjustments).
  */
 const commonsChunk = () => {
-  return new webpack.optimize.CommonsChunkPlugin({
-    name: 'commons',
-    filename: "commons.js",
-    minChunks: Infinity
-  })
+    const chunks = entries.collectEntries()
+    var commons = []
+    Object.keys(chunks).forEach((chunk) => {
+        if (Array.isArray(chunks[chunk])) {
+            commons = commons.concat(chunk)
+        }
+    })
+    console.error(commons)
+    return new webpack.optimize.CommonsChunkPlugin({
+      //reverse is here because the runtime is the first element of the commons array. It needs to be the last one.
+      names: commons.reverse(),
+      minChunks: Infinity
+    })
+}
+
+const runtime = () => {
+    return new RuntimePlugin('initial')
 }
 
 /**
@@ -159,5 +173,6 @@ module.exports = {
   dlls,
   configShortcut,
   clarolineConfiguration,
-  occurrenceOrder
+  occurrenceOrder,
+  runtime
 }

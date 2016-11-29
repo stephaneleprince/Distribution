@@ -21,9 +21,8 @@ module.exports = {
     plugins.distributionShortcut(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
-    plugins.dedupeModules(),
-    plugins.occurrenceOrder(),
     plugins.commonsChunk(),
+    //plugins.runtime(),
     ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {
@@ -31,7 +30,7 @@ module.exports = {
       loaders.css(),
       loaders.font(),
       loaders.babel(),
-      //loaders.loadConfig(),
+      loaders.loadConfig(),
       loaders.rawHtml(),
       loaders.jqueryUiNoAmd(),
       loaders.imageUris(),
