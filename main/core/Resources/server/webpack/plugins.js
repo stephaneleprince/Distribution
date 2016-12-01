@@ -5,6 +5,7 @@ const RuntimePlugin = require('runtime-webpack-plugin')
 const paths = require('./paths')
 const ConfigurationPlugin = require('./build/configuration/plugin')
 const entries = require('./entries')
+const CommonLibPlugin = require('./build/libraries/plugin')
 
 /**
  * Allows webpack to discover entry files of modules stored in the bower
@@ -60,20 +61,8 @@ const configShortcut = () => {
  * Builds a independent bundle for frequently requested modules (might require
  * minChunks adjustments).
  */
-const commonsChunk = () => {
-    const chunks = entries.collectEntries()
-    var commons = []
-    Object.keys(chunks).forEach((chunk) => {
-        if (Array.isArray(chunks[chunk])) {
-            commons = commons.concat(chunk)
-        }
-    })
-    console.error(commons)
-    return new webpack.optimize.CommonsChunkPlugin({
-      //reverse is here because the runtime is the first element of the commons array. It needs to be the last one.
-      names: commons.reverse(),
-      minChunks: Infinity
-    })
+const commonsChunk = (commons) => {
+    return new CommonLibPlugin(commons)
 }
 
 const runtime = () => {

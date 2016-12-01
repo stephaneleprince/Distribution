@@ -5,7 +5,7 @@ const plugins = require('./main/core/Resources/server/webpack/plugins')
 const loaders = require('./main/core/Resources/server/webpack/loaders')
 
 module.exports = {
-  entry: entries.collectEntries(),
+  entry: entries.collectEntries('entry'),
   output: {
     path: paths.output(),
     publicPath: 'http://localhost:8080/dist',
@@ -21,7 +21,7 @@ module.exports = {
     plugins.distributionShortcut(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
-    plugins.commonsChunk(),
+    plugins.commonsChunk(entries.collectEntries('common')),
     //plugins.runtime(),
     ...plugins.dllReferences(shared.dllManifests())
   ],

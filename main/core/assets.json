@@ -1,7 +1,11 @@
 {
   "webpack": {
+    "common": {
+        "resource-manager": ["_old/resource/manager/manager"],
+        "resourceinput": ["_old/resourceinput"],
+        "tinymce": ["tinymce/tinymce"]
+    },
     "entry": {
-      "runtime": ["runtime"],    
       "user-management": "users/module",
       "facet-management": "facets/module",
       "private-profile": "profile/module",
@@ -53,7 +57,6 @@
       "iframe": "_old/iframe/iframe",
       "user-public-url": "_old/user/publicUrl",
       "jqplot": "_old/jqplot/jqplot",
-      "resource-manager": ["_old/resource/manager/manager"],
       "resource-dnd": "_old/resource/dragndrop",
       "tool-desktop-tool-properties": "_old/tool/desktop/toolProperties",
       "tool-desktop-user-options": "_old/tool/desktop/userOptionsEditForm",
@@ -70,7 +73,6 @@
       "checkbox-dropdown": "_old/checkboxDropdown",
       "locale": "_old/locale",
       "sidebar": "_old/sidebar",
-      "resourceinput": ["_old/resourceinput"],
       "user-picker": "_js/Form/userPicker",
       "administration-workspace-management": "_js/Administration/Workspace/management",
       "exception-layout": "_js/Exception/layout",
@@ -82,7 +84,6 @@
       "tool-workspace-users-of-group": "_js/Tool/Workspace/roles/usersOfGroup",
       "administration-user-workspace-list": "_js/Administration/Users/userWorkspaceList",
       "tinymce-main": "tinymce/main",
-      "tinymce": ["tinymce/tinymce"],
       "display-activity-evaluation": "_js/Activity/displayActivityEvaluation",
       "administration-analytics-analytics-connections": "_js/Administration/Analytics/analytics_connections",
       "administration-analytics-analytics": "_js/Administration/Analytics/analytics",
