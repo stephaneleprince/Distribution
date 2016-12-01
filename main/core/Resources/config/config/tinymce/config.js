@@ -3,6 +3,7 @@ import upload from './resource_upload_button'
 import codemirror from './codemirror'
 import Mention from './mention'
 import home from '#/main/core/_old/home/home'
+import 'tinymce-formula'
 
 export default [
   {
@@ -31,5 +32,14 @@ export default [
         'mentions': new Mention()
     },
     'plugin': '-mention'
+  },
+  {
+    'name': 'formula',
+    'config': {
+      'formula': {
+        'path': home.asset + 'packages/tinymce-formula'
+      }
+    },
+    'plugin': '-formula'
   }
 ]
