@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'underscore'
-import resourceManager from '#/main/core/_old/resource/manager/manager'
+import resourceManager from 'claroline/resource-manager'
 
 /* global tinymce */
 
@@ -10,7 +10,7 @@ tinymce.claroline.configuration.toolbar1 = 'bold italic strikethrough | alignlef
 var resourceNodeId = null
 
 resourceManager.createPicker('dropPicker', {
-  callback: function (nodes) {
+  callback: function(nodes) {
     resourceNodeId = _.keys(nodes)[0]
     $('.dropzone_ressrouceSelected').show()
     $('.dropzone_noRessourceSelected').hide()
@@ -29,32 +29,32 @@ if ($('#innova_collecticiel_document_file_form_file').val() !== '') {
   $(this).parents('form').submit()
 }
 // autosubmit input files.
-$('#innova_collecticiel_document_file_form_file').change(function () {
+$('#innova_collecticiel_document_file_form_file').change(function() {
   $('.please-wait').show()
   $(this).parents('form').submit()
 })
 
-$('#innova_collecticiel_document_file_form_file').parents('form').find('button').click(function (e) {
+$('#innova_collecticiel_document_file_form_file').parents('form').find('button').click(function(e) {
   // desactivation of the submit button ( autosubmit is activated).
   e.preventDefault()
 })
 
-$('a.launch-inline').on('click', function (event) {
+$('a.launch-inline').on('click', function(event) {
   event.preventDefault()
   $('.disabled-during-add').attr('disabled', 'disabled')
 
   var launchResourcePicker = $(this).hasClass('launch-resource-picker')
 
   $.get($(this).attr('href'))
-    .always(function () {})
-    .done(function (data) {
+    .always(function() {})
+    .done(function(data) {
       $('.container-inline').append(data)
       $('.show-during-add').show()
 
       if (launchResourcePicker) {
         resourceManager.picker('dropPicker')
 
-        $('#modal-picker').on('hidden.bs.modal', function () {
+        $('#modal-picker').on('hidden.bs.modal', function() {
           if (resourceNodeId === null) {
             $('.cancel-inline').trigger('click')
           }
@@ -67,17 +67,17 @@ $('a.launch-inline').on('click', function (event) {
     })
 })
 
-$('#addRessourceButton').click(function (e) {
+$('#addRessourceButton').click(function(e) {
   e.preventDefault()
   resourceManager.picker('dropPicker')
-  $('#modal-picker').unbind('hidden.bs.modal').on('hidden.bs.modal', function () {
+  $('#modal-picker').unbind('hidden.bs.modal').on('hidden.bs.modal', function() {
     if (resourceNodeId === null) {
       // $('.cancel-inline').trigger('click')
     }
   })
 })
 
-$('#dropzone_global_save_link').click(function () {
+$('#dropzone_global_save_link').click(function() {
   // test if some text or data is not save before launch modal, in order to adapt message.
   var fieldEmpty = true
   var text = $('#innova_collecticiel_document_file_form_text').val()

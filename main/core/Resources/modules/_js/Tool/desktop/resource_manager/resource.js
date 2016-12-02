@@ -1,4 +1,5 @@
-import manager from '#/main/core/_old/resource/manager/manager'
+
+import manager from 'claroline/resource-manager'
 import $ from 'jquery'
 
 /* global FileAPI */

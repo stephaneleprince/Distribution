@@ -5,7 +5,8 @@ import _ from 'underscore'
 
 import common from './common'
 import modal from './modal'
-import manager from '#/main/core/_old/resource/manager/manager'
+
+import manager from 'claroline/resource-manager'
 
 /* global Routing */
 

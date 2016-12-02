@@ -1,12 +1,12 @@
 import $ from 'jquery'
 import modal from '../modal'
-import resourceManager from './manager/manager'
+import resourceManager from 'claroline/resource-manager'
 
 /* global FileAPI */
 /* global Translator */
 /* global Routing */
 
-$(document).on('ready', function () {
+$(document).on('ready', function() {
   if (!(FileAPI.support.cors || FileAPI.support.flash)) {
     alert('Flash is needed')
   } else {
@@ -14,7 +14,7 @@ $(document).on('ready', function () {
     var dropEnabled = false
 
     if (FileAPI.support.dnd) {
-      $(document).dnd(function (over, evt) {
+      $(document).dnd(function(over, evt) {
         dropEnabled = ($(evt.target).hasClass('nodes') || $(evt.target).parents('.nodes').length > 0)
         if (over) {
           if (!dropzoneEnabled) {
@@ -35,7 +35,7 @@ $(document).on('ready', function () {
         } else {
           $('.dropzone-text').html(Translator.trans('drag_file_here', {}, 'platform'))
         }
-      }, function (files) {
+      }, function(files) {
         if (dropEnabled) {
           onFiles(files)
         }
@@ -49,7 +49,7 @@ var FU = {
   index: 0,
   active: false,
 
-  add: function (file) {
+  add: function(file) {
     var manager = resourceManager.get('main')
     var currentDirectoryId = manager.parameters.currentDirectoryId || manager.parameters.directoryId
 
@@ -61,7 +61,7 @@ var FU = {
     FU.files.push(file)
   },
 
-  getFileById: function (id) {
+  getFileById: function(id) {
     var i = FU.files.length
     while (i--) {
       if (FileAPI.uid(FU.files[i]) === id) {
@@ -70,20 +70,20 @@ var FU = {
     }
   },
 
-  start: function () {
+  start: function() {
     if (!FU.active && (FU.active = FU.files.length > FU.index)) {
       FU._upload(FU.files[FU.index])
     }
   },
 
-  abort: function (id) {
+  abort: function(id) {
     var file = this.getFileById(id)
     if (file.xhr) {
       file.xhr.abort()
     }
   },
 
-  _upload: function (file) {
+  _upload: function(file) {
     if (file) {
       var manager = resourceManager.get('main')
       var currentDirectoryId = manager.parameters.currentDirectoryId || manager.parameters.directoryId
@@ -93,7 +93,7 @@ var FU = {
         imageAutoOrientation: true,
         data: { fileName: file.name },
         files: { file: file },
-        upload: function () {
+        upload: function() {
           if (FU.index === 0) {
             $('.nodes').after(
               '<div class="resources-progress-bar"><div>' + Translator.trans('upload', {}, 'platform') +
@@ -103,13 +103,13 @@ var FU = {
             )
           }
         },
-        progress: function (evt) {
+        progress: function(evt) {
           var progress = ((evt.loaded / evt.total * (100 / FU.files.length)) +
             ((100 / FU.files.length) * FU.index))
           $('div.progress > div.progress-bar').css('width', progress + '%')
           $('div.progress > div.progress-bar').attr('aria-valuenow', progress)
         },
-        complete: function (err, xhr) {
+        complete: function(err, xhr) {
           FU.index++
           FU.active = false
           $('#progress-files').html(FU.index + '/' + FU.files.length)
@@ -135,7 +135,7 @@ var FU = {
           }
 
           if (FU.index === FU.files.length) {
-            setTimeout(function () {
+            setTimeout(function() {
               $('div.resources-progress-bar').remove()
             }, 500)
             FU.index = 0
@@ -148,7 +148,7 @@ var FU = {
   }
 }
 
-function showErrorMessage (message) {
+function showErrorMessage(message) {
   var alertUl = $('.alert-danger > ul')
   if (alertUl.length > 0) {
     alertUl.append(
@@ -162,13 +162,13 @@ function showErrorMessage (message) {
   }
 }
 
-function onFiles (files) {
+function onFiles(files) {
   var maxSize = $('#data-attributes').attr('data-max-post-size')
   var lastChar = maxSize.substr(maxSize.length - 1)
   var varSize = maxSize.slice(0, maxSize.length - 1)
   var size = maxSize
 
-  FileAPI.each(files, function (file) {
+  FileAPI.each(files, function(file) {
     if (maxSize !== 0) {
       switch (lastChar) {
         case 'M':
