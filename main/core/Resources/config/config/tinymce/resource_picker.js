@@ -4,7 +4,7 @@ import $ from 'jquery'
 import _ from 'underscore'
 import clarolineTinymce from '#/main/core/tinymce/tinymce'
 import tinymce from 'tinymce/tinymce'
-import ResourceManager from '#/main/core/_old/resource/manager/manager'
+import ResourceManager from 'claroline/resource-manager'
 
 
 /**

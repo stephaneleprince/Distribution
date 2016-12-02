@@ -289,4 +289,5 @@ clarolineTinymce.initialization = function() {
   //})
 }
 
+window.ClarolineTinymce = clarolineTinymce
 export default clarolineTinymce

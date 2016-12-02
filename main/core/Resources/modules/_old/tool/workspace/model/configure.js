@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import modal from '../../../modal'
-import resourceManager from '#/main/core/_old/resource/manager/manager'
+import resourceManager from 'claroline/resource-manager'
 
 /* global Routing */
 /* global Translator */

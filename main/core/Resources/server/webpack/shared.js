@@ -3,8 +3,8 @@ const paths = require('./paths')
 const libraries = require('./libraries')
 
 const externals = () => ({
-  'jquery': 'jQuery'
-  //"claroline/resourceManager": ["_old/resource/manager/manager.js"],
+  'jquery': 'jQuery',
+  'claroline/resource-manager': 'ClarolineResourceManager'
 })
 
 const aliases = () => ({
