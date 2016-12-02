@@ -2,32 +2,52 @@ import _ from 'underscore'
 import $ from 'jquery'
 
 import Router from './router'
-import './server'
+import Server from './server'
 
-import './views/master'
-import './views/resources'
-import './views/tabpanes'
-import './views/tabs'
-import './views/treelist'
-import './views/treenode'
-import './views/widgets'
+import Master from './views/master'
 
-import './views/resource/actions'
-import './views/resource/breadcrumbs'
-import './views/resource/confirm'
-import './views/resource/filters'
-import './views/resource/form'
-import './views/resource/listElement'
-import './views/resource/nodes'
-import './views/resource/rights'
-import './views/resource/thumbnail'
+import Resources from './views/resources'
+import Tabpanes from './views/tabpanes'
+import Tabs from './views/tabs'
+import Treelist from './views/treelist'
+import Treenode from './views/treenode'
+import Widgets from './views/widgets'
+
+import Actions from './views/resource/actions'
+import Breadcrumbs from './views/resource/breadcrumbs'
+import Confirm from './views/resource/confirm'
+import Filters from './views/resource/filters'
+import Form from './views/resource/form'
+import ListViewElement from './views/resource/listElement'
+import Nodes from './views/resource/nodes'
+import Rights from './views/resource/rights'
+import Thumbnail from './views/resource/thumbnail'
 
 /* global Backbone */
+var manager = window.ClarolineResourceManager = {}
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
+manager.Views = {}
+manager.Server = Server
+manager.Router = Router
+manager.Views.Resources = Resources
+manager.Views.Tabpanes = Tabpanes
+manager.Views.Tabs = Tabs
+manager.Views.Treelist = Treelist
+manager.Views.Treenode = Treenode
+manager.Views.Widgets = Widgets
+manager.Views.Actions = Actions
+manager.Views.Breadcrumbs = Breadcrumbs
+manager.Views.Confirm = Confirm
+manager.Views.Filters = Filters
+manager.Views.Form = Form
+manager.Views.ListViewElement = ListViewElement
+manager.Views.Nodes = Nodes
+manager.Views.Rights = Rights
+manager.Views.Thumbnail = Thumbnail
 
-var manager = window.Claroline.ResourceManager
+//should be the last one
+manager.Views.Master = Master
+
 var dispatcher = null
 var server = null
 var views = {}
@@ -72,7 +92,7 @@ var fetchedParameters = {
  *
  * @param parameters object Parameters of the manager
  */
-manager.createFullManager = function (parameters) {
+manager.createFullManager = function(parameters) {
   initialize()
   parameters = parameters || {}
   var mainParameters = buildParameters('main', parameters, false, true)
@@ -128,7 +148,7 @@ manager.createFullManager = function (parameters) {
  * @param parameters    object  Parameters of the picker
  * @param open          boolean Whether the picker should be opened after creation (defaults to false)
  */
-manager.createPicker = function (name, parameters, open) {
+manager.createPicker = function(name, parameters, open) {
   if (manager.hasPicker(name)) {
     throw new Error('Picker name "' + name + '" is already in use')
   }
@@ -139,7 +159,7 @@ manager.createPicker = function (name, parameters, open) {
 
   initialize()
   parameters = parameters || {}
-  fetchMissingParameters(parameters, function () {
+  fetchMissingParameters(parameters, function() {
     var pickerParameters = buildParameters(name, parameters, true)
     views[name] = new manager.Views.Master(pickerParameters, dispatcher)
     open && dispatcher.trigger('open-picker-' + name)
@@ -152,7 +172,7 @@ manager.createPicker = function (name, parameters, open) {
  * @param name  string
  * @returns boolean
  */
-manager.hasPicker = function (name) {
+manager.hasPicker = function(name) {
   return views.hasOwnProperty(name) && views[name].parameters.isPickerMode
 }
 
@@ -162,7 +182,7 @@ manager.hasPicker = function (name) {
  * @param name  string
  * @returns object
  */
-manager.get = function (name) {
+manager.get = function(name) {
   return views[name]
 }
 
@@ -172,7 +192,7 @@ manager.get = function (name) {
  * @param name      string  Name of the picker
  * @param action    string  Action to execute (open|close)
  */
-manager.picker = function (name, action) {
+manager.picker = function(name, action) {
   if (!manager.hasPicker(name)) {
     throw new Error('Unknown picker "' + name + '"')
   }
@@ -181,25 +201,25 @@ manager.picker = function (name, action) {
   dispatcher.trigger(action + '-picker-' + name)
 }
 
-manager.destroy = function (name) {
+manager.destroy = function(name) {
   delete views[name]
 }
 
 /**
  * Activates event dispatcher logging (debug utility).
  */
-manager.logEvents = function () {
+manager.logEvents = function() {
   if (!areLogsActivated) {
     initialize()
     var originalTrigger = dispatcher.trigger
-    dispatcher.trigger = function (event, args) {
+    dispatcher.trigger = function(event, args) {
       originalTrigger.apply(dispatcher, [event, args])
     }
     areLogsActivated = true
   }
 }
 
-function initialize () {
+function initialize() {
   if (!isInitialized) {
     dispatcher = _.extend({}, Backbone.Events)
     server = new manager.Server(dispatcher)
@@ -207,7 +227,7 @@ function initialize () {
   }
 }
 
-function buildParameters (viewName, parameters, isPicker, isDefault) {
+function buildParameters(viewName, parameters, isPicker, isDefault) {
   var allowDirectorySelection = true
   if (parameters.isDirectorySelectionAllowed !== undefined)
     allowDirectorySelection = parameters.isDirectorySelectionAllowed
@@ -224,7 +244,7 @@ function buildParameters (viewName, parameters, isPicker, isDefault) {
     language: parameters.language || fetchedParameters.language || 'en',
     webPath: parameters.webPath || fetchedParameters.webPath || '',
     zoom: parameters.zoom || fetchedParameters.zoom || 'zoom100',
-    pickerCallback: parameters.callback || function () {},
+    pickerCallback: parameters.callback || function() {},
     isPickerMultiSelectAllowed: isDefault || parameters.isPickerMultiSelectAllowed || false,
     isDirectorySelectionAllowed: allowDirectorySelection,
     currentDirectoryId: null,
@@ -242,7 +262,7 @@ function buildParameters (viewName, parameters, isPicker, isDefault) {
   return mergedParameters
 }
 
-function resolveDirectoryId (parameters, isPicker, isDefault) {
+function resolveDirectoryId(parameters, isPicker, isDefault) {
   if (isPicker) {
     if (isDefault) {
       return parameters.pickerDirectoryId || '0'
@@ -254,7 +274,7 @@ function resolveDirectoryId (parameters, isPicker, isDefault) {
   return parameters.directoryId || '0'
 }
 
-function resolveResourceTypes (parameters) {
+function resolveResourceTypes(parameters) {
   var types = parameters.resourceTypes || fetchedParameters.resourceTypes || {}
 
   if (parameters.typeWhiteList) {
@@ -266,16 +286,16 @@ function resolveResourceTypes (parameters) {
   return types
 }
 
-function fetchMissingParameters (givenParameters, callback) {
+function fetchMissingParameters(givenParameters, callback) {
   var expectedParameters = ['resourceTypes', 'webPath', 'language', 'zoom', 'directoryId']
-  var hasMissingParameter = _.some(expectedParameters, function (parameter) {
+  var hasMissingParameter = _.some(expectedParameters, function(parameter) {
     return !givenParameters.hasOwnProperty(parameter)
   })
 
   if (!hasMissingParameter || hasFetchedParameters) {
     callback()
   } else {
-    server.fetchManagerParameters(function (data) {
+    server.fetchManagerParameters(function(data) {
       fetchedParameters.directoryId = data.pickerDirectoryId
       fetchedParameters.preFetchedDirectory = data.preFetchedDirectory
       fetchedParameters.resourceTypes = data.resourceTypes

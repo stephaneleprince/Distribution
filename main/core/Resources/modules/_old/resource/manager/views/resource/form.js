@@ -3,11 +3,7 @@ import modal from '../../../../modal'
 
 /* global Backbone */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-
-window.Claroline.ResourceManager.Views.Form = Backbone.View.extend({
+export default Backbone.View.extend({
   events: {
     'submit form': 'submit'
   },
@@ -33,19 +29,19 @@ window.Claroline.ResourceManager.Views.Form = Backbone.View.extend({
       onSuccess: 'reload-page'
     }
   },
-  initialize: function (dispatcher) {
+  initialize: function(dispatcher) {
     this.dispatcher = dispatcher
     this.targetNodeId = null
     this.eventOnSuccess = null
-    _.each(_.keys(this.knownActions), function (eventName) {
+    _.each(_.keys(this.knownActions), function(eventName) {
       this.dispatcher.on(eventName, this.render, this)
     }, this)
     this.dispatcher.on('error-form', this.render, this)
-    this.dispatcher.on('submit-success', function () {
+    this.dispatcher.on('submit-success', function() {
       this.$el.modal('hide')
     }, this)
   },
-  submit: function (event) {
+  submit: function(event) {
     event.preventDefault()
     var form = this.$('form')
     this.dispatcher.trigger('submit-form', {
@@ -55,13 +51,13 @@ window.Claroline.ResourceManager.Views.Form = Backbone.View.extend({
       eventOnSuccess: this.eventOnSuccess
     })
   },
-  replaceId: function (id) {
+  replaceId: function(id) {
     if (this.$('form') && this.$('form').attr('action')) {
       var action = this.$('form').attr('action').replace('_nodeId', id)
       this.$('form').attr('action', action)
     }
   },
-  render: function (event) {
+  render: function(event) {
     this.targetNodeId = event.nodeId || this.targetNodeId
 
     if (event.isCustomAction) {
@@ -81,7 +77,7 @@ window.Claroline.ResourceManager.Views.Form = Backbone.View.extend({
       } else {
         parameters = { node: event.nodeId }
       }
-      modal.fromRoute(route, parameters, _.bind(function (element) {
+      modal.fromRoute(route, parameters, _.bind(function(element) {
         this.setElement(element)
         this.replaceId(event.nodeId)
       }, this))

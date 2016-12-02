@@ -1,4 +1,5 @@
 import _ from 'underscore'
+import utilities from '#/main/core/_old/utilities'
 
 /* global Backbone */
 /* global Twig */
@@ -6,22 +7,18 @@ import _ from 'underscore'
 /* global ResourceDeleteConfirmMessage */
 /* global ResourceManagerListElement */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-
-window.Claroline.ResourceManager.Views.ListViewElement = Backbone.View.extend({
+export default Backbone.View.extend({
   className: 'resource-li list-group-item node',
   tagName: 'li',
   events: {
     'click a.node-menu-action': 'menuAction'
   },
-  initialize: function (parameters, dispatcher, zoomValue) {
+  initialize: function(parameters, dispatcher, zoomValue) {
     this.parameters = parameters
     this.dispatcher = dispatcher
     this.zoomValue = zoomValue
   },
-  menuAction: function (event) {
+  menuAction: function(event) {
     event.preventDefault()
     var action = event.currentTarget.getAttribute('data-action')
     var nodeId = event.currentTarget.getAttribute('data-id')
@@ -42,7 +39,7 @@ window.Claroline.ResourceManager.Views.ListViewElement = Backbone.View.extend({
       this.dispatcher.trigger('confirm', {
         header: Translator.trans('delete', {}, 'platform'),
         body: body,
-        callback: _.bind(function () {
+        callback: _.bind(function() {
           this.dispatcher.trigger('delete', {
             ids: [nodeId],
             view: this.parameters.viewName
@@ -58,10 +55,10 @@ window.Claroline.ResourceManager.Views.ListViewElement = Backbone.View.extend({
       })
     }
   },
-  render: function (node, isSelectionAllowed) {
+  render: function(node, isSelectionAllowed) {
     this.el.id = node.id
     this.$el.addClass(this.zoomValue)
-    node.displayableName = window.Claroline.Utilities.formatText(node.name, 20, 2)
+    node.displayableName = utilities.formatText(node.name, 20, 2)
     isSelectionAllowed = (node.type === 'directory' && !this.parameters.isDirectorySelectionAllowed) ? false : true
     var actions = this.parameters.resourceTypes.hasOwnProperty(node.type) ?
       this.parameters.resourceTypes[node.type].actions :

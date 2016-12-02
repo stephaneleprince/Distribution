@@ -4,6 +4,7 @@ const shared = require('./main/core/Resources/server/webpack/shared')
 const plugins = require('./main/core/Resources/server/webpack/plugins')
 const loaders = require('./main/core/Resources/server/webpack/loaders')
 
+
 module.exports = {
   entry: entries.collectEntries('entry'),
   output: {
@@ -21,7 +22,8 @@ module.exports = {
     plugins.distributionShortcut(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
-    plugins.commonsChunk(entries.collectEntries('common')),
+    //plugins.commonsChunk(entries.collectEntries('common')),
+    plugins.namedModule(),
     //plugins.runtime(),
     ...plugins.dllReferences(shared.dllManifests())
   ],
@@ -38,7 +40,7 @@ module.exports = {
     ]
   },
   externals: shared.externals(),
-  devtool: 'eval',
+  devtool: false,
   devServer: {
     headers: {
       'Access-Control-Allow-Origin': '*'

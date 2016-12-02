@@ -7,22 +7,18 @@ import utilities from '../../../../utilities'
 /* global ResourceManagerThumbnail */
 /* global ResourceDeleteConfirmMessage */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-
-window.Claroline.ResourceManager.Views.Thumbnail = Backbone.View.extend({
+export default Backbone.View.extend({
   className: 'node-thumbnail node ui-state-default',
   tagName: 'li',
   events: {
     'click a.node-menu-action': 'menuAction'
   },
-  initialize: function (parameters, dispatcher, zoomValue) {
+  initialize: function(parameters, dispatcher, zoomValue) {
     this.parameters = parameters
     this.dispatcher = dispatcher
     this.zoomValue = zoomValue
   },
-  menuAction: function (event) {
+  menuAction: function(event) {
     event.preventDefault()
     var action = event.currentTarget.getAttribute('data-action')
     var nodeId = event.currentTarget.getAttribute('data-id')
@@ -43,7 +39,7 @@ window.Claroline.ResourceManager.Views.Thumbnail = Backbone.View.extend({
       this.dispatcher.trigger('confirm', {
         header: Translator.trans('delete', {}, 'platform'),
         body: body,
-        callback: _.bind(function () {
+        callback: _.bind(function() {
           this.dispatcher.trigger('delete', {
             ids: [nodeId],
             view: this.parameters.viewName
@@ -59,7 +55,7 @@ window.Claroline.ResourceManager.Views.Thumbnail = Backbone.View.extend({
       })
     }
   },
-  render: function (node, isSelectionAllowed) {
+  render: function(node, isSelectionAllowed) {
     this.el.id = node.id
     this.$el.addClass(this.zoomValue)
     node.displayableName = utilities.formatText(node.name, 20, 2)

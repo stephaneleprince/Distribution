@@ -4,17 +4,13 @@ import _ from 'underscore'
 /* global Twig */
 /* global ResourceManagerBreadcrumbs */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-
-window.Claroline.ResourceManager.Views.Breadcrumbs = Backbone.View.extend({
+export default Backbone.View.extend({
   tagName: 'ul',
   className: 'breadcrumb',
   events: {
     'click a.node': 'open'
   },
-  initialize: function (parameters, dispatcher) {
+  initialize: function(parameters, dispatcher) {
     this.parameters = parameters
     this.dispatcher = dispatcher
     this.rootBreadcrumbs = []
@@ -26,15 +22,15 @@ window.Claroline.ResourceManager.Views.Breadcrumbs = Backbone.View.extend({
       this.reuseElement()
     }
   },
-  reuseElement: function () {
+  reuseElement: function() {
     this.setElement(this.parameters.breadcrumbElement)
     this.rootBreadcrumbs = this.$('li').toArray() // extract existing breadcrumbs
     this.rootBreadcrumbs.pop() // without 'Resources' segment
-    this.rootBreadcrumbs = _.map(this.rootBreadcrumbs, function (element) {
+    this.rootBreadcrumbs = _.map(this.rootBreadcrumbs, function(element) {
       return element.outerHTML
     })
   },
-  open: function (event) {
+  open: function(event) {
     event.preventDefault()
     this.dispatcher.trigger('open-directory', {
       nodeId: event.currentTarget.getAttribute('data-node-id'),
@@ -42,7 +38,7 @@ window.Claroline.ResourceManager.Views.Breadcrumbs = Backbone.View.extend({
       fromPicker: this.parameters.isPickerMode
     })
   },
-  render: function (event) {
+  render: function(event) {
     if (this.parameters.isWorkspace && !this.parameters.isPickerMode) {
       // remove workspace part (already in root breadcrumbs) but keep it
       // for the root id reference (i.e. 'Resources' segment target)

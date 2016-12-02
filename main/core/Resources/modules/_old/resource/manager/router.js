@@ -2,12 +2,8 @@ import _ from 'underscore'
 import $ from 'jquery'
 
 /* global Backbone */
-
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-
-window.Claroline.ResourceManager.Router = Backbone.Router.extend({
-  initialize: function (dispatcher, defaultDirectoryId) {
+const router = Backbone.Router.extend({
+  initialize: function(dispatcher, defaultDirectoryId) {
     this.dispatcher = dispatcher
     this.defaultDirectoryId = defaultDirectoryId
     this.dispatcher.on('open-directory', this.recordRoute, this)
@@ -15,7 +11,7 @@ window.Claroline.ResourceManager.Router = Backbone.Router.extend({
     this.route(/^$/, 'default', this.openDefault, this)
     this.route(/^resources\/(\d+)(\?.*)?$/, 'handle', this.handleRequest, this)
   },
-  recordRoute: function (event) {
+  recordRoute: function(event) {
     if (event.view === 'main' && !event.fromRouter) { // avoid event loop
       var route = 'resources/' + event.nodeId
 
@@ -26,17 +22,17 @@ window.Claroline.ResourceManager.Router = Backbone.Router.extend({
       this.navigate(route) // just recording, not triggering
     }
   },
-  openDefault: function () {
+  openDefault: function() {
     this.dispatchMainEvent('open-directory', this.defaultDirectoryId)
   },
-  handleRequest: function (directoryId, queryString) {
+  handleRequest: function(directoryId, queryString) {
     if (!queryString) {
       this.dispatchMainEvent('open-directory', directoryId)
     } else {
       var parameters = decodeURIComponent(queryString.substr(1)).split('&')
       var searchParameters = {}
       var knownParameters = ['name', 'dateFrom', 'dateTo', 'types[]']
-      _.each(parameters, function (parameter) {
+      _.each(parameters, function(parameter) {
         parameter = parameter.split('=')
 
         if (knownParameters.indexOf(parameter[0]) !== -1) {
@@ -46,7 +42,7 @@ window.Claroline.ResourceManager.Router = Backbone.Router.extend({
       this.dispatchMainEvent('filter', directoryId, searchParameters)
     }
   },
-  dispatchMainEvent: function (eventName, directoryId, parameters) {
+  dispatchMainEvent: function(eventName, directoryId, parameters) {
     var event = {
       nodeId: directoryId,
       view: 'main',
@@ -61,4 +57,4 @@ window.Claroline.ResourceManager.Router = Backbone.Router.extend({
   }
 })
 
-export default window.Claroline.ResourceManager.Router
+export default router

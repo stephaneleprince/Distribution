@@ -1,14 +1,11 @@
+import Treelist from './treelist'
+
 /* global Backbone */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-var views = window.Claroline.ResourceManager.Views
-
-views.Widgets = Backbone.View.extend({
+export default Backbone.View.extend({
   tagName: 'div',
   className: 'tab-pane widget-tree',
-  initialize: function (parameters, dispatcher) {
+  initialize: function(parameters, dispatcher) {
     this.parameters = parameters
     this.dispatcher = dispatcher
     this.tabName = 'widgets'
@@ -18,20 +15,20 @@ views.Widgets = Backbone.View.extend({
     this.dispatcher.on('widgets-tab-pane-visible', this.getWorkspaces, this)
     this.dispatcher.on('workspace-list-returned', this.render, this)
   },
-  buildElement: function () {
+  buildElement: function() {
     this.wrapper = this.$el
     this.el.id = this.tabName + '-tab-pane'
     this.$el.attr('role', 'tabpanel')
   },
-  getWorkspaces: function () {
+  getWorkspaces: function() {
     if (!this.isAppended) {
       this.dispatcher.trigger('get-workspace-list')
     }
   },
-  render: function (data) {
+  render: function(data) {
     if (!this.isAppended) {
       this.subViews = {
-        workspaces: new views.Treelist(this.parameters, this.dispatcher, data)
+        workspaces: new Treelist(this.parameters, this.dispatcher, data)
       }
 
       this.wrapper.append(this.subViews.workspaces.el)

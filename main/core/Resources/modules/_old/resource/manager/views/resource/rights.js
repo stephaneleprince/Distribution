@@ -9,11 +9,7 @@ import UserPicker from '../../../../user/userPicker'
 /* global Routing */
 /* global ResourceRightsRow */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-
-window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
+export default Backbone.View.extend({
   events: {
     'change #simple input': 'checkSimple',
     'change #general input': 'checkAdvanced',
@@ -29,23 +25,23 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
     'click #add-new-user-rights-btn': 'addUserClick',
     'click #search-workspaces-btn': 'searchWorkspaces'
   },
-  initialize: function (dispatcher) {
+  initialize: function(dispatcher) {
     this.dispatcher = dispatcher
     this.mainElement = null
     this.defaultRoute = 'claro_resource_right_form'
     this.dispatcher.on('edit-rights', this.render, this)
-    this.dispatcher.on('edited-rights', function () {
+    this.dispatcher.on('edited-rights', function() {
       this.$el.modal('hide')
     }, this)
-    this.dispatcher.on('edited-workspace-rights', function () {
+    this.dispatcher.on('edited-workspace-rights', function() {
       this.$('#form-rights-tag-wrapper').empty()
     }, this)
-    this.dispatcher.on('workspace-role-rights', function (form) {
+    this.dispatcher.on('workspace-role-rights', function(form) {
       this.$('#form-rights-tag-wrapper').empty()
       this.$('#form-rights-tag-wrapper').append(form)
     }, this)
   },
-  checkSimple: function (event) {
+  checkSimple: function(event) {
     var element = event.target
 
     switch (this.$(element).attr('id')) {
@@ -66,14 +62,14 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
         break
     }
   },
-  checkAdvanced: function (event) {
+  checkAdvanced: function(event) {
     simpleRights.checkAll(event.target)
   },
-  submitSimpleAndAdvanced: function (event) {
+  submitSimpleAndAdvanced: function(event) {
     event.preventDefault()
     this.dispatchSubmit(this.$('form')[0], 'edited-rights')
   },
-  openCreationOptions: function (event) {
+  openCreationOptions: function(event) {
     event.preventDefault()
     this.render({
       isCreationOptions: true,
@@ -81,31 +77,31 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
       url: event.currentTarget.getAttribute('href')
     })
   },
-  submitCreationOptions: function (event) {
+  submitCreationOptions: function(event) {
     event.preventDefault()
     this.dispatchSubmit(this.$('form')[0], 'edited-creation-rights')
   },
-  displayWorkspaceRolePermissions: function (event) {
+  displayWorkspaceRolePermissions: function(event) {
     event.preventDefault()
     this.dispatcher.trigger('get-url', {
       url: event.currentTarget.getAttribute('href'),
       onSuccess: 'workspace-role-rights'
     })
   },
-  submitWorkspaceRolePermissions: function (event) {
+  submitWorkspaceRolePermissions: function(event) {
     event.preventDefault()
     this.dispatchSubmit(this.$('form')[1], 'edited-workspace-rights')
   },
-  dispatchSubmit: function (form, eventOnSuccess) {
+  dispatchSubmit: function(form, eventOnSuccess) {
     this.dispatcher.trigger('submit-form', {
       formAction: form.getAttribute('action'),
       formData: new FormData(form),
       eventOnSuccess: eventOnSuccess
     })
   },
-  render: function (event) {
+  render: function(event) {
     if (!event.isCreationOptions) {
-      modal.fromRoute(this.defaultRoute, { node: event.nodeId }, _.bind(function (element) {
+      modal.fromRoute(this.defaultRoute, { node: event.nodeId }, _.bind(function(element) {
         this.setElement(element)
         this.mainElement = element
         var action = this.$('form').attr('action').replace('_nodeId', event.nodeId)
@@ -113,15 +109,15 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
         simpleRights.checkAll(this.$('#general input').first())
       }, this))
     } else {
-      modal.fromUrl(event.url, _.bind(function (element) {
+      modal.fromUrl(event.url, _.bind(function(element) {
         this.setElement(element)
-        this.$el.on('hidden.bs.modal', _.bind(function () {
+        this.$el.on('hidden.bs.modal', _.bind(function() {
           this.setElement(this.mainElement)
         }, this))
       }, this))
     }
   },
-  searchUsersWithRights: function () {
+  searchUsersWithRights: function() {
     var search = $('#search-user-with-rights-input').val()
     var nodeId = $('#users-with-rights-datas').attr('data-node-id')
 
@@ -131,13 +127,13 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
         {'node': nodeId, 'search': search}
       ),
       type: 'GET',
-      success: function (datas) {
+      success: function(datas) {
         $('#users-with-rights-tab').empty()
         $('#users-with-rights-tab').append(datas)
       }
     })
   },
-  searchWorkspaces: function () {
+  searchWorkspaces: function() {
     var search = $('#search-workspaces-input').val()
     var nodeId = $('#workspaces-datas').data('node-id')
     var max = $('#workspaces-datas').data('max')
@@ -148,13 +144,13 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
         {'resource': nodeId, 'wsSearch': search, 'page': 1, 'wsMax': max}
       ),
       type: 'GET',
-      success: function (datas) {
+      success: function(datas) {
         $('#all-workspaces-panel').empty()
         $('#all-workspaces-panel').append(datas)
       }
     })
   },
-  pagination: function (event) {
+  pagination: function(event) {
     event.preventDefault()
     event.stopPropagation()
 
@@ -167,7 +163,7 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
       $.ajax({
         url: url,
         type: 'GET',
-        success: function (datas) {
+        success: function(datas) {
           if (type === 'with') {
             $('#users-with-rights-tab').empty()
             $('#users-with-rights-tab').append(datas)
@@ -182,7 +178,7 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
       })
     }
   },
-  reorder: function (event) {
+  reorder: function(event) {
     event.preventDefault()
     event.stopPropagation()
 
@@ -195,7 +191,7 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
       $.ajax({
         url: url,
         type: 'GET',
-        success: function (datas) {
+        success: function(datas) {
           if (type === 'with') {
             $('#users-with-rights-tab').empty()
             $('#users-with-rights-tab').append(datas)
@@ -207,7 +203,7 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
       })
     }
   },
-  getUsersListType: function (tab) {
+  getUsersListType: function(tab) {
     var type
 
     for (var i = 0; i < tab.length; i++) {
@@ -221,7 +217,7 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
 
     return type
   },
-  addUserClick: function () {
+  addUserClick: function() {
     var rights = $('#rights-list').attr('data-rights')
     var nodeId = $('#rights-list').attr('data-node-id')
     rights = rights.split(',')
@@ -239,8 +235,8 @@ window.Claroline.ResourceManager.Views.Rights = Backbone.View.extend({
     }
     picker.configure(
       settings,
-      function (users) {
-        $.each(users, function (index, val) {
+      function(users) {
+        $.each(users, function(index, val) {
           // add the row to the tab
           var twigParams = {
             'user': val,

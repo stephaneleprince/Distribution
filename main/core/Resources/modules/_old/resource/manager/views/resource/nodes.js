@@ -1,17 +1,14 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import utilities from '../../../../utilities'
+import Thumbnail from './thumbnail'
+import ListViewElement from './listElement'
 
 /* global Backbone */
 /* global Twig */
 /* global ResourceManagerResults */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-var views = window.Claroline.ResourceManager.Views
-
-window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
+export default Backbone.View.extend({
   className: 'nodes',
   tagName: 'ul',
   attributes: {'id': 'sortable'},
@@ -30,7 +27,7 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
     'reload-page': 'reloadPage',
     'published-change-nodes': 'changePublishedNodes'
   },
-  initialize: function (parameters, dispatcher) {
+  initialize: function(parameters, dispatcher) {
     this.parameters = parameters
     this.dispatcher = dispatcher
     this.directoryId = '0'
@@ -38,15 +35,15 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
     this.listMode = parameters.displayMode
     this.zoomValue = this.parameters.zoom
     this.dispatcher.on('change-zoom', this.zoom, this)
-    _.each(this.outerEvents, function (method, event) {
+    _.each(this.outerEvents, function(method, event) {
       this.dispatcher.on(
         event + '-' + this.parameters.viewName, this[method], this
       )
     }, this)
     this.dispatcher.on('list-mode-' + parameters.viewName, this.setListMode, this)
   },
-  addNodes: function (event) {
-    _.each(event, function (node) {
+  addNodes: function(event) {
+    _.each(event, function(node) {
       var isWhiteListed = this.parameters.resourceTypes[node.type] !== undefined
 
       if (isWhiteListed || node.type === 'directory') {
@@ -55,7 +52,7 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       }
     }, this)
   },
-  renameNode: function (event) {
+  renameNode: function(event) {
     var displayableName = utilities.formatText(event.name, 20, 2)
     this.$('#' + event.id + ' .node-name')
       .html(displayableName + ' ')
@@ -63,7 +60,7 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
         .addClass('fa fa-caret-down'))
     this.$('#' + event.id + ' .dropdown[rel=tooltip]').attr('title', event.name)
   },
-  publishNode: function (event) {
+  publishNode: function(event) {
     var nodeId = event.id
     var published = event.published
 
@@ -73,8 +70,8 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       $('#node-element-' + nodeId).addClass('unpublished')
     }
   },
-  changePublishedNodes: function (event) {
-    event.ids.forEach(function (nodeId) {
+  changePublishedNodes: function(event) {
+    event.ids.forEach(function(nodeId) {
       if (event.published) {
         $('#node-element-' + nodeId).removeClass('unpublished')
       } else {
@@ -82,7 +79,7 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       }
     })
   },
-  editNode: function (event) {
+  editNode: function(event) {
     this.renameNode(event)
     this.publishNode(event)
     this.$('#node-element-' + event.id).attr(
@@ -90,7 +87,7 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       'background-image:url("' + this.parameters.webPath + '/' + event.large_icon + '");'
     )
   },
-  removeNodes: function (event) {
+  removeNodes: function(event) {
     var ids = event.ids || [event.nodeId]
 
     for (var i = 0; i < ids.length; ++i) {
@@ -98,13 +95,13 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       delete this.nodes[ids[i]]
     }
   },
-  zoom: function (event) {
+  zoom: function(event) {
     this.zoomValue = event.value
-    _.each(this.$('.node-thumbnail'), function (node) {
+    _.each(this.$('.node-thumbnail'), function(node) {
       node.className = node.className.replace(/\bzoom\d+/g, event.value)
     })
   },
-  openNode: function (event) {
+  openNode: function(event) {
     event.preventDefault()
     var type = event.currentTarget.getAttribute('data-type')
     var eventName = 'open-' + (type === 'directory' ? 'directory' : 'node')
@@ -120,11 +117,11 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
     }
   },
   // almost the same as select all in action.js
-  checkNode: function (event) {
+  checkNode: function(event) {
     if (this.parameters.isPickerMode
       && !this.parameters.isPickerMultiSelectAllowed
       && event.currentTarget.checked) {
-      _.each(this.$('input[type=checkbox]'), function (checkbox) {
+      _.each(this.$('input[type=checkbox]'), function(checkbox) {
         if (checkbox !== event.currentTarget) {
           checkbox.checked = false
         }
@@ -144,7 +141,7 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       isPickerMode: this.parameters.isPickerMode
     })
   },
-  orderNodes: function (event, ui) {
+  orderNodes: function(event, ui) {
     var ids = this.$el.sortable('toArray')
     var movedNodeId = ui.item.attr('id')
     var index = ids.indexOf(movedNodeId) + 1
@@ -153,18 +150,18 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       'index': index
     })
   },
-  prepareResults: function (nodes) {
+  prepareResults: function(nodes) {
     // exclude blacklisted types
-    var displayableNodes = _.reject(nodes, function (node) {
+    var displayableNodes = _.reject(nodes, function(node) {
       return this.parameters.resourceTypes[node.type] === undefined
     }, this)
 
     // extract nodes id and name from materialized path data
-    return _.map(displayableNodes, function (node) {
+    return _.map(displayableNodes, function(node) {
       node.pathParts = node.path.split('`')
       node.pathParts.pop()
       node.pathParts.pop()
-      node.pathParts = _.map(node.pathParts, function (part) {
+      node.pathParts = _.map(node.pathParts, function(part) {
         var matches = part.match(/(.+)\-([0-9]+)$/)
 
         return {
@@ -176,7 +173,7 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       return node
     })
   },
-  render: function (event) {
+  render: function(event) {
     this.directoryId = event.id
 
     if (!event.isSearchMode) {
@@ -197,7 +194,7 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       }))
     }
   },
-  setListMode: function (event) {
+  setListMode: function(event) {
     this.listMode = event.mode
     // remove everything from the View
     this.$el.empty()
@@ -215,24 +212,24 @@ window.Claroline.ResourceManager.Views.Nodes = Backbone.View.extend({
       }
     }
     var orderedNodes = orderedNodesWithoutIndex.concat(orderedNodesWithIndex)
-    orderedNodes.forEach(function (node) {
+    orderedNodes.forEach(function(node) {
       this.renderNode(node)
     }.bind(this))
   },
-  renderNode: function (node) {
+  renderNode: function(node) {
     // 1023 is the "I can do everything" mask.
     if (this.parameters.restrictForOwner == 1 && node.creator_id != this.parameters.currentUserId && node.type !== 'directory') {
       return
     }
 
     var view = (this.listMode === 'list') ?
-      new views.ListViewElement(this.parameters, this.dispatcher, this.zoomValue) :
-      new views.Thumbnail(this.parameters, this.dispatcher, this.zoomValue)
+      new ListViewElement(this.parameters, this.dispatcher, this.zoomValue) :
+      new Thumbnail(this.parameters, this.dispatcher, this.zoomValue)
 
     view.render(node, true && this.directoryId !== '0')
     this.$el.append(view.$el)
   },
-  reloadPage: function () {
+  reloadPage: function() {
     window.location.reload()
   }
 })

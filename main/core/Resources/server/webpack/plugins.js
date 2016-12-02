@@ -65,10 +65,6 @@ const commonsChunk = (commons) => {
     return new CommonLibPlugin(commons)
 }
 
-const runtime = () => {
-    return new RuntimePlugin('initial')
-}
-
 /**
  * Outputs information about generated assets in a dedicated file
  * ("webpack-assets.json" by default). This is useful to retrieve assets names
@@ -149,6 +145,10 @@ const occurrenceOrder = () => {
     return new webpack.optimize.OccurrenceOrderPlugin(true)
 }
 
+const namedModule = () => {
+    return new webpack.NamedModulesPlugin()
+}
+
 module.exports = {
   bowerFileLookup,
   distributionShortcut,
@@ -163,5 +163,5 @@ module.exports = {
   configShortcut,
   clarolineConfiguration,
   occurrenceOrder,
-  runtime
+  namedModule
 }

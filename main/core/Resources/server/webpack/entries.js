@@ -14,11 +14,8 @@ function collectEntries(key) {
   const packageNames = webpackPackages.map(def => def.name)
   const normalizedPackages = normalizeNames(webpackPackages)
   var entries = extractEntries(normalizedPackages, key)
-
-  if (key === 'common') {
-       entries = addBundleConfigEntry(entries)
-  }
-
+  entries = addBundleConfigEntry(entries)
+  
   return entries
 }
 
@@ -62,8 +59,6 @@ function extractEntries(packages, key) {
               def.assets.webpack[key][entry].name.forEach(lib => {
                  el.push(`${def.assets.webpack[key][entry].prefix}/Resources/modules/${lib}`)
              })
-
-
           } else {
               el = `${def.assets.webpack[key][entry].prefix}/Resources/modules/${def.assets.webpack[key][entry].name}`
           }
@@ -172,7 +167,6 @@ function getMetaEntries(targetDir, key) {
       }
     }
   })
-
 
   return metadata
 }

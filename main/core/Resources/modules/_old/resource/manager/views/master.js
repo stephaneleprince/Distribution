@@ -1,43 +1,43 @@
 import _ from 'underscore'
+import Tabpanes from './tabpanes'
+import Tabs from './tabs'
+import Form from './resource/form'
+import Rights from './resource/rights'
+import Confirm from './resource/confirm'
 
 /* global Backbone */
 /* global Translator */
 /* global Twig */
 /* global ModalWindow */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-var views = window.Claroline.ResourceManager.Views
-
-views.Master = Backbone.View.extend({
+export default Backbone.View.extend({
   outerEvents: {
     'directory-data': 'render',
     'open-picker': 'openAsPicker',
     'close-picker': 'closeAsPicker'
   },
-  initialize: function (parameters, dispatcher) {
+  initialize: function(parameters, dispatcher) {
     this.parameters = parameters
     this.dispatcher = dispatcher
     this.wrapper = null
     this.isAppended = false
     this.pickerDirectoryId = null
     this.buildElement()
-    _.each(this.outerEvents, function (method, event) {
+    _.each(this.outerEvents, function(method, event) {
       this.dispatcher.on(event + '-' + this.parameters.viewName, this[method], this)
     }, this)
-    this.dispatcher.on('save-picker-directory', function (event) {
+    this.dispatcher.on('save-picker-directory', function(event) {
       this.pickerDirectoryId = event.directoryId
     }, this)
-    this.dispatcher.on('open-directory', function (event) {
+    this.dispatcher.on('open-directory', function(event) {
       this.parameters.currentDirectoryId = event.nodeId
     }, this)
   },
-  buildElement: function () {
+  buildElement: function() {
     this.el.className = 'main resource-manager tabpanel'
     this.wrapper = this.$el
     this.subViews = {
-      tabpanes: new views.Tabpanes(this.parameters, this.dispatcher)
+      tabpanes: new Tabpanes(this.parameters, this.dispatcher)
     }
 
     if (this.parameters.isPickerMode) {
@@ -51,28 +51,28 @@ views.Master = Backbone.View.extend({
       }))
       this.wrapper = this.$('.modal-body')
     } else {
-      this.subViews.form = new views.Form(this.dispatcher)
-      this.subViews.rights = new views.Rights(this.dispatcher)
-      this.subViews.confirm = new views.Confirm(this.dispatcher)
+      this.subViews.form = new Form(this.dispatcher)
+      this.subViews.rights = new Rights(this.dispatcher)
+      this.subViews.confirm = new Confirm(this.dispatcher)
     }
 
     if (this.parameters.isTinyMce) {
-      this.subViews.tabs = new views.Tabs(this.parameters, this.dispatcher)
+      this.subViews.tabs = new Tabs(this.parameters, this.dispatcher)
     }
   },
-  openAsPicker: function () {
+  openAsPicker: function() {
     this.dispatcher.trigger('open-directory', {
       nodeId: this.pickerDirectoryId || this.parameters.directoryId,
       view: this.parameters.viewName,
       fromPicker: true
     })
   },
-  closeAsPicker: function () {
+  closeAsPicker: function() {
     if (this.parameters.isPickerMode && this.isAppended) {
       this.$('.modal').modal('hide')
     }
   },
-  render: function () {
+  render: function() {
     if (!this.isAppended) {
       this.parameters.parentElement.append(this.$el)
 

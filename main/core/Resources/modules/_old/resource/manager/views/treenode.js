@@ -1,22 +1,17 @@
-
 import _ from 'underscore'
+import Treelist from './treelist'
 
 /* global Backbone */
 /* global Twig */
 /* global ResourceManagerTreeNode */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-var views = window.Claroline.ResourceManager.Views
-
-views.Treenode = Backbone.View.extend({
+export default Backbone.View.extend({
   tagName: 'li',
   events: {
     'click': 'nodeClicked',
     'click a.add-content': 'addContent'
   },
-  initialize: function (parameters, dispatcher, data) {
+  initialize: function(parameters, dispatcher, data) {
     this.iconClasses = {'workspace': 'fa-book', 'tab': 'fa-list-alt', 'widget': 'fa-cog'}
     this.parameters = parameters
     this.dispatcher = dispatcher
@@ -36,7 +31,7 @@ views.Treenode = Backbone.View.extend({
       )
     }
   },
-  buildElement: function () {
+  buildElement: function() {
     this.wrapper = this.$el
     if (!this.isEmpty) {
       this.isLeaf = _.isNull(this.node.acceptsType)
@@ -50,7 +45,7 @@ views.Treenode = Backbone.View.extend({
     }
     this.render()
   },
-  nodeClicked: function (event) {
+  nodeClicked: function(event) {
     // If node is not loaded and is not leaf, load children
     if (!this.loaded && !this.isLeaf) {
       var eventData = this.node.parents
@@ -68,22 +63,22 @@ views.Treenode = Backbone.View.extend({
     }
     event.stopPropagation()
   },
-  addContent: function (event) {
+  addContent: function(event) {
     if (this.isLeaf) {
       this.parameters.pickerCallback([this.node], null, true)
       this.dispatcher.trigger('close-picker-' + this.parameters.viewName)
     }
     event.stopPropagation()
   },
-  nodesReturned: function (data) {
+  nodesReturned: function(data) {
     this.subViews = {
-      treelist: new views.Treelist(this.parameters, this.dispatcher, data)
+      treelist: new Treelist(this.parameters, this.dispatcher, data)
     }
 
     this.wrapper.append(this.subViews.treelist.el)
     this.loaded = true
   },
-  render: function () {
+  render: function() {
     var twigParams = {isEmpty: this.isEmpty}
     if (!this.isEmpty) {
       twigParams = {

@@ -1,37 +1,34 @@
 import _ from 'underscore'
+import Resources from './resources'
+import Widgets from './widgets'
 
 /* global Backbone */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-var views = window.Claroline.ResourceManager.Views
-
-views.Tabpanes = Backbone.View.extend({
+export default Backbone.View.extend({
   tagName: 'div',
   className: 'tab-content',
   outerEvents: {
     'directory-data': 'render'
   },
-  initialize: function (parameters, dispatcher) {
+  initialize: function(parameters, dispatcher) {
     this.parameters = parameters
     this.dispatcher = dispatcher
     this.wrapper = null
     this.isAppended = false
     this.buildElement()
-    _.each(this.outerEvents, function (method, event) {
+    _.each(this.outerEvents, function(method, event) {
       this.dispatcher.on(event + '-' + this.parameters.viewName, this[method], this)
     }, this)
   },
-  buildElement: function () {
+  buildElement: function() {
     this.wrapper = this.$el
 
     this.tabPanes = {
-      resources: new views.Resources(this.parameters, this.dispatcher),
-      widgets: new views.Widgets(this.parameters, this.dispatcher)
+      resources: new Resources(this.parameters, this.dispatcher),
+      widgets: new Widgets(this.parameters, this.dispatcher)
     }
   },
-  render: function () {
+  render: function() {
     if (!this.isAppended) {
       // this.parameters.parentElement.append(this.$el)
       this.wrapper.append(this.tabPanes.resources.el)

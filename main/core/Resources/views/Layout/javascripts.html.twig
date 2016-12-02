@@ -3,11 +3,11 @@
 {# Loads all necessary twigjs files #}
 {{ jsmacros.getTwigJs() }}
 
-{# Loads webpack commons.js and libraries.js (minified) files #}
-{{ jsmacros.getCommonJavascripts() }}
-
 {# Loads all necessary libs (Backbone, underscore) and Dlls (Angular, es6-shim, pdf-player) #}
 {{ jsmacros.getLibsAndDlls() }}
+
+{# Loads webpack commons.js and libraries.js (minified) files #}
+{{ jsmacros.getCommonJavascripts() }}
 
 {# Loads all necessary Bootstrap js files (minified) #}
 {{ jsmacros.getBootstrapJs() }}
@@ -40,9 +40,7 @@
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-checkbox-dropdown.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-topbar.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-sidebar.js') }}"></script>
-
 <script src='{{ hotAsset('dist/claroline-distribution-main-core-locale.js') }}'></script>
-
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-startup.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-modernizr.js') }}"></script>
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-layout-javascript.js') }}"></script>

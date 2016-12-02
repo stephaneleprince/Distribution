@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = {
-  entry: entries.collectEntries(),
+  entry: entries.collectEntries('entry'),
   output: {
     path: paths.output(),
     filename: '[name]-[hash].js'
@@ -23,14 +23,13 @@ module.exports = {
     plugins.bowerFileLookup(),
     plugins.distributionShortcut(),
     plugins.defineProdEnv(),
-    plugins.commonsChunk(),
+    plugins.commonsChunk(entries.collectEntries('common')),
     //plugins.dedupeModules(),
     plugins.rejectBuildErrors(),
     plugins.exitWithErrorCode(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
     plugins.occurrenceOrder(),
-    plugins.runtime(),
     ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {

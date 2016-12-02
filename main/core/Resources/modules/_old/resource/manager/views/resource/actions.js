@@ -1,5 +1,6 @@
 import _ from 'underscore'
 import $ from 'jquery'
+import Filters from './filters'
 
 /* global Backbone */
 /* global Translator */
@@ -10,12 +11,7 @@ import $ from 'jquery'
 /* global ResourceUnpublishConfirmMessage */
 /* global ResourceManagerActions */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-var views = window.Claroline.ResourceManager.Views
-
-views.Actions = Backbone.View.extend({
+export default Backbone.View.extend({
   className: 'navbar navbar-default navbar-static-top',
   events: {
     'click ul.create li a': 'create',
@@ -37,7 +33,7 @@ views.Actions = Backbone.View.extend({
     'click a.import': 'import',
     'click a.export': 'export'
   },
-  initialize: function (parameters, dispatcher) {
+  initialize: function(parameters, dispatcher) {
     this.parameters = parameters
     this.dispatcher = dispatcher
     this.filters = null
@@ -66,7 +62,7 @@ views.Actions = Backbone.View.extend({
     this.dispatcher.on('node-check-status-' + this.parameters.viewName, this.handleSelection, this)
     this.dispatcher.on('deleted-nodes-' + this.parameters.viewName, this.setInitialState, this)
   },
-  create: function (event) {
+  create: function(event) {
     var type = event.currentTarget.getAttribute('id')
 
     if (type === 'resource_shortcut') {
@@ -80,7 +76,7 @@ views.Actions = Backbone.View.extend({
       })
     }
   },
-  'delete': function (event) {
+  'delete': function(event) {
     if (!this.$(event.currentTarget).hasClass('disabled')) {
       var body = Twig.render(
         ResourceDeleteConfirmMessage,
@@ -89,7 +85,7 @@ views.Actions = Backbone.View.extend({
       this.dispatcher.trigger('confirm', {
         header: Translator.trans('delete', {}, 'platform'),
         body: body,
-        callback: _.bind(function () {
+        callback: _.bind(function() {
           this.dispatcher.trigger('delete', {
             ids: _.keys(this.checkedNodes.nodes),
             view: this.parameters.viewName
@@ -98,24 +94,24 @@ views.Actions = Backbone.View.extend({
       })
     }
   },
-  'download': function (event) {
+  'download': function(event) {
     if (!this.$(event.currentTarget).hasClass('disabled')) {
       this.dispatcher.trigger('download', {
         ids: _.keys(this.checkedNodes.nodes)
       })
     }
   },
-  'copy': function (event) {
+  'copy': function(event) {
     if (!this.$(event.currentTarget).hasClass('disabled')) {
       this.setPasteBinState(true, false)
     }
   },
-  'cut': function (event) {
+  'cut': function(event) {
     if (!this.$(event.currentTarget).hasClass('disabled')) {
       this.setPasteBinState(true, true)
     }
   },
-  'paste': function (event) {
+  'paste': function(event) {
     if (!this.$(event.currentTarget).hasClass('disabled')) {
       let event = this.isCutMode ? 'move-nodes' : 'copy-nodes'
       this.dispatcher.trigger(event, {
@@ -133,11 +129,11 @@ views.Actions = Backbone.View.extend({
   },
   publish: makePublicationHandler('publish', ResourcePublishConfirmMessage),
   unpublish: makePublicationHandler('unpublish', ResourceUnpublishConfirmMessage),
-  toggleFilters: function () {
+  toggleFilters: function() {
     this.initFilters()
     this.filters.toggle()
   },
-  filter: function (event) {
+  filter: function(event) {
     if (event.type === 'keypress' && event.keyCode !== 13) {
       return
     }
@@ -158,7 +154,7 @@ views.Actions = Backbone.View.extend({
       view: this.parameters.viewName
     })
   },
-  zoom: function (event) {
+  zoom: function(event) {
     this.zoomValue = event.currentTarget.getAttribute('id')
     this.dispatcher.trigger('change-zoom', {
       value: this.zoomValue
@@ -166,10 +162,10 @@ views.Actions = Backbone.View.extend({
     this.$('.dropdown-menu.zoom li').removeClass('active')
     this.$(event.currentTarget).parent().addClass('active')
   },
-  openPicker: function () {
+  openPicker: function() {
     this.dispatcher.trigger('open-picker-defaultPicker')
   },
-  add: function (event) {
+  add: function(event) {
     if (this.$(event.currentTarget).hasClass('disabled')) {
       return
     }
@@ -193,20 +189,20 @@ views.Actions = Backbone.View.extend({
 
     this.dispatcher.trigger('close-picker-' + this.parameters.viewName)
   },
-  'initFilters': function () {
+  'initFilters': function() {
     if (!this.filters) {
-      this.filters = new views.Filters(this.parameters)
+      this.filters = new Filters(this.parameters)
       this.filters.render(this.resourceTypes)
       this.$el.after(this.filters.el)
     }
   },
-  setTargetDirectory: function (event) {
+  setTargetDirectory: function(event) {
     this.checkedNodes.nodes = []
     if (event.view === 'main' && this.parameters.isPickerMode) {
       this.targetDirectoryId = event.nodeId
     }
   },
-  handleSelection: function (event) {
+  handleSelection: function(event) {
     // cancel any previous paste bin state
     if (this.isReadyToPaste) {
       this.setPasteBinState(false, false)
@@ -229,7 +225,7 @@ views.Actions = Backbone.View.extend({
       // the .length method doesn't return the right result with the delete method.
       // the splice one doesn't seem to be better
       var length = 0
-      this.checkedNodes.nodes.forEach(function () {
+      this.checkedNodes.nodes.forEach(function() {
         length++
       })
 
@@ -251,7 +247,7 @@ views.Actions = Backbone.View.extend({
     this.checkedNodes.isSearchMode = this.isSearchMode
     this.setActionsEnabledState(event.isPickerMode)
   },
-  setPasteBinState: function (isReadyToPaste, isCutMode) {
+  setPasteBinState: function(isReadyToPaste, isCutMode) {
     this.isReadyToPaste = isReadyToPaste
     this.isCutMode = isCutMode
     this.cutCpyNodes = this.checkedNodes.nodes
@@ -260,7 +256,7 @@ views.Actions = Backbone.View.extend({
       isReadyToPaste && (!this.isCutMode || this.checkedNodes.directoryId !== this.currentDirectoryId)
     )
   },
-  setInitialState: function () {
+  setInitialState: function() {
     // initialized each time we changed directory
     this.checkedNodes.nodes = {}
     // initialized each time we click on Cut/Copy
@@ -274,10 +270,10 @@ views.Actions = Backbone.View.extend({
     this.setButtonEnabledState(this.$('a.download'), false)
     this.setButtonEnabledState(this.$('a.export'), false)
   },
-  setButtonEnabledState: function (jqButton, isEnabled) {
+  setButtonEnabledState: function(jqButton, isEnabled) {
     return isEnabled ? jqButton.removeClass('disabled') : jqButton.addClass('disabled')
   },
-  setActionsEnabledState: function (isPickerMode) {
+  setActionsEnabledState: function(isPickerMode) {
     var isSelectionNotEmpty = _.size(this.checkedNodes.nodes) > 0
     // enable picker "add" button on non-root directories if selection is not empty
     if (isPickerMode && (this.currentDirectoryId !== '0' || this.isSearchMode)) {
@@ -299,7 +295,7 @@ views.Actions = Backbone.View.extend({
       var that = this
       // check masks and remove the action if a resource can't do that so you don't get an accessdenied before trying to do something
       // copy/cut paste is not fully supported yet
-      $.each(this.checkedNodes.nodes, function (i, node) {
+      $.each(this.checkedNodes.nodes, function(i, node) {
         if (node) {
           if (that.isActionAvailable(node, 'edit-properties') === 0) that.setButtonEnabledState(that.$('a.publish'), false)
           if (that.isActionAvailable(node, 'edit-properties') === 0) that.setButtonEnabledState(that.$('a.unpublish'), false)
@@ -312,13 +308,13 @@ views.Actions = Backbone.View.extend({
       })
     }
   },
-  isActionAvailable: function (node, action) {
+  isActionAvailable: function(node, action) {
     var type = this.parameters.resourceTypes[node[1]]
     var act = type.actions[action]
 
     return act ? node[5] & act.mask : false
   },
-  render: function (event) {
+  render: function(event) {
     if (event.isSearchMode && !this.isSearchMode) {
       this.checkedNodes.nodes = {}
       this.checkedNodes.isSearchMode = true
@@ -356,7 +352,7 @@ views.Actions = Backbone.View.extend({
       listViewActivated: listViewActivated
     }))
   },
-  selectAll: function (event) {
+  selectAll: function(event) {
     // see nodes.js
     // remove it if multiselect is not allowed ~ !
     var chk = $(event.target)
@@ -368,7 +364,7 @@ views.Actions = Backbone.View.extend({
     if (isChecked) {
       $('.node-chk-' + this.parameters.viewName).prop('checked', true)
 
-      $.each($('.node-chk-' + this.parameters.viewName), (function (index, el) {
+      $.each($('.node-chk-' + this.parameters.viewName), (function(index, el) {
         if ($(el).attr('data-allow-select') === 'true') {
           this.dispatcher.trigger('node-check-status-' + this.parameters.viewName, {
             node: {
@@ -389,14 +385,14 @@ views.Actions = Backbone.View.extend({
       $('.node-chk-' + this.parameters.viewName).prop('checked', false)
     }
   },
-  listMode: function (event) {
+  listMode: function(event) {
     var chk = $(event.target)
     var mode = chk.is(':checked') ? 'list' : 'default'
     this.displayMode = mode
     this.dispatcher.trigger('list-mode', {'viewName': this.parameters.viewName, 'mode': mode})
     this.registerDisplayMode()
   },
-  import: function () {
+  import: function() {
     this.dispatcher.trigger(
       'import',
       {
@@ -406,7 +402,7 @@ views.Actions = Backbone.View.extend({
       }
     )
   },
-  export: function (event) {
+  export: function(event) {
     if (!this.$(event.currentTarget).hasClass('disabled')) {
       this.dispatcher.trigger(
         'export',
@@ -414,7 +410,7 @@ views.Actions = Backbone.View.extend({
       )
     }
   },
-  registerDisplayMode: function () {
+  registerDisplayMode: function() {
     var index = this.isWorkspace ? this.workspaceId : 'desktop'
     $.ajax({
       url: Routing.generate(
@@ -426,14 +422,14 @@ views.Actions = Backbone.View.extend({
   }
 })
 
-function makePublicationHandler (status, view) {
-  return function (event) {
+function makePublicationHandler(status, view) {
+  return function(event) {
     if (!this.$(event.currentTarget).hasClass('disabled')) {
       var body = Twig.render(view, {'nodes': this.checkedNodes.nodes})
       this.dispatcher.trigger('confirm', {
         header: Translator.trans(status, {}, 'platform'),
         body: body,
-        callback: _.bind(function () {
+        callback: _.bind(function() {
           this.dispatcher.trigger(status, {
             ids: _.keys(this.checkedNodes.nodes),
             view: this.parameters.viewName

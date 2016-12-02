@@ -2,11 +2,7 @@
 /* global Twig */
 /* global Backbone */
 
-window.Claroline = window.Claroline || {}
-window.Claroline.ResourceManager = window.Claroline.ResourceManager || {}
-window.Claroline.ResourceManager.Views = window.Claroline.ResourceManager.Views || {}
-
-window.Claroline.ResourceManager.Views.Filters = Backbone.View.extend({
+export default Backbone.View.extend({
   className: 'filters container-fluid',
   events: {
     'click button.close-panel': 'toggle',
@@ -14,28 +10,28 @@ window.Claroline.ResourceManager.Views.Filters = Backbone.View.extend({
     'changeDate input.datepicker': 'closeDatePicker',
     'keydown input.datepicker': 'closeDatePicker'
   },
-  initialize: function (parameters) {
+  initialize: function(parameters) {
     this.parameters = parameters
     this.isVisible = false
     this.$el.css('display', 'none')
   },
-  toggle: function () {
+  toggle: function() {
     this.isVisible = !this.isVisible
     this.$el.css('display', this.isVisible ? 'block' : 'none')
   },
-  close: function () {
+  close: function() {
     if (this.isVisible) {
       this.$el.css('display', 'none')
     }
   },
-  openDatePicker: function (event) {
+  openDatePicker: function(event) {
     this.$(event.currentTarget).datepicker('show')
   },
-  closeDatePicker: function (event) {
+  closeDatePicker: function(event) {
     event.preventDefault()
     this.$(event.currentTarget).datepicker('hide')
   },
-  getParameters: function () {
+  getParameters: function() {
     var parameters = {}
     var dateFrom = this.$('input.date-from').first().val()
     var dateTo = this.$('input.date-to').first().val()
@@ -55,7 +51,7 @@ window.Claroline.ResourceManager.Views.Filters = Backbone.View.extend({
 
     return parameters
   },
-  render: function () {
+  render: function() {
     this.$el.html(Twig.render(ResourceManagerFilters, {
       language: this.parameters.language,
       resourceTypes: this.parameters.resourceTypes
