@@ -4,7 +4,7 @@
 {{ jsmacros.getTwigJs() }}
 
 {# Loads all necessary libs (Backbone, underscore) and Dlls (Angular, es6-shim, pdf-player) #}
-{{ jsmacros.getLibsAndDlls() }}
+{{ jsmacros.getDlls() }}
 
 {# Loads webpack commons.js and libraries.js (minified) files #}
 {{ jsmacros.getCommonJavascripts() }}
@@ -26,6 +26,9 @@
 
 {# Loads fosJsRouter js files #}
 {{ jsmacros.getFosRouterJs() }}
+
+{# Loads fosJsRouter js files #}
+{{ jsmacros.getLibs() }}
 
 <script src="{{ hotAsset('dist/claroline-distribution-main-core-core-js.js') }}"></script>
 

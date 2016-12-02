@@ -3,9 +3,9 @@
     "external": {
     },
     "entry": {
-      "resource-manager": ["_old/resource/manager/manager.js"],
-      "resourceinput": ["_old/resourceinput.js"],
-      "tinymce": ["tinymce/tinymce.js"],
+      "resource-manager": ["_old/resource/manager/manager"],
+      "resourceinput": ["_old/resourceinput"],
+      "tinymce": ["tinymce/tinymce"],
       "user-management": "users/module",
       "facet-management": "facets/module",
       "private-profile": "profile/module",

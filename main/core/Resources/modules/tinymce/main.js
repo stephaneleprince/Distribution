@@ -1,6 +1,5 @@
 import clarolineTinymce from './tinymce'
 import $ from 'jquery'
-
 var translator = window.Translator
 
 $('body').bind('ajaxComplete', function() {

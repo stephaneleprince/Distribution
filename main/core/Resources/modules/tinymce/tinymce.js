@@ -273,7 +273,6 @@ clarolineTinymce.initialization = function() {
       config.picker.openResourcesInNewTab = true
   } else {*/
     //}
-
   config.selector = '.claroline-tiny-mce'
   tinymce.init(config)
 //    element.tinymce(config)
