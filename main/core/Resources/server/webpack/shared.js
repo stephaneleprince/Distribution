@@ -4,7 +4,8 @@ const libraries = require('./libraries')
 
 const externals = () => ({
   'jquery': 'jQuery',
-  'claroline/resource-manager': 'ClarolineResourceManager'
+  'claroline/resource-manager': 'ClarolineResourceManager',
+  'claroline/tinymce': 'ClarolineTinymce'
 })
 
 const aliases = () => ({

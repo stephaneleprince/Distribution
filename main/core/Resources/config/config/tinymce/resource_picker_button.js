@@ -1,4 +1,4 @@
-import '#/main/core/tinymce/tinymce'
+import 'claroline/tinymce'
 import tinymce from 'tinymce/tinymce'
 import pickerButtons from './resource_picker'
 

@@ -7,13 +7,13 @@ import $ from 'jquery'
 /* global ModalWindow */
 /* global ValidationFooter */
 /* global removeMessageConfirm */
-/* global tinymce */ //from #/main/core/tinymce/tinymce
+/* global tinymce */ //from claroline/tinymce
 
 const canPost = window.canPost
 const isModerator = window.isModerator
 const subjectId = window.subjectId
 
-$('#max-select').on('change', function () {
+$('#max-select').on('change', function() {
   window.location.href = Routing.generate(
     'claro_forum_messages',
     {'subject': subjectId, 'max': $(this).val()}
@@ -21,7 +21,7 @@ $('#max-select').on('change', function () {
 })
 
 if (canPost) {
-  $('body').on('click', '#submit-message', function () {
+  $('body').on('click', '#submit-message', function() {
     var content = $('textarea.claroline-tiny-mce').val()
     var token = $('#forum_message_form__token').val()
 
@@ -34,23 +34,23 @@ if (canPost) {
         }
       )
         .done(
-          function () {
+          function() {
             window.location.reload()
           }
       )
         .error(
-          function () {
+          function() {
             modal.error()
           }
       )
     }
   })
-  $('body').on('click', '#fast-reply-btn', function () {
+  $('body').on('click', '#fast-reply-btn', function() {
     $('.fast-reply').show()
   })
 }
 
-function createValidationBox () {
+function createValidationBox() {
   var html = Twig.render(
     ModalWindow,
     {'footer': Twig.render(ValidationFooter), 'isHidden': true, 'modalId': 'confirm-modal', 'body': Twig.render(removeMessageConfirm, {'nbItems': 1})}
@@ -63,18 +63,18 @@ if (isModerator) {
   var tmpRoute = ''
   var tmpEl = undefined
 
-  $('body').on('click', '#delete-message', function (event) {
+  $('body').on('click', '#delete-message', function(event) {
     event.preventDefault()
     $('#confirm-modal').modal('show')
     tmpRoute = event.currentTarget.href
     tmpEl = event.currentTarget
   })
 
-  $('body').on('click', '#modal-valid-button', function () {
+  $('body').on('click', '#modal-valid-button', function() {
     $('#confirm-modal').modal('hide')
     $.ajax({
       url: tmpRoute,
-      success: function () {
+      success: function() {
         $(tmpEl)[0].parentElement.parentElement.parentElement.remove()
       }
     })

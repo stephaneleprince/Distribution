@@ -36,7 +36,10 @@ module.exports = {
       loaders.rawHtml(),
       loaders.jqueryUiNoAmd(),
       loaders.imageUris(),
-      loaders.modernizr()
+      loaders.modernizr(),
+      loaders.tinymceImport(),
+      loaders.tinymceWrapper(),
+      loaders.tinymceJquery(),
     ]
   },
   externals: shared.externals(),

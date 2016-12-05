@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
-import clarolineTinymce from '#/main/core/tinymce/tinymce'
+import clarolineTinymce from 'claroline/tinymce'
 
 /* global Routing */
 /* global Translator */

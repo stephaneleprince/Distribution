@@ -25,7 +25,7 @@ export default [
       },
     'plugin': '-codemirror'
     }
-  },
+},
   {
     'name': 'mention',
     'config': {

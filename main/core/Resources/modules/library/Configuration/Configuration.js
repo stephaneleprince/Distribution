@@ -1,4 +1,4 @@
-import config from 'bundle-configs'
+//import config from 'bundle-configs'
 import union from 'lodash/union'
 import get from 'lodash/get'
 import defaults from 'lodash/defaults'
@@ -60,4 +60,4 @@ function setDefaultBundle(bundle) {
   }
 }
 
-export default new Configuration(config)
+export default new Configuration({})

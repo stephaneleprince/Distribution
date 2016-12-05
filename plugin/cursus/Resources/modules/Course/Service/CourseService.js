@@ -14,7 +14,7 @@ import angular from 'angular/index'
 import courseFormTemplate from '../Partial/course_form_modal.html'
 import courseViewTemplate from '../Partial/course_view_modal.html'
 import coursesImportFormTemplate from '../Partial/courses_import_form.html'
-import clarolineTinymce from '#/main/core/tinymce/tinymce'
+import clarolineTinymce from 'claroline/tinymce'
 
 export default class CourseService {
   constructor($http, $uibModal, ClarolineAPIService) {

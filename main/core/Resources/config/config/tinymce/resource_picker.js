@@ -2,7 +2,7 @@ import modal from '#/main/core/_old/modal'
 import home from '#/main/core/_old/home/home'
 import $ from 'jquery'
 import _ from 'underscore'
-import clarolineTinymce from '#/main/core/tinymce/tinymce'
+import clarolineTinymce from 'claroline/tinymce'
 import tinymce from 'tinymce/tinymce'
 import ResourceManager from 'claroline/resource-manager'
 

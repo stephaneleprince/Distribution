@@ -1,4 +1,4 @@
-import clarolineTinymce from '#/main/core/tinymce/tinymce'
+import clarolineTinymce from 'claroline/tinymce'
 
 export default function($scope, portfolioManager, commentsManager) {
   $scope.message = ''

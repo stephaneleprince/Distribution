@@ -52,8 +52,12 @@ module.exports = {
   ],
   'tinymce_dll': [
       'tinymce/tinymce',
-      'tinymce/plugins/paste/plugin',
-      'tinymce/plugins/link/plugin',
+      //css
+      'tinymce/skins/lightgray/content.min.css',
+      'tinymce/skins/lightgray/skin.min.css',
+      //themes
+      'tinymce/themes/modern/theme',
+      //plugins
       'tinymce/plugins/autoresize/plugin',
       'tinymce/plugins/table/plugin',
       'tinymce/plugins/directionality/plugin',
@@ -80,11 +84,8 @@ module.exports = {
       'tinymce/plugins/save/plugin',
       'tinymce/plugins/emoticons/plugin',
       'tinymce/plugins/code/plugin',
-      //css
-      'tinymce/skins/lightgray/content.min.css',
-      'tinymce/skins/lightgray/skin.min.css',
-      //themes
-      'tinymce/themes/modern/theme'
+      'tinymce/plugins/paste/plugin',
+       'tinymce/plugins/link/plugin' 
   ],
   'jqueryui_dll': [
       'jquery-ui/jquery-ui',

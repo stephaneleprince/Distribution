@@ -2,7 +2,7 @@
  * TinyMCE config
  */
 
-import clarolineTinymce from '#/main/core/tinymce/tinymce'
+import clarolineTinymce from 'claroline/tinymce'
 
 export default function tinymceConfig() {
   // Initialize TinyMCE

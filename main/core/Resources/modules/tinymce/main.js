@@ -1,4 +1,4 @@
-import clarolineTinymce from '#/main/core/tinymce/tinymce'
+import clarolineTinymce from 'claroline/tinymce'
 import $ from 'jquery'
 var translator = window.Translator
 

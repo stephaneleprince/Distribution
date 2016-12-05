@@ -3,6 +3,9 @@ import _ from 'lodash'
 import home from '../_old/home/home'
 import Configuration from '#/main/core/library/Configuration/Configuration'
 
+import tinymce from 'tinymce/tinymce'
+import 'tinymce/themes/modern/theme'
+
 //css
 import 'tinymce/skins/lightgray/content.min.css'
 import 'tinymce/skins/lightgray/skin.min.css'
@@ -36,9 +39,6 @@ import 'tinymce/plugins/nonbreaking/plugin'
 import 'tinymce/plugins/save/plugin'
 import 'tinymce/plugins/emoticons/plugin'
 import 'tinymce/plugins/code/plugin'
-
-import tinymce from 'tinymce/tinymce'
-import 'tinymce/themes/modern/theme'
 
 var translator = window.Translator
 
@@ -289,4 +289,5 @@ clarolineTinymce.initialization = function() {
 }
 
 window.ClarolineTinymce = clarolineTinymce
+
 export default clarolineTinymce

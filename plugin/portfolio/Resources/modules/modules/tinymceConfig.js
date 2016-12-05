@@ -1,5 +1,5 @@
 import 'angular'
-import clarolineTinymce from '#/main/core/tinymce/tinymce'
+import clarolineTinymce from 'claroline/tinymce'
 
 /* global angular */
 
