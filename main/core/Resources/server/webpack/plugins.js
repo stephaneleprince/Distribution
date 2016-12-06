@@ -6,6 +6,7 @@ const paths = require('./paths')
 const ConfigurationPlugin = require('./build/configuration/plugin')
 const entries = require('./entries')
 const CommonLibPlugin = require('./build/libraries/plugin')
+const ExtractExternalsPlugin = require('./build/externals/plugin')
 
 /**
  * Allows webpack to discover entry files of modules stored in the bower
@@ -149,6 +150,10 @@ const namedModule = () => {
     return new webpack.NamedModulesPlugin()
 }
 
+const extractExternals = () => {
+    return new ExtractExternalsPlugin()
+}
+
 module.exports = {
   bowerFileLookup,
   distributionShortcut,
@@ -163,5 +168,6 @@ module.exports = {
   configShortcut,
   clarolineConfiguration,
   occurrenceOrder,
-  namedModule
+  namedModule,
+  extractExternals
 }

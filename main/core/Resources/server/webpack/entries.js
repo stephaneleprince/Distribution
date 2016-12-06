@@ -8,14 +8,24 @@ const paths = require('./paths')
  * packages "assets.json" manifests. Entries are automatically prefixed to
  * avoid name collisions across bundles.
  */
-function collectEntries(key) {
-  const packages = collectPackages(paths.root(), key)
-  const webpackPackages = packages.filter(def => def.assets && def.assets.webpack)
-  const packageNames = webpackPackages.map(def => def.name)
-  const normalizedPackages = normalizeNames(webpackPackages)
-  var entries = extractEntries(normalizedPackages, key)
+function collectEntries() {
+  keys = ['entry']
+  var entries = {}
+
+  keys.forEach(key => {
+      var packages = collectPackages(paths.root(), key)
+      var webpackPackages = packages.filter(def => def.assets && def.assets.webpack)
+      var packageNames = webpackPackages.map(def => def.name)
+      var normalizedPackages = normalizeNames(webpackPackages)
+      var extracted = extractEntries(normalizedPackages, key)
+      if (extracted !== null && typeof extracted === 'object') {
+           entries = Object.assign(entries, extracted)
+      }
+
+  })
+
   entries = addBundleConfigEntry(entries)
-  
+
   return entries
 }
 

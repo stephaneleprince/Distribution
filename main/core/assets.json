@@ -1,6 +1,7 @@
 {
   "webpack": {
     "external": {
+
     },
     "entry": {
       "resource-manager": ["_old/resource/manager/manager"],

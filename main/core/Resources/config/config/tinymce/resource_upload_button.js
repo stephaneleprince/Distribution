@@ -1,7 +1,6 @@
 import common from '#/main/core/_old/common'
 import modal from '#/main/core/_old/modal'
 import $ from 'jquery'
-import /*tinymce from*/ 'claroline/tinymce'
 import tinymce from 'tinymce/tinymce'
 import ResourceManager from 'claroline/resource-manager'
 import pickerButtons from './resource_picker'

@@ -22,6 +22,7 @@ module.exports = {
     plugins.distributionShortcut(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
+    plugins.extractExternals(),
     //plugins.commonsChunk(entries.collectEntries('common')),
     plugins.namedModule(),
     //plugins.runtime(),

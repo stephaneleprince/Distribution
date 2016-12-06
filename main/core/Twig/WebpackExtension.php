@@ -93,8 +93,9 @@ class WebpackExtension extends \Twig_Extension
         if (!$this->assetCache) {
             $assetFile = "{$this->rootDir}/../webpack-assets.json";
             $dllFile = "{$this->rootDir}/../webpack-dlls.json";
+            $externalsFile = "{$this->rootDir}/../webpack-vendors.json";
 
-            if (!file_exists($assetFile) || !file_exists($dllFile)) {
+            if (!file_exists($assetFile) || !file_exists($dllFile) || !file_exists($externalsFile)) {
                 throw new \Exception(sprintf(
                     'Cannot find webpack generated assets file(s). Make sure you '
                     .'have ran webpack with assets-webpack-plugin enabled'
@@ -103,7 +104,8 @@ class WebpackExtension extends \Twig_Extension
 
             $dlls = json_decode(file_get_contents($dllFile), true);
             $assets = json_decode(file_get_contents($assetFile), true);
-            $this->assetCache = array_merge_recursive($dlls, $assets);
+            $externals = json_decode(file_get_contents($externalsFile), true);
+            $this->assetCache = array_merge_recursive($dlls, $assets, $externals);
         }
 
         return $this->assetCache;

@@ -2,11 +2,10 @@ import modal from '#/main/core/_old/modal'
 import home from '#/main/core/_old/home/home'
 import $ from 'jquery'
 import _ from 'underscore'
-import clarolineTinymce from 'claroline/tinymce'
 import tinymce from 'tinymce/tinymce'
 import ResourceManager from 'claroline/resource-manager'
 
-
+var clarolineTinymce = tinymce
 /**
  * This method is fired when one or more resources are added to the editor
  * with a resource picker.

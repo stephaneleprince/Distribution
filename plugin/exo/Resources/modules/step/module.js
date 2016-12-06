@@ -3,7 +3,7 @@
  */
 
 import angular from 'angular/index'
-import registerDragula from 'angular-dragula/dist/angular-dragula'
+import registerDragula from 'angular-dragula'
 
 import 'angular-bootstrap'
 import 'angular-ui-translation/angular-translation'

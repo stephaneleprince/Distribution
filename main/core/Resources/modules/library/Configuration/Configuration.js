@@ -1,9 +1,7 @@
-//import config from 'bundle-configs'
+import config from 'bundle-configs'
 import union from 'lodash/union'
 import get from 'lodash/get'
 import defaults from 'lodash/defaults'
-
-//var config = window.Claroline.BundlesConfiguration
 
 class Configuration {
   constructor(config) {
@@ -60,4 +58,4 @@ function setDefaultBundle(bundle) {
   }
 }
 
-export default new Configuration({})
+export default new Configuration(config)
