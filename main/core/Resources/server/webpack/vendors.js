@@ -23,7 +23,8 @@ var libs =
     'angular-ui-tree',
     'angular-ui-pageslide',
     'ng-file-upload',
-    'angular-strap'
+    'angular-strap',
+    'jquery'
 ]
 
 libs = libs.reduce((acc, lib) => {

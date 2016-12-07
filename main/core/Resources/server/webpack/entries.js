@@ -9,24 +9,35 @@ const paths = require('./paths')
  * avoid name collisions across bundles.
  */
 function collectEntries() {
-  keys = ['entry']
-  var entries = {}
+  var packages = collectPackages(paths.root())
 
-  keys.forEach(key => {
-      var packages = collectPackages(paths.root(), key)
-      var webpackPackages = packages.filter(def => def.assets && def.assets.webpack)
-      var packageNames = webpackPackages.map(def => def.name)
-      var normalizedPackages = normalizeNames(webpackPackages)
-      var extracted = extractEntries(normalizedPackages, key)
-      if (extracted !== null && typeof extracted === 'object') {
-           entries = Object.assign(entries, extracted)
-      }
-
-  })
-
-  entries = addBundleConfigEntry(entries)
-
+  var webpackPackages = packages.filter(def => def.assets && def.assets.webpack)
+  var packageNames = webpackPackages.map(def => def.name)
+  var normalizedPackages = normalizeNames(webpackPackages)
+  var entries = extractEntries(normalizedPackages)
+  entries['bundle-configs'] = [paths.root() + '/web/dist/plugins-config']
+  //here we collect from the externals
+  entries = Object.assign(entries, extractExternals(packages))
+  
   return entries
+}
+
+function extractExternals(webpackPackages) {
+    var entries = {}
+    webpackPackages.forEach((package) => {
+        var externals = package.assets.webpack.externals
+        if (externals) {
+            externals.forEach(external => {
+                var files = external.files.map(function(el) {
+                    return  external.prefix + '/Resources/modules/' + el
+                })
+                //console.error(files)
+                entries[external.module] = files
+            })
+        }
+    })
+
+    return entries
 }
 
 /**
@@ -38,42 +49,36 @@ function collectEntries() {
  *  - path:      path of the package source directory
  *  - assets:    package assets config declared its assets.json file, if any
  */
-function collectPackages(rootDir, key) {
+function collectPackages(rootDir) {
   const stats = fs.statSync(rootDir)
 
   if (!stats.isDirectory()) {
     throw new Error(`${rootDir} is not a directory`)
   }
 
-  return getPackageDefinitions(rootDir, key)
-}
-
-function addBundleConfigEntry(entries) {
-  entries['bundle-configs'] = [paths.root() + '/web/dist/plugins-config']
-
-  return entries
+  return getPackageDefinitions(rootDir)
 }
 
 /**
  * Merges "entry" sections of package configs into one object,
  * prefixing entry names and paths with package names/paths.
  */
-function extractEntries(packages, key) {
-    return packages
-      .filter(def => def.assets.webpack && def.assets.webpack[key])
+function extractEntries(packages) {
+  return packages
+      .filter(def => def.assets.webpack && def.assets.webpack.entry)
       .reduce((entries, def) => {
-        Object.keys(def.assets.webpack[key]).forEach(entry => {
-          var isArray = Array.isArray(def.assets.webpack[key][entry].name)
+        Object.keys(def.assets.webpack.entry).forEach(entry => {
+          var isArray = Array.isArray(def.assets.webpack.entry[entry].name)
           if (isArray) {
-              el = []
-              def.assets.webpack[key][entry].name.forEach(lib => {
-                 el.push(`${def.assets.webpack[key][entry].prefix}/Resources/modules/${lib}`)
-             })
+            el = []
+            def.assets.webpack.entry[entry].name.forEach(lib => {
+              el.push(`${def.assets.webpack.entry[entry].prefix}/Resources/modules/${lib}`)
+            })
           } else {
-              el = `${def.assets.webpack[key][entry].prefix}/Resources/modules/${def.assets.webpack[key][entry].name}`
+            el = `${def.assets.webpack.entry[entry].prefix}/Resources/modules/${def.assets.webpack.entry[entry].name}`
           }
 
-          entries[`${def.name}-${def.assets.webpack[key][entry].dir}-${entry}`] = el
+          entries[`${def.name}-${def.assets.webpack.entry[entry].dir}-${entry}`] = el
         })
 
         return entries
@@ -105,7 +110,7 @@ function normalizeName(name) {
   return name
 }
 
-function getPackageDefinitions(rootDir, key) {
+function getPackageDefinitions(rootDir) {
   const file = `${rootDir}/vendor/composer/installed.json`
   var data
 
@@ -121,13 +126,12 @@ function getPackageDefinitions(rootDir, key) {
     throw new Error('Cannot find packages in composer/installed.json')
   }
 
-  const filteredPackages = packages.filter(def => def.type === 'claroline-core' || def.type === 'claroline-plugin'
-  )
+  const filteredPackages = packages.filter(def => def.type === 'claroline-core' || def.type === 'claroline-plugin')
 
-  return filteredPackages.map(extractPackageInfo(rootDir, key))
+  return filteredPackages.map(extractPackageInfo(rootDir))
 }
 
-function extractPackageInfo(rootDir, key) {
+function extractPackageInfo(rootDir) {
   return def => {
     const targetDir = def['target-dir'] ? `/${def['target-dir']}` : ''
     const path = `${rootDir}/vendor/${def.name}${targetDir}`
@@ -139,7 +143,7 @@ function extractPackageInfo(rootDir, key) {
     }
     var data
     if (isMetaPackage(path)) {
-      assets = getMetaEntries(path, key)
+      assets = getMetaEntries(path)
       newDef.assets = assets
       newDef.meta = true
     } else {
@@ -153,27 +157,36 @@ function extractPackageInfo(rootDir, key) {
   }
 }
 
-function getMetaEntries(targetDir, key) {
+function getMetaEntries(targetDir) {
   var data
-  var metadata = { webpack: { entry: {}, common: {} } }
+  var metadata = { webpack: { entry: {}, externals: [] } }
 
   getMetaBundles(targetDir).forEach(bundle => {
     if (fs.existsSync(`${bundle}/assets.json`)) {
+
       data = JSON.parse(fs.readFileSync(`${bundle}/assets.json`, 'utf8'))
-      if (data.webpack[key]) {
-          Object.keys(data.webpack[key]).forEach(entry => {
+      if (data.webpack.entry) {
+        Object.keys(data.webpack.entry).forEach(entry => {
 
-            var parts = bundle.split('/')
-            var bundleName = parts.pop()
-            var lastDir = parts[parts.length - 1]
-            metadata.webpack[key][`${bundleName}-${entry}`] = {
-              name: data.webpack[key][entry],
-              prefix: bundle,
-              dir: lastDir,
-              bundle: bundleName
-            }
+          var parts = bundle.split('/')
+          var bundleName = parts.pop()
+          var lastDir = parts[parts.length - 1]
+          metadata.webpack.entry[`${bundleName}-${entry}`] = {
+            name: data.webpack.entry[entry],
+            prefix: bundle,
+            dir: lastDir,
+            bundle: bundleName
+          }
+        })
+      }
 
+      if (data.webpack.externals) {
+          var parts = bundle.split('/')
+          var bundleName = parts.pop()
+          data.webpack.externals.forEach(external => {
+              external.prefix = bundle
           })
+          metadata.webpack.externals = metadata.webpack.externals.concat(data.webpack.externals)
       }
     }
   })

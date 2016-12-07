@@ -3,38 +3,7 @@
  *
  * (@see webpack DllPlugin and DllReferencePlugin)
  */
-module.exports = {/*
-  'angular_dll': [
-    'angular/angular.min',
-    'angular-animate',
-    'angular-bootstrap',
-    'angular-bootstrap-colorpicker',
-    'angular-breadcrumb',
-    'angular-daterangepicker',
-    'angular-datetime',
-    'angular-dragula/dist/angular-dragula',
-    'angular-loading-bar',
-    'angular-resource',
-    'angular-route',
-    'angular-sanitize',
-    'angular-strap',
-    'angular-toArrayFilter',
-    'angular-touch',
-    'angular-ui-router',
-    'angular-ui-select',
-    'angular-ui-tinymce',
-    'angular-ui-translation',
-    'angular-ui-tree',
-    'angular-ui-pageslide',
-    'ng-file-upload',
-    'at-table/dist/angular-table',
-    'angular-dragula',
-    'angular-strap/dist/angular-strap.min', //not used a lot: portfolio
-    'angular-strap/dist/angular-strap.tpl.min', //not used a lot: portfolio
-    'angular-bootstrap/ui-bootstrap.min',
-    'angular-bootstrap/ui-bootstrap-tpls.min',
-    'angular-gridster/dist/angular-gridster.min.js'
-],*/
+module.exports = {
   'es6_shim_dll': [
     'core-js/shim'
   ],
@@ -83,7 +52,7 @@ module.exports = {/*
       'tinymce/plugins/emoticons/plugin',
       'tinymce/plugins/code/plugin',
       'tinymce/plugins/paste/plugin',
-       'tinymce/plugins/link/plugin'
+      'tinymce/plugins/link/plugin'
   ],
   'jqueryui_dll': [
       'jquery-ui/jquery-ui',
