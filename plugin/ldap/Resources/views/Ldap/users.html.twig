@@ -128,7 +128,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ url('bazinga_jstranslation_js', { 'domain_name': 'ldap' }) }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-ldap-ldap.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-ldap-ldap')|raw }}) </script>
     {% if users is defined and not users is empty %}
         <script>
             window.entries = {{ usersJSON | raw }});
@@ -140,5 +140,5 @@
             {% if server.locale is defined and not server.locale is empty %} window.locale = '{{ server.locale }}' {% endif %}
         </script>
     {% endif %}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-ldap-users.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-ldap-users')|raw }}) </script>
 {% endblock %}

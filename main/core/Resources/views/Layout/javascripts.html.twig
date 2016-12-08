@@ -1,23 +1,5 @@
 {% import 'ClarolineCoreBundle:Layout:javascripts.macros.html.twig' as jsmacros %}
 
-<script type="text/javascript" src="{{ asset('packages/loadjs/dist/loadjs.min.js') }}"></script>
-<script type="text/javascript">
-    function load(dependencies, cb) {
-        var last = dependencies.pop()
-        var module = 'dep-' + last
-        loadjs(dependencies, 'dep-' + last, {
-            async: false,
-            success: function() {
-                loadjs(last, last, {
-                    success: function () {
-                        cb()
-                    }
-                })
-            }
-        })
-    }
-</script>
-
 {# Loads all necessary twigjs files #}
 {{ jsmacros.getTwigJs() }}
 
@@ -48,23 +30,21 @@
 {# Loads fosJsRouter js files #}
 {{ jsmacros.getLibs() }}
 
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-core-js.js') }}"></script>
-
 <script>
     if (window.sessionStorage.getItem('hide_brower_warning')) {
         $('.outdated-browser-warning').hide();
     }
 </script>
 
-<script src='{{ hotAsset('dist/claroline-distribution-main-core-iframe.js') }}'></script>
-
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-checkbox-dropdown.js') }}"></script>
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-topbar.js') }}"></script>
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-sidebar.js') }}"></script>
-<script src='{{ hotAsset('dist/claroline-distribution-main-core-locale.js') }}'></script>
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-startup.js') }}"></script>
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-modernizr.js') }}"></script>
-<script src="{{ hotAsset('dist/claroline-distribution-main-core-layout-javascript.js') }}"></script>
+<script> load({{ chunks('claroline-distribution-main-core-iframe')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-main-core-checkbox-dropdown')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-main-core-topbar')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-main-core-core-js')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-main-core-sidebar')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-main-core-locale')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-main-core-startup')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-main-core-modernizr')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-main-core-layout-javascript')|raw }}) </script>
 
 {# Loads all appended scipts by other twig files (usually embedded twig templates or SF2 form fields templates) #}
 {{ loadAppendedScripts() }}

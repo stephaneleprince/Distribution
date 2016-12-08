@@ -84,7 +84,7 @@
 
             {% block javascripts %}
                 {{ parent() }}
-                <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-calendar') }}'></script>
+                <script> load({{ chunks('claroline-distribution-plugin-agenda-calendar')|raw }}) </script>
                 <script type='text/javascript' src='{{ asset('bundles/formalibrepresence/js/fr.js') }}'></script>
                 <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/bootstrap-datetimepicker.min.js') }}"></script>
 
@@ -104,5 +104,5 @@
                     window.minTime = '{{ startday }}'
                     window.maxTime = '{{ endday }}'
                 </script>
-                <script src='{{ hotAsset('dist/claroline-distribution-plugin-presence-admin-horaire') }}'></script>
+                <script> load({{ chunks('claroline-distribution-plugin-presence-admin-horaire')|raw }}) </script>
             {% endblock javascripts %}

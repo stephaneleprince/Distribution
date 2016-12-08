@@ -1,11 +1,10 @@
 const path = require('path')
 const paths = require('./paths')
-const libraries = require('./libraries')
 const entries = require('./entries')
 const vendors = require('./vendors')
 
 const externals = () => {
-  //note that in vendor, the propertiy value if the path to the module 
+  //note that in vendor, the propertiy value if the path to the module
   var libraries = vendors
 
   //required windows properties goes here
@@ -13,6 +12,8 @@ const externals = () => {
   libraries['bundle-configs'] = 'BundlesConfiguration'
   libraries['angular-dragula'] = 'registerDragula'
   libraries['angular'] = 'angular'
+  libraries['tinymce/tinymce'] = 'tinymce'
+  libraries['underscore'] = 'underscore'
 
   //here we add the "externals" part of the assets.json file.
   var packages = entries.collectPackages(paths.root())
@@ -27,8 +28,6 @@ const externals = () => {
       }
   })
 
-  console.error(libraries)
-
   return libraries
 }
 
@@ -36,14 +35,7 @@ const aliases = () => ({
   modernizr$: path.resolve(paths.distribution(), '.modernizrrc')
 })
 
-const dllManifests = () => {
-  return Object.keys(libraries).map(name => {
-    return require(`${paths.output()}/${name}.manifest.json`)
-  })
-}
-
 module.exports = {
   externals,
-  aliases,
-  dllManifests
+  aliases
 }

@@ -291,5 +291,5 @@
         window.search = '{{ search}}'
         window.direction = '{{ direction }}'
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-administration-workspace-management') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-administration-workspace-management')|raw }}) </script>
 {% endblock %}

@@ -290,5 +290,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ url('bazinga_jstranslation_js', { 'domain_name': 'survey' }) }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-survey-survey-management.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-survey-survey-management')|raw }}) </script>
 {% endblock %}

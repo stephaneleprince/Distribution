@@ -242,5 +242,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-workspace-manage-admin-tag.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-workspace-manage-admin-tag')|raw }}) </script>
 {% endblock %}

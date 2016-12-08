@@ -134,9 +134,8 @@
     %}
         {# <script type="text/javascript" src="{{ asset_url }}"></script> #}
     {% endjavascripts %}
-
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-index-app.js') }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-index.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>
+    <script> load({{ chunks('claroline-distribution-plugin-portfolio-index-app')|raw }}) </script>
+    <script> load({{ chunks('claroline-distribution-plugin-portfolio-index')|raw }}) </script>
 
 {% endblock %}

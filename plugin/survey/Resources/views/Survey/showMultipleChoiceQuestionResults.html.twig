@@ -142,6 +142,6 @@
     </div>
 
     {% block javascripts %}
-        <script src='{{ hotAsset('dist/claroline-distribution-plugin-survey-show-multiple-choice-question-results.js') }}'></script>
+        <script> load({{ chunks('claroline-distribution-plugin-survey-show-multiple-choice-question-results')|raw }}) </script>
     {% endblock %}
 {% endif %}

@@ -33,5 +33,5 @@
     <script type="text/javascript">
         window.commentDeleteUrl = "{{ path("icap_socialmedia_comment_delete", {"id":"000"}) }}"
     </script>
-    <script src="{{ hotAsset("dis/claroline-distribution-plugin-social-media-comment") }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-social-media-comment')|raw }}) </script>
 </div>

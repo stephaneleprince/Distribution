@@ -24,14 +24,12 @@ module.exports = {
     plugins.distributionShortcut(),
     plugins.defineProdEnv(),
     plugins.extractExternals(),
-    //plugins.commonsChunk(entries.collectEntries('common')),
     //plugins.dedupeModules(),
     plugins.rejectBuildErrors(),
     plugins.exitWithErrorCode(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
-    plugins.occurrenceOrder(),
-    ...plugins.dllReferences(shared.dllManifests())
+    plugins.occurrenceOrder()
   ],
   module: {
     loaders: [

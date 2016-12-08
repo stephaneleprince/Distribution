@@ -316,5 +316,5 @@
             nbResults : {{ pager.nbResults }}
         };
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-dropzone-edit-criteria.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-dropzone-edit-criteria')|raw }}) </script>
 {% endblock %}

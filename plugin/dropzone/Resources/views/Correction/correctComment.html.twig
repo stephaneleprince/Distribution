@@ -99,7 +99,7 @@
         window.dropzone = {};
         window.dropzone.showCommentInCorrection = {{ (dropzone.forceCommentInCorrection  == true and not admin) ? 'true' : 'false' }};
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-dropzone-correction-comment.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-dropzone-correction-comment')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

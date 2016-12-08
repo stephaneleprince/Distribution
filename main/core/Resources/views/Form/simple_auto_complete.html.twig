@@ -17,6 +17,6 @@
             window.entityReference = {{ entity_reference }}
             window.extraDatas = {{ extraDatas|json_encode()|raw }}
         </script>
-        {{ hotAsset('dist/claroline-distribution-main-core-form-simple-auto-complete')|appendScript }}
+        <script> load({{ chunks('claroline-distribution-main-core-form-simple-auto-complete')|raw }}) </script> {# appendScript }
     {% endspaceless %}
 {% endblock %}

@@ -52,7 +52,7 @@
             type="text/javascript"
     >
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-tool-desktop-user-options.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-tool-desktop-user-options')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

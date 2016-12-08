@@ -48,7 +48,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-badge-list.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-badge-list')|raw }}) </script>
     {% if parameters.badges_per_user is defined and parameters.badges_per_user is not empty and parameters.totalBadges > 0 %}
         <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="{{ asset('bundles/frontend/jqPlot/src/excanvas.min.js') }}"></script><![endif]-->
         <script type="text/javascript" src="{{ asset('bundles/frontend/jqPlot/src/jquery.jqplot.js') }}"></script>

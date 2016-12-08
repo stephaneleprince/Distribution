@@ -5,5 +5,5 @@
 {% endfor %}
 
 {% block javascripts %}
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-task-widget') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-agenda-task-widget')|raw }}) </script>
 {% endblock javascripts %}

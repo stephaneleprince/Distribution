@@ -72,5 +72,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-theme.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-theme')|raw }}) </script>
 {% endblock %}

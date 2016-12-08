@@ -68,5 +68,5 @@
     <script type="text/javascript" src='{{ asset('bundles/frontend/jquery-ui/ui/minified/droppable.min.js') }}'></script>
     <script type="text/javascript" src='{{ asset('bundles/frontend/jquery-ui/ui/minified/draggable.min.js') }}'></script>
     <script type="text/javascript" src='{{ asset('bundles/frontend/confirm-bootstrap/confirm-bootstrap.js') }}'></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-badge-profile.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-badge-profile')|raw }}) </script>
 {% endblock %}

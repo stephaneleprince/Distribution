@@ -129,6 +129,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-popup.js') }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-correction-correct-add-more-comments.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-collecticiel-popup')|raw }}) </script>
+    <script> load({{ chunks('claroline-distribution-plugin-collecticiel-correction-correct-add-more-comments')|raw }}) </script>
 {% endblock %}

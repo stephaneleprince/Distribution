@@ -33,5 +33,5 @@
     <script type="text/javascript">
         window.wallDeleteUrl = "{{ path("icap_socialmedia_wall_item_delete", {"id":"000"}) }}";
     </script>
-    <script src="{{ hotAsset("dis/claroline-distribution-plugin-social-media-wall") }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-social-media-wall')|raw }}) </script>
 {% endblock %}

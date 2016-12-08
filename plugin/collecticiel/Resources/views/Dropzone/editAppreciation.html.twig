@@ -153,6 +153,5 @@
             var window.totalColumn = {{ dropzone.totalCriteriaColumn }};
             var window.comment = {{ dropzone.allowCommentInCorrection ? 1 : 0 }}
         </script>
-        <script src='{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-edit-appreciation-form')}}'></script>
-
+        <script> load({{ chunks('claroline-distribution-plugin-collecticiel-edit-appreciation-form')|raw }}) </script>
     {% endblock %}

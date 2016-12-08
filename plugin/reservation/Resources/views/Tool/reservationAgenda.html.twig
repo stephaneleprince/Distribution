@@ -73,5 +73,5 @@
     %}<script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script type="text/javascript" src="{{ url('bazinga_jstranslation_js', { 'domain': 'reservation' }) }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-reservation-calendar.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-reservation-calendar')|raw }}) </script>
 {% endblock javascripts %}

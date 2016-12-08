@@ -58,5 +58,5 @@
         window.disabled = true;
         window.canEdit = {{ canEdit ? 'true': 'false' }};
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-private-profile.js')}}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-private-profile')|raw }}) </script>
 {% endblock %}

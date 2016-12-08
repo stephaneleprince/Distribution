@@ -120,5 +120,5 @@
         '../vendor/jms/twig-js/twig.js'
         %}<script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-exception-layout') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-exception-layout')|raw }}) </script>
 {% endblock %}

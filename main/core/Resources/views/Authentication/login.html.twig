@@ -65,6 +65,5 @@ same message when authentication has failed (no precise validation errors).
             </form>
         </div>
     </div>
-
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-authentication-login')}}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-authentication-login')|raw }}) </script>
 {% endblock %}

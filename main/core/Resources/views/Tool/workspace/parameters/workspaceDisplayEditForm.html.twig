@@ -57,7 +57,7 @@
             type="text/javascript"
     >
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-tool-workspace-display-edit-form.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-tool-workspace-display-edit-form')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

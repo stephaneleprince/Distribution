@@ -57,6 +57,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-admin-home-tabs-config.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-admin-home-tabs-config')|raw }}) </script>
     <script src="{{ asset('packages/angular-gridster/dist/angular-gridster.min.js') }}"></script>
 {% endblock %}

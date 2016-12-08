@@ -102,8 +102,7 @@
             window.forceCorrection = false
         {% endif %}
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-correction-correct-comment.js') }}"></script>
-
+    <script> load({{ chunks('claroline-distribution-plugin-collecticiel-correction-correct-comment')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

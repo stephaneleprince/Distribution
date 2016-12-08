@@ -57,6 +57,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'tag' }) }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-tag-admin-tags-management.js') }}"></script>
-
+    <script> load({{ chunks('claroline-distribution-plugin-tag-admin-tags-management')|raw }}) </script>
 {% endblock %}

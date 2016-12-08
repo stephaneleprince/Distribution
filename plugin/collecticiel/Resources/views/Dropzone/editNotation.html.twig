@@ -104,8 +104,5 @@
 
     {% block javascripts %}
         {{ parent() }}
-        <script>
-        </script>
-        <script src='{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-edit-notation-form')}}'></script>
-
+        <script> load({{ chunks('claroline-distribution-plugin-collecticiel-edit-notation-form')|raw }}) </script>
     {% endblock %}

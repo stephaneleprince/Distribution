@@ -13,4 +13,4 @@
     <span><em>{{ 'widget_no_favourite'|trans({}, 'widget') }}</em></span>
 {% endfor %}
 
-<script src="{{ hotAsset('dist/claroline-distribution-plugin-favourite-favourite.js') }}"></script>
+<script> load({{ chunks('claroline-distribution-plugin-favourite-favourite')|raw }}) </script>

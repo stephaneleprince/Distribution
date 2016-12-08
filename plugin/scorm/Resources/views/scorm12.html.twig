@@ -147,5 +147,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-scorm-scorm-12.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-scorm-scorm-12')|raw }}) </script>
 {% endblock %}

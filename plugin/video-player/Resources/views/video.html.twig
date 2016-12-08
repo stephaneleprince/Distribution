@@ -37,5 +37,5 @@
         window.nodeId = {{ video.getResourceNode().getId() }}
         window.tracks = {{ tracks|json_serialize('api_resource')|raw }}
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-video-player-track-management.js') | raw }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-video-player-track-management')|raw }}) </script>
 {% endblock %}

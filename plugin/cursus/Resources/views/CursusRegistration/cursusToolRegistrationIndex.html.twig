@@ -41,5 +41,5 @@
     'js/translations/tools/*.js'
     %}<script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-    <script type="text/javascript" src="{{ hotAsset('dist/claroline-distribution-plugin-cursus-registration.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-cursus-registration')|raw }}) </script>
 {% endblock %}

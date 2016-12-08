@@ -13,5 +13,5 @@
     <script>
         window.widgetInstanceId = {{ widgetInstance.getId() }};
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-announcement-announcement-widget.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-announcement-announcement-widget')|raw }}) </script>
 {% endblock %}

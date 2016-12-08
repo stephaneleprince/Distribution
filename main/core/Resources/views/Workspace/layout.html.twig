@@ -97,8 +97,7 @@
             window.Workspace.id = null;
         {% endif %}
     </script>
-
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-workspace-layout.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-workspace-layout')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

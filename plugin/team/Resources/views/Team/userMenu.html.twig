@@ -279,5 +279,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'team' }) }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-team-user-menu') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-team-user-menu')|raw }}) </script>
 {% endblock %}

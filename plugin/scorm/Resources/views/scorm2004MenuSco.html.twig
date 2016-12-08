@@ -37,8 +37,8 @@
         window.trackingDetails = {{ scoTrackingDetails|raw }};
     </script>
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-scorm-scorm-2004-api.js') }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-scorm-scorm-2004-menu-sco.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-scorm-scorm-2004-api')|raw }}) </script>
+    <script> load({{ chunks('claroline-distribution-plugin-scorm-scorm-2004-menu-sco')|raw }}) </script>
 {% endblock %}
 
 {% block section_content %}

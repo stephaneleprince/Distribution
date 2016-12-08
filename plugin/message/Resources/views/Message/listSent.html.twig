@@ -115,5 +115,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-message-list-sent.js') }}'></script> 
+    <script> load({{ chunks('claroline-distribution-plugin-message-list-sent')|raw }}) </script>
 {% endblock %}

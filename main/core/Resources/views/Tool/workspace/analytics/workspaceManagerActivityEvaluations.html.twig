@@ -275,7 +275,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-tool-workspace-analytics-manager-activities-evaluation.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-tool-workspace-analytics-manager-activities-evaluation')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

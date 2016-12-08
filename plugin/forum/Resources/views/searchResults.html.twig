@@ -122,5 +122,5 @@
     <script>
         window.forumId = {{ _resource.getId() }}
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-forum-search-results.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-forum-search-results')|raw }}) </script>
 {% endblock %}

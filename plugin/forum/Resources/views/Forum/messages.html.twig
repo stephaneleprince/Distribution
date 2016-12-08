@@ -175,5 +175,5 @@
         window.isModerator = "{{ isModerator }}"
         window.subjectId = {{ subject.getId() }}
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-forum-messages.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-forum-messages')|raw }}) </script>
 {% endblock %}

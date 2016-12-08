@@ -75,5 +75,5 @@
     <script>
         window.comment = '{{ presence.getComment() }}'
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-presence-presence-modif') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-presence-presence-modif')|raw }}) </script>
 {% endblock %}

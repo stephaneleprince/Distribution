@@ -65,5 +65,5 @@
     <script type="text/javascript">
         window.allTags = [{% for tag in tags %}'{{ tag.getName() }}'{% if not loop.last %}, {% endif %}{% endfor %}]
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-tag-tags-management.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-tag-tags-management')|raw }}) </script>
 {% endblock %}

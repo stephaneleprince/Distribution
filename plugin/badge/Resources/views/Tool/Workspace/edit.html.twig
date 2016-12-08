@@ -323,6 +323,6 @@
 {% endif %}
 <script type="text/javascript" src="{{ asset('bundles/frontend/jquery-option-tree/jquery.optionTree.js') }}"></script>
 <script type="text/javascript" src='{{ asset('bundles/frontend/confirm-bootstrap/confirm-bootstrap.js') }}'></script>
-<script src='{{ hotAsset('dist/claroline-distribution-plugin-badge-edit.js') }}'></script>
-<script src='{{ hotAsset('dist/claroline-distribution-plugin-badge-rules.js') }}'></script>
+<script> load({{ chunks('claroline-distribution-plugin-badge-edit')|raw }}) </script>
+<script> load({{ chunks('claroline-distribution-plugin-badge-rules')|raw }}) </script>
 {% endblock %}

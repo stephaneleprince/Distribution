@@ -1,5 +1,3 @@
-//const paths = require('./paths')
-
 var libs =
   [
     'angular',
@@ -24,7 +22,71 @@ var libs =
     'angular-ui-pageslide',
     'ng-file-upload',
     'angular-strap',
-    'jquery'
+    'jquery',
+
+    'tinymce/tinymce',
+    //css
+    'tinymce/skins/lightgray/content.min.css',
+    'tinymce/skins/lightgray/skin.min.css',
+    //themes
+    'tinymce/themes/modern/theme',
+    //plugins
+    'tinymce/plugins/autoresize/plugin',
+    'tinymce/plugins/table/plugin',
+    'tinymce/plugins/directionality/plugin',
+    'tinymce/plugins/template/plugin',
+    'tinymce/plugins/textcolor/plugin',
+    'tinymce/plugins/visualchars/plugin',
+    'tinymce/plugins/fullscreen/plugin',
+    'tinymce/plugins/insertdatetime/plugin',
+    'tinymce/plugins/media/plugin',
+    'tinymce/plugins/preview/plugin',
+    'tinymce/plugins/hr/plugin',
+    'tinymce/plugins/anchor/plugin',
+    'tinymce/plugins/pagebreak/plugin',
+    'tinymce/plugins/searchreplace/plugin',
+    'tinymce/plugins/wordcount/plugin',
+    'tinymce/plugins/advlist/plugin',
+    'tinymce/plugins/autolink/plugin',
+    'tinymce/plugins/lists/plugin',
+    'tinymce/plugins/image/plugin',
+    'tinymce/plugins/charmap/plugin',
+    'tinymce/plugins/print/plugin',
+    'tinymce/plugins/visualblocks/plugin',
+    'tinymce/plugins/nonbreaking/plugin',
+    'tinymce/plugins/save/plugin',
+    'tinymce/plugins/emoticons/plugin',
+    'tinymce/plugins/code/plugin',
+    'tinymce/plugins/paste/plugin',
+    'tinymce/plugins/link/plugin',
+    //
+    'core-js/shim',
+    //
+    'pdfjs-dist/build/pdf.combined', //rename me !
+    //
+     'lodash/lodash', //rename me
+     //
+     'moment/moment', //merge me
+     'moment/min/moment-with-locales', //merge me
+     //
+     'jquery-ui/jquery-ui',
+     'jquery-ui/jquery-ui.min',
+     'jquery-ui/ui/draggable',
+     'jquery-ui/ui/resizable',
+     //
+     'bootstrap-daterangepicker',
+     'mjolnic-bootstrap-colorpicker',
+     'eonasdan-bootstrap-datetimepicker',
+     'confirm-bootstrap/confirm-bootstrap', //only first part should be used
+     //
+     'Datejs/build/date',
+     //merge wavesurfer svplz
+     'wavesurfer.js/dist/wavesurfer',
+     'wavesurfer.js/dist/plugin/wavesurfer.minimap.min',
+     'wavesurfer.js/dist/plugin/wavesurfer.timeline.min',
+     'wavesurfer.js/dist/plugin/wavesurfer.regions.min',
+     //probably missing some stuff
+     'fullcalendar/dist/fullcalendar'
 ]
 
 libs = libs.reduce((acc, lib) => {
@@ -36,5 +98,7 @@ libs['angular-dragula'] = [__dirname + '/externals/angular-dragula.js']
 libs['at-table'] = [__dirname + '/externals/at-table.js']
 libs['angular-gridster'] = [__dirname + '/externals/angular-gridster.js']
 libs['angular-data-table'] = [__dirname + '/externals/angular-data-table.js']
+libs['mjolnic-bootstrap-colorpicker'] = [__dirname + '/externals/mjolnic-bootstrap-colorpicker.js']
+libs['underscore'] = [__dirname + '/externals/underscore.js']
 
 module.exports = libs

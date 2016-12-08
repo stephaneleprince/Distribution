@@ -104,5 +104,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-survey-question-form.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-survey-question-form')|raw }}) </script>
 {% endblock %}

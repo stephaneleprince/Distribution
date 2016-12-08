@@ -54,6 +54,6 @@
         window.canEdit = {{ canEdit ? 'true' : 'false' }}
         window.tabId = {{ tabId }}
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-workspace-home.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-workspace-home')|raw }}) </script>
     <script src="{{ asset('packages/angular-gridster/dist/angular-gridster.min.js') }}"></script>
 {% endblock %}

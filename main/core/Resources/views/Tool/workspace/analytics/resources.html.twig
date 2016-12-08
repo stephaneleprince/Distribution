@@ -34,7 +34,7 @@
             %}
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
-            <script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
+            <script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>
             <div class="row">
                 <div class="col-md-6">
                     {% include 'ClarolineCoreBundle:Log:resource_by_type_chart.html.twig' with {'filesImported' : true, 'resourceCount' : resourceCount, 'chartHeight' : 400, 'numberRows' : 4} %}

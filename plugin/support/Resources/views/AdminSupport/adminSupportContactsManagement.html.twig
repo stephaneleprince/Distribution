@@ -87,5 +87,5 @@
     <script type="text/javascript">
         window.contacts = [{% for contact in contacts %}{{ contact.getId() }}{% if not loop.last %}, {% endif %}{% endfor %}];
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-support-admin-support-contacts-management')}}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-support-admin-support-contacts-management')|raw }}) </script>
 {% endblock %}

@@ -53,5 +53,5 @@
 </div>
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-presence-admin-modifier-horaire') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-presence-admin-modifier-horaire')|raw }}) </script>
 {% endblock %}

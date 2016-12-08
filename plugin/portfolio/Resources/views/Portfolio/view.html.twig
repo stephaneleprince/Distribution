@@ -259,11 +259,11 @@
         %}
             {#<script type="text/javascript" src="{{ asset_url }}"></script>#}
         {% endjavascripts %}
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-portfolio-app.js') }}"></script>
+        <script> load({{ chunks('claroline-distribution-plugin-portfolio-portfolio-app')|raw }}) </script>
     {% else %}
         <script type="text/javascript">
             window.widgets = {{ widgets|json_encode()|raw }};
         </script>
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-portfolio-view.js') }}"></script>
+        <script> load({{ chunks('claroline-distribution-plugin-portfolio-portfolio-view')|raw }}) </script>
     {% endif %}
 {% endblock %}

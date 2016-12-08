@@ -2,5 +2,6 @@
     window.loadingIcon = "{{ asset('bundles/icapnotification/images/icons/loadinfo.gif') }}";
     window.notificationElementId = "{{ notificationElementId }}";
 </script>
-{{ hotAsset('dist/claroline-distribution-plugin-notification-script')|appendScript }}
+
+<script> load({{ chunks('claroline-distribution-plugin-notification-script')|raw }}) </script> {# |appendScript #}
 <link rel='stylesheet' type='text/css' href='{{ asset('bundles/icapnotification/css/dropdown.css') }}'/>

@@ -190,5 +190,5 @@
             window.workspaceId = {{ workspace.getId() }}
         {% endif %}
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-agenda-tool-agenda') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-agenda-tool-agenda')|raw }}) </script>
 {% endblock javascripts %}

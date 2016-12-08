@@ -97,5 +97,5 @@
 {% endif %}
 
 {% block javascripts %}
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-tool-workspace-analytics-workspace-activities-past-evaluations.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-tool-workspace-analytics-workspace-activities-past-evaluations')|raw }}) </script>
 {% endblock %}

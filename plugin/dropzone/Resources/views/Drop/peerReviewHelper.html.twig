@@ -28,6 +28,6 @@
                 background-color: #fff;
             }
         </style>
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-dropzone-drop-peer-review-helper.js') }}"></script>
+        <script> load({{ chunks('claroline-distribution-plugin-dropzone-drop-peer-review-helper')|raw }}) </script>
     </div>
 {% endif %}

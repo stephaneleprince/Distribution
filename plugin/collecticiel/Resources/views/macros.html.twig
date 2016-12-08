@@ -138,8 +138,8 @@ notationQualityDocumentsArray, notationAssessorDocumentsArray, recordOrTransmitN
         </div>
     </div>
     {# Fin de la déclaration de la modal pour confirmation de la validation #}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-tooltip.js') }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-popup.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-collecticiel-tooltip')|raw }}) </script>
+    <script> load({{ chunks('claroline-distribution-plugin-collecticiel-popup')|raw }}) </script>
 {% endmacro %}
 
 {% macro renderList(array) %}

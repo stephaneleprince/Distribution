@@ -119,5 +119,5 @@
 {% if 'en' != app.request.locale %}
     <script type="text/javascript" src="{{ asset('packages/select2/select2_locale_' ~ app.request.locale ~ '.js') }}"></script>
 {% endif %}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-guides.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-portfolio-guides')|raw }}) </script>
 {% endblock %}

@@ -18,7 +18,7 @@ function collectEntries() {
   entries['bundle-configs'] = [paths.root() + '/web/dist/plugins-config']
   //here we collect from the externals
   entries = Object.assign(entries, extractExternals(packages))
-  
+
   return entries
 }
 
@@ -31,7 +31,6 @@ function extractExternals(webpackPackages) {
                 var files = external.files.map(function(el) {
                     return  external.prefix + '/Resources/modules/' + el
                 })
-                //console.error(files)
                 entries[external.module] = files
             })
         }

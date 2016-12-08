@@ -137,5 +137,5 @@
         window.isModerator = "{{ isModerator }}"
         window.forumId = {{ _resource.getId()}}
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-forum-index.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-forum-index')|raw }}) </script>
 {% endblock %}

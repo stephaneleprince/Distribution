@@ -118,26 +118,6 @@ const exitWithErrorCode = () => {
   return FailPlugin
 }
 
-/**
- * Bundles entries in separate DLLs to improve build performance.
- */
-const dlls = () => {
-  return new webpack.DllPlugin({
-    path: `${paths.output()}/[name].manifest.json`,
-    name: '[name]_[hash]'
-  })
-}
-
-/**
- * Includes references to generated DLLs
- */
-const dllReferences = manifests => {
-  return manifests.map(manifest => new webpack.DllReferencePlugin({
-    context: '.',
-    manifest
-  }))
-}
-
 const clarolineConfiguration = () => {
   return new ConfigurationPlugin()
 }
@@ -163,8 +143,6 @@ module.exports = {
   defineProdEnv,
   rejectBuildErrors,
   exitWithErrorCode,
-  dllReferences,
-  dlls,
   configShortcut,
   clarolineConfiguration,
   occurrenceOrder,

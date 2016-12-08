@@ -190,6 +190,6 @@
         <script>
             window.categoryId = {{ category.getId() }}
         </script>
-        <script src='{{ hotAsset('dist/claroline-distribution-plugin-forum-subjects.js') }}'></script>
+        <script> load({{ chunks('claroline-distribution-plugin-forum-subjects')|raw }}) </script>
     {% endif %}
 {% endblock %}

@@ -195,7 +195,7 @@
             peerReview : {{ dropzone.peerReview ? 'true' : 'false' }}
         };
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-dropzone-edit-common.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-dropzone-edit-common')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

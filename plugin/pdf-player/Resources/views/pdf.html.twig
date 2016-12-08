@@ -23,6 +23,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/pdf_player_dll.js') }}" ></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-pdf-player-pdf-viewer.js') }}" ></script>
+    <script> load({{ chunks('claroline-distribution-plugin-pdf-player-pdf-viewer')|raw }}) </script>
 {% endblock %}

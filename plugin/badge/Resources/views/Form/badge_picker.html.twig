@@ -80,6 +80,6 @@
             window.mode = "{{ mode }}"
             window.blacklist = {{ blacklist|json_encode }}
         </script>
-        <script src='{{ hotAsset('dist/claroline-distribution-plugin-badge-form-badge-picker.js') }}'></script>
+        <script> load({{ chunks('claroline-distribution-plugin-badge-form-badge-picker')|raw }}) </script>
     {% endspaceless %}
 {% endblock %}

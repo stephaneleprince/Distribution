@@ -35,5 +35,5 @@
         window.disableSessionEventRegistration = {% if disableSessionEventRegistration %}true{% else %}false{% endif %}
         window.mode = {{ mode }}
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-cursus-courses-registration-widget.js')}}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-cursus-courses-registration-widget')|raw }}) </script>
 {% endblock %}

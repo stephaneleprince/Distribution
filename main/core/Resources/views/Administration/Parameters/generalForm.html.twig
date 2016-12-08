@@ -99,5 +99,5 @@
     <script type="text/javascript">
         window.tagsList = [{% for tag in tags %}"{{ tag|raw }}"{% if not loop.last %}, {% endif %}{% endfor %}];
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-administration-parameters-general-form.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-administration-parameters-general-form')|raw }}) </script>>
 {% endblock %}

@@ -135,5 +135,5 @@
 </div>
 
 {% block javascripts %}
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-support-admin-ticket-management-info') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-support-admin-ticket-management-info')|raw }}) </script>
 {% endblock %}

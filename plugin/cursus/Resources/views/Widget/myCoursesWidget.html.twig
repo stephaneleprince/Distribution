@@ -50,6 +50,6 @@
             window.widgetInstanceId = {{ widgetInstance.getId() }}
             window.mode = {{ mode }}
         </script>
-        <script src="{{ hotAsset('dist/claroline-distribution-plugin-cursus-my-courses-widget.js')}}"></script>
+        <script> load({{ chunks('claroline-distribution-plugin-cursus-my-courses-widget')|raw }}) </script>
     {% endblock %}
 {% endif %}

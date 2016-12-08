@@ -116,6 +116,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-admin-desktop-configure-home-lock-management.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-admin-desktop-configure-home-lock-management')|raw }}) </script>
 {% endblock %}

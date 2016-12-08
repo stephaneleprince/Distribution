@@ -11,7 +11,7 @@
 {% if filesImported is not defined or filesImported is empty %}
 <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="{{ asset('packages/jqPlot/src/excanvas.js') }}"></script><![endif]-->
 <script type="text/javascript" src="{{ asset('packages/jqPlot/src/jquery.jqplot.js') }}"></script>
-<script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
+<script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>
 <script type="text/javascript" src="{{ asset('packages/jqPlot/src/plugins/jqplot.pieRenderer.js') }}"></script>
 <script type="text/javascript" src="{{ asset('packages/jqPlot/src/plugins/jqplot.canvasTextRenderer.js') }}"></script>
 {% else %}
@@ -35,4 +35,4 @@
         window.pieChartData.push(["{{portfolioRepartitionStatus.name|trans({}, 'analytics')}}",{{portfolioRepartitionStatus.value}}]);
     {% endfor %}
 </script>
-<script src="{{ hotAsset('dist/claroline-distribution-plugin-portfolio-analytics-portfolio-usage-visibility-chart.js') }}"></script>
+<script> load({{ chunks('claroline-distribution-plugin-portfolio-analytics-portfolio-usage-visibility-chart')|raw }}) </script>

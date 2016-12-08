@@ -1,3 +1,2 @@
 {% include "IcapDropzoneBundle:Document:documentForm.html.twig" %}
-
-<script src="{{ hotAsset('dist/claroline-distribution-plugin-dropzone-document-inline.js') }}"></script>
+<script> load({{ chunks('claroline-distribution-plugin-dropzone-document-inline')|raw }}) </script>

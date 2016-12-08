@@ -45,6 +45,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-dropzone-document-form-resource.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-dropzone-document-form-resource')|raw }}) </script>
 {% endblock %}
-

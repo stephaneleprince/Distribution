@@ -33,5 +33,5 @@
         </div>
     </form>
     <link rel='stylesheet' type='text/css' href='{{ asset('bundles/icapsocialmedia/css/like.css')}}'>
-    <script src="{{ hotAsset("dis/claroline-distribution-plugin-social-media-like") }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-social-media-like')|raw }}) </script>
 </div>

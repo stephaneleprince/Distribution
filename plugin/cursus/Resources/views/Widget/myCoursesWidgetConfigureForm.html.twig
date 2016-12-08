@@ -25,7 +25,7 @@
 
 
 {% block javascripts %}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-cursus-my-courses-widget-configure-form.js')}}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-cursus-my-courses-widget-configure-form')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

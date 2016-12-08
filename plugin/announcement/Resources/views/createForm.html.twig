@@ -2,7 +2,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-announcement-create-form.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-announcement-create-form')|raw }}) </script>
 {% endblock %}
 
 {% if type == 'create' %}

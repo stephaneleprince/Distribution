@@ -70,7 +70,7 @@
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'competency' }) }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-competency-objective-users.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-competency-objective-users')|raw }}) </script>
     <script type="text/javascript">
         HeVinci.initUserObjectiveUtils('myObjectives');
     </script>

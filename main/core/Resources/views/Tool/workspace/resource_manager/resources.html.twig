@@ -72,7 +72,7 @@
             }
         }
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-tool-workspace-resource-manager-resource.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-tool-workspace-resource-manager-resource')|raw }}) </script>
     <script type="text/javascript" src='{{ asset('packages/fileapi/dist/FileAPI.html5.min.js') }}'></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-resource-dnd.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-resource-dnd')|raw }}) </script>
 {% endblock %}

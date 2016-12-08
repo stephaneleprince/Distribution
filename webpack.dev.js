@@ -23,10 +23,7 @@ module.exports = {
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
     plugins.extractExternals(),
-    //plugins.commonsChunk(entries.collectEntries('common')),
-    plugins.namedModule(),
-    //plugins.runtime(),
-    ...plugins.dllReferences(shared.dllManifests())
+    plugins.namedModule()
   ],
   module: {
     loaders: [

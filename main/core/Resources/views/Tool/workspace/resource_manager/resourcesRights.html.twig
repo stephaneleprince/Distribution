@@ -40,5 +40,5 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-tool-workspace-resource-rights-form.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-tool-workspace-resource-rights-form')|raw }}) </script>
 {% endblock %}

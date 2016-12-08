@@ -63,5 +63,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'reservation' }) }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-reservation-admin.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-reservation-admin')|raw }}) </script>
 {% endblock %}

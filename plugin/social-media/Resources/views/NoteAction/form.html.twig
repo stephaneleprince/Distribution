@@ -33,5 +33,5 @@
     <script type="text/javascript">
         window.noteDeleteUrl = "{{ path("icap_socialmedia_note_delete", {"id":"000"}) }}";
     </script>
-    <script src="{{ hotAsset("dis/claroline-distribution-plugin-social-media-note") }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-social-media-note')|raw }}) </script>
 </div>

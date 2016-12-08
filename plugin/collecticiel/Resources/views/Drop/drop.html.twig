@@ -159,6 +159,5 @@
     filter="twig_js" %}
     <script language="javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
-   <script src="{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-drop-drop.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-collecticiel-drop-drop')|raw }}) </script>
 {% endblock %}

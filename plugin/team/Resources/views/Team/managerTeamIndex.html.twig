@@ -282,5 +282,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'team' }) }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-team-manager-team-index') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-team-manager-team-index')|raw }}) </script>
 {% endblock %}

@@ -419,7 +419,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-popup.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-collecticiel-popup')|raw }}) </script>
     <script>
         var window.totalColumn = {{ dropzone.totalCriteriaColumn }};
         var window.comment =
@@ -427,6 +427,5 @@
         var window.nbCorrection = {{nbCorrection}};
         var window.nbResults = {{ pager.nbResults }};
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-collecticiel-edit-criteria.js') }}"></script>
-
+    <script> load({{ chunks('claroline-distribution-plugin-collecticiel-edit-criteria')|raw }}) </script>
 {% endblock %}

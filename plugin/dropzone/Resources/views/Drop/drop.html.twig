@@ -113,5 +113,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-dropzone-drop.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-dropzone-drop')|raw }}) </script>
 {% endblock %}

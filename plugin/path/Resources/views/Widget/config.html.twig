@@ -44,5 +44,5 @@
         window.allTags = [{% for tag in tags %}'{{ tag.getName() }}'{% if not loop.last %}, {% endif %}{% endfor %}];
         window.formName = "{{ form.vars.name }}"
     </script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-path-config.js')}}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-path-config')|raw }}) </script>
 {% endblock %}

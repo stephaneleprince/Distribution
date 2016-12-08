@@ -52,7 +52,6 @@ class WebpackExtension extends \Twig_Extension
     {
         return [
             'hotAsset' => new \Twig_Function_Method($this, 'hotAsset'),
-            'loadJs' => new \Twig_Function_Method($this, 'loadJs'),
             'chunks' => new \Twig_Function_Method($this, 'chunks'),
         ];
     }
@@ -102,39 +101,6 @@ class WebpackExtension extends \Twig_Extension
         return $this->assetExtension->getAssetUrl($asset);
     }
 
-    public function loadJs($path, $cb)
-    {
-        $vendors = $this->getVendors($path);
-        $vendors = array_map(function ($el) {
-            return $this->getAssetUrl($el);
-        }, $vendors);
-
-        $assetUrl = $this->getAssetUrl($path);
-
-        if (count($vendors) > 0) {
-            $jsonVendors = json_encode($vendors);
-
-            //the templating service causes circular dependencies otherwise
-            $templating = "
-                <script>
-                    var dependencies = {$jsonVendors}
-                    var module = 'dep-{$path}'
-                    loadjs(dependencies, 'dep-{$path}', {
-                        async: false,
-                        success: function() {
-                            loadjs('{$assetUrl}', '{$path}')
-                        }
-                    })
-                </script>
-                <!--<script src='{$assetUrl}'></script>-->
-            ";
-
-            return $templating;
-        } else {
-            return "<script src='{$assetUrl}'></script>";
-        }
-    }
-
     public function chunks($path)
     {
         $vendors = $this->getVendors($path);
@@ -144,7 +110,7 @@ class WebpackExtension extends \Twig_Extension
 
         $vendors[] = $this->getAssetUrl($path);
 
-        return json_encode($vendors);
+        return json_encode(array_values($vendors));
     }
 
     public function getVendors($name)

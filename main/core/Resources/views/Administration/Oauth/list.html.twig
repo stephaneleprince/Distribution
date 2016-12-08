@@ -157,6 +157,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-admin-oauth.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-admin-oauth')|raw }}) </script>
 {% endblock %}

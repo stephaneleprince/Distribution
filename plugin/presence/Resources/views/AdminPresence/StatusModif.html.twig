@@ -36,5 +36,5 @@
         window.color = "{{theStatus.getStatusColor()}}"
         window.byDefault = {% if theStatus.getStatusByDefault()%}true{%else%}false{%endif%};
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-presence-admin-status-modif') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-presence-admin-status-modif')|raw }}) </script>
 {% endblock %}

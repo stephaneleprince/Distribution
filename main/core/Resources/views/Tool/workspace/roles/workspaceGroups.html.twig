@@ -205,6 +205,5 @@
         window.workspaceId = {{ workspace.getId() }}
         window.order = '{{ order }}'
     </script>
-
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-tool-workspace-groups.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-tool-workspace-groups')|raw }}) </script>
 {% endblock %}

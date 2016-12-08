@@ -45,5 +45,5 @@
     <script>
         window.types = {{ types|json_encode|raw }}
     </script>
-    <script src="{{ hotAsset("dist/claroline-distribution-main-core-portal.js") }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-portal')|raw }}) </script>
 {% endblock %}

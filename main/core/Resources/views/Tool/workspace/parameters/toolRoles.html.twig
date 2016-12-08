@@ -174,5 +174,5 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-tool-workspace-tool-properties.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-tool-workspace-tool-properties')|raw }}) </script>
 {% endblock %}

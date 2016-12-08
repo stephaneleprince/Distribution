@@ -207,5 +207,5 @@
     <script src="{{ asset('packages/strophejs/strophe.min.js') }}"></script>
     <script src="{{ asset('packages/strophejs-plugins/register/strophe.register.js') }}"></script>
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'chat' }) }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-chat-admin-chat-users-management.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-chat-admin-chat-users-management')|raw }}) </script>
 {% endblock %}

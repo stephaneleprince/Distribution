@@ -73,5 +73,5 @@
     <script>
         window.userId = {{ user.getId() }}
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-administration-user-workspace-list.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-administration-user-workspace-list')|raw }}) </script>
 {% endblock %}

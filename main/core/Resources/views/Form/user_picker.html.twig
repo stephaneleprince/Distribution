@@ -154,6 +154,6 @@
                 shown_workspaces: {{ shownWorkspaceIds|json_encode }}
             };
         </script>
-        {{ hotAsset('dist/claroline-distribution-main-core-user-picker.js')|appendScript }}
+        <script> load({{ chunks('claroline-distribution-main-core-user-picker')|raw }}) </script> {# appendScript }
     {% endspaceless %}
 {% endblock %}

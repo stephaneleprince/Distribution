@@ -66,6 +66,6 @@
         window.tinymceStylesheets = ["{{ asset("bundles/icaplesson/css/styles.css")}}", "{{ asset("bundles/clarolinecore/css/common/tinymce.css")}}"];
     </script>
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'icap_lesson' }) }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-lesson-list.js') }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-lesson-ng-view-chapter.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-lesson-list')|raw }}) </script>
+    <script> load({{ chunks('claroline-distribution-plugin-lesson-ng-view-chapter')|raw }}) </script>
 {% endblock %}

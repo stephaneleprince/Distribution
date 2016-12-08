@@ -89,10 +89,9 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>
     <script type="text/javascript">
         window.chartData = {{ connections|json_encode|raw }};
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-administration-analytics-analytics-connections.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-administration-analytics-analytics-connections')|raw }}) </script>
 {% endblock %}

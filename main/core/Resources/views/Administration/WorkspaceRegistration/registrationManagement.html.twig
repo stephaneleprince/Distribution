@@ -85,6 +85,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-admin-registration-management.js') }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-workspace-list-registration.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-admin-registration-management')|raw }}) </script>
+    <script> load({{ chunks('claroline-distribution-main-core-workspace-list-registration')|raw }}) </script>
 {% endblock %}

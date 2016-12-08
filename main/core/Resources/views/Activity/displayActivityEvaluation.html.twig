@@ -170,5 +170,7 @@
 </div>
 
 {% block javascripts %}
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-display-activity-evaluation.js')}}"></script>
+    <script>
+        load({{ chunks('claroline-distribution-main-core-display-activity-evaluation')|raw }})
+    </script>
 {% endblock %}

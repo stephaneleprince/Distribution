@@ -157,7 +157,7 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>
     <script type="text/javascript">
         window.chartData = {{ barChartData|json_encode|raw }};
         window.userPieChartData = [];
@@ -167,5 +167,5 @@
             {% endif %}
         {% endfor %}
     </script>
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-administration-analytics-analytics.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-administration-analytics-analytics')|raw }}) </script>
 {% endblock %}

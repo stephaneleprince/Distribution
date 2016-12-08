@@ -48,5 +48,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-ldap-ldap.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-ldap-ldap')|raw }}) </script>
 {% endblock %}

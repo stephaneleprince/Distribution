@@ -249,5 +249,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-main-core-admin-worksapace-unregistration-management.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-main-core-admin-worksapace-unregistration-management')|raw }}) </script>
 {% endblock %}

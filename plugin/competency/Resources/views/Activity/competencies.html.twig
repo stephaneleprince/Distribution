@@ -78,7 +78,7 @@
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'competency' }) }}"></script>
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-competency-activity.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-competency-activity')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

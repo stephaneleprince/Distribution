@@ -198,7 +198,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'support' }) }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-support-admin-ticket-open-comments') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-support-admin-ticket-open-comments')|raw }}) </script>
 {% endblock %}
 
 {% block stylesheets %}

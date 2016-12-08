@@ -25,7 +25,7 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script src='{{ hotAsset('dist/claroline-distribution-main-core-jqplot.js') }}'></script>
+    <script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>
 {% endif %}
 {% if actionName is not defined or actionName is empty or '-' not in actionName %}
 <legend>{{ 'actions_per_day'|trans({}, 'platform') }}</legend>

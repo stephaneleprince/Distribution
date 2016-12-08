@@ -243,5 +243,5 @@
     <script type="text/javascript" src="{{ asset('packages/moment/min/moment-with-locales.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('packages/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src='{{ hotAsset('dist/claroline-distribution-plugin-presence-admin-tool-index') }}'></script>
+    <script> load({{ chunks('claroline-distribution-plugin-presence-admin-tool-index')|raw }}) </script>
 {% endblock javascripts %}
