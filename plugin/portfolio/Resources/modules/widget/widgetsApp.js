@@ -19,8 +19,7 @@ import '../modules/badgePickerDirective'
 
 import 'angular-strap'
 import 'angular-ui-resource-picker/angular-resource-picker'
-import 'angular-bootstrap/ui-bootstrap.min.js'
-import 'angular-bootstrap/ui-bootstrap-tpls.min.js'
+import 'angular-bootstrap'
 
 /* global angular */
 
