@@ -64,29 +64,26 @@ var libs =
     //
     'pdfjs-dist/build/pdf.combined', //rename me !
     //
-     'lodash/lodash', //rename me
-     //
-     'moment/moment', //merge me
-     'moment/min/moment-with-locales', //merge me
-     //
-     'jquery-ui/jquery-ui',
-     'jquery-ui/jquery-ui.min',
-     'jquery-ui/ui/draggable',
-     'jquery-ui/ui/resizable',
-     //
-     'bootstrap-daterangepicker',
-     'mjolnic-bootstrap-colorpicker',
-     'eonasdan-bootstrap-datetimepicker',
-     'confirm-bootstrap/confirm-bootstrap', //only first part should be used
-     //
-     'Datejs/build/date',
-     //merge wavesurfer svplz
-     'wavesurfer.js/dist/wavesurfer',
-     'wavesurfer.js/dist/plugin/wavesurfer.minimap.min',
-     'wavesurfer.js/dist/plugin/wavesurfer.timeline.min',
-     'wavesurfer.js/dist/plugin/wavesurfer.regions.min',
-     //probably missing some stuff
-     'fullcalendar/dist/fullcalendar'
+    'lodash/lodash', //rename me
+    //
+    'jquery-ui/jquery-ui',
+    'jquery-ui/jquery-ui.min',
+    'jquery-ui/ui/draggable',
+    'jquery-ui/ui/resizable',
+    //
+    'bootstrap-daterangepicker',
+    'mjolnic-bootstrap-colorpicker',
+    'eonasdan-bootstrap-datetimepicker',
+    'confirm-bootstrap/confirm-bootstrap', //only first part should be used
+    //
+    'Datejs/build/date',
+    //merge wavesurfer svplz
+    'wavesurfer.js/dist/wavesurfer',
+    'wavesurfer.js/dist/plugin/wavesurfer.minimap.min',
+    'wavesurfer.js/dist/plugin/wavesurfer.timeline.min',
+    'wavesurfer.js/dist/plugin/wavesurfer.regions.min',
+    //probably missing some stuff
+    'fullcalendar/dist/fullcalendar'
 ]
 
 libs = libs.reduce((acc, lib) => {
@@ -100,5 +97,6 @@ libs['angular-gridster'] = [__dirname + '/externals/angular-gridster.js']
 libs['angular-data-table'] = [__dirname + '/externals/angular-data-table.js']
 libs['mjolnic-bootstrap-colorpicker'] = [__dirname + '/externals/mjolnic-bootstrap-colorpicker.js']
 libs['underscore'] = [__dirname + '/externals/underscore.js']
+libs['moment'] = [__dirname + '/externals/moment.js']
 
 module.exports = libs

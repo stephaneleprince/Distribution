@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment'
 
 import 'eonasdan-bootstrap-datetimepicker'
 import 'jquery-ui/ui/draggable'
@@ -56,12 +56,12 @@ $calendar.fullCalendar({
   eventMouseout: onEventMouseout
 })
 
-function onDayClick (date) {
+function onDayClick(date) {
   if (!isFormShown) {
     var routing = Routing.generate('formalibre_add_reservation'),
       momentDate = moment(date)
 
-    var onReservationFormOpen = function () {
+    var onReservationFormOpen = function() {
       $('#reservation_form_start').val(momentDate.format('DD/MM/YYYY HH:mm'))
       $('#reservation_form_end').val(momentDate.add(1, 'hour').format('DD/MM/YYYY HH:mm'))
 
@@ -79,14 +79,14 @@ function onDayClick (date) {
   }
 }
 
-function onEventClick (event) {
+function onEventClick(event) {
   if (event.editable && !isFormShown) {
     var routing = Routing.generate('formalibre_change_reservation_form', {id: event.reservationId})
 
     modal.displayForm(
       routing,
       onReservationChanged,
-      function () {
+      function() {
         $('#reservation_form_end').change()
         initializeDateTimePicker()
       },
@@ -96,38 +96,38 @@ function onEventClick (event) {
   }
 }
 
-function onEventRender (event, $element) {
+function onEventRender(event, $element) {
   if (!event.visible && event.visible != undefined) {
     return false
   }
   createPopover(event, $element)
 }
 
-function onEventDrop (event, delta, revertFunc) {
+function onEventDrop(event, delta, revertFunc) {
   resizeOrDrop(event, delta, 'move', revertFunc)
 }
 
-function onEventResize (event, delta, revertFunc) {
+function onEventResize(event, delta, revertFunc) {
   resizeOrDrop(event, delta, '', revertFunc)
 }
 
-function onEventDestroy (event, $element) {
+function onEventDestroy(event, $element) {
   $element.popover('destroy')
 }
 
-function onEventMouseover () {
+function onEventMouseover() {
   $(this).popover('show')
 }
 
-function onEventMouseout () {
+function onEventMouseout() {
   $(this).popover('hide')
 }
 
-function onReservationChanged (event) {
+function onReservationChanged(event) {
   updateEvent(event)
 }
 
-function resizeOrDrop (event, delta, action, revertFunc) {
+function resizeOrDrop(event, delta, action, revertFunc) {
   var minutes = moment.duration(delta).asMinutes(),
     routeName = action === 'move' ? 'formalibre_reservation_move' : 'formalibre_resize_reservation',
     routing = Routing.generate(routeName, {id: event.reservationId, minutes: minutes})
@@ -136,7 +136,7 @@ function resizeOrDrop (event, delta, action, revertFunc) {
     url: routing,
     type: 'post',
     dataType: 'json',
-    success: function (data) {
+    success: function(data) {
       if (data.error == undefined) {
         updateEvent(data)
       } else {
@@ -149,7 +149,7 @@ function resizeOrDrop (event, delta, action, revertFunc) {
 
 $('body')
   // Show details of the selected resource
-  .on('change', 'select#reservation_form_resource', function () {
+  .on('change', 'select#reservation_form_resource', function() {
     var $this = $(this),
       resourceId = $this.val(),
       routing = Routing.generate('formalibre_reservation_get_resource_info', {id: resourceId})
@@ -158,7 +158,7 @@ $('body')
       url: routing,
       type: 'get',
       dataType: 'json',
-      success: function (data) {
+      success: function(data) {
         $('#reservation_form_resource_description').text(data.description)
         $('#reservation_form_resource_localisation').text(data.localisation)
         $('#reservation_form_resource_max_time').text(data.maxTime)
@@ -166,7 +166,7 @@ $('body')
     })
   })
   // Change the duration input when the end input is changed
-  .on('dp.change', '#reservation_form_start, #reservation_form_end', function () {
+  .on('dp.change', '#reservation_form_start, #reservation_form_end', function() {
     var end = moment($('#reservation_form_end').val(), 'DD/MM/YYYY HH:mm'),
       start = moment($('#reservation_form_start').val(), 'DD/MM/YYYY HH:mm'),
       duration = end.diff(start, 'minutes'),
@@ -176,7 +176,7 @@ $('body')
     $('#reservation_form_duration').val(hours + ':' + minutes)
   })
   // Change the end input when the duration input is changed
-  .on('keyup', '#reservation_form_duration', function () {
+  .on('keyup', '#reservation_form_duration', function() {
     var duration = $(this).val(),
       durationArray = duration.split(':')
 
@@ -190,7 +190,7 @@ $('body')
     }
   })
   // Delete a reservation
-  .on('click', '.delete-reservation', function () {
+  .on('click', '.delete-reservation', function() {
     var reservationId = $(this).data('reservation-id'),
       eventId = $(this).data('event-id'),
       routing = Routing.generate('formalibre_delete_reservation', {id: reservationId})
@@ -203,24 +203,24 @@ $('body')
     )
   })
   // Set isFormShown to false when the modal is closed
-  .on('hide.bs.modal', '.modal', function () {
+  .on('hide.bs.modal', '.modal', function() {
     isFormShown = false
   })
 
 
-$('.filters-list > a').click(function (e) {
+$('.filters-list > a').click(function(e) {
   e.preventDefault()
 
   if ($(this).is('.active-filter')) {
     $(this).removeClass('active-filter').next().children()
-      .each(function () {
+      .each(function() {
         if ($(this).is('.active-filter')) {
           $(this).click()
         }
       })
   } else {
     $(this).addClass('active-filter').next().children()
-      .each(function () {
+      .each(function() {
         if (!$(this).is('.active-filter')) {
           $(this).click()
         }
@@ -230,7 +230,7 @@ $('.filters-list > a').click(function (e) {
   applyFilters()
 })
 
-$('.resources-filter > a').click(function (e) {
+$('.resources-filter > a').click(function(e) {
   e.preventDefault()
 
   if ($(this).is('.active-filter')) {
@@ -260,7 +260,7 @@ $('.resources-filter > a').click(function (e) {
   applyFilters()
 })
 
-function initializeDateTimePicker () {
+function initializeDateTimePicker() {
   var dateTimePickerOptions = {
     format: 'DD/MM/YYYY HH:mm',
     useCurrent: false,
@@ -300,15 +300,15 @@ function initializeDateTimePicker () {
   $('#reservation_form_end').datetimepicker(dateTimePickerOptions)
 }
 
-function applyFilters () {
+function applyFilters() {
   var $resourcesChecked = $('.resources-filter > a.active-filter'),
     resourcesIdChecked = []
 
-  $.each($resourcesChecked, function () {
+  $.each($resourcesChecked, function() {
     resourcesIdChecked.push($(this).data('resource-id'))
   })
 
-  $calendar.fullCalendar('clientEvents', function (event) {
+  $calendar.fullCalendar('clientEvents', function(event) {
     if (resourcesIdChecked.length === 0) {
       event.visible = 1
     } else {
@@ -319,15 +319,15 @@ function applyFilters () {
   $calendar.fullCalendar('rerenderEvents')
 }
 
-function onReservationDeleted (event, eventId) {
+function onReservationDeleted(event, eventId) {
   $calendar.fullCalendar('removeEvents', eventId)
 }
 
-function onReservationCreated (event) {
+function onReservationCreated(event) {
   $calendar.fullCalendar('renderEvent', event)
 }
 
-function createPopover (event, $element) {
+function createPopover(event, $element) {
   event.start.string = event.start.format('DD/MM/YYYY HH:mm')
   event.end.string = event.end.format('DD/MM/YYYY HH:mm')
 
@@ -340,12 +340,12 @@ function createPopover (event, $element) {
   })
 }
 
-function updateEvent (event) {
+function updateEvent(event) {
   $calendar.fullCalendar('removeEvents', event.id)
   $calendar.fullCalendar('renderEvent', event)
 }
 
-function trans (key) {
+function trans(key) {
   if (typeof key === 'object') {
     var transWords = []
     for (var i = 0; i < key.length; i++) {

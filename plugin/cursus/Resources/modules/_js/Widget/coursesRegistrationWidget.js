@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment'
 import 'fullcalendar/dist/fullcalendar'
 
 /* global Routing */
@@ -25,7 +25,7 @@ const widgetElement = $(`#courses-registration-widget-${widgetInstanceId}`)
 const listElement = $(`#courses-list-${widgetInstanceId}`)
 const disableSessionEventRegistration = window.disableSessionEventRegistration
 
-function refreshCoursesList () {
+function refreshCoursesList() {
   const route = mode === 'list' ?
     Routing.generate(
       'claro_cursus_courses_list_for_registration_widget',
@@ -44,7 +44,7 @@ function refreshCoursesList () {
   $.ajax({
     url: route,
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       listElement.html(datas)
 
       if (mode === 'calendar') {
@@ -54,7 +54,7 @@ function refreshCoursesList () {
   })
 }
 
-widgetElement.on('click', 'a', function (event) {
+widgetElement.on('click', 'a', function(event) {
   event.preventDefault()
 
   if ($(this).hasClass('session-info-link')) {
@@ -75,19 +75,19 @@ widgetElement.on('click', 'a', function (event) {
     $.ajax({
       url: route,
       type: 'GET',
-      success: function (datas) {
+      success: function(datas) {
         listElement.html(datas)
       }
     })
   }
 })
 
-widgetElement.on('click', '#search-course-btn', function () {
+widgetElement.on('click', '#search-course-btn', function() {
   currentSearch = $('#search-course-input').val()
   refreshCoursesList()
 })
 
-widgetElement.on('keypress', '#search-course-input', function (e) {
+widgetElement.on('keypress', '#search-course-input', function(e) {
   if (e.keyCode === 13) {
     e.preventDefault()
     currentSearch = $(this).val()
@@ -95,7 +95,7 @@ widgetElement.on('keypress', '#search-course-input', function (e) {
   }
 })
 
-widgetElement.on('click', '.session-register-btn', function () {
+widgetElement.on('click', '.session-register-btn', function() {
   const sessionId = $(this).data('session-id')
   modal.confirmRequest(
     Routing.generate('claro_cursus_course_session_self_register', {'session': sessionId}),
@@ -106,7 +106,7 @@ widgetElement.on('click', '.session-register-btn', function () {
   )
 })
 
-widgetElement.on('click', '.course-queue-request-btn', function () {
+widgetElement.on('click', '.course-queue-request-btn', function() {
   const courseId = $(this).data('course-id')
   modal.confirmRequest(
     Routing.generate('claro_cursus_course_queue_register', {'course': courseId}),
@@ -117,7 +117,7 @@ widgetElement.on('click', '.course-queue-request-btn', function () {
   )
 })
 
-widgetElement.on('click', '.cancel-course-queue-request-btn', function () {
+widgetElement.on('click', '.cancel-course-queue-request-btn', function() {
   const courseId = $(this).data('course-id')
 
   modal.confirmRequest(
@@ -129,7 +129,7 @@ widgetElement.on('click', '.cancel-course-queue-request-btn', function () {
   )
 })
 
-widgetElement.on('click', '.register-to-session-event-btn', function () {
+widgetElement.on('click', '.register-to-session-event-btn', function() {
   const sessionEventId = $(this).data('session-event-id')
   modal.confirmRequest(
     Routing.generate('claro_cursus_session_event_self_register', {sessionEvent: sessionEventId}),
@@ -140,7 +140,7 @@ widgetElement.on('click', '.register-to-session-event-btn', function () {
   )
 })
 
-widgetElement.on('click', '#calendar-view-button', function () {
+widgetElement.on('click', '#calendar-view-button', function() {
   const route = Routing.generate(
     'claro_cursus_courses_list_for_registration_widget_calendar',
     {'widgetInstance': widgetInstanceId, 'search': currentSearch}
@@ -148,7 +148,7 @@ widgetElement.on('click', '#calendar-view-button', function () {
   $.ajax({
     url: route,
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       listElement.html(datas)
       mode = 'calendar'
       initializeCalendar()
@@ -156,7 +156,7 @@ widgetElement.on('click', '#calendar-view-button', function () {
   })
 })
 
-widgetElement.on('click', '#list-view-button', function () {
+widgetElement.on('click', '#list-view-button', function() {
   const route = Routing.generate(
     'claro_cursus_courses_list_for_registration_widget',
     {'widgetInstance': widgetInstanceId, 'search': currentSearch, 'max': currentMax, 'orderedBy': currentOrderedBy, 'order': currentOrder}
@@ -164,25 +164,25 @@ widgetElement.on('click', '#list-view-button', function () {
   $.ajax({
     url: route,
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       listElement.html(datas)
       mode = 'list'
     }
   })
 })
 
-const removeRegistrationBtn = function (event, sessionId) {
+const removeRegistrationBtn = function(event, sessionId) {
   $('#session-registration-btn-' + sessionId).empty()
   const element = '<span class="label label-success"><i class="fa fa-check"></i></span>'
   $('#session-registration-btn-' + sessionId).html(element)
 }
 
-const removeRegistrationBtnCalendar = function (event, datas) {
+const removeRegistrationBtnCalendar = function(event, datas) {
   pendingSessions[datas['sessionId']] = true
   datas['context'].addClass('disabled')
 }
 
-const updateCourseQueueRequetBtn = function (event, courseId) {
+const updateCourseQueueRequetBtn = function(event, courseId) {
   let courseQueueBtn = $('#course-queue-btn-' + courseId)
   courseQueueBtn.removeClass('course-queue-request-btn')
   courseQueueBtn.addClass('cancel-course-queue-request-btn')
@@ -191,7 +191,7 @@ const updateCourseQueueRequetBtn = function (event, courseId) {
   courseQueueBtn.html(element)
 }
 
-const updateCourseQueueRequetCancelBtn = function (event, courseId) {
+const updateCourseQueueRequetCancelBtn = function(event, courseId) {
   let courseQueueBtn = $('#course-queue-btn-' + courseId)
   courseQueueBtn.removeClass('cancel-course-queue-request-btn')
   courseQueueBtn.addClass('course-queue-request-btn')
@@ -200,13 +200,13 @@ const updateCourseQueueRequetCancelBtn = function (event, courseId) {
   courseQueueBtn.html(element)
 }
 
-const removeSessionEventRegistrationBtn = function (event, sessionEventId) {
+const removeSessionEventRegistrationBtn = function(event, sessionEventId) {
   $('#session-event-registration-btn-' + sessionEventId).empty()
   const element = '<span class="label label-success"><i class="fa fa-check"></i></span>'
   $('#session-event-registration-btn-' + sessionEventId).html(element)
 }
 
-const removeSessionEventRegistrationBtnCalendar = function (event, datas) {
+const removeSessionEventRegistrationBtnCalendar = function(event, datas) {
   sessionEventUsersStatus[datas['sessionEventId']] = 1
   datas['context'].empty()
   datas['context'].removeClass(`register-to-session-event-btn-${widgetInstanceId}`)
@@ -216,7 +216,7 @@ const removeSessionEventRegistrationBtnCalendar = function (event, datas) {
   datas['context'].html(content)
 }
 
-function t (key) {
+function t(key) {
   if (typeof key === 'object') {
     let transWords = []
 
@@ -228,7 +228,7 @@ function t (key) {
   return Translator.trans(key, {}, 'agenda')
 }
 
-function initializeEvents () {
+function initializeEvents() {
   events = []
   sessions.forEach(s => {
     s['title'] = s['course']['title']
@@ -247,7 +247,7 @@ function initializeEvents () {
   })
 }
 
-function initializeCalendar () {
+function initializeCalendar() {
   sessions = (typeof window[sessionsIdx] === 'undefined') ? [] : JSON.parse(window[sessionsIdx])
   registeredSessions = (typeof window[registeredSessionsIdx] === 'undefined') ? [] : window[registeredSessionsIdx]
   pendingSessions = (typeof window[pendingSessionsIdx] === 'undefined') ? [] : window[pendingSessionsIdx]
@@ -294,7 +294,7 @@ function initializeCalendar () {
   })
 }
 
-function onEventClick (event, jsEvent) {
+function onEventClick(event, jsEvent) {
   jsEvent.stopPropagation()
   jsEvent.preventDefault()
   let registerBtn = ''
@@ -421,7 +421,7 @@ function onEventClick (event, jsEvent) {
   modal.simpleContainer(title, body)
 }
 
-$('body').on('click', `.register-to-session-btn-${widgetInstanceId}`, function () {
+$('body').on('click', `.register-to-session-btn-${widgetInstanceId}`, function() {
   const sessionId = $(this).data('session-id')
   modal.confirmRequest(
     Routing.generate('claro_cursus_course_session_self_register', {'session': sessionId}),
@@ -432,7 +432,7 @@ $('body').on('click', `.register-to-session-btn-${widgetInstanceId}`, function (
   )
 })
 
-$('body').on('click', `.register-to-session-event-btn-${widgetInstanceId}`, function () {
+$('body').on('click', `.register-to-session-event-btn-${widgetInstanceId}`, function() {
   const sessionEventId = $(this).data('session-event-id')
   modal.confirmRequest(
     Routing.generate('claro_cursus_session_event_self_register', {sessionEvent: sessionEventId}),

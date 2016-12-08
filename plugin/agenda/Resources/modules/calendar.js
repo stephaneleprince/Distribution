@@ -3,7 +3,7 @@ window.Claroline = window.Claroline || {}
 import $ from 'jquery'
 
 import modal from '#/main/core/_old/modal'
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment'
 
 import 'eonasdan-bootstrap-datetimepicker'
 import 'jquery-ui/ui/draggable'
@@ -24,7 +24,7 @@ var isDesktop
 var $calendarElement = $('#calendar')
 var isFormShown = false
 
-calendar.initialize = function (
+calendar.initialize = function(
   context,
   workspaceId,
   areWorkspacesEditable
@@ -45,13 +45,13 @@ calendar.initialize = function (
   }
 
   // Initialize the click event on the import button
-  $('#import-ics-btn').on('click', function (event) {
+  $('#import-ics-btn').on('click', function(event) {
     onImport(event)
   })
   // Initialize the click event on the document
   onBodyClick()
 
-  $('.filter,.filter-tasks').click(function () {
+  $('.filter,.filter-tasks').click(function() {
     filterEvents(getWorkspaceFilterChecked())
   })
 
@@ -106,15 +106,15 @@ calendar.initialize = function (
   redirectCalendar()
 }
 
-function onEventDrop (event, delta) {
+function onEventDrop(event, delta) {
   resizeOrMove(event, delta._days, delta._milliseconds / (1000 * 60), 'move')
 }
 
-function onEventDragStart () {
+function onEventDragStart() {
   $(this).popover('hide')
 }
 
-function onEventClick (event, jsEvent) {
+function onEventClick(event, jsEvent) {
   var workspaceId = event.workspace_id ? event.workspace_id : 0
   if (workspacePermissions[workspaceId] && event.editable !== false) {
     // If the user can edit the event
@@ -130,12 +130,12 @@ function onEventClick (event, jsEvent) {
   }
 }
 
-function onEventDestroy (event, $element) {
+function onEventDestroy(event, $element) {
   $element.popover('destroy')
   $('.popover').remove()
 }
 
-function onEventRender (event, element) {
+function onEventRender(event, element) {
   if (event.visible === undefined) {
     filterEvent(event, getWorkspaceFilterChecked())
   }
@@ -147,15 +147,15 @@ function onEventRender (event, element) {
   renderEvent(event, element)
 }
 
-function onEventResize (event, delta) {
+function onEventResize(event, delta) {
   resizeOrMove(event, delta._days, delta._milliseconds / (1000 * 60), 'resize')
 }
 
-function onEventResizeStart () {
+function onEventResizeStart() {
   $(this).popover('hide')
 }
 
-function renderEvent (event, $element) {
+function renderEvent(event, $element) {
   // Check if the user is allowed to modify the agenda
   var workspaceId = event.workspace_id ? event.workspace_id : 0
 
@@ -192,14 +192,14 @@ function renderEvent (event, $element) {
   createPopover(event, $element)
 }
 
-function renderAddEventForm (date) {
+function renderAddEventForm(date) {
   // Select the first id of the json workspacePermissions
   for (var key in workspacePermissions) break
   if (workspacePermissions[key] && !isFormShown) {
     var dateStart = moment(date).format('DD/MM/YYYY HH:mm'),
       dateEnd = moment(date).add(1, 'hours').format('DD/MM/YYYY HH:mm')
 
-    var postRenderAddEventAction = function () {
+    var postRenderAddEventAction = function() {
       $('#agenda_form_start').val(dateStart)
       $('#agenda_form_end').val(dateEnd)
       initializeDateTimePicker()
@@ -217,69 +217,69 @@ function renderAddEventForm (date) {
 }
 
 $('body')
-  .on('hide.bs.modal', '.modal', function () {
+  .on('hide.bs.modal', '.modal', function() {
     isFormShown = false
   })
   // Show the edit form
-  .on('click', '.modify-event', function (e) {
+  .on('click', '.modify-event', function(e) {
     e.preventDefault()
 
     showEditForm($(this).data('event-id'))
   })
-  .on('click', '.modify-event-as-guest', function (e) {
+  .on('click', '.modify-event-as-guest', function(e) {
     e.preventDefault()
 
     showEditFormForGuest($(this).data('event-id'))
   })
-  .on('click', function (e) {
-    $('[data-original-title]').each(function () {
+  .on('click', function(e) {
+    $('[data-original-title]').each(function() {
       if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
         $(this).popover('hide')
       }
     })
   })
-  .on('click', '.popover button.close', function () {
-    $('[data-original-title]').each(function () {
+  .on('click', '.popover button.close', function() {
+    $('[data-original-title]').each(function() {
       $(this).popover('hide')
     })
   })
 
-function addEventAndTaskToCalendar (event) {
+function addEventAndTaskToCalendar(event) {
   $calendarElement.fullCalendar('renderEvent', event)
 }
 
-function addItemsToCalendar (events) {
+function addItemsToCalendar(events) {
   for (var i = 0; i < events.length; i++) {
     addEventAndTaskToCalendar(events[i])
   }
 }
 
-function updateCalendarItem (event) {
+function updateCalendarItem(event) {
   removeEvent(undefined, undefined, event)
   addItemsToCalendar(new Array(event))
 }
 
-function updateCalendarItemCallback (event) {
+function updateCalendarItemCallback(event) {
   updateCalendarItem(event)
 }
 
-function removeEvent (event, item, data) {
+function removeEvent(event, item, data) {
   $calendarElement.fullCalendar('removeEvents', data.id)
 }
 
-function resizeOrMove (event, dayDelta, minuteDelta, action) {
+function resizeOrMove(event, dayDelta, minuteDelta, action) {
   var route = action === 'move' ? 'claro_workspace_agenda_move' : 'claro_workspace_agenda_resize'
   $.ajax({
     url: Routing.generate(route, {event: event.id, day: dayDelta, minute: minuteDelta}),
     type: 'POST',
-    success: function (event) {
+    success: function(event) {
       // Update the event to change the popover's data
       updateCalendarItem(event)
     }
   })
 }
 
-function filterEvent (event, workspaceIds) {
+function filterEvent(event, workspaceIds) {
   var numberOfChecked = $('.filter:checkbox:checked').length
   var totalCheckboxes = $('.filter:checkbox').length
   var radioValue = $('input[type=radio].filter-tasks:checked').val()
@@ -311,15 +311,15 @@ function filterEvent (event, workspaceIds) {
   }
 }
 
-function filterEvents (workspaceIds) {
-  $calendarElement.fullCalendar('clientEvents', function (eventObject) {
+function filterEvents(workspaceIds) {
+  $calendarElement.fullCalendar('clientEvents', function(eventObject) {
     filterEvent(eventObject, workspaceIds)
   })
   // $calendarElement.fullCalendar('removeEvents')
   $calendarElement.fullCalendar('refetchEvents')
 }
 
-function createPopover (event, $element) {
+function createPopover(event, $element) {
   /* In FullCalendar >= 2.3.1, the end date is null if the start date is the same.
    * In this case, the end date is null when it's a all day event which lasts one day
    */
@@ -341,7 +341,7 @@ function createPopover (event, $element) {
     })
 }
 
-function convertDateTimeToString (value, isAllDay, isEndDate) {
+function convertDateTimeToString(value, isAllDay, isEndDate) {
   if (isAllDay) {
     if (isEndDate) {
       return moment(value).subtract(1, 'minutes').format('DD/MM/YYYY HH:mm')
@@ -350,11 +350,11 @@ function convertDateTimeToString (value, isAllDay, isEndDate) {
   return moment(value).format('DD/MM/YYYY HH:mm')
 }
 
-function markTaskAsToDo (event, jsEvent, $element) {
+function markTaskAsToDo(event, jsEvent, $element) {
   $.ajax({
     url: window.Routing.generate('claro_agenda_set_task_as_not_done', {event: event.id}),
     type: 'GET',
-    success: function () {
+    success: function() {
       $(jsEvent.target)
         .removeClass('fa-check-square-o')
         .addClass('fa-square-o')
@@ -367,11 +367,11 @@ function markTaskAsToDo (event, jsEvent, $element) {
   })
 }
 
-function markTaskAsDone (event, jsEvent, $element) {
+function markTaskAsDone(event, jsEvent, $element) {
   $.ajax({
     url: window.Routing.generate('claro_agenda_set_task_as_done', {'event': event.id}),
     type: 'GET',
-    success: function () {
+    success: function() {
       $(jsEvent.target)
         .removeClass('fa-square-o')
         .addClass('fa-check-square-o')
@@ -383,7 +383,7 @@ function markTaskAsDone (event, jsEvent, $element) {
   })
 }
 
-function showEditForm (eventId) {
+function showEditForm(eventId) {
   if (!isFormShown) {
     var route_name = isDesktop ? 'claro_desktop_agenda_update_event_form' : 'claro_workspace_agenda_update_event_form',
       editUrl = Routing.generate(route_name, {event: eventId})
@@ -391,7 +391,7 @@ function showEditForm (eventId) {
     modal.displayForm(
       editUrl,
       updateCalendarItemCallback,
-      function () {
+      function() {
         initializeDateTimePicker()
         $('#agenda_form_isTask').is(':checked') ? hideStartDate() : showStartDate()
         $('#agenda_form_isAllDay').is(':checked') ? hideFormHours() : showFormHours()
@@ -403,14 +403,14 @@ function showEditForm (eventId) {
   }
 }
 
-function showEditFormForGuest (eventId) {
+function showEditFormForGuest(eventId) {
   if (!isFormShown) {
     var editUrl = Routing.generate('claro_desktop_agenda_guest_update', {event: eventId})
 
     modal.displayForm(
       editUrl,
       updateCalendarItemCallback,
-      function () {},
+      function() {},
       'form-event'
     )
   }
@@ -418,7 +418,7 @@ function showEditFormForGuest (eventId) {
   isFormShown = true
 }
 
-function initializeDateTimePicker (showOnlyDate) {
+function initializeDateTimePicker(showOnlyDate) {
   showOnlyDate = typeof showOnlyDate == 'undefined' ? 'DD/MM/YYYY HH:mm' : 'DD/MM/YYYY'
 
   var dateTimePickerOptions = {
@@ -459,29 +459,29 @@ function initializeDateTimePicker (showOnlyDate) {
   $('#agenda_form_start, #agenda_form_end').datetimepicker(dateTimePickerOptions)
 }
 
-function hideFormHours () {
+function hideFormHours() {
   updateDateTimePicker(true)
 }
 
-function showFormHours () {
+function showFormHours() {
   updateDateTimePicker()
 }
 
-function updateDateTimePicker (showOnlyDate) {
+function updateDateTimePicker(showOnlyDate) {
   $('#agenda_form_start').data('DateTimePicker').destroy()
   $('#agenda_form_end').data('DateTimePicker').destroy()
   initializeDateTimePicker(showOnlyDate)
 }
 
-function hideStartDate () {
+function hideStartDate() {
   $('#agenda_form_start').parent().parent().hide()
 }
 
-function showStartDate () {
+function showStartDate() {
   $('#agenda_form_start').parent().parent().show()
 }
 
-function getQueryVariable (variable) {
+function getQueryVariable(variable) {
   var query = window.location.search.substring(1)
   var vars = query.split('&')
 
@@ -494,7 +494,7 @@ function getQueryVariable (variable) {
   return null
 }
 
-function redirectCalendar () {
+function redirectCalendar() {
   if (getQueryVariable('year')) {
     var year = !isNaN(getQueryVariable('year')) && getQueryVariable('year') ? getQueryVariable('year') : new Date('Y'),
       month = !isNaN(getQueryVariable('month')) && getQueryVariable('month') ? getQueryVariable('month') : new Date('m'),
@@ -504,17 +504,17 @@ function redirectCalendar () {
   }
 }
 
-function getWorkspaceFilterChecked () {
+function getWorkspaceFilterChecked() {
   var workspaceIds = []
 
-  $('.filter:checkbox:checked').each(function () {
+  $('.filter:checkbox:checked').each(function() {
     workspaceIds.push(parseInt($(this).val()))
   })
 
   return workspaceIds
 }
 
-function t (key) {
+function t(key) {
   if (typeof key === 'object') {
     var transWords = []
     for (var i = 0; i < key.length; i++) {
@@ -525,10 +525,10 @@ function t (key) {
   return Translator.trans(key, {}, 'agenda')
 }
 
-function onBodyClick () {
+function onBodyClick() {
   $('body')
     // Delete the event from the form and the popover button
-    .on('click', '.delete-event', function (event) {
+    .on('click', '.delete-event', function(event) {
       event.preventDefault()
       modal.confirmRequest(
         $(event.currentTarget).attr('href'),
@@ -539,21 +539,21 @@ function onBodyClick () {
       )
     })
     // Hide the hours if the checkbox allDay is checked
-    .on('click', '#agenda_form_isAllDay', function () {
+    .on('click', '#agenda_form_isAllDay', function() {
       $('#agenda_form_isAllDay').is(':checked') ? hideFormHours() : showFormHours()
     })
     // Hide the start date if the task is checked.
-    .on('click', '#agenda_form_isTask', function () {
+    .on('click', '#agenda_form_isTask', function() {
       $('#agenda_form_isTask').is(':checked') ? hideStartDate() : showStartDate()
     })
 }
 
-function onImport (event) {
+function onImport(event) {
   event.preventDefault()
   modal.displayForm(
     $(event.target).attr('href'),
     addItemsToCalendar,
-    function () {},
+    function() {},
     'ics-import-form'
   )
 }

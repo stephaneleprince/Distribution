@@ -1,12 +1,11 @@
 import $ from 'jquery'
-import 'moment/min/moment-with-locales'
+import 'moment'
 import 'eonasdan-bootstrap-datetimepicker'
 import 'jquery-ui/ui/draggable'
 import 'jquery-ui/ui/resizable'
 import 'fullcalendar/dist/fullcalendar'
 
 import modal from '#/main/core/_old/modal'
-
 
 $('#calendar').fullCalendar({
   header: {
@@ -32,20 +31,20 @@ $('#calendar').fullCalendar({
   eventLimit: true, // allow "more" link when too many events
 
   events: window.events,
-  eventClick: function (calEvent, jsEvent) {
+  eventClick: function(calEvent, jsEvent) {
     jsEvent.preventDefault()
     modal.displayForm(
       calEvent.url,
-      function () {
+      function() {
         window.location.reload()
       },
-      function () {},
+      function() {},
       'ModifHoraireForm'
     )
   }
 })
 
-$(function () {
+$(function() {
   $('#form_start').datetimepicker({
     format: 'HH:mm',
     locale: 'fr',
@@ -58,7 +57,7 @@ $(function () {
   })
 })
 
-$(function () {
+$(function() {
   $('#form_end').datetimepicker({
     format: 'HH:mm',
     locale: 'fr',

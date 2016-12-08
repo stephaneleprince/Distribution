@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment'
 import 'bootstrap-daterangepicker'
 import 'Datejs/build/date'
 
@@ -101,7 +101,7 @@ for (var i in window.chosenRangeKeys) {
   ranges[range.label] = range.value
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
   $(`#${window.formId}`).daterangepicker({
     ranges: ranges,
     separator: ` ${Translator.trans('date_range.separator', {}, 'platform')} `,

@@ -1,7 +1,7 @@
 import modal from '#/main/core/_old/modal'
 import $ from 'jquery'
 
-import 'moment/min/moment-with-locales'
+import 'moment'
 
 import 'eonasdan-bootstrap-datetimepicker'
 import 'jquery-ui/ui/draggable'
@@ -45,12 +45,12 @@ $('#calendar').fullCalendar({
   eventLimit: true, // allow "more" link when too many events
 
   events: window.events,
-  eventClick: function (calEvent, jsEvent) {
+  eventClick: function(calEvent, jsEvent) {
     jsEvent.preventDefault()
     modal.displayForm(
       calEvent.url,
-      function () {},
-      function () {}
+      function() {},
+      function() {}
     )
   }
 })

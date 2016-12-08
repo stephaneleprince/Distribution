@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment'
 import 'fullcalendar/dist/fullcalendar'
 import modal from '#/main/core/_old/modal'
 
@@ -39,7 +39,7 @@ let workspaces = {}
 let selectedEventId = null
 let selectedCommentId = null
 
-function refreshCoursesList () {
+function refreshCoursesList() {
   let url
 
   switch (mode) {
@@ -71,7 +71,7 @@ function refreshCoursesList () {
   $.ajax({
     url: url,
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       listElement.html(datas)
 
       if (mode === 'calendar') {
@@ -81,7 +81,7 @@ function refreshCoursesList () {
   })
 }
 
-widgetElement.on('click', 'a', function (event) {
+widgetElement.on('click', 'a', function(event) {
   if (!$(this).hasClass('standard-link')) {
     event.preventDefault()
 
@@ -96,7 +96,7 @@ widgetElement.on('click', 'a', function (event) {
       $.ajax({
         url: route,
         type: 'GET',
-        success: function (datas) {
+        success: function(datas) {
           listElement.html(datas)
         }
       })
@@ -104,12 +104,12 @@ widgetElement.on('click', 'a', function (event) {
   }
 })
 
-widgetElement.on('click', '#search-course-btn', function () {
+widgetElement.on('click', '#search-course-btn', function() {
   currentSearch = $('#search-course-input').val()
   refreshCoursesList()
 })
 
-widgetElement.on('keypress', '#search-course-input', function (e) {
+widgetElement.on('keypress', '#search-course-input', function(e) {
   if (e.keyCode === 13) {
     e.preventDefault()
     currentSearch = $(this).val()
@@ -117,7 +117,7 @@ widgetElement.on('keypress', '#search-course-input', function (e) {
   }
 })
 
-widgetElement.on('click', '#calendar-view-button', function () {
+widgetElement.on('click', '#calendar-view-button', function() {
   const route = Routing.generate(
     'claro_cursus_my_courses_list_for_widget_calendar',
     {'widgetInstance': widgetInstanceId, 'search': currentSearch}
@@ -126,7 +126,7 @@ widgetElement.on('click', '#calendar-view-button', function () {
   $.ajax({
     url: route,
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       listElement.html(datas)
       mode = 'calendar'
       initializeCalendar()
@@ -134,7 +134,7 @@ widgetElement.on('click', '#calendar-view-button', function () {
   })
 })
 
-widgetElement.on('click', '#list-view-button', function () {
+widgetElement.on('click', '#list-view-button', function() {
   const route = Routing.generate(
     'claro_cursus_my_courses_list_for_widget',
     {'widgetInstance': widgetInstanceId, 'search': currentSearch,'max': currentMax, 'orderedBy': currentOrderedBy, 'order': currentOrder}
@@ -143,14 +143,14 @@ widgetElement.on('click', '#list-view-button', function () {
   $.ajax({
     url: route,
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       listElement.html(datas)
       mode = 'list'
     }
   })
 })
 
-widgetElement.on('click', '#chronologic-view-button', function () {
+widgetElement.on('click', '#chronologic-view-button', function() {
   const route = Routing.generate(
     'claro_cursus_my_courses_list_for_widget_chronologic',
     {'widgetInstance': widgetInstanceId, 'search': currentSearch}
@@ -159,14 +159,14 @@ widgetElement.on('click', '#chronologic-view-button', function () {
   $.ajax({
     url: route,
     type: 'GET',
-    success: function (datas) {
+    success: function(datas) {
       listElement.html(datas)
       mode = 'chronologic'
     }
   })
 })
 
-function registerComment (eventId, comment) {
+function registerComment(eventId, comment) {
   const index = events.findIndex(e => (e['id'] === eventId) && (e['type'] === 'session_event'))
 
   if (index > -1) {
@@ -174,7 +174,7 @@ function registerComment (eventId, comment) {
   }
 }
 
-function updateComment (eventId, commentId, content) {
+function updateComment(eventId, commentId, content) {
   const index = events.findIndex(e => (e['id'] === eventId) && (e['type'] === 'session_event'))
 
   if (index > -1) {
@@ -186,7 +186,7 @@ function updateComment (eventId, commentId, content) {
   }
 }
 
-function removeComment (eventId, commentId) {
+function removeComment(eventId, commentId) {
   const index = events.findIndex(e => (e['id'] === eventId) && (e['type'] === 'session_event'))
 
   if (index > -1) {
@@ -198,7 +198,7 @@ function removeComment (eventId, commentId) {
   }
 }
 
-function getCommentContent (eventId, commentId) {
+function getCommentContent(eventId, commentId) {
   const index = events.findIndex(e => (e['id'] === eventId) && (e['type'] === 'session_event'))
 
   if (index > -1) {
@@ -212,7 +212,7 @@ function getCommentContent (eventId, commentId) {
   return ''
 }
 
-function t (key) {
+function t(key) {
   if (typeof key === 'object') {
     let transWords = []
 
@@ -224,7 +224,7 @@ function t (key) {
   return Translator.trans(key, {}, 'agenda')
 }
 
-function computeEventColor (sessionId, tutors) {
+function computeEventColor(sessionId, tutors) {
   if (editableSessions[sessionId]) {
     const tutor = tutors.find(t => t['id'] === currentUserId)
 
@@ -236,7 +236,7 @@ function computeEventColor (sessionId, tutors) {
   return '#337AB7'
 }
 
-function initializeEvents () {
+function initializeEvents() {
   events = []
   sessions.forEach(s => {
     let sessionStartEvent = {}
@@ -290,7 +290,7 @@ function initializeEvents () {
   })
 }
 
-function initializeCalendar () {
+function initializeCalendar() {
   sessions = (typeof window[sessionsIdx] === 'undefined') ? [] : JSON.parse(window[sessionsIdx])
   editableSessions = (typeof window[editableSessionsIdx] === 'undefined') ? [] : window[editableSessionsIdx]
   workspaces = (typeof window[workspacesIdx] === 'undefined') ? {} : window[workspacesIdx]
@@ -336,7 +336,7 @@ function initializeCalendar () {
   })
 }
 
-function onEventClick (event, jsEvent) {
+function onEventClick(event, jsEvent) {
   jsEvent.stopPropagation()
   jsEvent.preventDefault()
   let title = ''
@@ -617,7 +617,7 @@ function onEventClick (event, jsEvent) {
   modal.simpleContainer(title, body)
 }
 
-$('body').on('click', '#new-comment-btn', function () {
+$('body').on('click', '#new-comment-btn', function() {
   const comment = $('#new-comment-input').val()
   const eventId = parseInt($(this).data('event-id'))
   const route = Routing.generate('api_post_session_event_comment', {sessionEvent: eventId})
@@ -626,7 +626,7 @@ $('body').on('click', '#new-comment-btn', function () {
     url: route,
     type: 'POST',
     data: {comment: comment},
-    success: function (datas) {
+    success: function(datas) {
       const createdComment = JSON.parse(datas)
       const toAppend = `
           <li id="comment-${createdComment['id']}">
@@ -664,7 +664,7 @@ $('body').on('click', '#new-comment-btn', function () {
   })
 })
 
-$('body').on('click', '.edit-comment-btn', function () {
+$('body').on('click', '.edit-comment-btn', function() {
   selectedCommentId = parseInt($(this).data('comment-id'))
   selectedEventId = parseInt($(this).data('event-id'))
   $('#comment-edition-input').val(getCommentContent(selectedEventId, selectedCommentId))
@@ -672,7 +672,7 @@ $('body').on('click', '.edit-comment-btn', function () {
   $('#comment-edition-box').removeClass('hidden')
 })
 
-$('body').on('click', '#comment-edition-btn', function () {
+$('body').on('click', '#comment-edition-btn', function() {
   const comment = $('#comment-edition-input').val()
 
   if (comment) {
@@ -681,7 +681,7 @@ $('body').on('click', '#comment-edition-btn', function () {
       url: url,
       type: 'PUT',
       data: {comment: comment},
-      success: function (d) {
+      success: function(d) {
         const datas = JSON.parse(d)
         $('#comment-edition-box').hide('slow')
         $('#comment-edition-input').val('')
@@ -694,26 +694,26 @@ $('body').on('click', '#comment-edition-btn', function () {
   }
 })
 
-$('body').on('click', '#comment-edition-cancel-btn', function () {
+$('body').on('click', '#comment-edition-cancel-btn', function() {
   $('#comment-edition-box').hide('slow')
   $('#comment-edition-input').val('')
   selectedEventId = null
   selectedCommentId = null
 })
 
-$('body').on('click', '#new-comment-creation-btn', function () {
+$('body').on('click', '#new-comment-creation-btn', function() {
   $('#new-comment-creation-btn').hide('slow')
   $('#comment-creation-box').show('slow')
   $('#comment-creation-box').removeClass('hidden')
 })
 
-$('body').on('click', '#new-comment-cancel-btn', function () {
+$('body').on('click', '#new-comment-cancel-btn', function() {
   $('#comment-creation-box').hide('slow')
   $('#new-comment-input').val('')
   $('#new-comment-creation-btn').show('slow')
 })
 
-$('body').on('click', '.delete-comment-btn', function () {
+$('body').on('click', '.delete-comment-btn', function() {
   const commentId = parseInt($(this).data('comment-id'))
   const eventId = parseInt($(this).data('event-id'))
   const route = Routing.generate('api_delete_session_event_comment', {sessionEventComment: commentId})
@@ -721,7 +721,7 @@ $('body').on('click', '.delete-comment-btn', function () {
   $.ajax({
     url: route,
     type: 'DELETE',
-    success: function (datas) {
+    success: function(datas) {
       if (datas === 'success') {
         $(`#comment-${commentId}`).remove()
         removeComment(eventId, commentId)
