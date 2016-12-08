@@ -33,7 +33,7 @@ import 'confirm-bootstrap/confirm-bootstrap'
 
 import {} from 'checklist-model'
 import {} from 'lodash'
-import 'angular-gridster/dist/angular-gridster.min.js'
+import 'angular-gridster'
 
 import '../utils/Array'
 

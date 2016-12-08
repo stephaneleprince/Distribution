@@ -12,6 +12,7 @@ import angular from 'angular'
 import 'angular-ui-router'
 import 'angular-bootstrap'
 import 'angular-ui-translation/angular-translation'
+import 'angular-gridster'
 
 import '../homeTabs/homeTabs'
 import '../widgets/widgets'

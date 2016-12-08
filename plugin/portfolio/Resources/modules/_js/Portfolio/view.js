@@ -1,7 +1,7 @@
 import 'angular'
 
 import 'angular-sanitize'
-import 'angular-gridster/dist/angular-gridster.min.js'
+import 'angular-gridster'
 
 /* global angular */
 
