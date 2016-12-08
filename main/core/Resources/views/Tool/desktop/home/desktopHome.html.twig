@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block section_content %}
-    <div id="desktop-home-panel" ng-app="DesktopHomeModule">
+    <div id="desktop-home-panel">
         <div class="panel-body" ui-view>
         </div>
     </div>
@@ -29,5 +29,9 @@
     <script>
         window.tabId = {{ tabId }}
     </script>
-    <script> load({{ chunks('claroline-distribution-main-core-desktop-home')|raw }}) </script>
+    <script>
+        load({{ chunks('claroline-distribution-main-core-desktop-home')|raw }},  function() {
+            angular.bootstrap('#desktop-home-panel', ['DesktopHomeModule']);
+        })
+    </script>
 {% endblock %}

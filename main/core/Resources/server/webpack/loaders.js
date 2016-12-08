@@ -1,4 +1,5 @@
- const paths = require('./paths')
+const paths = require('./paths')
+const fs = require('fs')
 
 /**
  * Transpiles es6 and jsx files with babel.
@@ -101,8 +102,23 @@
  }
 
  const angularImport = () => {
+   var vendorFile = paths.root() + '/webpack-vendors.json'
+   if (fs.existsSync(vendorFile)) {
+       const vendors = JSON.parse(fs.readFileSync(vendorFile, 'utf8'))
+       const ang = paths.output() + '/' + vendors['angular']['js']
+       if (fs.existsSync(ang)) {
+           return {
+             test: ang,
+             loaders: [
+               'imports?this=>window',
+               'exports?window.angular'
+             ]
+           }
+       }
+   }
+
    return {
-     test: require.resolve(paths.bower() + '/angular/angular'),
+     test:  /[\/]angular\.js$/,
      loaders: [
        'imports?this=>window',
        'exports?window.angular'

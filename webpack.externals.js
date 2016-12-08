@@ -29,6 +29,7 @@ module.exports = {
       loaders.tinymceImport(),
       loaders.tinymceWrapper(),
       loaders.tinymceJquery(),
+      loaders.angularImport()
     ]
   },
   devtool: false
