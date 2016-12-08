@@ -27,11 +27,11 @@
 
     {% block wiki_buttons %}
     {% endblock %}
-    
+
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ hotAsset('dist/claroline-distribution-plugin-wiki-list.js') }}"></script>
+    <script> load({{ chunks('claroline-distribution-plugin-wiki-list')|raw }}) </script>
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'icap_wiki' }) }}"></script>
 {% endblock %}
