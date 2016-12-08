@@ -27,7 +27,7 @@
         </h3>
     </div>
 
-    <div id="workspace-home-panel" ng-app="WorkspaceHomeModule">
+    <div id="workspace-home-panel">
         <div class="panel-body" ui-view>
         </div>
     </div>
@@ -53,5 +53,9 @@
         window.canEdit = {{ canEdit ? 'true' : 'false' }}
         window.tabId = {{ tabId }}
     </script>
-    <script> load({{ chunks('claroline-distribution-main-core-workspace-home')|raw }}) </script>
+    <script>
+        load({{ chunks('claroline-distribution-main-core-workspace-home')|raw }}, function() {
+            angular.bootstrap('#workspace-home-panel', ['WorkspaceHomeModule']);
+        })
+    </script>
 {% endblock %}

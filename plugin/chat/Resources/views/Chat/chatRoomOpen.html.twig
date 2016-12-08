@@ -10,7 +10,7 @@
 
 {% block chat_content %}
     {% block section_panel %}
-        <div id="chat-room-app" ng-cloak="" ng-app="ChatRoomModule">
+        <div id="chat-room-app" ng-cloak="">
             <div ui-view></div>
         </div>
     {% endblock %}
@@ -51,5 +51,9 @@
         let RTC = null
         let RTCPeerconnection = null
     </script>
-    <script> load({{ chunks('claroline-distribution-plugin-chat-room')|raw }}) </script>
+    <script>
+        load({{ chunks('claroline-distribution-plugin-chat-room')|raw }}, function() {
+            angular.bootstrap('#chat-room-app', ['ChatRoomModule']);
+        })
+    </script>
 {% endblock %}

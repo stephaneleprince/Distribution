@@ -38,7 +38,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            <user-profile ng-app="UserProfile"></user-profile>
+            <user-profile id="user-profile-module"></user-profile>
         </div>
     </div>
 {% endblock %}
@@ -57,5 +57,9 @@
         window.disabled = true;
         window.canEdit = {{ canEdit ? 'true': 'false' }};
     </script>
-    <script> load({{ chunks('claroline-distribution-main-core-private-profile')|raw }}) </script>
+    <script>
+        load({{ chunks('claroline-distribution-main-core-private-profile')|raw }}, function() {
+            angular.bootstrap('#user-profile-module', ['UserProfile']);
+        })
+    </script>
 {% endblock %}

@@ -19,7 +19,7 @@
 {# Content of the Page #}
 {% block section_content %}
     {# Initialize AngularJS application #}
-    <div data-ng-app="ExerciseApp" data-ng-cloak="">
+    <div id="exercise-module" data-ng-cloak="">
         <exercise
             data-exercise="{{ exercise | json_encode | raw | escape }}"
             data-nb-papers="{{ nbPapers }}"
@@ -41,5 +41,9 @@
     <script src="{{ asset('packages/jsPlumb/dist/js/jsPlumb-2.1.3-min.js') }}"></script>
     <script src="{{ asset('packages/jquery-ui/jquery-ui.min.js') }}"></script>
 
-    <script> load({{ chunks('claroline-distribution-plugin-exo-app')|raw }}) </script>
+    <script>
+        load({{ chunks('claroline-distribution-plugin-exo-app')|raw }}, function() {
+            angular.bootstrap('#exercise-module', ['ExerciseApp']);
+        })
+    </script>
 {% endblock %}

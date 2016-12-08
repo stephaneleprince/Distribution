@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block section_content %}
-    <div id="cursus-management-panel" ng-app="CursusManagementModule" ng-cloak>
+    <div id="cursus-management-panel" ng-cloak>
         <div ncy-breadcrumb></div>
         <div class="panel panel-default" ui-view>
         </div>
@@ -29,7 +29,11 @@
     <script type='text/javascript' src="{{ asset('packages/angular-loading-bar/build/loading-bar.min.js') }}"></script>
     <script type='text/javascript' src="{{ asset('packages/angular-dragula/dist/angular-dragula.min.js') }}"></script>
     <script type='text/javascript' src="{{ asset('packages/ng-table/dist/ng-table.js') }}"></script>
-    <script> load({{ chunks('claroline-distribution-plugin-cursus-management')|raw }}) </script>
+    <script>
+        load({{ chunks('claroline-distribution-plugin-cursus-management')|raw }}, function() {
+            angular.bootstrap('#cursus-management-panel', ['CursusManagementModule']);
+        })
+    </script>
     {% javascripts debug=false
         'js/translations/agenda/*.js'
         'js/translations/cursus/*.js'

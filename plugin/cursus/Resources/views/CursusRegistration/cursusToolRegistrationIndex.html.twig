@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block section_content %}
-    <div id="cursus-registration-panel" ng-app="CursusRegistrationModule">
+    <div id="cursus-registration-panel">
         <div class="panel panel-default" ui-view>
         </div>
     </div>
@@ -41,5 +41,9 @@
     'js/translations/tools/*.js'
     %}<script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-    <script> load({{ chunks('claroline-distribution-plugin-cursus-registration')|raw }}) </script>
+    <script>
+        load({{ chunks('claroline-distribution-plugin-cursus-registration')|raw }}, function() {
+            angular.bootstrap('#cursus-registration-panel', ['CursusRegistrationModule']);
+        })
+    </script>
 {% endblock %}

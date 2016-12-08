@@ -52,7 +52,7 @@
             </li>
         </ul>
 
-        <div data-ng-app="indexApp">
+        <div id="portfolio-index-module">
             <div class="tab-content index-container" data-ng-strict-di>
                 <div role="tabpanel" class="tab-pane active" id="presentation">
                     <div>
@@ -135,7 +135,11 @@
         {# <script type="text/javascript" src="{{ asset_url }}"></script> #}
     {% endjavascripts %}
     <script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>
-    <script> load({{ chunks('claroline-distribution-plugin-portfolio-index-app')|raw }}) </script>
+    <script>
+        load({{ chunks('claroline-distribution-plugin-portfolio-index-app')|raw }}, function() {
+            angular.bootstrap('#portfolio-index-module', ['indexApp']);
+        })
+    </script>
     <script> load({{ chunks('claroline-distribution-plugin-portfolio-index')|raw }}) </script>
 
 {% endblock %}
