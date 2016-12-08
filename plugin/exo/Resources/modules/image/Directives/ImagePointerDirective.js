@@ -1,4 +1,4 @@
-import angular from 'angular/index'
+import angular from 'angular'
 
 import template from './../Partials/img-pointer.html'
 import pointer from './../pointer.png'
@@ -115,7 +115,7 @@ function ImagePointerDirective($window, $document) {
        */
       var dropPointer = function dropPointer(event) {
         // Notify angular values have changed
-        scope.$apply(function () {
+        scope.$apply(function() {
           ngModel.$setViewValue({
             top: scope.top,
             left: scope.left
@@ -147,7 +147,7 @@ function ImagePointerDirective($window, $document) {
       scope.img.on('load', recalculatePosition)
       angular.element($window).on('resize', recalculatePosition)
 
-      scope.$watch('disabled', function (newValue) {
+      scope.$watch('disabled', function(newValue) {
         if (newValue) {
           element.off('mousedown', dragPointer)
         } else {
@@ -155,7 +155,7 @@ function ImagePointerDirective($window, $document) {
         }
       })
 
-      scope.$on('$destroy', function () {
+      scope.$on('$destroy', function() {
         element.off('mousedown', dragPointer)
         scope.img.off('load', recalculatePosition)
         angular.element($window).off('resize', recalculatePosition)

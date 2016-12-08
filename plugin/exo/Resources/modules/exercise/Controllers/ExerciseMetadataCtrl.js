@@ -1,5 +1,5 @@
 
-import angular from 'angular/index'
+import angular from 'angular'
 
 /**
  * Exercise Metadata Controller

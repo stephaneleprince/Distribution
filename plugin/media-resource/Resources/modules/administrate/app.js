@@ -1,4 +1,4 @@
-import angular from 'angular/index'
+import angular from 'angular'
 import 'angular-loading-bar'
 import 'angular-bootstrap'
 import 'angular-route'

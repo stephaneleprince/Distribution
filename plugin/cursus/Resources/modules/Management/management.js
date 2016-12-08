@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import angular from 'angular/index'
+import angular from 'angular'
 
 import 'angular-ui-router'
 import 'angular-bootstrap'
@@ -74,7 +74,7 @@ angular.module('CursusManagementModule', [
 .config(Routing)
 .config([
   'cfpLoadingBarProvider',
-  function configureLoadingBar (cfpLoadingBarProvider) {
+  function configureLoadingBar(cfpLoadingBarProvider) {
     // Configure loader
     cfpLoadingBarProvider.latencyThreshold = 200
     cfpLoadingBarProvider.includeBar = true

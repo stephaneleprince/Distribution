@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import angular from 'angular/index'
+import angular from 'angular'
 
 import 'angular-bootstrap'
 import 'angular-bootstrap-colorpicker'

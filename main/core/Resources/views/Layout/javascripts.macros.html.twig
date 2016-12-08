@@ -1,14 +1,3 @@
-{% macro getDlls() %}
-    {% import _self as macros %}
-    <script> load({{ chunks('core-js/shim')|raw }}) </script> {# to remove ? #}
-    <script src="{{ asset('packages/underscore/underscore.js') }}"></script>
-    <script src="{{ asset('packages/backbone/backbone.js') }}"></script>
-{% endmacro %}
-
-{% macro getLibs() %}
-    <script> load({{ chunks('claroline-distribution-main-core-tinymce-main')|raw }}) </script>
-{% endmacro %}
-
 {% macro getCommonJavascripts() %}
     <!-- to remove at the end -->
     {% javascripts debug=false filter='jsmin' output='vendor/claroline/js/libraries.js'

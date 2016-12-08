@@ -1,6 +1,6 @@
 /* global jsPlumb */
 
-import angular from 'angular/index'
+import angular from 'angular'
 import AbstractQuestionDirective from './AbstractQuestionDirective'
 import match from './../../Partials/Type/match.html'
 
@@ -25,12 +25,12 @@ function MatchQuestionDirective(FeedbackService, $timeout, $window, MatchQuestio
         controller.container = element
 
         // init jsPlumb dom elements
-        $timeout(function () {
+        $timeout(function() {
           // MatchQuestion sub type is ToBind
           if (controller.question.toBind) {
             MatchQuestionService.initBindMatchQuestion(element)
 
-            jsPlumb.bind('beforeDrop', function (info) {
+            jsPlumb.bind('beforeDrop', function(info) {
               return controller.handleBeforeDrop(info)
             })
 
@@ -42,7 +42,7 @@ function MatchQuestionDirective(FeedbackService, $timeout, $window, MatchQuestio
             })
 
             // remove one connection
-            jsPlumb.bind('click', function (connection) {
+            jsPlumb.bind('click', function(connection) {
               controller.removeConnection(connection)
             })
 
@@ -50,7 +50,7 @@ function MatchQuestionDirective(FeedbackService, $timeout, $window, MatchQuestio
           } else {
             MatchQuestionService.initDragMatchQuestion(element)
 
-            element.on('drop', '.droppable', function (event, ui) {
+            element.on('drop', '.droppable', function(event, ui) {
               controller.handleDragMatchQuestionDrop(event, ui)
             })
 
@@ -64,7 +64,7 @@ function MatchQuestionDirective(FeedbackService, $timeout, $window, MatchQuestio
         }.bind(this))
 
         // Redraw connections if the browser is resized
-        angular.element($window).on('resize', function () {
+        angular.element($window).on('resize', function() {
           jsPlumb.repaintEverything()
         })
 

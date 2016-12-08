@@ -1,5 +1,4 @@
-
-import angular from 'angular/index'
+import angular from 'angular'
 
 /**
  * UserPaper Service

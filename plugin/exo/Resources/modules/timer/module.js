@@ -2,7 +2,7 @@
  * Timer module
  */
 
-import angular from 'angular/index'
+import angular from 'angular'
 import 'angular-ui-translation/angular-translation'
 import 'ngstorage'
 

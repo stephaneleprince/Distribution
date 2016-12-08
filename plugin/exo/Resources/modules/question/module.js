@@ -2,7 +2,7 @@
  * Question module
  */
 
-import angular from 'angular/index'
+import angular from 'angular'
 import 'angular-bootstrap'
 import 'angular-ui-translation/angular-translation'
 import '#/main/core/modal/module'

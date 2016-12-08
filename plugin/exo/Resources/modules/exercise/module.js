@@ -2,7 +2,7 @@
 * Exercise Module
 */
 
-import angular from 'angular/index'
+import angular from 'angular'
 
 import 'angular-bootstrap'
 import 'angular-strap'

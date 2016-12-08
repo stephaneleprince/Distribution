@@ -1,6 +1,6 @@
 import 'mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'
 import 'angular-ui-tree/dist/angular-ui-tree.min.css'
-import angular from 'angular/index'
+import angular from 'angular'
 import register from '../utils/register'
 import {} from 'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker'
 import {} from 'ng-file-upload/ng-file-upload-shim'

@@ -1,6 +1,6 @@
 /* global Routing */
 
-import angular from 'angular/index'
+import angular from 'angular'
 
 angular.module('ui.fos-js-router', [])
   .filter('path', () => generateUrl)

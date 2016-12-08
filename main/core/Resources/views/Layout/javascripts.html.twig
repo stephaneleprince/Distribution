@@ -1,10 +1,14 @@
 {% import 'ClarolineCoreBundle:Layout:javascripts.macros.html.twig' as jsmacros %}
 
+<script> load({{ chunks('core-js/shim')|raw }}) </script> {# to remove ? #}
+<script src="{{ asset('packages/underscore/underscore.js') }}"></script>
+<script src="{{ asset('packages/backbone/backbone.js') }}"></script>
+
 {# Loads all necessary twigjs files #}
 {{ jsmacros.getTwigJs() }}
 
-{# Loads all necessary libs (Backbone, underscore) and Dlls (Angular, es6-shim, pdf-player) #}
-{{ jsmacros.getDlls() }}
+{# Loads translator js files #}
+{{ jsmacros.getTranslatorJs() }}
 
 {# Loads webpack commons.js and libraries.js (minified) files #}
 {{ jsmacros.getCommonJavascripts() }}
@@ -21,14 +25,10 @@
 {# Loads Angular Ui scripts (minified) #}
 {{ jsmacros.getAngularUiJs() }}
 
-{# Loads translator js files #}
-{{ jsmacros.getTranslatorJs() }}
-
 {# Loads fosJsRouter js files #}
 {{ jsmacros.getFosRouterJs() }}
 
-{# Loads fosJsRouter js files #}
-{{ jsmacros.getLibs() }}
+<script> load({{ chunks('claroline-distribution-main-core-tinymce-main')|raw }}) </script>
 
 <script>
     if (window.sessionStorage.getItem('hide_brower_warning')) {

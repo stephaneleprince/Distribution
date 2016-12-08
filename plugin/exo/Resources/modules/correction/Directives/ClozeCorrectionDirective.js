@@ -1,5 +1,5 @@
 import cloze from './../Partials/cloze.html'
-import angular from 'angular/index'
+import angular from 'angular'
 
 export default function ClozeCorrectionDirective($compile) {
   return {

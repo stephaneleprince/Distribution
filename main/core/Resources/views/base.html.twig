@@ -39,7 +39,7 @@
         <script type="text/javascript" src="{{ asset('packages/loadjs/dist/loadjs.min.js') }}"></script>
         <script type="text/javascript">
             function load(dependencies, cb) {
-                console.log(dependencies)
+                //console.log(dependencies)
                 var last = dependencies.pop()
                 var module = 'dep-' + last
                 loadjs(dependencies, 'dep-' + last, {

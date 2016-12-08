@@ -1,4 +1,4 @@
-import angular from 'angular/index'
+import angular from 'angular'
 
 /**
  * Exercise Service
@@ -201,14 +201,14 @@ ExerciseService.prototype.addStep = function addStep() {
             step
         )
         // Success callback
-        .success(function (response) {
+        .success(function(response) {
             // Get the information of the Step
           angular.merge(step, response)
 
           deferred.resolve(response)
         })
         // Error callback
-        .error(function () {
+        .error(function() {
             // Remove step
           var pos = this.exercise.steps.indexOf(step)
           if (-1 !== pos) {
@@ -239,11 +239,11 @@ ExerciseService.prototype.removeStep = function removeStep(step) {
             this.UrlService('exercise_step_delete', { exerciseId: this.exercise.id, id: step.id })
         )
         // Success callback
-        .success(function (response) {
+        .success(function(response) {
           deferred.resolve(response)
         })
         // Error callback
-        .error(function () {
+        .error(function() {
             // Restore item
             // TODO : push step at the correct position
           this.exercise.steps.push(stepBack)
@@ -272,11 +272,11 @@ ExerciseService.prototype.removeItem = function removeItem(step, item) {
             this.UrlService('ujm_exercise_question_delete', { id: this.exercise.id, qid: item.id })
         )
         // Success callback
-        .success(function (response) {
+        .success(function(response) {
           deferred.resolve(response)
         })
         // Error callback
-        .error(function () {
+        .error(function() {
             // Restore item
           step.items.push(itemBack)
 
@@ -306,13 +306,13 @@ ExerciseService.prototype.publish = function publish() {
             this.UrlService('ujm_exercise_publish', { id: this.exercise.id })
         )
         // Success callback
-        .success(function (response) {
+        .success(function(response) {
             // TODO : display success message
 
           deferred.resolve(response)
         })
         // Error callback
-        .error(function () {
+        .error(function() {
             // Remove published flags
           this.exercise.meta.published     = false
           this.exercise.meta.publishedOnce = publishedOnceBackup
@@ -340,13 +340,13 @@ ExerciseService.prototype.unpublish = function unpublish() {
             this.UrlService('ujm_exercise_unpublish', { id: this.exercise.id })
         )
         // Success callback
-        .success(function (response) {
+        .success(function(response) {
             // TODO : display success message
 
           deferred.resolve(response)
         })
         // Error callback
-        .error(function () {
+        .error(function() {
             // Remove published flags
           this.exercise.meta.published = true
 

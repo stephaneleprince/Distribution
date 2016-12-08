@@ -2,7 +2,7 @@
  * Path editor app
  */
 
-import angular from 'angular/index'
+import angular from 'angular'
 import 'angular-route'
 import 'angular-sanitize'
 import 'angular-bootstrap'

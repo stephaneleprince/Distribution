@@ -1,4 +1,4 @@
-import 'angular/angular.min'
+import angular from 'angular'
 
 angular.module('ui.asset', [])
   .filter('asset', () => {

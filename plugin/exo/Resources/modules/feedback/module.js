@@ -2,7 +2,7 @@
  * Feedback module
  */
 
-import angular from 'angular/index'
+import angular from 'angular'
 import FeedbackService from './Services/FeedbackService'
 
 angular

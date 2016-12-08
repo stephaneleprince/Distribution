@@ -1,4 +1,4 @@
-import angular from 'angular/index'
+import angular from 'angular'
 import _ from 'underscore'
 import {} from 'angular-bootstrap'
 import {} from 'angular-route'

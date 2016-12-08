@@ -2,7 +2,7 @@
  * Step module
  */
 
-import angular from 'angular/index'
+import angular from 'angular'
 import registerDragula from 'angular-dragula'
 
 import 'angular-bootstrap'

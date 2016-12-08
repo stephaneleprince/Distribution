@@ -2,7 +2,7 @@
  * Exercise Root Application
  */
 
-import angular from 'angular/index'
+import angular from 'angular'
 
 import 'angular-route'
 import 'angular-loading-bar'
