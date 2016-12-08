@@ -6,7 +6,7 @@ import angular from 'angular'
 
 import 'angular-bootstrap'
 import 'angular-ui-translation/angular-translation'
-import 'at-table/dist/angular-table'
+import 'at-table'
 
 import '#/main/core/utilities/module'
 import './../common/module'
