@@ -2,10 +2,10 @@ import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
 import moment from 'moment'
 
+import 'fullcalendar'
 import 'eonasdan-bootstrap-datetimepicker'
 import 'jquery-ui/ui/draggable'
 import 'jquery-ui/ui/resizable'
-import 'fullcalendar/dist/fullcalendar'
 
 /* global Routing */
 /* global Twig */

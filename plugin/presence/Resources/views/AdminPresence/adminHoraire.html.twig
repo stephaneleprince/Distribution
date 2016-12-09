@@ -67,8 +67,7 @@
 
            {% block stylesheets %}
             {{ parent() }}
-            <link rel='stylesheet' type='text/css' href='{{ asset('packages/fullcalendar/dist/fullcalendar.min.css') }}'/>
-            <link rel='stylesheet' type='text/css' href='{{ asset('packages/fullcalendar/dist/fullcalendar.print.css') }}' media='print' />
+            <link rel="stylesheet" href="{{ asset('packages/fullcalendar/dist/fullcalendar.print.css') }}" media="print"/>
             <style>
                 .fc-day-grid-event > .fc-content {
                     white-space: nowrap;

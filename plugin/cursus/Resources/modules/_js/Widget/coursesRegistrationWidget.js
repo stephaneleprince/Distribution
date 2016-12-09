@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
 import moment from 'moment'
-import 'fullcalendar/dist/fullcalendar'
+import 'fullcalendar'
 
 /* global Routing */
 /* global Translator */

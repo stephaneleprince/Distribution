@@ -81,9 +81,7 @@ var libs =
     'wavesurfer.js/dist/wavesurfer',
     'wavesurfer.js/dist/plugin/wavesurfer.minimap.min',
     'wavesurfer.js/dist/plugin/wavesurfer.timeline.min',
-    'wavesurfer.js/dist/plugin/wavesurfer.regions.min',
-    //probably missing some stuff
-    'fullcalendar/dist/fullcalendar'
+    'wavesurfer.js/dist/plugin/wavesurfer.regions.min'
 ]
 
 libs = libs.reduce((acc, lib) => {
@@ -98,5 +96,6 @@ libs['angular-data-table'] = [__dirname + '/externals/angular-data-table.js']
 libs['mjolnic-bootstrap-colorpicker'] = [__dirname + '/externals/mjolnic-bootstrap-colorpicker.js']
 libs['underscore'] = [__dirname + '/externals/underscore.js']
 libs['moment'] = [__dirname + '/externals/moment.js']
+libs['fullcalendar'] = [__dirname + '/externals/fullcalendar.js']
 
 module.exports = libs

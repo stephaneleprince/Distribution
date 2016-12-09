@@ -42,6 +42,13 @@ const fs = require('fs')
    }
  }
 
+ //see above
+ const fullcalendarNoAmd = () => {
+     return {
+       test: require.resolve(paths.bower() + '/fullcalendar/dist/fullcalendar'),
+       loader: 'imports-loader?require=>false,define=>false,exports=>false'
+     }
+ }
 /**
  * Enables css files imports.
  */
@@ -147,6 +154,7 @@ const fs = require('fs')
    loadConfig,
    rawHtml,
    jqueryUiNoAmd,
+   fullcalendarNoAmd,
    css,
    font,
    imageUris,

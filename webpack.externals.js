@@ -19,12 +19,13 @@ module.exports = {
   ],
   module: {
     loaders: [
+      loaders.jqueryUiNoAmd(),
+      loaders.fullcalendarNoAmd(),
       loaders.css(),
       loaders.font(),
       loaders.babel(),
       loaders.loadConfig(),
       loaders.rawHtml(),
-      loaders.jqueryUiNoAmd(),
       loaders.imageUris(),
       loaders.tinymceImport(),
       loaders.tinymceWrapper(),

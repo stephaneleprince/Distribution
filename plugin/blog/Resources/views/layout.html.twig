@@ -153,19 +153,15 @@
         </div>
 {% endblock %}
 
-{% set calendarPath = 'bundles/frontend/fullcalendar/dist/' %}
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel='stylesheet' type='text/css' href='{{ asset('bundles/clarolinecore/css/common/jquery-ui-bootstrap/jquery-ui-1.9.2.custom.css') }}'/>
-    <link rel='stylesheet' type='text/css' href='{{ asset(calendarPath ~ 'fullcalendar.min.css') }}'/>
-    <link rel='stylesheet' type='text/css' href='{{ asset(calendarPath ~ 'fullcalendar.print.css') }}' media='print' />
     {% stylesheets debug=false filter='less'  output='css/icapblog/style.css'
       "@IcapBlogBundle/Resources/views/less/style.less"
     %}
         <link rel="stylesheet" href="{{ asset_url }}" screen="media" />
     {% endstylesheets %}
-
+    <link rel="stylesheet" href="{{ asset('packages/fullcalendar/dist/fullcalendar.print.css') }}" media="print"/>
     {% if blogOptions.isBannerActivate or (false == blogOptions.isBannerActivate and is_granted('ADMINISTRATE', _resource)) %}
         <link rel="stylesheet" href="{{ asset('bundles/frontend/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}" screen="media" />
     {% endif %}
@@ -181,7 +177,6 @@
         %}<script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script type='text/javascript' src='{{ asset('bundles/frontend/moment/min/moment.min.js') }}' ></script>
-    <script type='text/javascript' src='{{ asset(calendarPath ~ 'fullcalendar.min.js') }}' ></script>
     <script type='text/javascript'src='{{ asset('bundles/frontend/confirm-bootstrap/confirm-bootstrap.js') }}'></script>
     <script type='text/javascript'src='{{ asset('bundles/icapblog/js/jquery-tree.js') }}'></script>
 

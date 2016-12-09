@@ -8,7 +8,8 @@ import moment from 'moment'
 import 'eonasdan-bootstrap-datetimepicker'
 import 'jquery-ui/ui/draggable'
 import 'jquery-ui/ui/resizable'
-import 'fullcalendar/dist/fullcalendar'
+
+import 'fullcalendar'
 
 /* global Translator */
 /* global Routing */
@@ -55,7 +56,6 @@ calendar.initialize = function(
     filterEvents(getWorkspaceFilterChecked())
   })
 
-  // INITIALIZE CALENDAR
   $calendarElement.fullCalendar({
     header: {
       left: 'prev,next, today',
