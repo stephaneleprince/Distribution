@@ -23,14 +23,10 @@ var libs =
     'ng-file-upload',
     'angular-strap',
     'jquery',
-
     'tinymce/tinymce',
-    //css
     'tinymce/skins/lightgray/content.min.css',
     'tinymce/skins/lightgray/skin.min.css',
-    //themes
     'tinymce/themes/modern/theme',
-    //plugins
     'tinymce/plugins/autoresize/plugin',
     'tinymce/plugins/table/plugin',
     'tinymce/plugins/directionality/plugin',
@@ -59,16 +55,12 @@ var libs =
     'tinymce/plugins/code/plugin',
     'tinymce/plugins/paste/plugin',
     'tinymce/plugins/link/plugin',
-    //
     'core-js/shim',
     'lodash',
-    //
-    'pdfjs-dist/build/pdf.combined', //rename me !
     //
     'bootstrap-daterangepicker',
     'mjolnic-bootstrap-colorpicker',
     'eonasdan-bootstrap-datetimepicker',
-
     //merge wavesurfer svplz
     'wavesurfer.js/dist/wavesurfer',
     'wavesurfer.js/dist/plugin/wavesurfer.minimap.min',
@@ -93,5 +85,6 @@ libs['jquery-ui'] = [__dirname + '/externals/jquery-ui.js']
 libs['confirm-bootstrap'] = ['confirm-bootstrap/confirm-bootstrap']
 libs['Datejs'] = ['Datejs/build/date']
 libs['lodash'] = [__dirname + '/externals/lodash.js']
+libs['pdf'] = [__dirname + '/externals/pdf.js']
 
 module.exports = libs

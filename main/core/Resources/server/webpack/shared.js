@@ -13,6 +13,8 @@ const externals = () => {
   libraries['angular-dragula'] = 'registerDragula'
   libraries['angular'] = 'angular'
   libraries['tinymce/tinymce'] = 'tinymce'
+
+  libraries['pdf'] = 'pdf'
   libraries['underscore'] = 'underscore'
   libraries['moment'] = 'moment'
   libraries['lodash'] = 'lodash'

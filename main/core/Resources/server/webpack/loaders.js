@@ -49,6 +49,7 @@ const fs = require('fs')
        loader: 'imports-loader?require=>false,define=>false,exports=>false'
      }
  }
+
 /**
  * Enables css files imports.
  */

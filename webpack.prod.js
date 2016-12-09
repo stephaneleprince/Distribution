@@ -37,6 +37,7 @@ module.exports = {
       loaders.font(),
       loaders.rawHtml(),
       loaders.jqueryUiNoAmd(),
+      loaders.fullcalendarNoAmd(),
       loaders.css(),
       loaders.imageUris(),
       loaders.modernizr(),
