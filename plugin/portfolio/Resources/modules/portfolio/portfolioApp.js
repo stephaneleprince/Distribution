@@ -27,7 +27,7 @@ import '../modules/appDirectives/appDirectives'
 import 'angular-strap'
 import 'angular-ui-resource-picker/angular-resource-picker'
 import 'angular-bootstrap'
-import 'confirm-bootstrap/confirm-bootstrap'
+import 'confirm-bootstrap'
 
 import {} from 'checklist-model'
 import {} from 'lodash'

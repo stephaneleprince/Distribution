@@ -69,7 +69,6 @@ var libs =
     'bootstrap-daterangepicker',
     'mjolnic-bootstrap-colorpicker',
     'eonasdan-bootstrap-datetimepicker',
-    'confirm-bootstrap/confirm-bootstrap', //only first part should be used
     //
     'Datejs/build/date',
     //merge wavesurfer svplz
@@ -93,5 +92,6 @@ libs['underscore'] = [__dirname + '/externals/underscore.js']
 libs['moment'] = [__dirname + '/externals/moment.js']
 libs['fullcalendar'] = [__dirname + '/externals/fullcalendar.js']
 libs['jquery-ui'] = [__dirname + '/externals/jquery-ui.js']
+libs['confirm-bootstrap'] = ['confirm-bootstrap/confirm-bootstrap']
 
 module.exports = libs
