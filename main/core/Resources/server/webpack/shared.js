@@ -15,6 +15,7 @@ const externals = () => {
   libraries['tinymce/tinymce'] = 'tinymce'
   libraries['underscore'] = 'underscore'
   libraries['moment'] = 'moment'
+  libraries['lodash'] = 'lodash'
 
   //here we add the "externals" part of the assets.json file.
   var packages = entries.collectPackages(paths.root())

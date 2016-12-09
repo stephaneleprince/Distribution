@@ -61,10 +61,9 @@ var libs =
     'tinymce/plugins/link/plugin',
     //
     'core-js/shim',
+    'lodash',
     //
     'pdfjs-dist/build/pdf.combined', //rename me !
-    //
-    'lodash/lodash', //rename me
     //
     'bootstrap-daterangepicker',
     'mjolnic-bootstrap-colorpicker',
@@ -93,5 +92,6 @@ libs['fullcalendar'] = [__dirname + '/externals/fullcalendar.js']
 libs['jquery-ui'] = [__dirname + '/externals/jquery-ui.js']
 libs['confirm-bootstrap'] = ['confirm-bootstrap/confirm-bootstrap']
 libs['Datejs'] = ['Datejs/build/date']
+libs['lodash'] = [__dirname + '/externals/lodash.js']
 
 module.exports = libs
