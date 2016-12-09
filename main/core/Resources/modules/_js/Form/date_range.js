@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import moment from 'moment'
 import 'bootstrap-daterangepicker'
-import 'Datejs/build/date'
+import 'Datejs'
 
 /* global Translator */
 
