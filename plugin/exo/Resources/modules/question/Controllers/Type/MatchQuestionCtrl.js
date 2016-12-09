@@ -41,7 +41,7 @@ MatchQuestionCtrl.prototype.zoom = function zoom(itemData) {
       this.data = data
     },
     resolve: {
-      data: function () {
+      data: function() {
         return itemData
       }
     }
@@ -456,7 +456,7 @@ MatchQuestionCtrl.prototype.onFeedbackHide = function onFeedbackHide() {
  * We need to share those informations with parent controllers
  * For that purpose we use a shared service
  */
-MatchQuestionCtrl.prototype.updateStudentData = function () {
+MatchQuestionCtrl.prototype.updateStudentData = function() {
   // build answers
   this.answer.splice(0, this.answer.length)
   var answers_to_check
@@ -488,7 +488,7 @@ MatchQuestionCtrl.prototype.reset = function reset() {
     this.connections.splice(0, this.connections.length)
   } else {
     // init all proposals ui
-    $('.origin').each(function () {
+    $('.origin').each(function() {
       if ($(this).find('.draggable').attr('style')) {
         $(this).find('.draggable').removeAttr('style')
       }
@@ -497,7 +497,7 @@ MatchQuestionCtrl.prototype.reset = function reset() {
     })
 
     // init all drop containers ui
-    $('.droppable').each(function () {
+    $('.droppable').each(function() {
       if ($(this).find('.dragDropped').children()) {
         $(this).removeClass('state-highlight')
         $(this).droppable( 'option', 'disabled', false)
@@ -670,7 +670,7 @@ MatchQuestionCtrl.prototype.handleDragMatchQuestionDrop = function handleDragMat
   }
 
   // ugly but... no choice ?
-  this.$scope.$apply(function () {
+  this.$scope.$apply(function() {
     this.dropped.push(entry)
   }.bind(this))
 
@@ -765,7 +765,6 @@ MatchQuestionCtrl.prototype.removeDropped = function removeDropped(sourceId, tar
 /* global jsPlumb */
 
 import $ from 'jquery'
-import 'jquery-ui/ui/draggable'
-import 'jquery-ui/ui/droppable'
+import 'jquery-ui'
 
 export default MatchQuestionCtrl

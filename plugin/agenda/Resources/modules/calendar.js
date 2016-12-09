@@ -6,8 +6,7 @@ import modal from '#/main/core/_old/modal'
 import moment from 'moment'
 
 import 'eonasdan-bootstrap-datetimepicker'
-import 'jquery-ui/ui/draggable'
-import 'jquery-ui/ui/resizable'
+import 'jquery-ui'
 
 import 'fullcalendar'
 

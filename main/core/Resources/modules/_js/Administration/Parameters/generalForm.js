@@ -1,10 +1,10 @@
 import $ from 'jquery'
-import 'jquery-ui/jquery-ui'
+import 'jquery-ui'
 
 var portfolioUrlRadio = $('.portfolio_url input[type=radio]')
 var portfolioUrlField = $('.portfolio_url_field input')
 
-portfolioUrlField.on('keyup', function () {
+portfolioUrlField.on('keyup', function() {
   if ('' !== $(this).val()) {
     portfolioUrlRadio.prop('checked', true)
   }

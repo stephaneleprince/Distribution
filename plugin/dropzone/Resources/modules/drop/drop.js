@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import $ from 'jquery'
-import {} from 'jquery-ui/jquery-ui.min'
+import {} from 'jquery-ui'
 import {} from '../components/popup'
 
-$(document).ready(function () {
+$(document).ready(function() {
   let resourceNodeId = null
 
   window.Claroline.ResourceManager.createPicker('dropPicker', {
-    callback: function (nodes) {
+    callback: function(nodes) {
       resourceNodeId = _.keys(nodes)[0]
       $('.dropzone_ressrouceSelected').show()
       $('.dropzone_noRessourceSelected').hide()
@@ -26,33 +26,33 @@ $(document).ready(function () {
     $(this).parents('form').submit()
   }
   // autosubmit input files.
-  $('#icap_dropzone_document_file_form_file').change(function () {
+  $('#icap_dropzone_document_file_form_file').change(function() {
     $('.please-wait').show()
     $(this).parents('form').submit()
   })
 
-  $('#icap_dropzone_document_file_form_file').parents('form').find('button').click(function (e) {
+  $('#icap_dropzone_document_file_form_file').parents('form').find('button').click(function(e) {
     // desactivation of the submit button ( autosubmit is activated).
     e.preventDefault()
   })
 
-  $('a.launch-inline').on('click', function (event) {
+  $('a.launch-inline').on('click', function(event) {
     event.preventDefault()
     $('.disabled-during-add').attr('disabled', 'disabled')
 
     const launchResourcePicker = $(this).hasClass('launch-resource-picker')
 
     $.get($(this).attr('href'))
-      .always(function () {
+      .always(function() {
       })
-      .done(function (data) {
+      .done(function(data) {
         $('.container-inline').append(data)
         $('.show-during-add').show()
 
         if (launchResourcePicker) {
           window.Claroline.ResourceManager.picker('dropPicker')
 
-          $('#modal-picker').on('hidden.bs.modal', function () {
+          $('#modal-picker').on('hidden.bs.modal', function() {
             if (resourceNodeId == null) {
               $('.cancel-inline').trigger('click')
             }
@@ -65,17 +65,17 @@ $(document).ready(function () {
       })
   })
 
-  $('#addRessourceButton').click(function (e) {
+  $('#addRessourceButton').click(function(e) {
     e.preventDefault()
     window.Claroline.ResourceManager.picker('dropPicker')
-    $('#modal-picker').unbind('hidden.bs.modal').on('hidden.bs.modal', function () {
+    $('#modal-picker').unbind('hidden.bs.modal').on('hidden.bs.modal', function() {
       if (resourceNodeId == null) {
         //$('.cancel-inline').trigger('click')
       }
     })
   })
 
-  $('#dropzone_global_save_link').click(function () {
+  $('#dropzone_global_save_link').click(function() {
     // test if some text or data is not save before launch modal, in order to adapt message.
     let fieldEmpty = true
     const text = $('#icap_dropzone_document_file_form_text').val()
@@ -93,4 +93,3 @@ $(document).ready(function () {
 
   })
 })
-

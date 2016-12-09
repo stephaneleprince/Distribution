@@ -4,9 +4,8 @@ import $ from 'jquery'
 import 'moment'
 
 import 'eonasdan-bootstrap-datetimepicker'
-import 'jquery-ui/ui/draggable'
-import 'jquery-ui/ui/resizable'
-import 'fullcalendar/dist/fullcalendar'
+import 'jquery-ui'
+import 'fullcalendar'
 
 $('#archivesList').DataTable({
   dom: 'Bftp',

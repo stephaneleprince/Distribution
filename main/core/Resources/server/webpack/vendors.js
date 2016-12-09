@@ -66,11 +66,6 @@ var libs =
     //
     'lodash/lodash', //rename me
     //
-    'jquery-ui/jquery-ui',
-    'jquery-ui/jquery-ui.min',
-    'jquery-ui/ui/draggable',
-    'jquery-ui/ui/resizable',
-    //
     'bootstrap-daterangepicker',
     'mjolnic-bootstrap-colorpicker',
     'eonasdan-bootstrap-datetimepicker',
@@ -97,5 +92,6 @@ libs['mjolnic-bootstrap-colorpicker'] = [__dirname + '/externals/mjolnic-bootstr
 libs['underscore'] = [__dirname + '/externals/underscore.js']
 libs['moment'] = [__dirname + '/externals/moment.js']
 libs['fullcalendar'] = [__dirname + '/externals/fullcalendar.js']
+libs['jquery-ui'] = [__dirname + '/externals/jquery-ui.js']
 
 module.exports = libs
