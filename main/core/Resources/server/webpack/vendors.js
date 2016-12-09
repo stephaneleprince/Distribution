@@ -61,11 +61,6 @@ var libs =
     'bootstrap-daterangepicker',
     'mjolnic-bootstrap-colorpicker',
     'eonasdan-bootstrap-datetimepicker',
-    //merge wavesurfer svplz
-    'wavesurfer.js/dist/wavesurfer',
-    'wavesurfer.js/dist/plugin/wavesurfer.minimap.min',
-    'wavesurfer.js/dist/plugin/wavesurfer.timeline.min',
-    'wavesurfer.js/dist/plugin/wavesurfer.regions.min'
 ]
 
 libs = libs.reduce((acc, lib) => {
@@ -86,5 +81,6 @@ libs['confirm-bootstrap'] = ['confirm-bootstrap/confirm-bootstrap']
 libs['Datejs'] = ['Datejs/build/date']
 libs['lodash'] = [__dirname + '/externals/lodash.js']
 libs['pdf'] = [__dirname + '/externals/pdf.js']
+libs['wavesurfer'] = [__dirname + '/externals/wavesurfer.js']
 
 module.exports = libs
