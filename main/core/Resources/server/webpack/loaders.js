@@ -46,6 +46,14 @@ const fs = require('fs')
  const fullcalendarNoAmd = () => {
      return {
        test: require.resolve(paths.bower() + '/fullcalendar/dist/fullcalendar'),
+       loader: 'imports-loader?define=>false,exports=>false'
+     }
+ }
+
+ //see above
+ const datetimepickerNoAmd = () => {
+     return {
+       test: require.resolve(paths.bower() + '/eonasdan-bootstrap-datetimepicker'),
        loader: 'imports-loader?require=>false,define=>false,exports=>false'
      }
  }
@@ -156,6 +164,7 @@ const fs = require('fs')
    rawHtml,
    jqueryUiNoAmd,
    fullcalendarNoAmd,
+   datetimepickerNoAmd,
    css,
    font,
    imageUris,

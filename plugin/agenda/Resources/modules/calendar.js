@@ -7,7 +7,6 @@ import moment from 'moment'
 
 import 'eonasdan-bootstrap-datetimepicker'
 import 'jquery-ui'
-
 import 'fullcalendar'
 
 /* global Translator */

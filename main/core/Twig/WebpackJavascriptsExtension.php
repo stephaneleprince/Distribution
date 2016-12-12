@@ -78,7 +78,7 @@ class WebpackJavascriptsExtension extends \Twig_Extension
     public function appendScript($script)
     {
         if ($this->request->isXmlHttpRequest()) {
-            return '<script src="'.$script.'"></script>';
+            return $script;
         }
         $this->scriptsToLoad[] = $script;
     }
@@ -92,7 +92,7 @@ class WebpackJavascriptsExtension extends \Twig_Extension
     {
         $scriptsHtml = '';
         foreach ($this->scriptsToLoad as $script) {
-            $scriptsHtml .= '<script src="'.$script.'"></script>'.PHP_EOL;
+            $scriptsHtml .= $script.PHP_EOL;
         }
 
         return $scriptsHtml;

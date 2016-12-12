@@ -47,6 +47,7 @@
 <script> load({{ chunks('claroline-distribution-main-core-layout-javascript')|raw }}) </script>
 
 {# Loads all appended scipts by other twig files (usually embedded twig templates or SF2 form fields templates) #}
+<!-- load append -->
 {{ loadAppendedScripts() }}
 
 {{ render(controller('ClarolineCoreBundle:Layout:injectJavascript', {})) }}
