@@ -58,6 +58,14 @@ const fs = require('fs')
      }
  }
 
+ //see above
+ const daterangepickerNoAmd = () => {
+     return {
+       test: require.resolve(paths.bower() + '/bootstrap-daterangepicker'),
+       loader: 'imports-loader?require=>false,define=>false,exports=>undefined,this=>window'
+     }
+ }
+
 /**
  * Enables css files imports.
  */
@@ -165,6 +173,7 @@ const fs = require('fs')
    jqueryUiNoAmd,
    fullcalendarNoAmd,
    datetimepickerNoAmd,
+   daterangepickerNoAmd,
    css,
    font,
    imageUris,

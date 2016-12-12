@@ -22,6 +22,7 @@ module.exports = {
       loaders.jqueryUiNoAmd(),
       loaders.fullcalendarNoAmd(),
       loaders.datetimepickerNoAmd(),
+      loaders.daterangepickerNoAmd(),
       loaders.css(),
       loaders.font(),
       loaders.babel(),
