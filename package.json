@@ -16,7 +16,8 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.3",
     "exports-loader": "^0.6.3",
-    "imports-loader": "https://registry.npmjs.org/imports-loader/-/imports-loader-0.6.5.tgz"
+    "imports-loader": "https://registry.npmjs.org/imports-loader/-/imports-loader-0.6.5.tgz",
+    "copy-webpack-plugin": "^4.0.1"
   },
   "files": [
     "package.json"

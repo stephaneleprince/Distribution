@@ -1,5 +1,10 @@
 {% import 'ClarolineCoreBundle:Layout:javascripts.macros.html.twig' as jsmacros %}
 
+{# the loading order is important so be careful if you change it #}
+
+{# Loads translator js files #}
+{{ jsmacros.getTranslatorJs() }}
+
 <script> load({{ chunks('core-js/shim')|raw }}) </script> {# to remove ? #}
 <script src="{{ asset('packages/underscore/underscore.js') }}"></script>
 <script src="{{ asset('packages/backbone/backbone.js') }}"></script>
@@ -7,14 +12,9 @@
 {# Loads all necessary twigjs files #}
 {{ jsmacros.getTwigJs() }}
 
-{# Loads translator js files #}
-{{ jsmacros.getTranslatorJs() }}
-
-{# Loads webpack commons.js and libraries.js (minified) files #}
-{{ jsmacros.getCommonJavascripts() }}
-
 {# Loads all necessary Bootstrap js files (minified) #}
 {{ jsmacros.getBootstrapJs() }}
+
 {# Loads Bootstrap Datepicker js files (with proper Locale) #}
 {{ jsmacros.getBootstrapDatepickerJs() }}
 

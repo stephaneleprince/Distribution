@@ -196,10 +196,6 @@ clarolineTinymce.setup = function(editor) {
 /**
  * Configuration and parameters of a TinyMCE editor.
  */
-
-// Get theme to load inside tinymce in order to have no display differences
-var homeTheme = document.getElementById('homeTheme')
-var themeCSS = homeTheme.innerText || homeTheme.textContent
 clarolineTinymce.customInit = function(editor) {
   $.each(clarolineTinymce.init, function(key, func) {
     func(editor)
@@ -207,13 +203,15 @@ clarolineTinymce.customInit = function(editor) {
 }
 
 clarolineTinymce.getConfiguration = function() {
+  // Get theme to load inside tinymce in order to have no display differences
+  var homeTheme = document.getElementById('homeTheme')
+  var themeCSS = homeTheme.innerText || homeTheme.textContent
+
   var configuration = {
     'paste_data_images': true,
     'relative_urls': false,
     'remove_script_host': false,
     'theme': 'modern',
-    //'mode' : "specific_textareas",
-    //'editor_selector' : "claroline-tiny-mce",
     'browser_spellcheck': true,
     'autoresize_min_height': 100,
     'autoresize_max_height': 500,
@@ -221,6 +219,7 @@ clarolineTinymce.getConfiguration = function() {
       themeCSS,
       home.asset + 'bundles/clarolinecore/css/common/tinymce.css'
     ],
+    'language_url': home.asset + 'dist/tinymce/langs/' + home.locale.trim() + '.js',
     //css is loaded via imports
     skin: false,
     'toolbar2': 'styleselect | undo redo | forecolor backcolor | bullist numlist | outdent indent | ' +
@@ -261,31 +260,11 @@ clarolineTinymce.getConfiguration = function() {
  * Initialization function for TinyMCE editors.
  */
 clarolineTinymce.initialization = function() {
-  //$('textarea.claroline-tiny-mce:not(.tiny-mce-done)').each(function() {
-  //var element = $(this)
   let config = clarolineTinymce.getConfiguration()
-    //avoid conflicts with angular tinymce
   config.paste_preprocess = clarolineTinymce.paste
   config.setup = clarolineTinymce.setup
-/*
-    if (element.data('newTab') === 'yes') {
-      config = _.extend({}, clarolineTinymce.configuration)
-      config.picker.openResourcesInNewTab = true
-  } else {*/
-    //}
   config.selector = '.claroline-tiny-mce'
   tinymce.init(config)
-
-/*
-    element.tinymce(config)
-      .on('remove', function() {
-        var editor = tinymce.get(element.attr('id'))
-        if (editor) {
-          editor.destroy()
-        }
-      })
-      .addClass('tiny-mce-done')*/
-  //})
 }
 
 window.ClarolineTinymce = clarolineTinymce

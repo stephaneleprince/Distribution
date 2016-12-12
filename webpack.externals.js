@@ -15,7 +15,8 @@ module.exports = {
   },
   plugins: [
       plugins.assetsInfoFile('webpack-vendors.json'),
-      plugins.bowerFileLookup()
+      plugins.bowerFileLookup(),
+      plugins.copyTinymceLangs()
   ],
   module: {
     loaders: [

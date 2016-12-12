@@ -1,12 +1,12 @@
 const webpack = require('webpack')
 const AssetsPlugin = require('assets-webpack-plugin')
 const FailPlugin = require('webpack-fail-plugin')
-const RuntimePlugin = require('runtime-webpack-plugin')
 const paths = require('./paths')
 const ConfigurationPlugin = require('./build/configuration/plugin')
 const entries = require('./entries')
 const CommonLibPlugin = require('./build/libraries/plugin')
 const ExtractExternalsPlugin = require('./build/externals/plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
  * Allows webpack to discover entry files of modules stored in the bower
@@ -64,6 +64,15 @@ const configShortcut = () => {
  */
 const commonsChunk = (commons) => {
     return new CommonLibPlugin(commons)
+}
+
+/**
+ * Copy the tinymce lang pack
+ */
+const copyTinymceLangs = () => {
+    return new CopyWebpackPlugin([
+        { from: paths.bower() + '/tinymce-i18n/langs', to: paths.output() + '/tinymce/langs' }
+    ])
 }
 
 /**
@@ -147,5 +156,6 @@ module.exports = {
   clarolineConfiguration,
   occurrenceOrder,
   namedModule,
-  extractExternals
+  extractExternals,
+  copyTinymceLangs
 }

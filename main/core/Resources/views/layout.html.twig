@@ -49,7 +49,7 @@
     <div id="homeAsset" class="hide">{{ homeAsset }}</div>
     <div id="baseAsset" class="hide">{{ asset('') }}</div>
     <div id="homeTheme" class="hide">{{ macros.getTheme(config)|trim }}</div>
-    <div id="homeLocale" class="hide">{{ app.request.locale }}</div>
+    <div id="homeLocale" class="hide">{{ app.request.locale | mapTinymceLocale() }}</div>
     <div id="wrap">
         <div class="please-wait">
             <h4><span class="label label-warning"> {{ 'please_wait'|trans({}, 'platform') }} </span></h4>

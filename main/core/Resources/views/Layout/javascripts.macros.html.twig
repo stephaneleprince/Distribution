@@ -1,15 +1,3 @@
-{% macro getCommonJavascripts() %}
-    <!-- to remove at the end -->
-    {% javascripts debug=false filter='jsmin' output='vendor/claroline/js/libraries.js'
-        'bundles/clarolinecore/js/common.js'
-        'bundles/clarolinecore/js/modal.js'
-        'bundles/clarolinecore/js/home/home.js'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endmacro %}
-
-
 {% macro getTwigJs() %}
     {% javascripts debug=false  output='vendor/jms/twig-js/twig.js'
     '../vendor/jms/twig-js/twig.js'

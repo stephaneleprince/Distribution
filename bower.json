@@ -77,7 +77,8 @@
     "strophe.jingle": "https://github.com/ESTOS/strophe.jingle.git#529df0b12cae47ca4a0e74172f7c0b83a57e68e7",
     "strophejs-plugins": "https://github.com/strophe/strophejs-plugins.git#0.0.6",
     "hark": "https://github.com/otalk/hark.git#1.1.4",
-    "wavesurfer.js": "1.1.8"
+    "wavesurfer.js": "1.1.8",
+    "OpenSlides/tinymce-i18n": "*"
   },
   "ignore": [
     "*",
