@@ -3,12 +3,11 @@ import _ from 'lodash'
 import home from '../_old/home/home'
 import Configuration from '#/main/core/library/Configuration/Configuration'
 
-import tinymce from 'tinymce/tinymce'
-import 'tinymce/themes/modern/theme'
-
-//css
 import 'tinymce/skins/lightgray/content.min.css'
 import 'tinymce/skins/lightgray/skin.min.css'
+
+import tinymce from 'tinymce/tinymce'
+import 'tinymce/themes/modern/theme'
 
 // Plugins
 import 'tinymce/plugins/paste/plugin'
@@ -201,7 +200,6 @@ clarolineTinymce.setup = function(editor) {
 // Get theme to load inside tinymce in order to have no display differences
 var homeTheme = document.getElementById('homeTheme')
 var themeCSS = homeTheme.innerText || homeTheme.textContent
-
 clarolineTinymce.customInit = function(editor) {
   $.each(clarolineTinymce.init, function(key, func) {
     func(editor)
@@ -223,6 +221,8 @@ clarolineTinymce.getConfiguration = function() {
       themeCSS,
       home.asset + 'bundles/clarolinecore/css/common/tinymce.css'
     ],
+    //css is loaded via imports
+    skin: false,
     'toolbar2': 'styleselect | undo redo | forecolor backcolor | bullist numlist | outdent indent | ' +
         'media link charmap | print preview code',
     'extended_valid_elements': 'user[id], a[data-toggle|data-parent]'
@@ -275,7 +275,7 @@ clarolineTinymce.initialization = function() {
     //}
   config.selector = '.claroline-tiny-mce'
   tinymce.init(config)
-//    element.tinymce(config)
+
 /*
     element.tinymce(config)
       .on('remove', function() {
