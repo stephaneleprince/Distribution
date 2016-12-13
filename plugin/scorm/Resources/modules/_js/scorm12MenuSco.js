@@ -1,15 +1,17 @@
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "enterFullScreen" }]*/
 
+/* global Routing */
+
 import iframe from '../_old/iframe'
 import $ from 'jquery'
 
 iframe.resize('scorm-frame')
 
-$(window).resize(function () {
+$(window).resize(function() {
   iframe.resize('scorm-frame')
 })
 
-function runPrefixedMethod (obj, method) {
+function runPrefixedMethod(obj, method) {
   var pfx = ['webkit', 'moz', 'ms', 'o', '']
   var p = 0, m = null, t = null
 
@@ -17,7 +19,7 @@ function runPrefixedMethod (obj, method) {
     m = method
 
     if (pfx[p] == '') {
-      m = m.substr(0, 1).toLowerCase() + m.substr(1)
+      m = m.substr(0,1).toLowerCase() + m.substr(1)
     }
 
     m = pfx[p] + m
@@ -32,15 +34,16 @@ function runPrefixedMethod (obj, method) {
   }
 }
 
-function enterFullScreen () {
+function enterFullScreen() {
   if (runPrefixedMethod(document, 'FullScreen') || runPrefixedMethod(document, 'IsFullScreen')) {
     runPrefixedMethod(document, 'CancelFullScreen')
-  } else {
+  }
+  else {
     runPrefixedMethod(document.getElementById('scorm-frame'), 'RequestFullScreen')
   }
 }
 
-$('#menu-display-btn').on('click', function () {
+$('#menu-display-btn').on('click', function() {
   if ($('#menu-box').hasClass('hidden')) {
     $('#content-box').removeClass('col-md-12')
     $('#content-box').addClass('col-md-9')
@@ -51,3 +54,16 @@ $('#menu-display-btn').on('click', function () {
     $('#content-box').addClass('col-md-12')
   }
 })
+
+$('#configuration-btn').on('click', function() {
+  var resourceId = $(this).data('resource-id')
+  window.Claroline.Modal.displayForm(
+        Routing.generate('claro_scorm_12_configuration_edit_form', {'scorm': resourceId}),
+        refreshPage,
+        function() {}
+    )
+})
+
+var refreshPage = function() {
+  window.location.reload()
+}
