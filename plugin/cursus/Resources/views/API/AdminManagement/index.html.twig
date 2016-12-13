@@ -14,17 +14,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/frontend/angular-ui-tree/dist/angular-ui-tree.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('packages/angular-loading-bar/build/loading-bar.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('packages/ng-table/dist/ng-table.css') }}" />
-    <link rel='stylesheet' href='{{ asset('packages/angular-bootstrap-colorpicker/css/colorpicker.min.css')}}'>
     <link rel="stylesheet" href="{{ asset('bundles/clarolinecursus/css/management.css') }}" />
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script type='text/javascript' src="{{ asset('packages/angular-loading-bar/build/loading-bar.min.js') }}"></script>
-    <script type='text/javascript' src="{{ asset('packages/ng-table/dist/ng-table.js') }}"></script>
     <script>
         load({{ chunks('claroline-distribution-plugin-cursus-management')|raw }}, function() {
             angular.bootstrap('#cursus-management-panel', ['CursusManagementModule']);

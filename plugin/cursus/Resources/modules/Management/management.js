@@ -15,6 +15,7 @@ import 'angular-animate'
 import 'angular-ui-translation/angular-translation'
 import 'angular-breadcrumb'
 import 'angular-loading-bar'
+import 'ng-table'
 
 import '#/main/core/fos-js-router/module'
 import '../Cursus/cursus'

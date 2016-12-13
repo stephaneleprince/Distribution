@@ -27,11 +27,6 @@
     </div>
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet"  href="{{ asset('bundles/frontend/angular-ui-tree/dist/angular-ui-tree.min.css') }}" />
-{% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
     {% javascripts debug=false

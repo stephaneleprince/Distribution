@@ -1,3 +1,7 @@
 import 'jquery-ui/jquery-ui'
 import 'jquery-ui/ui/draggable'
 import 'jquery-ui/ui/resizable'
+import 'jquery-ui/ui/core.js'
+import 'jquery-ui/ui/widget.js'
+import 'jquery-ui/ui/button.js'
+import 'jquery-ui/ui/spinner.js'

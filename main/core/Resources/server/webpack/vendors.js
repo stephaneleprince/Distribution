@@ -3,7 +3,7 @@ var libs =
     'angular',
     'angular-animate',
     'angular-bootstrap',
-    'angular-bootstrap-colorpicker',
+    'angular-bootstrap-colorpicker', //requires css + might require loader
     'angular-breadcrumb',
     'angular-daterangepicker',
     'angular-datetime',
@@ -18,7 +18,7 @@ var libs =
     'angular-ui-select',
     'angular-ui-tinymce',
     'angular-ui-translation',
-    'angular-ui-tree',
+    'angular-ui-tree', //need css
     'angular-ui-pageslide',
     'ng-file-upload',
     'angular-strap',
@@ -57,10 +57,11 @@ var libs =
     'tinymce/plugins/link/plugin',
     'core-js/shim',
     'lodash',
+    'ng-table', //requires css
     //
     'bootstrap-daterangepicker',
-    'mjolnic-bootstrap-colorpicker',
-    'eonasdan-bootstrap-datetimepicker',
+    'mjolnic-bootstrap-colorpicker', //might need to update jquery //update css file
+    'eonasdan-bootstrap-datetimepicker', //might need to import the css file
 ]
 
 libs = libs.reduce((acc, lib) => {
