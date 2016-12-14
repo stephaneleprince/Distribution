@@ -1,5 +1,6 @@
 import tinymce from 'tinymce/tinymce'
 import $ from 'jquery'
+import 'jquery-ui'
 
 function resetTiny(){
   tinymce.remove()

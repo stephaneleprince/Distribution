@@ -52,12 +52,6 @@
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'competency' }) }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/frontend/typeahead.js/dist/typeahead.bundle.min.js') }}"></script>
     <script> load({{ chunks('claroline-distribution-plugin-competency-tree')|raw }}) </script>
     <script> load({{ chunks('claroline-distribution-plugin-competency-objective')|raw }}) </script>
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/frontend/typeahead.js-bootstrap3.less/typeaheadjs.css') }}"/>
 {% endblock %}

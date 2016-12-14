@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'jquery-ui'
 
 function init(){
   $( document ).ready(function() {

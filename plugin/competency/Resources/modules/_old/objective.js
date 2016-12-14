@@ -3,6 +3,7 @@ import ObjectiveUtils from './objectiveUtils'
 import modal from '#/main/core/_old/modal'
 import UserPicker from './userPicker'
 import $ from 'jquery'
+import 'typeahead'
 
 /* global Routing */
 /* global Twig */
