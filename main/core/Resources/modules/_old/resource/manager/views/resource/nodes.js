@@ -3,8 +3,8 @@ import $ from 'jquery'
 import utilities from '../../../../utilities'
 import Thumbnail from './thumbnail'
 import ListViewElement from './listElement'
+import Backbone from 'backbone'
 
-/* global Backbone */
 /* global Twig */
 /* global ResourceManagerResults */
 

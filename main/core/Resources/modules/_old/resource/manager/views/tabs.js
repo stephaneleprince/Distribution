@@ -1,7 +1,7 @@
 import _ from 'underscore'
 import $ from 'jquery'
+import Backbone from 'backbone'
 
-/* global Backbone */
 /* global Twig */
 /* global ResourceManagerTabs */
 

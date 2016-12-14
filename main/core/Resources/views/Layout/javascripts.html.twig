@@ -6,8 +6,6 @@
 {{ jsmacros.getTranslatorJs() }}
 
 <script> load({{ chunks('core-js/shim')|raw }}) </script> {# to remove ? #}
-<script src="{{ asset('packages/underscore/underscore.js') }}"></script>
-<script src="{{ asset('packages/backbone/backbone.js') }}"></script>
 
 {# Loads all necessary twigjs files #}
 {{ jsmacros.getTwigJs() }}

@@ -4,8 +4,8 @@ import Tabs from './tabs'
 import Form from './resource/form'
 import Rights from './resource/rights'
 import Confirm from './resource/confirm'
+import Backbone from 'backbone'
 
-/* global Backbone */
 /* global Translator */
 /* global Twig */
 /* global ModalWindow */

@@ -58,7 +58,7 @@ var libs =
     'core-js/shim',
     'lodash',
     'ng-table', //requires css
-    //
+    'backbone',
     'bootstrap-daterangepicker',
     'mjolnic-bootstrap-colorpicker', //might need a loader
     'eonasdan-bootstrap-datetimepicker', //might need to import the css file

@@ -1,8 +1,7 @@
 import _ from 'underscore'
 import Resources from './resources'
 import Widgets from './widgets'
-
-/* global Backbone */
+import Backbone from 'backbone'
 
 export default Backbone.View.extend({
   tagName: 'div',

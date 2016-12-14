@@ -1,6 +1,7 @@
-import _ from 'underscore'
 import $ from 'jquery'
 import 'jquery-ui'
+import _ from 'underscore'
+import Backbone from 'backbone'
 
 import Router from './router'
 import Server from './server'
@@ -24,7 +25,6 @@ import Nodes from './views/resource/nodes'
 import Rights from './views/resource/rights'
 import Thumbnail from './views/resource/thumbnail'
 
-/* global Backbone */
 var manager = window.ClarolineResourceManager = {}
 
 manager.Views = {}

@@ -1,6 +1,7 @@
 /* global ResourceManagerFilters */
 /* global Twig */
-/* global Backbone */
+
+import Backbone from 'backbone'
 
 export default Backbone.View.extend({
   className: 'filters container-fluid',

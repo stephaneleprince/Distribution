@@ -1,8 +1,8 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import Filters from './filters'
+import Backbone from 'backbone'
 
-/* global Backbone */
 /* global Translator */
 /* global Twig */
 /* global Routing */

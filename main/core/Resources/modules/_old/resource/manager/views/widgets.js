@@ -1,6 +1,5 @@
 import Treelist from './treelist'
-
-/* global Backbone */
+import Backbone from 'backbone'
 
 export default Backbone.View.extend({
   tagName: 'div',

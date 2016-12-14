@@ -1,7 +1,7 @@
 import _ from 'underscore'
 import Treelist from './treelist'
+import Backbone from 'backbone'
 
-/* global Backbone */
 /* global Twig */
 /* global ResourceManagerTreeNode */
 

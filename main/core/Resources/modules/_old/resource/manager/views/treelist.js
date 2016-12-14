@@ -1,7 +1,6 @@
 import _ from 'underscore'
 import Treenode from './treenode'
-
-/* global Backbone */
+import Backbone from 'backbone'
 
 export default Backbone.View.extend({
   tagName: 'ul',

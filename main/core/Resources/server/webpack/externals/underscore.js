@@ -1,3 +1,3 @@
 import underscore from 'underscore'
 
-window.underscore = underscore
+window._ = underscore

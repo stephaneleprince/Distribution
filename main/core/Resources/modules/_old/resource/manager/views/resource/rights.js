@@ -3,8 +3,8 @@ import $ from 'jquery'
 import modal from '../../../../modal'
 import simpleRights from '../../../../simplerights'
 import UserPicker from '../../../../user/userPicker'
+import Backbone from 'backbone'
 
-/* global Backbone */
 /* global Twig */
 /* global Routing */
 /* global ResourceRightsRow */

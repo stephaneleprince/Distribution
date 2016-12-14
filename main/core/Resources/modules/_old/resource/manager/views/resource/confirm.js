@@ -1,6 +1,7 @@
 /* global ModalWindow */
 /* global Twig */
-/* global Backbone */
+
+import Backbone from 'backbone'
 
 export default Backbone.View.extend({
   events: {

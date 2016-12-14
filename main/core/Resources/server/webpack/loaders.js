@@ -66,6 +66,13 @@ const fs = require('fs')
      }
  }
 
+ const backboneNoAmd = () => {
+     return {
+       test: require.resolve(paths.bower() + '/backbone/backbone'),
+       loader: 'imports-loader?require=>false,define=>false,exports=>undefined,this=>window'
+     }
+ }
+
 /**
  * Enables css files imports.
  */
@@ -174,6 +181,7 @@ const fs = require('fs')
    fullcalendarNoAmd,
    datetimepickerNoAmd,
    daterangepickerNoAmd,
+   backboneNoAmd,
    css,
    font,
    imageUris,

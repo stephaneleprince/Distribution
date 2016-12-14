@@ -1,7 +1,6 @@
 import _ from 'underscore'
 import modal from '../../../../modal'
-
-/* global Backbone */
+import Backbone from 'backbone'
 
 export default Backbone.View.extend({
   events: {

@@ -1,7 +1,7 @@
 import _ from 'underscore'
 import $ from 'jquery'
+import Backbone from 'backbone'
 
-/* global Backbone */
 const router = Backbone.Router.extend({
   initialize: function(dispatcher, defaultDirectoryId) {
     this.dispatcher = dispatcher

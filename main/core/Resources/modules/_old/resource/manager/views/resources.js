@@ -2,8 +2,7 @@ import _ from 'underscore'
 import Breadcrumbs from './resource/breadcrumbs'
 import Actions from './resource/actions'
 import Nodes from './resource/nodes'
-
-/* global Backbone */
+import Backbone from 'backbone'
 
 export default Backbone.View.extend({
   tagName: 'div',

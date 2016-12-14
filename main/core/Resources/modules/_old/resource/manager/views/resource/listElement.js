@@ -1,7 +1,7 @@
 import _ from 'underscore'
 import utilities from '#/main/core/_old/utilities'
+import Backbone from 'backbone'
 
-/* global Backbone */
 /* global Twig */
 /* global Translator */
 /* global ResourceDeleteConfirmMessage */
