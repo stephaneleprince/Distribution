@@ -1,0 +1,10 @@
+import 'jqPlot/src/jquery.jqplot'
+import 'jqPlot/src/jquery.jqplot.css'
+
+import 'jqPlot/src/plugins/jqplot.pieRenderer'
+import 'jqPlot/src/plugins/jqplot.donutRenderer'
+import 'jqPlot/src/plugins/jqplot.barRenderer'
+import 'jqPlot/src/plugins/jqplot.categoryAxisRenderer'
+import 'jqPlot/src/plugins/jqplot.canvasAxisLabelRenderer'
+import 'jqPlot/src/plugins/jqplot.canvasTextRenderer'
+import 'jqPlot/src/plugins/jqplot.pointLabels'

@@ -1,4 +1,6 @@
 import $ from 'jquery'
+import 'confirm-bootstrap'
+import 'jquery-option-tree/jquery.optionTree.js'
 
 var ruleTabs = $('#ruleTabs')
 $('li:first-child a', ruleTabs).tab('show')

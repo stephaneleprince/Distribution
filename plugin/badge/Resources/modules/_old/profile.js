@@ -1,4 +1,6 @@
 import $ from 'jquery'
+import 'confirm-bootstrap'
+import 'jquery-ui'
 
 /* global Translator */
 

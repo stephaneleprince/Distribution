@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'jquery-option-tree/jquery.optionTree.js'
 
 var badgeFormFile = $('#badge_form_file')
 

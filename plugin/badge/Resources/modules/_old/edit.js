@@ -1,4 +1,7 @@
 import $ from 'jquery'
+import 'confirm-bootstrap'
+//je crois, sinon add ou rules
+import 'select2'
 
 /* global ZenstruckFormHelper */
 

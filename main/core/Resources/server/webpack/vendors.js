@@ -60,7 +60,7 @@ var libs =
     'ng-table', //requires css
     //
     'bootstrap-daterangepicker',
-    'mjolnic-bootstrap-colorpicker', //might need to update jquery //update css file
+    'mjolnic-bootstrap-colorpicker',
     'eonasdan-bootstrap-datetimepicker', //might need to import the css file
 ]
 
@@ -83,5 +83,7 @@ libs['Datejs'] = ['Datejs/build/date']
 libs['lodash'] = [__dirname + '/externals/lodash.js']
 libs['pdf'] = [__dirname + '/externals/pdf.js']
 libs['wavesurfer'] = [__dirname + '/externals/wavesurfer.js']
+libs['jqplot'] = [__dirname + '/externals/jqplot.js'] //might require loader
+libs['select2'] = [__dirname + '/externals/select2.js']
 
 module.exports = libs

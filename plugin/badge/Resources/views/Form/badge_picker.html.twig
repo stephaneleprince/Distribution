@@ -75,9 +75,9 @@
         </div>
 
         <script type="text/javascript">
-            window.id = {{ id }}
+            window.id = '{{ id }}'
             window.multiple = {{ multiple|default('false') }}
-            window.mode = "{{ mode }}"
+            window.mode = '{{ mode }}'
             window.blacklist = {{ blacklist|json_encode }}
         </script>
         <script> load({{ chunks('claroline-distribution-plugin-badge-form-badge-picker')|raw }}) </script>
