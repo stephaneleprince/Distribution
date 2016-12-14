@@ -1,5 +1,6 @@
 import _ from 'underscore'
 import $ from 'jquery'
+import 'jquery-ui'
 
 import Router from './router'
 import Server from './server'

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'jquery-option-tree'
 
 $(document).ready(function () {
   var choices = window.choices

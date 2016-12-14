@@ -66,18 +66,6 @@
     {% endif %}
 {% endmacro %}
 
-{# TODO: remove this when custom js builds are available #}
-{% macro getJqueryUiJs() %}
-    {% javascripts debug=false filter='jsmin' output='vendor/jquery/ui/jqueryui.js'
-    'packages/jquery-ui/ui/core.js'
-    'packages/jquery-ui/ui/widget.js'
-    'packages/jquery-ui/ui/mouse.js'
-    'packages/jquery-ui/ui/sortable.js'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endmacro %}
-
 {% macro getTranslatorJs() %}
     {% javascripts debug=false
     'bundles/bazingajstranslation/js/translator.min.js'
@@ -87,18 +75,6 @@
     'js/translations/error/*.js'
     'js/translations/validators/*.js'
     %}<script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endmacro %}
-
-{% macro getAngularUiJs() %}
-    {# Angular UI #}
-    {% javascripts debug=false filter='jsmin' output='vendor/angular-ui.js'
-    'packages/angular-ui-tree/dist/angular-ui-tree.js'
-    'packages/angular-ui-select/dist/select.min.js'
-    'packages/angular-breadcrumb/dist/angular-breadcrumb.min.js'
-    'packages/angular-ui-router/release/angular-ui-router.min.js'
-    'packages/angular-sanitize/angular-sanitize.min.js'
-    %}
     {% endjavascripts %}
 {% endmacro %}
 

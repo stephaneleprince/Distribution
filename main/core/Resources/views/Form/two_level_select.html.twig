@@ -10,7 +10,6 @@
             window.data = "{{ form.vars['data'] }}"
             window.formId = "{{ form.vars['id'] }}"
         </script>
-        <script src="{{ asset('packages/jquery-option-tree/jquery.optionTree.js') }}"></script>
         <script> load({{ chunks('claroline-distribution-main-core-form-two-level-select')|raw }}) </script>
     {% endspaceless %}
 {% endblock %}

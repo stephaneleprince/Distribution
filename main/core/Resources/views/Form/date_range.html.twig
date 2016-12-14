@@ -6,10 +6,6 @@
             {{ block('form_widget') }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
         </div>
-        {% block daterange_assets %}
-            <link rel="stylesheet" href="{{ asset( 'packages/bootstrap-daterangepicker/daterangepicker.css') }}" screen="media" />
-            <script type="text/javascript" src="{{ asset('packages/Datejs/build/date.js') }}"></script>t>
-        {% endblock %}
         <script type="text/javascript">
 
             {% if chosenRangeKeys is defined %}

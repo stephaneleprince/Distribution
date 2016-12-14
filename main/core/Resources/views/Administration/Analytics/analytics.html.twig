@@ -144,19 +144,6 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-
-    {% include 'ClarolineCoreBundle:Layout:jqplot_script.html.twig' %}
-    {% javascripts debug=false filter='jsmin' output='js/corebundle/jqplot.analytics.min.js'
-    'packages/jqPlot/src/plugins/jqplot.highlighter.js'
-    'packages/jqPlot/src/plugins/jqplot.pieRenderer.js'
-    'packages/jqPlot/src/plugins/jqplot.canvasTextRenderer.js'
-    'packages/jqPlot/src/plugins/jqplot.dateAxisRenderer.js'
-    'packages/jqPlot/src/plugins/jqplot.barRenderer.js'
-    'packages/jqPlot/src/plugins/jqplot.canvasAxisTickRenderer.js'
-    'packages/jqPlot/src/plugins/jqplot.canvasAxisLabelRenderer.js'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
     <script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>
     <script type="text/javascript">
         window.chartData = {{ barChartData|json_encode|raw }};

@@ -3,6 +3,7 @@
 /* global $msg */
 
 import $ from 'jquery'
+import 'strophe'
 
 var xmppHost
 var boshPort

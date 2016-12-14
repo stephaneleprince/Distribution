@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'mjolnic-bootstrap-colorpicker'
 
 $('#workspace-display-edit-form').on('focus', '#workspace_options_form_backgroundColor', function () {
   $(this).colorpicker()

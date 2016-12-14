@@ -18,6 +18,7 @@ const externals = () => {
   libraries['moment'] = 'moment'
   libraries['lodash'] = 'lodash'
   libraries['wavesurfer'] = 'wavesurfer'
+  libraries['videojs'] = 'videojs'
 
   //here we add the "externals" part of the assets.json file.
   var packages = entries.collectPackages(paths.root())

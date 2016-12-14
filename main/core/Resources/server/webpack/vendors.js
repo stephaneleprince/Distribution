@@ -60,7 +60,7 @@ var libs =
     'ng-table', //requires css
     //
     'bootstrap-daterangepicker',
-    'mjolnic-bootstrap-colorpicker',
+    'mjolnic-bootstrap-colorpicker', //might need a loader
     'eonasdan-bootstrap-datetimepicker', //might need to import the css file
 ]
 
@@ -86,5 +86,9 @@ libs['wavesurfer'] = [__dirname + '/externals/wavesurfer.js']
 libs['jqplot'] = [__dirname + '/externals/jqplot.js'] //might require loader
 libs['select2'] = [__dirname + '/externals/select2.js']
 libs['typeahead'] = [__dirname + '/externals/typeahead']
+libs['jquery-option-tree'] = [__dirname + '/externals/jquery-option-tree']
+libs['strophe'] = [__dirname + '/externals/strophe.js']
+libs['angular-loading-bar'] = [__dirname + '/externals/angular-loading-bar']
+libs['videojs'] = [__dirname + '/externals/videojs.js']
 
 module.exports = libs
