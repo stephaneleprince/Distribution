@@ -241,7 +241,6 @@
                 };
                 window.assetPath = "{{ asset('') }}";
             })();
-            alert('yolo')
         </script>
 
         <script type="text/javascript" src="{{ url('bazinga_jstranslation_js', { 'domain': 'icap_portfolio' }) }}"></script>
@@ -250,12 +249,7 @@
             <script type="text/javascript" src="{{ asset('packages/bootstrap-datepicker/dist/locales/bootstrap-datepicker.' ~ app.request.locale ~ '.min.js') }}"></script>
         {% endif %}
 
-        {% javascripts debug=false output='js/portfolio/portfolio/vendor.js'
-            'packages/confirm-bootstrap/confirm-bootstrap.js'
-            'packages/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
-            '@IcapPortfolioBundle/Resources/public/js/vendor/javascript-detect-element-resize/jquery.resize.js'
-        %}
-            {#<script type="text/javascript" src="{{ asset_url }}"></script>#}
+        <script> load({{ chunks('jquery.resize')|raw }}) </script>
         {% endjavascripts %}
         <script> load({{ chunks('claroline-distribution-plugin-portfolio-portfolio-app')|raw }}) </script>
     {% else %}

@@ -50,6 +50,7 @@
     "jquery-sortable": "0.9.13",
     "jquery-ui": "1.11.4",
     "jquery.cookie": "1.4.1",
+    "javascript-detect-element-resize": "0.5.3",
     "jscroll": "2.3.5",
     "lodash": "4.13.1",
     "loadjs": "3.0.0",

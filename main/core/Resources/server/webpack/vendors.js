@@ -89,5 +89,6 @@ libs['strophe'] = [__dirname + '/externals/strophe.js']
 libs['angular-loading-bar'] = [__dirname + '/externals/angular-loading-bar']
 libs['videojs'] = [__dirname + '/externals/videojs.js']
 libs['angular-ui-tree'] = [__dirname + '/externals/angular-ui-tree.js']
+libs['jquery.resize'] = [__dirname + '/externals/jquery.resize.js']
 
 module.exports = libs
