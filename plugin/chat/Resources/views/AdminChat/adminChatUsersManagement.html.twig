@@ -204,6 +204,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('packages/strophejs/strophe.min.js') }}"></script>
     <script> load({{ chunks('claroline-distribution-plugin-chat-admin-chat-users-management')|raw }}) </script>
 {% endblock %}

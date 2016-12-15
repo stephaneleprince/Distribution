@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'strophe'
 import UserPicker from '#/main/core/_old/user/userPicker'
 import modal from '#/main/core/_old/modal'
 

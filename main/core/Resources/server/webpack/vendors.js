@@ -18,7 +18,6 @@ var libs =
     'angular-ui-select',
     'angular-ui-tinymce',
     'angular-ui-translation',
-    'angular-ui-tree', //need css
     'angular-ui-pageslide',
     'ng-file-upload',
     'angular-strap',
@@ -89,5 +88,6 @@ libs['jquery-option-tree'] = [__dirname + '/externals/jquery-option-tree']
 libs['strophe'] = [__dirname + '/externals/strophe.js']
 libs['angular-loading-bar'] = [__dirname + '/externals/angular-loading-bar']
 libs['videojs'] = [__dirname + '/externals/videojs.js']
+libs['angular-ui-tree'] = [__dirname + '/externals/angular-ui-tree.js']
 
 module.exports = libs

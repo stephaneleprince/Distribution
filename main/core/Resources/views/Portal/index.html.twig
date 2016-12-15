@@ -32,7 +32,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel='stylesheet' href='{{ asset('packages/angular-loading-bar/build/loading-bar.min.css') }}' type='text/css' media='all' />
     {% stylesheets debug=false filter='less, cssmin' output='css/corebundle/portal.css'
     '@ClarolineCoreBundle/Resources/less/portal/portal.less'
     %}
