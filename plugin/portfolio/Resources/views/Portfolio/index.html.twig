@@ -97,7 +97,6 @@
       '@IcapPortfolioBundle/Resources/views/less/statistics.less'
       '@IcapPortfolioBundle/Resources/views/less/daterangepicker.less'
       'packages/toastr/toastr.less'
-      '@ClarolineCoreBundle/Resources/public/css/common/jqplot/jquery.jqplot.css'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" screen="media" />
     {% endstylesheets %}
@@ -118,20 +117,8 @@
             });
         })();
     </script>
-
-
-    <script type="text/javascript" src='{{ asset('packages/confirm-bootstrap/confirm-bootstrap.js') }}'></script>
-    <script type="text/javascript" src='{{ asset('packages/jqPlot/src/jquery.jqplot.js') }}'></script>
     <script type="text/javascript" src="{{ url('bazinga_jstranslation_js', { 'domain': 'icap_portfolio' }) }}"></script>
 
-    {% javascripts debug=false filter='jsmin' output='js/portfolio/index/vendor.js'
-        'packages/jqPlot/src/plugins/jqplot.cursor.js'
-        'packages/jqPlot/src/plugins/jqplot.highlighter.js'
-        'packages/jqPlot/src/plugins/jqplot.canvasTextRenderer.js'
-        'packages/jqPlot/src/plugins/jqplot.dateAxisRenderer.js'
-        'packages/jqPlot/src/plugins/jqplot.canvasAxisTickRenderer.js'
-        'packages/jqPlot/src/plugins/jqplot.canvasAxisLabelRenderer.js'
-    %}
         {# <script type="text/javascript" src="{{ asset_url }}"></script> #}
     {% endjavascripts %}
     <script> load({{ chunks('claroline-distribution-main-core-jqplot')|raw }}) </script>

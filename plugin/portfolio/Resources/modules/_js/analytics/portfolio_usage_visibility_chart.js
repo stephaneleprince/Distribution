@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'jqplot'
 
 var pieChartData = window.pieChartData
 

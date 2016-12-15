@@ -1,4 +1,3 @@
-import 'jqPlot/src/jquery.jqplot'
 import 'jqPlot/src/jquery.jqplot.css'
 
 import 'jqPlot/src/jqplot.core.js'
@@ -31,3 +30,4 @@ import 'jqPlot/src/plugins/jqplot.canvasTextRenderer'
 import 'jqPlot/src/plugins/jqplot.pointLabels'
 import 'jqPlot/src/plugins/jqplot.highlighter'
 import 'jqPlot/src/plugins/jqplot.dateAxisRenderer'
+import 'jqPlot/src/plugins/jqplot.cursor'

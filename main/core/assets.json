@@ -114,7 +114,10 @@
       "widget-desktop-widget-my-workspaces": "_js/Widget/desktopWidgetMyWorkspaces",
       "widget-resource-widget-configure-form": "_js/Widget/resourceWidgetConfigureForm",
       "workspace-layout": "_js/Workspace/layout",
-      "core-js": "core-js"
+      "core-js": "core-js",
+      "log-count-by-day-chart": "_js/Log/count-by-day-chart",
+      "log-resource-by-type-chart": "_js/Log/resource-by-type-chart",
+      "log-view-user-list": "_js/Log/view-user-list"
     }
   }
 }

@@ -13,8 +13,8 @@
         </div>
         <script type="text/javascript">
             window.formId = "{{ form.vars['id'] }}"
-            window.format = {{ format }}
-            window.entityReference = {{ entity_reference }}
+            window.format = "{{ format }}"
+            window.entityReference = "{{ entity_reference }}"
             window.extraDatas = {{ extraDatas|json_encode()|raw }}
         </script>
         <script> load({{ chunks('claroline-distribution-main-core-form-simple-auto-complete')|raw }}) </script>

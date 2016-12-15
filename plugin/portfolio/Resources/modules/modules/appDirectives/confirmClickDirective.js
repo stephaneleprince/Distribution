@@ -1,3 +1,5 @@
+import 'confirm-bootstrap'
+
 export default function ($parse, translationService) {
   var link = function (scope, element, attributes) {
     var clickAction = attributes.confirmClick

@@ -2,6 +2,7 @@ import $ from 'jquery'
 import 'angular'
 import toastr from 'toastr/toastr'
 import modal from '#/main/core/_old/modal'
+import 'confirm-bootstrap'
 
 /* global Translator */
 /* global angular */
