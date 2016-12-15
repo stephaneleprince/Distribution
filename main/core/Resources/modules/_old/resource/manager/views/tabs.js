@@ -1,4 +1,4 @@
-import _ from 'underscore'
+import _ from 'lodash'
 import $ from 'jquery'
 import Backbone from 'backbone'
 
@@ -20,9 +20,9 @@ export default Backbone.View.extend({
     this.isAppended = false
     this.tabs = ['resources', 'widgets']
     this.buildElement()
-    _.each(this.outerEvents, function(method, event) {
+    _.each(this.outerEvents, (method, event) => {
       this.dispatcher.on(event + '-' + this.parameters.viewName, this[method], this)
-    }, this)
+    })
   },
   buildElement: function() {
     this.$el.attr('role', 'tablist')

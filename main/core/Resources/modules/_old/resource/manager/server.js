@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import _ from 'underscore'
+import _ from 'lodash'
 
 /* global Routing */
 
@@ -29,9 +29,9 @@ var server = function(dispatcher) {
     'publish': 'publish',
     'unpublish': 'unpublish'
   }
-  _.each(this.outerEvents, function(method, event) {
+  _.each(this.outerEvents, (method, event) => {
     this.dispatcher.on(event, this[method], this)
-  }, this)
+  })
   $.ajaxSetup({
     headers: {'X_Requested_With': 'XMLHttpRequest'},
     context: this

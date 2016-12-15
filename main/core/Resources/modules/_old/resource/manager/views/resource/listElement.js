@@ -1,4 +1,4 @@
-import _ from 'underscore'
+import _ from 'lodash'
 import utilities from '#/main/core/_old/utilities'
 import Backbone from 'backbone'
 

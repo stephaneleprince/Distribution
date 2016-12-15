@@ -1,4 +1,4 @@
-import _ from 'underscore'
+import _ from 'lodash'
 import $ from 'jquery'
 import utilities from '../../../../utilities'
 import Thumbnail from './thumbnail'
@@ -35,22 +35,22 @@ export default Backbone.View.extend({
     this.listMode = parameters.displayMode
     this.zoomValue = this.parameters.zoom
     this.dispatcher.on('change-zoom', this.zoom, this)
-    _.each(this.outerEvents, function(method, event) {
+    _.each(this.outerEvents, (method, event) => {
       this.dispatcher.on(
         event + '-' + this.parameters.viewName, this[method], this
       )
-    }, this)
+    })
     this.dispatcher.on('list-mode-' + parameters.viewName, this.setListMode, this)
   },
   addNodes: function(event) {
-    _.each(event, function(node) {
+    _.each(event, (node) => {
       var isWhiteListed = this.parameters.resourceTypes[node.type] !== undefined
 
       if (isWhiteListed || node.type === 'directory') {
         this.nodes[node.id] = node
         this.renderNode(node)
       }
-    }, this)
+    })
   },
   renameNode: function(event) {
     var displayableName = utilities.formatText(event.name, 20, 2)
@@ -97,7 +97,7 @@ export default Backbone.View.extend({
   },
   zoom: function(event) {
     this.zoomValue = event.value
-    _.each(this.$('.node-thumbnail'), function(node) {
+    _.each(this.$('.node-thumbnail'), (node) => {
       node.className = node.className.replace(/\bzoom\d+/g, event.value)
     })
   },
@@ -121,7 +121,7 @@ export default Backbone.View.extend({
     if (this.parameters.isPickerMode
       && !this.parameters.isPickerMultiSelectAllowed
       && event.currentTarget.checked) {
-      _.each(this.$('input[type=checkbox]'), function(checkbox) {
+      _.each(this.$('input[type=checkbox]'), (checkbox) => {
         if (checkbox !== event.currentTarget) {
           checkbox.checked = false
         }

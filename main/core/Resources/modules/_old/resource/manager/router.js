@@ -1,4 +1,4 @@
-import _ from 'underscore'
+import _ from 'lodash'
 import $ from 'jquery'
 import Backbone from 'backbone'
 
@@ -32,7 +32,7 @@ const router = Backbone.Router.extend({
       var parameters = decodeURIComponent(queryString.substr(1)).split('&')
       var searchParameters = {}
       var knownParameters = ['name', 'dateFrom', 'dateTo', 'types[]']
-      _.each(parameters, function(parameter) {
+      _.each(parameters, (parameter) => {
         parameter = parameter.split('=')
 
         if (knownParameters.indexOf(parameter[0]) !== -1) {

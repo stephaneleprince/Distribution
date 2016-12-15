@@ -1,4 +1,4 @@
-import _ from 'underscore'
+import _ from 'lodash'
 import Tabpanes from './tabpanes'
 import Tabs from './tabs'
 import Form from './resource/form'
@@ -23,9 +23,9 @@ export default Backbone.View.extend({
     this.isAppended = false
     this.pickerDirectoryId = null
     this.buildElement()
-    _.each(this.outerEvents, function(method, event) {
+    _.each(this.outerEvents, (method, event) => {
       this.dispatcher.on(event + '-' + this.parameters.viewName, this[method], this)
-    }, this)
+    })
     this.dispatcher.on('save-picker-directory', function(event) {
       this.pickerDirectoryId = event.directoryId
     }, this)

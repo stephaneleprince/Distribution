@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import 'jquery-ui'
-import _ from 'underscore'
+import _ from 'lodash'
 import Backbone from 'backbone'
 
 import Router from './router'

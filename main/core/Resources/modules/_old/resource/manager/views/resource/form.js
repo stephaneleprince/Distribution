@@ -1,4 +1,4 @@
-import _ from 'underscore'
+import _ from 'lodash'
 import modal from '../../../../modal'
 import Backbone from 'backbone'
 
@@ -32,9 +32,9 @@ export default Backbone.View.extend({
     this.dispatcher = dispatcher
     this.targetNodeId = null
     this.eventOnSuccess = null
-    _.each(_.keys(this.knownActions), function(eventName) {
+    _.each(_.keys(this.knownActions), (eventName) => {
       this.dispatcher.on(eventName, this.render, this)
-    }, this)
+    })
     this.dispatcher.on('error-form', this.render, this)
     this.dispatcher.on('submit-success', function() {
       this.$el.modal('hide')

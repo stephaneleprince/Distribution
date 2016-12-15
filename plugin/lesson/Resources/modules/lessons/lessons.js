@@ -1,5 +1,5 @@
 import angular from 'angular'
-import _ from 'underscore'
+import _ from 'lodash'
 import {} from 'angular-bootstrap'
 import {} from 'angular-route'
 import {} from 'angular-ui-tinymce'

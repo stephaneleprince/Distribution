@@ -1,4 +1,4 @@
-import _ from 'underscore'
+import _ from 'lodash'
 import Resources from './resources'
 import Widgets from './widgets'
 import Backbone from 'backbone'
@@ -15,9 +15,9 @@ export default Backbone.View.extend({
     this.wrapper = null
     this.isAppended = false
     this.buildElement()
-    _.each(this.outerEvents, function(method, event) {
+    _.each(this.outerEvents, (method, event) => {
       this.dispatcher.on(event + '-' + this.parameters.viewName, this[method], this)
-    }, this)
+    })
   },
   buildElement: function() {
     this.wrapper = this.$el

@@ -16,9 +16,8 @@ const externals = () => {
 
   libraries['angular'] = 'angular'
   libraries['pdf'] = 'pdf'
-  libraries['underscore'] = '_'
   libraries['moment'] = 'moment'
-  libraries['lodash'] = 'lodash'
+  libraries['lodash'] = '_'
   libraries['wavesurfer'] = 'wavesurfer'
   libraries['videojs'] = 'videojs'
 
