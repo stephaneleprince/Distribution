@@ -66,6 +66,14 @@ const fs = require('fs')
      }
  }
 
+ //see above
+ const dataTableNoAmd = () => {
+     return {
+       test: /datatables\.net(.*)\.js$/,
+       loader: 'imports-loader?require=>false,define=>false,exports=>undefined,this=>window'
+     }
+ }
+
  const backboneNoAmd = () => {
      return {
        test: require.resolve(paths.bower() + '/backbone/backbone'),
@@ -189,5 +197,6 @@ const fs = require('fs')
    tinymceWrapper,
    tinymceJquery,
    modernizr,
-   angularImport
+   angularImport,
+   dataTableNoAmd
  }

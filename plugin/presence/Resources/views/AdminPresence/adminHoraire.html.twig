@@ -84,9 +84,6 @@
             {% block javascripts %}
                 {{ parent() }}
                 <script> load({{ chunks('claroline-distribution-plugin-agenda-calendar')|raw }}) </script>
-                <script type='text/javascript' src='{{ asset('bundles/formalibrepresence/js/fr.js') }}'></script>
-                <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/bootstrap-datetimepicker.min.js') }}"></script>
-
                 <script>
                     window.events = [
                         {% for item in periods %}

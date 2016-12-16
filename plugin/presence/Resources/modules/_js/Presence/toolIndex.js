@@ -1,6 +1,6 @@
 import modal from '#/main/core/_old/modal'
 import $ from 'jquery'
-
+import 'datatables'
 import 'moment'
 
 import 'eonasdan-bootstrap-datetimepicker'

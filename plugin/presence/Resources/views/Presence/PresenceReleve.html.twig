@@ -142,8 +142,5 @@
     </div>
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/jquery.dataTables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/dataTables.bootstrap.min.js') }}"></script>
     <script> load({{ chunks('claroline-distribution-plugin-presence-presence-releve')|raw }}) </script>
 {% endblock javascripts %}

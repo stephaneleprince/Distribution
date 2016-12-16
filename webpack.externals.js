@@ -25,6 +25,7 @@ module.exports = {
       loaders.datetimepickerNoAmd(),
       loaders.daterangepickerNoAmd(),
       loaders.backboneNoAmd(),
+      loaders.dataTableNoAmd(),
       loaders.css(),
       loaders.font(),
       loaders.babel(),

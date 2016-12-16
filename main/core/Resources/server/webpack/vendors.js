@@ -81,7 +81,7 @@ libs['Datejs'] = ['Datejs/build/date']
 libs['lodash'] = [__dirname + '/externals/lodash.js']
 libs['pdf'] = [__dirname + '/externals/pdf.js']
 libs['wavesurfer'] = [__dirname + '/externals/wavesurfer.js']
-libs['jqplot'] = [__dirname + '/externals/jqplot.js'] //might require loader
+libs['jqplot'] = [__dirname + '/externals/jqplot.js']
 libs['select2'] = [__dirname + '/externals/select2.js']
 libs['typeahead'] = [__dirname + '/externals/typeahead']
 libs['jquery-option-tree'] = [__dirname + '/externals/jquery-option-tree']
@@ -90,5 +90,6 @@ libs['angular-loading-bar'] = [__dirname + '/externals/angular-loading-bar']
 libs['videojs'] = [__dirname + '/externals/videojs.js']
 libs['angular-ui-tree'] = [__dirname + '/externals/angular-ui-tree.js']
 libs['jquery.resize'] = [__dirname + '/externals/jquery.resize.js']
+libs['datatables'] = [__dirname + '/externals/datatables']
 
 module.exports = libs

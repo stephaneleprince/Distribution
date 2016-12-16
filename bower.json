@@ -78,7 +78,13 @@
     "strophejs-plugins": "https://github.com/strophe/strophejs-plugins.git#0.0.6",
     "hark": "https://github.com/otalk/hark.git#1.1.4",
     "wavesurfer.js": "1.1.8",
-    "OpenSlides/tinymce-i18n": "*"
+    "OpenSlides/tinymce-i18n": "*",
+    "pdfmake": "0.1.17",
+    "datatables.net": "*",
+    "datatables.net-jqui": "*",
+    "datatables.net-buttons": "*",
+    "datatables.net-buttons-jqui": "*",
+    "Stuk/jszip": "*"
   },
   "ignore": [
     "*",

@@ -135,20 +135,5 @@
              {% if loop.last %}{% else %},{% endif %}{% endfor %}
         ]
     </script>
-    <!-- outils -->
-    {# à retirer ? #}
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/jquery.dataTables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/dataTables.bootstrap.min.js') }}"></script>
-
-    {#
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/buttons.html5.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/buttons.print.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/dataTables.buttons.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/buttons.bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/jszip.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/pdfmake.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/vfs_fonts.js') }}"></script>
-    <script> load({{ chunks('claroline-distribution-plugin-agenda-calendar')|raw }}) </script>
-    #}
     <script> load({{ chunks('claroline-distribution-plugin-presence-tool-index')|raw }}) </script>
 {% endblock javascripts %}

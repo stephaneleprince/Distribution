@@ -42,15 +42,10 @@
                 </div>
             </form>
         </div>
-
     </div>
-            </form>
-
-
 </div>
 
 {% block javascripts %}
-     <script type="text/javascript" src="{{ asset('bundles/formalibrepresence/js/bootstrap-datetimepicker.min.js') }}"></script>
      <script>
         window.nameModifSchoolYear = "{{ theSchoolYear.getSchoolYearName() }}"
         window.beginDateModifSchoolYear = "{{ theSchoolYear.getSchoolYearBegin()|date('d-m-Y') }}"

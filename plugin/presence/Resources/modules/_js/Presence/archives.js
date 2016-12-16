@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'datatables'
 import modal from '#/main/core/_old/modal'
 
 /* global Routing */
