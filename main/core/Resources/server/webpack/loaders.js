@@ -81,6 +81,13 @@ const fs = require('fs')
      }
  }
 
+ const pdfmakeNoAmd = () => {
+     return {
+         test: /pdfmake/,
+         loader: 'imports-loader?require=>false,define=>false,exports=>undefined,this=>window'
+     }
+ }
+
 /**
  * Enables css files imports.
  */
@@ -190,6 +197,7 @@ const fs = require('fs')
    datetimepickerNoAmd,
    daterangepickerNoAmd,
    backboneNoAmd,
+   pdfmakeNoAmd,
    css,
    font,
    imageUris,

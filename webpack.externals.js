@@ -26,6 +26,7 @@ module.exports = {
       loaders.daterangepickerNoAmd(),
       loaders.backboneNoAmd(),
       loaders.dataTableNoAmd(),
+      loaders.pdfmakeNoAmd(),
       loaders.css(),
       loaders.font(),
       loaders.babel(),

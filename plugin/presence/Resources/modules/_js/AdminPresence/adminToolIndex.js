@@ -1,6 +1,8 @@
 import $ from 'jquery'
 import modal from '#/main/core/_old/modal'
-import 'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker'
+import 'mjolnic-bootstrap-colorpicker'
+import 'moment'
+import 'eonasdan-bootstrap-datetimepicker'
 
 /* global Routing */
 
