@@ -4,9 +4,8 @@ namespace Icap\WebsiteBundle;
 
 use Claroline\CoreBundle\Library\PluginBundle;
 use Claroline\KernelBundle\Bundle\ConfigurationBuilder;
-use Claroline\KernelBundle\Bundle\ConfigurationProviderInterface;
 
-class IcapWebsiteBundle extends PluginBundle implements ConfigurationProviderInterface
+class IcapWebsiteBundle extends PluginBundle
 {
     public function getConfiguration($environment)
     {
