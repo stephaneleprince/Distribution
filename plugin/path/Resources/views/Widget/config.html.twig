@@ -38,8 +38,6 @@
         }
     </style>
 
-    <script type="text/javascript" src='{{ asset('bundles/clarolinetag/js/bootstrap3-typeahead.js') }}'></script>
-    <script type="text/javascript" src='{{ asset('bundles/clarolinetag/js/tag-typeahead.js') }}'></script>
     <script type="text/javascript">
         window.allTags = [{% for tag in tags %}'{{ tag.getName() }}'{% if not loop.last %}, {% endif %}{% endfor %}];
         window.formName = "{{ form.vars.name }}"

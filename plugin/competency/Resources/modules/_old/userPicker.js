@@ -1,5 +1,6 @@
 import modal from '#/main/core/_old/modal'
 import $ from 'jquery'
+import 'typeahead'
 
 /* global Twig */
 /* global UserPickerForm */
