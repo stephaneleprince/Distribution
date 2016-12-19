@@ -1,4 +1,6 @@
 import $ from 'jquery'
+import 'jquery-ui'
+import 'select2'
 
 /* global ZenstruckFormHelper */
 
