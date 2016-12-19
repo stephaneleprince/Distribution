@@ -217,7 +217,6 @@
     {% stylesheets debug=false filter='less, cssmin'  output='css/icapportfolio/style_view.css'
       "@IcapPortfolioBundle/Resources/views/less/style.less"
       "@IcapPortfolioBundle/Resources/views/less/interface.less"
-      "packages/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css"
       "packages/angular-motion/dist/angular-motion.min.css"
     %}
         <link rel="stylesheet" href="{{ asset_url }}" screen="media" />
@@ -244,11 +243,6 @@
         </script>
 
         <script type="text/javascript" src="{{ url('bazinga_jstranslation_js', { 'domain': 'icap_portfolio' }) }}"></script>
-
-        {% if 'en' != app.request.locale %}
-            <script type="text/javascript" src="{{ asset('packages/bootstrap-datepicker/dist/locales/bootstrap-datepicker.' ~ app.request.locale ~ '.min.js') }}"></script>
-        {% endif %}
-
         <script> load({{ chunks('jquery.resize')|raw }}) </script>
         {% endjavascripts %}
         <script> load({{ chunks('claroline-distribution-plugin-portfolio-portfolio-app')|raw }}) </script>

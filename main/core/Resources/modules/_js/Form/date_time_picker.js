@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'bootstrap-datepicker'
 
 $(document).ready(function () {
   if (!IsInputTypeSupported('date')) {

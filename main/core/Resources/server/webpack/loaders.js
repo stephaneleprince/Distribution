@@ -74,6 +74,7 @@ const fs = require('fs')
      }
  }
 
+ //see above
  const backboneNoAmd = () => {
      return {
        test: require.resolve(paths.bower() + '/backbone/backbone'),
@@ -81,10 +82,19 @@ const fs = require('fs')
      }
  }
 
+ //see above
  const pdfmakeNoAmd = () => {
      return {
          test: /pdfmake/,
          loader: 'imports-loader?require=>false,define=>false,exports=>undefined,this=>window'
+     }
+ }
+
+  //see above
+ const bootstrapdatepickerNoAmd = () => {
+     return {
+         test: /bootstrap-datepicker.js/,
+         loader: 'imports-loader?define=>false,exports=>false'
      }
  }
 
@@ -198,6 +208,7 @@ const fs = require('fs')
    daterangepickerNoAmd,
    backboneNoAmd,
    pdfmakeNoAmd,
+   bootstrapdatepickerNoAmd,
    css,
    font,
    imageUris,

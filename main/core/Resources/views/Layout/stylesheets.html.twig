@@ -1,9 +1,8 @@
 {% import 'ClarolineCoreBundle::macros.html.twig' as macros %}
 
 {# Angular UI #}
-{% stylesheets debug=false output='vendor/angular-ui.css'
+{% stylesheets debug=false output='vendor/angular/angular-ui.css'
     'bundles/clarolinecore/css/common/angular-ui-tree.css'
-    'packages/angular-ui-select/dist/select.min.css'
     'bundles/clarolinecore/css/common/select.css'
     'bundles/clarolinecore/css/fontastic/icon.css'
 %}
@@ -14,4 +13,3 @@
 {% endif %}
 <link rel="stylesheet" href="{{ macros.getTheme(config)|trim }}" media="screen" />
 <link rel='stylesheet' type='text/css' href='{{ asset('packages/font-awesome/css/font-awesome.min.css') }}'/>
-<link rel='stylesheet' type='text/css' href='{{ asset('packages/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css')}}'>

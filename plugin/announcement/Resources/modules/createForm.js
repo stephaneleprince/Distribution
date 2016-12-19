@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'bootstrap-datepicker'
 
 function enableNotification () {
   var value = $('#announcement_form_visible_from').val()

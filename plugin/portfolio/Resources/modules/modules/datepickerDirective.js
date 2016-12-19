@@ -1,5 +1,5 @@
 import 'angular'
-import 'bootstrap-datepicker/dist/js/bootstrap-datepicker'
+import 'bootstrap-datepicker'
 
 /* global angular */
 

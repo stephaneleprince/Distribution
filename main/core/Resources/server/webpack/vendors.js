@@ -61,7 +61,8 @@ var libs =
     'bootstrap-daterangepicker',
     'mjolnic-bootstrap-colorpicker', //might need a loader
     'eonasdan-bootstrap-datetimepicker', //might need to import the css file
-    'bootstrap3-typeahead'
+    'bootstrap3-typeahead',
+    'bootstrap-datepicker'
 ]
 
 libs = libs.reduce((acc, lib) => {

@@ -2,6 +2,7 @@
 /* global Twig */
 
 import Backbone from 'backbone'
+import 'bootstrap-datepicker'
 
 export default Backbone.View.extend({
   className: 'filters container-fluid',

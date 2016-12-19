@@ -59,13 +59,6 @@
     {% endjavascripts %}
 {% endmacro %}
 
-{% macro getBootstrapDatepickerJs() %}
-    <script src="{{ asset('packages/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') }}"></script>
-    {% if 'en' != app.request.locale %}
-        <script src="{{ asset('packages/bootstrap-datepicker/js/locales/bootstrap-datepicker.' ~ app.request.locale ~ '.js') }}"></script>
-    {% endif %}
-{% endmacro %}
-
 {% macro getTranslatorJs() %}
     {% javascripts debug=false
     'bundles/bazingajstranslation/js/translator.min.js'

@@ -152,9 +152,9 @@ export default Backbone.View.extend({
   },
   prepareResults: function(nodes) {
     // exclude blacklisted types
-    var displayableNodes = _.reject(nodes, function(node) {
+    var displayableNodes = _.reject(nodes, (node) =>  {
       return this.parameters.resourceTypes[node.type] === undefined
-    }, this)
+    })
 
     // extract nodes id and name from materialized path data
     return _.map(displayableNodes, function(node) {
