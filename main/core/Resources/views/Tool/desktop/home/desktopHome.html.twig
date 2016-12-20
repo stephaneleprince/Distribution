@@ -6,20 +6,17 @@
 
 {% block section_content %}
     <div id="desktop-home-panel">
-        <div class="panel-body" ui-view>
+        <div class="panel-body" data-ui-view="">
         </div>
     </div>
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets
-        debug=false
-        filter='less, cssmin'
-        output='css/clarolinecore/hometabs.css'
+    {% stylesheets debug=false filter='less, cssmin' output='css/clarolinecore/hometabs.css'
         "@ClarolineCoreBundle/Resources/less/home-tabs.less"
     %}
-        <link rel="stylesheet" href="{{ asset_url }}" screen="media"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% endblock %}
 
