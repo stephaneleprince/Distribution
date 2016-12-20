@@ -15,6 +15,7 @@
             window.format = "{{ format }}"
             window.entityReference = "{{ entity_reference }}"
             window.extraDatas = {{ extraDatas|json_encode()|raw }}
+            window.path = '{{ path('exporter_api', {'entityReference': entity_reference, '_format': format}) }}'
         </script>
         <script> load({{ chunks('claroline-distribution-main-core-form-simple-auto-complete')|raw }}) </script>
     {% endspaceless %}

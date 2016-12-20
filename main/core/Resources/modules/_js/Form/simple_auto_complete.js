@@ -4,7 +4,7 @@ import 'jquery-ui'
 /* global Routing */
 
 $(document).ready(function () {
-  var path = Routing.generate('exporter_api', {'entityReference': window.entityReference, '_format': window.format})
+  var path = window.path
   var field = $(`#${window.formId}`)
   field.addClass('form-control')
   field.after(`<a id="${window.formId}_clear" class="btn btn-default input-group-addon" role="button"i><span class="fa fa-times"></span></a>`)

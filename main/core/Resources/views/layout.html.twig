@@ -23,6 +23,10 @@
 
 {% block javascripts_header %}
     {{ parent() }}
+    
+    {# Loads fosJsRouter js files #}
+    {{ jsmacros.getFosRouterJs() }}
+
     <script type="text/javascript" src='{{ asset('packages/jquery/dist/jquery.min.js') }}'></script>
     {# Loads all necessary twigjs files #}
     {{ jsmacros.getTwigJs() }}
