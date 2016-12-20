@@ -1,7 +1,7 @@
 import angular from 'angular'
 
 import 'angular-bootstrap'
-import 'angular-ui-translation/angular-translation'
+import 'angular-ui-translation'
 import dragula from 'angular-dragula'
 
 import Interceptors from '../interceptorsDefault'

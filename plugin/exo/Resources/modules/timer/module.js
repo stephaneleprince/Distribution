@@ -3,7 +3,7 @@
  */
 
 import angular from 'angular'
-import 'angular-ui-translation/angular-translation'
+import 'angular-ui-translation'
 import 'ngstorage'
 
 import TimerService from './Services/TimerService'

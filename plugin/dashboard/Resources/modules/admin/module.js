@@ -3,7 +3,7 @@ import angular from 'angular'
 
 import 'angular-bootstrap'
 import 'angular-strap'
-import 'angular-ui-translation/angular-translation'
+import 'angular-ui-translation'
 import '#/main/core/modal/module'
 import '#/main/core/fos-js-router/module'
 

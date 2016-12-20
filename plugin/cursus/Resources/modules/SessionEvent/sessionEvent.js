@@ -10,7 +10,7 @@
 import angular from 'angular'
 
 import 'angular-bootstrap'
-import 'angular-ui-translation/angular-translation'
+import 'angular-ui-translation'
 
 import SessionEventService from './Service/SessionEventService'
 import SessionEventCreationModalCtrl from './Controller/SessionEventCreationModalCtrl'

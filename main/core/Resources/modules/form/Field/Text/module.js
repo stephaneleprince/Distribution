@@ -1,6 +1,6 @@
 import angular from 'angular'
 
-import 'angular-ui-translation/angular-translation'
+import 'angular-ui-translation'
 import TextDirective from './TextDirective'
 import '../../HelpBlock/module'
 

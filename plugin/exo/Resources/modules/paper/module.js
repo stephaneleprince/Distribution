@@ -5,7 +5,7 @@
 import angular from 'angular'
 
 import 'angular-bootstrap'
-import 'angular-ui-translation/angular-translation'
+import 'angular-ui-translation'
 import 'at-table'
 
 import '#/main/core/utilities/module'

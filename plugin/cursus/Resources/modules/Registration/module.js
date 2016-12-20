@@ -12,7 +12,7 @@ import angular from 'angular'
 import 'angular-ui-router'
 import 'angular-data-table'
 import 'angular-bootstrap'
-import 'angular-ui-translation/angular-translation'
+import 'angular-ui-translation'
 
 import Routing from './routing.js'
 import CursusDescriptionModalCtrl from './Cursus/Controller/CursusDescriptionModalCtrl'

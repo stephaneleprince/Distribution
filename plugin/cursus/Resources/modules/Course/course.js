@@ -11,7 +11,7 @@ import angular from 'angular'
 
 import 'angular-bootstrap'
 import 'angular-bootstrap-colorpicker'
-import 'angular-ui-translation/angular-translation'
+import 'angular-ui-translation'
 
 import '#/main/core/services/module'
 import '#/main/core/asset/module'
