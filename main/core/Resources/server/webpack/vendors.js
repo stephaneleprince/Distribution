@@ -15,7 +15,6 @@ var libs =
     'angular-toArrayFilter',
     'angular-touch',
     'angular-ui-router',
-    'angular-ui-select',
     'angular-ui-tinymce',
     'angular-ui-translation',
     'angular-ui-pageslide',
@@ -74,6 +73,7 @@ libs['angular-dragula'] = [__dirname + '/externals/angular-dragula.js']
 libs['at-table'] = [__dirname + '/externals/at-table.js']
 libs['angular-gridster'] = [__dirname + '/externals/angular-gridster.js']
 libs['angular-data-table'] = [__dirname + '/externals/angular-data-table.js']
+libs['angular-ui-select'] = [__dirname + '/externals/angular-ui-select.js']
 libs['mjolnic-bootstrap-colorpicker'] = [__dirname + '/externals/mjolnic-bootstrap-colorpicker.js']
 libs['moment'] = [__dirname + '/externals/moment.js']
 libs['fullcalendar'] = [__dirname + '/externals/fullcalendar.js']
