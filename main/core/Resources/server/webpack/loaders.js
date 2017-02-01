@@ -4,18 +4,20 @@ const fs = require('fs')
 /**
  * Transpiles es6 and jsx files with babel.
  */
- const babel = () => {
-   return {
-     test: /\.jsx?$/,
-     exclude: /(node_modules|packages)/,
-     loader: 'babel',
-     query: {
-       cacheDirectory: true,
-       presets: ['es2015', 'react'],
-       plugins: ['transform-runtime']
-     }
-   }
- }
+const babel = instrument => {
+  return {
+    test: /\.jsx?$/,
+    exclude: /(node_modules|packages)/,
+    loader: 'babel',
+    query: {
+      cacheDirectory: true,
+      presets: ['es2015', 'react'],
+      plugins: instrument ?
+        ['transform-runtime', 'istanbul'] :
+        ['transform-runtime']
+    }
+  }
+}
 
 /**
  * Returns the contents of HTML files as plain strings.
@@ -198,6 +200,16 @@ const fs = require('fs')
    }
  }
 
+ /**
+  * Loads JSON files.
+  */
+ const json = () => {
+   return {
+     test: /\.json$/,
+     loader: 'json'
+   }
+ }
+
  module.exports = {
    babel,
    loadConfig,
@@ -217,5 +229,6 @@ const fs = require('fs')
    tinymceJquery,
    modernizr,
    angularImport,
-   dataTableNoAmd
+   dataTableNoAmd,
+   json
  }

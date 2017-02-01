@@ -23,7 +23,9 @@ module.exports = {
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
     plugins.extractExternals(),
-    plugins.namedModule()
+    plugins.namedModule(),
+    plugins.noCircularDependencies(),
+    ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {
     loaders: [
@@ -39,7 +41,8 @@ module.exports = {
       loaders.tinymceImport(),
       loaders.tinymceWrapper(),
       loaders.tinymceJquery(),
-      loaders.angularImport()
+      loaders.angularImport(),
+      loaders.json()
     ]
   },
   externals: shared.externals(),

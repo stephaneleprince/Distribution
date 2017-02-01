@@ -117,7 +117,9 @@
       "core-js": "core-js",
       "log-count-by-day-chart": "_js/Log/count-by-day-chart",
       "log-resource-by-type-chart": "_js/Log/resource-by-type-chart",
-      "log-view-user-list": "_js/Log/view-user-list"
+      "log-view-user-list": "_js/Log/view-user-list",
+      "core-js": "core-js",
+      "whatwg-fetch": "fetch-shim"
     }
   }
 }

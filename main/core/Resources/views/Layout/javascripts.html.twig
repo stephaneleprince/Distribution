@@ -11,6 +11,15 @@
 {{ jsmacros.getBootstrapJs() }}
 
 <script> load({{ chunks('claroline-distribution-main-core-tinymce-main')|raw }}) </script>
+{# SVG external reference polyfill for IE<13 #}
+{% javascripts debug=false filter='jsmin' output='vendor/svg4everybody/svg4everybody.js'
+    '../node_modules/svg4everybody/dist/svg4everybody.js'
+%}
+    <script src="{{ asset_url }}"></script>
+    <script>
+        svg4everybody();
+    </script>
+{% endjavascripts %}
 
 <script>
     if (window.sessionStorage.getItem('hide_brower_warning')) {

@@ -54,10 +54,9 @@ var clarolineTinymce = {
  * this is usefull when change manually something in the editor.
  *
  * @param editor A TinyMCE editor object.
- *
  */
-clarolineTinymce.editorChange = function(editor) {
-  setTimeout(function() {
+clarolineTinymce.editorChange = function (editor) {
+  setTimeout(function () {
     var container = $(editor.getContainer()).find('iframe').first()
     var height = container.contents().height()
     var max = 'autoresize_max_height'
@@ -85,11 +84,11 @@ clarolineTinymce.editorChange = function(editor) {
  *  @param args TinyMCE paste plugin arguments.
  *
  */
-clarolineTinymce.paste = function(plugin, args) {
+clarolineTinymce.paste = function (plugin, args) {
   if ($('#platform-configuration').attr('data-enable-opengraph') === '1') {
     var link = $('<div>' + args.content + '</div>').text().trim() // inside div because a bug of jquery
 
-    home.canGenerateContent(link, function(data) {
+    home.canGenerateContent(link, function (data) {
       tinymce.activeEditor.insertContent('<div>' + data + '</div>')
       clarolineTinymce.editorChange(tinymce.activeEditor)
     })
@@ -102,7 +101,7 @@ clarolineTinymce.paste = function(plugin, args) {
  * @return boolean.
  *
  */
-clarolineTinymce.checkBeforeUnload = function() {
+clarolineTinymce.checkBeforeUnload = function () {
   if (!clarolineTinymce.disableBeforeUnload) {
     for (var id in tinymce.editors) {
       if (tinymce.editors.hasOwnProperty(id) &&
@@ -124,7 +123,7 @@ clarolineTinymce.checkBeforeUnload = function() {
  * @param editor A TinyMCE editor object.
  *
  */
-clarolineTinymce.setBeforeUnloadActive = function(editor) {
+clarolineTinymce.setBeforeUnloadActive = function (editor) {
   if ($(editor.getElement()).data('before-unload') !== 'off') {
     editor.isBeforeUnloadActive = true
   } else {
@@ -138,7 +137,7 @@ clarolineTinymce.setBeforeUnloadActive = function(editor) {
  * @param editor A TinyMCE editor object.
  *
  */
-clarolineTinymce.toggleFullscreen = function(element) {
+clarolineTinymce.toggleFullscreen = function (element) {
   $(element).parents('.modal').first().toggleClass('fullscreen')
 }
 
@@ -148,8 +147,8 @@ clarolineTinymce.toggleFullscreen = function(element) {
  * @param editor A TinyMCE editor object.
  *
  */
-clarolineTinymce.setup = function(editor) {
-  editor.on('change', function() {
+clarolineTinymce.setup = function (editor) {
+  editor.on('change', function () {
     if (editor.getElement()) {
       editor.getElement().value = editor.getContent()
       if (editor.isBeforeUnloadActive) {
@@ -157,12 +156,12 @@ clarolineTinymce.setup = function(editor) {
         clarolineTinymce.disableBeforeUnload = false
       }
     }
-  }).on('LoadContent', function() {
+  }).on('LoadContent', function () {
     clarolineTinymce.editorChange(editor)
     clarolineTinymce.customInit(editor)
   })
 
-  editor.on('BeforeRenderUI', function() {
+  editor.on('BeforeRenderUI', function () {
     editor.theme.panel.find('toolbar').slice(1).hide()
   })
 
@@ -171,7 +170,7 @@ clarolineTinymce.setup = function(editor) {
     'icon': 'none fa fa-chevron-down',
     'classes': 'widget btn',
     'tooltip': translator.trans('tinymce_all_buttons', {}, 'platform'),
-    onclick: function() {
+    onclick: function () {
       if (!this.active()) {
         this.active(true)
         editor.theme.panel.find('toolbar').slice(1).show()
@@ -184,8 +183,8 @@ clarolineTinymce.setup = function(editor) {
 
   clarolineTinymce.setBeforeUnloadActive(editor)
 
-  $('body').bind('ajaxComplete', function() {
-    setTimeout(function() {
+  $('body').bind('ajaxComplete', function () {
+    setTimeout(function () {
       if (editor.getElement() && editor.getElement().value === '') {
         editor.setContent('')
       }
@@ -196,13 +195,13 @@ clarolineTinymce.setup = function(editor) {
 /**
  * Configuration and parameters of a TinyMCE editor.
  */
-clarolineTinymce.customInit = function(editor) {
-  $.each(clarolineTinymce.init, function(key, func) {
+clarolineTinymce.customInit = function (editor) {
+  $.each(clarolineTinymce.init, function (key, func) {
     func(editor)
   })
 }
 
-clarolineTinymce.getConfiguration = function() {
+clarolineTinymce.getConfiguration = function () {
   // Get theme to load inside tinymce in order to have no display differences
   var homeTheme = document.getElementById('homeTheme')
   var themeCSS = homeTheme.innerText || homeTheme.textContent
@@ -217,7 +216,8 @@ clarolineTinymce.getConfiguration = function() {
     'autoresize_max_height': 500,
     'content_css': [
       themeCSS,
-      home.asset + 'bundles/clarolinecore/css/common/tinymce.css'
+      home.asset + 'bundles/clarolinecore/css/common/tinymce.css',
+      home.asset + 'packages/font-awesome/css/font-awesome.min.css'
     ],
     'language_url': home.asset + 'dist/tinymce/langs/' + home.locale.trim() + '.js',
     //css is loaded via imports
@@ -237,7 +237,7 @@ clarolineTinymce.getConfiguration = function() {
   var toolbar1 = 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen displayAllButtons'
   const tinyPlugins = Configuration.getTinyMcePlugins()
 
-  $.each(tinyPlugins, function(key, value) {
+  $.each(tinyPlugins, function (key, value) {
     plugins.push(value.name)
     toolbar1 += ' ' + value.name
 
@@ -259,7 +259,7 @@ clarolineTinymce.getConfiguration = function() {
 /**
  * Initialization function for TinyMCE editors.
  */
-clarolineTinymce.initialization = function() {
+clarolineTinymce.initialization = function () {
   let config = clarolineTinymce.getConfiguration()
   config.paste_preprocess = clarolineTinymce.paste
   config.setup = clarolineTinymce.setup
