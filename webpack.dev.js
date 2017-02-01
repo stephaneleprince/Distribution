@@ -25,7 +25,6 @@ module.exports = {
     plugins.extractExternals(),
     plugins.namedModule(),
     plugins.noCircularDependencies(),
-    ...plugins.dllReferences(shared.dllManifests())
   ],
   module: {
     loaders: [

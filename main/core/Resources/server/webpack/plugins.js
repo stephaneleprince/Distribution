@@ -189,8 +189,6 @@ module.exports = {
   exitWithErrorCode,
   noCircularDependencies,
   rethrowCompilationErrors,
-  dllReferences,
-  dlls,
   configShortcut,
   clarolineConfiguration,
   occurrenceOrder,

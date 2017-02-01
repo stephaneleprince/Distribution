@@ -44,7 +44,7 @@ module.exports = {
       loaders.tinymceImport(),
       loaders.tinymceWrapper(),
       loaders.tinymceJquery(),
-      loaders.angularImport()
+      loaders.angularImport(),
       loaders.json()
     ]
   },
