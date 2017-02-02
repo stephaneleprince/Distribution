@@ -11,7 +11,10 @@ module.exports = {
     filename: '[name]-[hash].js'
   },
   resolve: {
-    root: paths.bower()
+    modules: [
+      paths.bower(),
+      "node_modules"
+    ]
   },
   plugins: [
       plugins.assetsInfoFile('webpack-vendors.json'),
@@ -19,7 +22,7 @@ module.exports = {
       plugins.copyTinymceLangs()
   ],
   module: {
-    loaders: [
+    rules: [
       loaders.jqueryUiNoAmd(),
       loaders.fullcalendarNoAmd(),
       loaders.datetimepickerNoAmd(),

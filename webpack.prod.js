@@ -32,7 +32,7 @@ module.exports = {
     plugins.occurrenceOrder()
   ],
   module: {
-    loaders: [
+    rules: [
       loaders.babel(),
       loaders.font(),
       loaders.rawHtml(),

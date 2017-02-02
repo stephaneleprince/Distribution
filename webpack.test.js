@@ -22,7 +22,7 @@ module.exports = {
     plugins.rethrowCompilationErrors()
   ],
   module: {
-    loaders: [
+    rules: [
       loaders.babel(true),
       loaders.rawHtml(),
       loaders.jqueryUiNoAmd(),

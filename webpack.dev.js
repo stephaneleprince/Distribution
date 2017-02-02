@@ -4,7 +4,6 @@ const shared = require('./main/core/Resources/server/webpack/shared')
 const plugins = require('./main/core/Resources/server/webpack/plugins')
 const loaders = require('./main/core/Resources/server/webpack/loaders')
 
-
 module.exports = {
   entry: entries.collectEntries('entry'),
   output: {
@@ -13,21 +12,24 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    root: paths.bower(),
+    modules: [
+      paths.bower(),
+      "node_modules"
+    ],
     alias: shared.aliases()
-},
+  },
   plugins: [
     plugins.assetsInfoFile(),
     plugins.bowerFileLookup(),
     plugins.distributionShortcut(),
     plugins.clarolineConfiguration(),
     plugins.configShortcut(),
-    plugins.extractExternals(),
+    //plugins.extractExternals(),
     plugins.namedModule(),
     plugins.noCircularDependencies(),
   ],
   module: {
-    loaders: [
+    rules: [
       loaders.jqueryUiNoAmd(),
       loaders.fullcalendarNoAmd(),
       loaders.css(),
@@ -44,7 +46,7 @@ module.exports = {
       loaders.json()
     ]
   },
-  externals: shared.externals(),
+  externals: {jquery: 'jQuery'},
   devtool: false,
   devServer: {
     headers: {
