@@ -153,6 +153,19 @@ class LogRepository extends EntityRepository
         )->getResult();
     }
 
+    public function findLastLoginDateByUser(User $user)
+    {
+        return $this
+            ->createQueryBuilder('log')
+            ->select('MAX(log.dateLog)')
+            ->andWhere('log.action = :action')
+            ->andWhere('log.doer = :user')
+            ->setParameter('action', 'user-login')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     //this method is never used and not up to date.
     public function findActionAfterDate(
         $action,

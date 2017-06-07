@@ -60,6 +60,7 @@ class UserController extends FOSRestController
     private $userRepo;
     private $roleRepo;
     private $groupRepo;
+    private $logRepo;
     private $profilePropertyManager;
     private $mailManager;
     private $apiManager;
@@ -127,6 +128,7 @@ class UserController extends FOSRestController
         $this->userRepo = $om->getRepository('ClarolineCoreBundle:User');
         $this->roleRepo = $om->getRepository('ClarolineCoreBundle:Role');
         $this->groupRepo = $om->getRepository('ClarolineCoreBundle:Group');
+        $this->logRepo = $om->getRepository('ClarolineCoreBundle:Log\Log');
         $this->profilePropertyManager = $profilePropertyManager;
         $this->mailManager = $mailManager;
         $this->apiManager = $apiManager;
@@ -271,6 +273,16 @@ class UserController extends FOSRestController
         $this->throwsExceptionIfNotAdmin();
 
         return $user;
+    }
+
+    /**
+     * @Get("/user/{user}/last_login", name="get_user_last_login", options={ "method_prefix" = false })
+     */
+    public function getUserLastLoginDateAction(User $user)
+    {
+        $this->throwsExceptionIfNotAdmin();
+
+        return $this->logRepo->findLastLoginDateByUser($user);
     }
 
     /**
