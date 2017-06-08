@@ -1,46 +1,57 @@
-export default function($stateProvider, $urlRouterProvider) {
-    const translate = function(key) {
-        return window.Translator.trans(key, {}, 'platform');
-    }
+import usersMainTemplate from './Partial/main.html'
+import groupsMainTemplate from './../groups/Partial/main.html'
+import usersContentTemplate from './Partial/user_content.html'
+import mergeTemplate from './Partial/users_merge.html'
 
-    $stateProvider
-        .state ('users', {
-            abstract: true,
-            url: '/users',
-            template: require('./Partial/main.html')
-        })
-        .state(
-            'users.list',
-            {
-                url: "",
-                ncyBreadcrumb: {
-                    label: translate('user_list')
-                },
-                views: {
-                    'users': {
-                        template: require('./Partial/user_content.html'),
-                        controller: 'UserController',
-                        controllerAs: 'uc'
-                    }
-                }
-            }
-        )
-        .state(
-            'users.groups',
-            {
-                abstract: true,
-                url: "/groups",
-                ncyBreadcrumb: {
-                    label: translate('group_list'),
-                    parent: 'users.list'
-                },
-                views: {
-                    'groups': {
-                        template: require('./../groups/Partial/main.html')
-                    }
-                }
-            }
-        )
+export default function ($stateProvider, $urlRouterProvider) {
+  const translate = function (key) {
+    return window.Translator.trans(key, {}, 'platform')
+  }
 
-    $urlRouterProvider.otherwise('/users');
+  $stateProvider
+    .state('users', {
+      abstract: true,
+      url: '/users',
+      template: usersMainTemplate,
+      controller: 'UserController',
+      controllerAs: 'uc'
+    })
+    .state('users.list', {
+      url: '',
+      ncyBreadcrumb: {
+        label: translate('user_list')
+      },
+      views: {
+        'users': {
+          template: usersContentTemplate
+        }
+      }
+    })
+    .state('users.groups', {
+      abstract: true,
+      url: '/groups',
+      ncyBreadcrumb: {
+        label: translate('group_list'),
+        parent: 'users.list'
+      },
+      views: {
+        'groups': {
+          template: groupsMainTemplate
+        }
+      }
+    })
+    .state('users.merge', {
+      url: '/merge',
+      ncyBreadcrumb: {
+        label: translate('users_merge'),
+        parent: 'users.list'
+      },
+      views: {
+        'merge': {
+          template: mergeTemplate
+        }
+      }
+    })
+
+  $urlRouterProvider.otherwise('/users')
 }

@@ -18,6 +18,7 @@ import Routing from './routing.js'
 import '../fos-js-router/module'
 import '../form/module'
 import '#/main/core/fos-js-router/module'
+import 'angular-datetime'
 
 angular.module('UsersManager', [
   'ClarolineSearch',
@@ -29,8 +30,9 @@ angular.module('UsersManager', [
   'ui.router',
   'GroupsManager',
   'FormBuilder',
-  'ncy-angular-breadcrumb'
-]) .controller('UserController', ['$http', 'ClarolineSearchService', 'ClarolineAPIService', '$uibModal', UserController])
+  'ncy-angular-breadcrumb',
+  'datetime'
+]) .controller('UserController', ['$http', 'ClarolineSearchService', 'ClarolineAPIService', '$uibModal', '$rootScope', '$state', UserController])
    .controller('RemoveByCsvModalController', RemoveByCsvModalController)
    .controller('UserInfoModalController', UserInfoModalController)
    .controller('ImportCsvFacetsController', ImportCsvFacetsController)
@@ -41,3 +43,4 @@ angular.module('UsersManager', [
        UserAPIService
      ])
    .config(Routing)
+  .filter('datetime', ['dateFilter', 'transFilter', (dateFilter, transFilter) => (text) => dateFilter(text, transFilter('date_range.format.with_hours.angular', {}, 'platform'))])

@@ -24,6 +24,7 @@ use Claroline\CoreBundle\Manager\FacetManager;
 use Claroline\CoreBundle\Manager\GroupManager;
 use Claroline\CoreBundle\Manager\LocaleManager;
 use Claroline\CoreBundle\Manager\MailManager;
+use Claroline\CoreBundle\Manager\PluginManager;
 use Claroline\CoreBundle\Manager\ProfilePropertyManager;
 use Claroline\CoreBundle\Manager\RoleManager;
 use Claroline\CoreBundle\Manager\UserManager;
@@ -65,6 +66,7 @@ class UserController extends FOSRestController
     private $mailManager;
     private $apiManager;
     private $facetManager;
+    private $pluginManager;
 
     /**
      * @DI\InjectParams({
@@ -81,7 +83,8 @@ class UserController extends FOSRestController
      *     "profilePropertyManager" = @DI\Inject("claroline.manager.profile_property_manager"),
      *     "mailManager"            = @DI\Inject("claroline.manager.mail_manager"),
      *     "apiManager"             = @DI\Inject("claroline.manager.api_manager"),
-     *     "workspaceManager"       = @DI\Inject("claroline.manager.workspace_manager")
+     *     "workspaceManager"       = @DI\Inject("claroline.manager.workspace_manager"),
+     *     "pluginManager"          = @DI\Inject("claroline.manager.plugin_manager"),
      * })
      *
      * @param AuthenticationManager  $authenticationManager
@@ -98,6 +101,7 @@ class UserController extends FOSRestController
      * @param MailManager            $mailManager
      * @param ApiManager             $apiManager
      * @param WorkspaceManager       $workspaceManager
+     * @param PluginManager          $pluginManager
      */
     public function __construct(
         AuthenticationManager $authenticationManager,
@@ -113,7 +117,8 @@ class UserController extends FOSRestController
         ProfilePropertyManager $profilePropertyManager,
         MailManager $mailManager,
         ApiManager $apiManager,
-        WorkspaceManager $workspaceManager
+        WorkspaceManager $workspaceManager,
+        PluginManager $pluginManager
     ) {
         $this->authenticationManager = $authenticationManager;
         $this->eventDispatcher = $eventDispatcher;
@@ -133,6 +138,7 @@ class UserController extends FOSRestController
         $this->mailManager = $mailManager;
         $this->apiManager = $apiManager;
         $this->facetManager = $facetManager;
+        $this->pluginManager = $pluginManager;
     }
 
     /**
@@ -276,13 +282,32 @@ class UserController extends FOSRestController
     }
 
     /**
-     * @Get("/user/{user}/last_login", name="get_user_last_login", options={ "method_prefix" = false })
+     * @Get("/user/{user}/additional_info", name="get_user_additional_info", options={ "method_prefix" = false })
      */
-    public function getUserLastLoginDateAction(User $user)
+    public function getUserAdditionalInfoAction(User $user)
     {
         $this->throwsExceptionIfNotAdmin();
 
-        return $this->logRepo->findLastLoginDateByUser($user);
+        $casUser = null;
+        if ($this->pluginManager->isLoaded('ClarolineCasBundle')) {
+            $casRepo = $this->om->getRepository('ClarolineCasBundle:CasUser');
+            $casUser = $casRepo->findByUser($user);
+        }
+
+        $last_login = $this->logRepo->findLastLoginDateByUser($user);
+
+        return [
+            'last_login' => $last_login ? $last_login : false,
+            'last_login_milliseconds' => $last_login ? strtotime($last_login) * 1000 : false,
+        ] + ($casUser !== null ? ['is_connected_to_cas' => $casUser ? true : false,] : []);
+    }
+
+    /**
+     * @Post("/user/merge", name="post_user_merge", options={ "method_prefix" = false })
+     */
+    public function postUserMergeAction(User $hold, User $remove)
+    {
+
     }
 
     /**

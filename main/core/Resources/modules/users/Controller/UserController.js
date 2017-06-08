@@ -10,7 +10,7 @@ import Configuration from '#/main/core/library/Configuration/Configuration'
 /* global Translator */
 
 export default class UserController {
-  constructor($http, ClarolineSearchService, ClarolineAPIService, $uibModal) {
+  constructor($http, ClarolineSearchService, ClarolineAPIService, $uibModal, $rootScope, $state) {
     this.ClarolineAPIService = ClarolineAPIService
     this.$http = $http
     this.ClarolineSearchService = ClarolineSearchService
@@ -26,6 +26,8 @@ export default class UserController {
     this.managedOrganizations = []
     this.$uibModal = $uibModal
     this.buttons = Configuration.getUsersAdministrationActions()
+    this.$rootScope = $rootScope
+    this.$state = $state
 
     const columns = [
       {
@@ -124,6 +126,29 @@ export default class UserController {
     this._initPwdCallback = this._initPwdCallback.bind(this)
     this._deleteCallback = this._deleteCallback.bind(this)
     this._updateRolesCallback = this._updateRolesCallback.bind(this)
+
+    // When navigating to merge panel, add details to selected accounts
+    this.$rootScope.$on('$stateChangeStart', (event, toState) => {
+      if (toState.name === 'users.merge') {
+        this.addUserDetails()
+      }
+    })
+  }
+
+  addUserDetails() {
+    this.$http.get(Routing.generate('api_get_user_workspaces', {'user': this.selected[0].id})).then(d => this.selected[0].workspaces = d.data)
+    this.$http.get(Routing.generate('api_get_user_additional_info', {'user': this.selected[0].id})).then(d => this.selected[0].additional_info = d.data)
+
+    this.$http.get(Routing.generate('api_get_user_workspaces', {'user': this.selected[1].id})).then(d => this.selected[1].workspaces = d.data)
+    this.$http.get(Routing.generate('api_get_user_additional_info', {'user': this.selected[1].id})).then(d => this.selected[1].additional_info = d.data)
+  }
+
+  merge(hold, remove) {
+    this.$http.get(Routing.generate('api_post_user_merge', {'hold': hold, 'remove': remove})).then(() => {})
+  }
+
+  key_exists(key, obj) {
+    return key in obj
   }
 
   translate(key, data = {}) {

@@ -8,6 +8,9 @@
             <ul class="dropdown-menu">
                 <li><a href="#" ng-click="uc.clickDelete()"> {{ 'delete'|trans:{}:'platform' }} </a></li>
                 <li><a href="#" ng-click="uc.initPassword()"> {{ 'reset_password'|trans:{}:'platform' }} </a></li>
+                <li ng-if="uc.selected.length === 2">
+                    <a ui-sref="users.merge"> {{ 'merge_accounts'|trans:{}:'platform' }} </a>
+                </li>
 
                 <li role="separator" class="divider"></li>
                 <li><a href="{{ 'claro_admin_user_creation_form'|path:{} }}"> {{ 'new'|trans:{}:'platform' }} </a></li>
@@ -36,7 +39,7 @@
                 <li ng-repeat="(key, role) in uc.roles" style="display: block; padding: 3px 20px; clear: both; white-space: nowrap;">
                     <input type="checkbox" checklist-model="uc.selectedRoles" checklist-value="role"> </input>
                     {{ role.translation_key|trans:{}:'platform' }}
-                <li>
+                </li>
             </ul>
             <button class="btn btn-primary" ng-click="uc.addRolesToSelection()"> {{ 'add_roles'|trans:{}:'platform' }}</button>
         </div>
