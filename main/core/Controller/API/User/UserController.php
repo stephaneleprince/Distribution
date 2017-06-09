@@ -26,6 +26,7 @@ use Claroline\CoreBundle\Manager\LocaleManager;
 use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\PluginManager;
 use Claroline\CoreBundle\Manager\ProfilePropertyManager;
+use Claroline\CoreBundle\Manager\ResourceNodeManager;
 use Claroline\CoreBundle\Manager\RoleManager;
 use Claroline\CoreBundle\Manager\UserManager;
 use Claroline\CoreBundle\Manager\WorkspaceManager;
@@ -41,6 +42,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -67,6 +69,8 @@ class UserController extends FOSRestController
     private $apiManager;
     private $facetManager;
     private $pluginManager;
+    private $resourceNodeManager;
+    private $tokenStorage;
 
     /**
      * @DI\InjectParams({
@@ -85,6 +89,8 @@ class UserController extends FOSRestController
      *     "apiManager"             = @DI\Inject("claroline.manager.api_manager"),
      *     "workspaceManager"       = @DI\Inject("claroline.manager.workspace_manager"),
      *     "pluginManager"          = @DI\Inject("claroline.manager.plugin_manager"),
+     *     "resourceNodeManager"    = @DI\Inject("claroline.manager.resource_node"),
+     *     "tokenStorage"           = @DI\Inject("security.token_storage")
      * })
      *
      * @param AuthenticationManager  $authenticationManager
@@ -102,6 +108,8 @@ class UserController extends FOSRestController
      * @param ApiManager             $apiManager
      * @param WorkspaceManager       $workspaceManager
      * @param PluginManager          $pluginManager
+     * @param ResourceNodeManager    $resourceNodeManager
+     * @param TokenStorageInterface  $tokenStorage
      */
     public function __construct(
         AuthenticationManager $authenticationManager,
@@ -118,7 +126,9 @@ class UserController extends FOSRestController
         MailManager $mailManager,
         ApiManager $apiManager,
         WorkspaceManager $workspaceManager,
-        PluginManager $pluginManager
+        PluginManager $pluginManager,
+        ResourceNodeManager $resourceNodeManager,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->authenticationManager = $authenticationManager;
         $this->eventDispatcher = $eventDispatcher;
@@ -139,6 +149,8 @@ class UserController extends FOSRestController
         $this->apiManager = $apiManager;
         $this->facetManager = $facetManager;
         $this->pluginManager = $pluginManager;
+        $this->resourceNodeManager = $resourceNodeManager;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -288,26 +300,40 @@ class UserController extends FOSRestController
     {
         $this->throwsExceptionIfNotAdmin();
 
-        $casUser = null;
+        $casData = [];
         if ($this->pluginManager->isLoaded('ClarolineCasBundle')) {
             $casRepo = $this->om->getRepository('ClarolineCasBundle:CasUser');
-            $casUser = $casRepo->findByUser($user);
+            $casUser = $casRepo->findOneByUser($user);
+
+            $casData['cas_id'] = $casUser ? $casUser->getCasId() : false;
         }
 
         $last_login = $this->logRepo->findLastLoginDateByUser($user);
 
+        // This data is processed by angular
         return [
+            'connected_user_id' => $this->tokenStorage->getToken()->getUser()->getId(),
             'last_login' => $last_login ? $last_login : false,
             'last_login_milliseconds' => $last_login ? strtotime($last_login) * 1000 : false,
-        ] + ($casUser !== null ? ['is_connected_to_cas' => $casUser ? true : false,] : []);
+        ] + $casData;
     }
 
     /**
-     * @Post("/user/merge", name="post_user_merge", options={ "method_prefix" = false })
+     * @Get("/users/merge/{keep}/{remove}", name="get_user_merge", options={ "method_prefix" = false })
      */
-    public function postUserMergeAction(User $hold, User $remove)
+    public function getUsersMergeAction(User $keep, User $remove)
     {
+        $this->throwsExceptionIfNotAdmin();
 
+        if ($remove->getId() === $this->tokenStorage->getToken()->getUser()->getId()) {
+            throw new AccessDeniedException('You can\'t merge your own account into another because you\'re currently using it.');
+        }
+
+        $this->userManager->mergeUsers($keep, $remove);
+        
+        return [
+            'done' => 'done',
+        ];
     }
 
     /**

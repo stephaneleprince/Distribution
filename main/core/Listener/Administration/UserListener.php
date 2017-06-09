@@ -70,4 +70,14 @@ class UserListener
         $event->setResponse($response);
         $event->stopPropagation();
     }
+
+    /**
+     * @DI\Observe("claroline_users_merge")
+     */
+    public function onMergeUsers(AdminUserActionEvent $event)
+    {
+        // Transfert des resource nodes
+        // Ajout des rôles
+        // Transfert des workspaces et des inscriptions aux workspaces
+    }
 }

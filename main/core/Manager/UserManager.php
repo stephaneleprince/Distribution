@@ -657,6 +657,29 @@ class UserManager
     }
 
     /**
+     * Merges two users and transfers every resource to the kept user.
+     * Optional bundles are notified through an event.
+     *
+     * @param User $user_to_keep
+     * @param User $user_to_remove
+     */
+    public function mergeUsers(User $user_to_keep, User $user_to_remove)
+    {
+        // Merging users requires to use several managers other than this one, delegate this work through an event
+        $this->strictEventDispatcher->dispatch('claroline_users_merge', 'AdminUserAction', [
+            'user_kept' => $user_to_keep,
+            'user_removed' => $user_to_remove
+        ]);
+        $this->strictEventDispatcher->dispatch('log', 'Log\LogUsersMerge', [
+            $user_to_keep,
+            $user_to_remove,
+            $this->tokenStorage->getToken()->getUser()
+        ]);
+
+        // remove user
+    }
+
+    /**
      * Creates the personal workspace of a user.
      *
      * @param \Claroline\CoreBundle\Entity\User $user

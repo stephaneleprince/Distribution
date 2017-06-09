@@ -143,12 +143,12 @@ export default class UserController {
     this.$http.get(Routing.generate('api_get_user_additional_info', {'user': this.selected[1].id})).then(d => this.selected[1].additional_info = d.data)
   }
 
-  merge(hold, remove) {
-    this.$http.get(Routing.generate('api_post_user_merge', {'hold': hold, 'remove': remove})).then(() => {})
+  merge(keep, remove) {
+    this.$http.get(Routing.generate('api_get_user_merge', {'keep': keep, 'remove': remove})).then(() => {})
   }
 
   key_exists(key, obj) {
-    return key in obj
+    return obj !== undefined && key in obj
   }
 
   translate(key, data = {}) {
