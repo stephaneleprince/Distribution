@@ -79,5 +79,9 @@ class UserListener
         // Transfert des resource nodes
         // Ajout des rôles
         // Transfert des workspaces et des inscriptions aux workspaces
+
+        $response = $this->httpKernel->handle($this->container->get('request'), HttpKernelInterface::SUB_REQUEST);
+        $event->setResponse($response);
+        $event->stopPropagation();
     }
 }

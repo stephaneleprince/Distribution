@@ -17,6 +17,7 @@ use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Event\StrictDispatcher;
 use Claroline\CoreBundle\Form\ProfileCreationType;
 use Claroline\CoreBundle\Form\ProfileType;
+use Claroline\CoreBundle\Library\Configuration\PlatformConfigurationHandler;
 use Claroline\CoreBundle\Library\Security\Collection\UserCollection;
 use Claroline\CoreBundle\Manager\ApiManager;
 use Claroline\CoreBundle\Manager\AuthenticationManager;
@@ -71,6 +72,7 @@ class UserController extends FOSRestController
     private $pluginManager;
     private $resourceNodeManager;
     private $tokenStorage;
+    private $platformConfigHandler;
 
     /**
      * @DI\InjectParams({
@@ -90,7 +92,8 @@ class UserController extends FOSRestController
      *     "workspaceManager"       = @DI\Inject("claroline.manager.workspace_manager"),
      *     "pluginManager"          = @DI\Inject("claroline.manager.plugin_manager"),
      *     "resourceNodeManager"    = @DI\Inject("claroline.manager.resource_node"),
-     *     "tokenStorage"           = @DI\Inject("security.token_storage")
+     *     "tokenStorage"           = @DI\Inject("security.token_storage"),
+     *     "platformConfigHandler"  = @DI\Inject("claroline.config.platform_config_handler")
      * })
      *
      * @param AuthenticationManager  $authenticationManager
@@ -110,6 +113,7 @@ class UserController extends FOSRestController
      * @param PluginManager          $pluginManager
      * @param ResourceNodeManager    $resourceNodeManager
      * @param TokenStorageInterface  $tokenStorage
+     * @param PlatformConfigHandler  $platformConfigHandler
      */
     public function __construct(
         AuthenticationManager $authenticationManager,
@@ -128,7 +132,8 @@ class UserController extends FOSRestController
         WorkspaceManager $workspaceManager,
         PluginManager $pluginManager,
         ResourceNodeManager $resourceNodeManager,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        PlatformConfigurationHandler $platformConfigHandler
     ) {
         $this->authenticationManager = $authenticationManager;
         $this->eventDispatcher = $eventDispatcher;
@@ -151,6 +156,7 @@ class UserController extends FOSRestController
         $this->pluginManager = $pluginManager;
         $this->resourceNodeManager = $resourceNodeManager;
         $this->tokenStorage = $tokenStorage;
+        $this->platformConfigHandler = $platformConfigHandler;
     }
 
     /**
@@ -315,6 +321,7 @@ class UserController extends FOSRestController
             'connected_user_id' => $this->tokenStorage->getToken()->getUser()->getId(),
             'last_login' => $last_login ? $last_login : false,
             'last_login_milliseconds' => $last_login ? strtotime($last_login) * 1000 : false,
+            'is_validated_mail_mandatory' => $this->platformConfigHandler->getParameter('registration_mail_validation') === 1 ? false : true,
         ] + $casData;
     }
 

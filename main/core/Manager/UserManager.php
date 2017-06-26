@@ -670,11 +670,7 @@ class UserManager
             'user_kept' => $user_to_keep,
             'user_removed' => $user_to_remove
         ]);
-        $this->strictEventDispatcher->dispatch('log', 'Log\LogUsersMerge', [
-            $user_to_keep,
-            $user_to_remove,
-            $this->tokenStorage->getToken()->getUser()
-        ]);
+
 
         // remove user
     }

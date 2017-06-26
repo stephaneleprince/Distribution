@@ -23,6 +23,7 @@ export default class UserController {
     this.selected = []
     this.alerts = []
     this.fields = []
+    this.hoveredAccount = null
     this.managedOrganizations = []
     this.$uibModal = $uibModal
     this.buttons = Configuration.getUsersAdministrationActions()
@@ -340,5 +341,13 @@ export default class UserController {
     this.$http.post(Routing.generate(route, {'user': user.id})).then(() => {
       user.personal_workspace ? delete user.personal_workspace : user.personal_workspace = true
     })
+  }
+  
+  getHoveredClass(index) {
+    if (this.hoveredAccount === null) {
+      return null
+    }
+    
+    return this.hoveredAccount === index ? 'account-keep' : 'account-remove'
   }
 }
