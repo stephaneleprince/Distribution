@@ -74,6 +74,38 @@ export class GraphicPlayer extends Component {
             absY: pointer.y
           }))}
         />
+        <div>
+        <img
+          src={this.props.item.image.data || asset(this.props.item.image.url)}
+          onRef={el => this.img = el}
+          onClick={this.onClickImage}
+          style={{width: 152, margin: "5px 5px 5px 0px"}}
+        />
+        <img
+          src={this.props.item.image.data || asset(this.props.item.image.url)}
+          onRef={el => this.img = el}
+          onClick={this.onClickImage}
+          style={{width: 152, margin: "5px 5px 5px 0px"}}
+        />
+        <img
+          src={this.props.item.image.data || asset(this.props.item.image.url)}
+          onRef={el => this.img = el}
+          onClick={this.onClickImage}
+          style={{width: 152, margin: "5px 5px 5px 0px"}}
+        />
+        <img
+          src={this.props.item.image.data || asset(this.props.item.image.url)}
+          onRef={el => this.img = el}
+          onClick={this.onClickImage}
+          style={{width: 152, margin: "5px 5px 5px 0px"}}
+        />
+        <img
+          src={this.props.item.image.data || asset(this.props.item.image.url)}
+          onRef={el => this.img = el}
+          onClick={this.onClickImage}
+          style={{width: 152, margin: "5px 5px 5px 0px"}}
+        />
+        </div>
       </div>
     )
   }

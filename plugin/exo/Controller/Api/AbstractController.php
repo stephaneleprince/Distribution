@@ -17,6 +17,8 @@ class AbstractController
     {
         $dataRaw = $request->getContent();
 
+        echo '<script>console.log(\'ok\')</script>';
+
         $data = null;
         if (!empty($dataRaw)) {
             $data = json_decode($dataRaw);

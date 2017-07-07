@@ -22,7 +22,8 @@ import {
   SET_AREA_COLOR,
   SET_SOLUTION_PROPERTY,
   RESIZE_AREA,
-  BLUR_AREAS
+  BLUR_AREAS,
+  SELECT_POINTER_MODE
 } from './actions'
 import {Graphic as component} from './editor.jsx'
 
@@ -38,6 +39,10 @@ function reduce(item = {}, action = {}) {
       return Object.assign({}, item, {
         _mode: action.mode,
         _popover: Object.assign({}, item._popover, {open: false})
+      })
+    case SELECT_POINTER_MODE:
+      return Object.assign({}, item, {
+        pointerMode: action.pointerMode
       })
     case SELECT_IMAGE:
       return Object.assign({}, item, {
