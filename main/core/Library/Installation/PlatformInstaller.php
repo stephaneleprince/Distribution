@@ -99,10 +99,24 @@ class PlatformInstaller
         $this->operationExecutor->execute($operations);
     }
 
+    public function updateAll($from, $to)
+    {
+        $operations = [];
+        $pluginManager = $this->container->get('claroline.manager.plugin_manager');
+        $bundles = $pluginManager->getInstalledBundles();
+
+        foreach ($bundles as $bundle) {
+            $operations[get_class($bundle['instance'])] = new Operation(Operation::UPDATE, $bundle['instance'], get_class($bundle['instance']));
+            $operations[get_class($bundle['instance'])]->setFromVersion($from);
+            $operations[get_class($bundle['instance'])]->setToVersion($to);
+        }
+
+        $this->operationExecutor->execute($operations);
+    }
+
     private function launchPreInstallActions()
     {
         $this->createDatabaseIfNotExists();
-        $this->createPublicSubDirectories();
     }
 
     private function createDatabaseIfNotExists()
@@ -118,7 +132,7 @@ class PlatformInstaller
             $this->log('Unable to connect to database: trying to create database...');
             $command = new CreateDatabaseDoctrineCommand();
             $command->setContainer($this->container);
-            $code = $command->run(new ArrayInput(array()), $this->output ?: new NullOutput());
+            $code = $command->run(new ArrayInput([]), $this->output ?: new NullOutput());
 
             if ($code !== 0) {
                 throw new \Exception(
@@ -127,23 +141,5 @@ class PlatformInstaller
                 );
             }
         }
-    }
-
-    private function createPublicSubDirectories()
-    {
-        $this->log('Creating public sub-directories...');
-        $directories = array(
-            $this->container->getParameter('claroline.param.thumbnails_directory'),
-            $this->container->getParameter('claroline.param.uploads_directory'),
-            $this->container->getParameter('claroline.param.uploads_directory').'/badges',
-            $this->container->getParameter('claroline.param.uploads_directory').'/logos',
-            $this->container->getParameter('claroline.param.uploads_directory').'/pictures',
-        );
-
-        foreach ($directories as $directory) {
-            if (!is_dir($directory)) {
-                mkdir($directory);
-            }
-        };
     }
 }

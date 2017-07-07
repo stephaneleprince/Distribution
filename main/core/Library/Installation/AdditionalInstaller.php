@@ -12,6 +12,7 @@
 namespace Claroline\CoreBundle\Library\Installation;
 
 use Claroline\InstallationBundle\Additional\AdditionalInstaller as BaseInstaller;
+use Psr\Log\LogLevel;
 use Symfony\Bundle\SecurityBundle\Command\InitAclCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -25,6 +26,29 @@ class AdditionalInstaller extends BaseInstaller
 
     public function preUpdate($currentVersion, $targetVersion)
     {
+        $dataWebDir = $this->container->getParameter('claroline.param.data_web_dir');
+        $fileSystem = $this->container->get('filesystem');
+        $publicFilesDir = $this->container->getParameter('claroline.param.public_files_directory');
+
+        if (!$fileSystem->exists($dataWebDir)) {
+            $this->log('Creating symlink to public directory of files directory in web directory...');
+            $fileSystem->symlink($publicFilesDir, $dataWebDir);
+        } else {
+            if (!is_link($dataWebDir)) {
+                //we could remove it manually but it might be risky
+                $this->log('Symlink from web/data to files/data could not be created, please remove your web/data folder manually', LogLevel::ERROR);
+            } else {
+                $this->log('Web folder symlinks validated...');
+            }
+        }
+
+        try {
+            $updater = new Updater\Updater100000($this->container);
+            $updater->moveUploadsDirectory();
+        } catch (\Exception $e) {
+            $this->log($e->getMessage(), LogLevel::ERROR);
+        }
+
         $maintenanceUpdater = new Updater\WebUpdater($this->container->getParameter('kernel.root_dir'));
         $maintenanceUpdater->preUpdate();
 
@@ -269,12 +293,16 @@ class AdditionalInstaller extends BaseInstaller
         $termsOfServiceManager = $this->container->get('claroline.common.terms_of_service_manager');
         $termsOfServiceManager->sendDatas();
 
-        $resourceIconsUpdater = new Updater\ResourceIconsUpdater($this->container);
-        $resourceIconsUpdater->setLogger($this->logger);
-        $resourceIconsUpdater->postUpdate();
-
         $docUpdater = new Updater\DocUpdater($this->container);
         $docUpdater->updateDocUrl('http://doc.claroline.com');
+    }
+
+    public function end()
+    {
+        $this->container->get('claroline.installation.refresher')->installAssets();
+        $this->log('Updating resource icons...');
+        $this->container->get('claroline.manager.icon_set_manager')->setLogger($this->logger);
+        $this->container->get('claroline.manager.icon_set_manager')->addDefaultIconSets();
     }
 
     private function setLocale()

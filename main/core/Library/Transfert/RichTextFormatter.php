@@ -532,8 +532,9 @@ class RichTextFormatter
      */
     public function generateDisplayedUrlForTinyMce(ResourceNode $node, $text, $embed, $style = null, $target = null)
     {
+        $cssStyle = isset($style) ? "style='".stripslashes($style)."'" : '';
+
         if (strpos('_'.$node->getMimeType(), 'image') > 0) {
-            $cssStyle = $style ? $style : 'max-width:100%;';
             $url = $this->router->generate(
                 'claro_file_get_media',
                 ['node' => $node->getId()],
@@ -542,7 +543,11 @@ class RichTextFormatter
 
             //embed images by default
             if (!isset($embed) || $embed) {
-                return "<img style='".$cssStyle."' src='".$url."' alt='".$node->getName()."'>";
+                if (empty($cssStyle)) {
+                    $cssStyle = "style='max-width:100%;'";
+                }
+
+                return '<img '.$cssStyle." src='".$url."' alt='".$node->getName()."'>";
             }
         }
 
@@ -558,9 +563,23 @@ class RichTextFormatter
             }
         }
 
+        if (strpos('_'.$node->getMimeType(), 'x-shockwave-flash') > 0) {
+            $url = $this->router->generate(
+                'claro_file_get_media',
+                ['node' => $node->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+            //embed flash by default
+            if (!isset($embed) || $embed) {
+                return '<object '.$cssStyle." type='".$node->getMimeType()."' data='".$url."'>".
+                            "<param name='allowFullScreen' value='true' />".
+                            "<param name='src' value='".$url."' />".
+                        '</object>';
+            }
+        }
+
         //hyperlink text, fallback to node name if none
         $link_text = isset($text) ? stripslashes($text) : $node->getName();
-        $cssStyle = isset($style) ? "style='".stripslashes($style)."'" : '';
         $targetProperty = isset($target) ? "target='".$target."'" : '';
 
         //no embed by default

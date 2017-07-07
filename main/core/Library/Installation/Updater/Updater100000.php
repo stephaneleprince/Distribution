@@ -13,8 +13,13 @@
 namespace Claroline\CoreBundle\Library\Installation\Updater;
 
 use Claroline\CoreBundle\DataFixtures\PostInstall\Data\PostLoadRolesData;
+use Claroline\CoreBundle\Entity\Plugin;
 use Claroline\InstallationBundle\Updater\Updater;
+use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 
 class Updater100000 extends Updater
 {
@@ -22,11 +27,12 @@ class Updater100000 extends Updater
     protected $logger;
     private $om;
 
-    public function __construct(ContainerInterface $container, $logger)
+    public function __construct(ContainerInterface $container, $logger = null)
     {
         $this->container = $container;
         $this->logger = $logger;
         $this->om = $container->get('claroline.persistence.object_manager');
+        $this->connection = $this->container->get('doctrine.dbal.default_connection');
     }
 
     public function postUpdate()
@@ -35,6 +41,7 @@ class Updater100000 extends Updater
         $this->setResourceNodeProperties();
         $this->rebuildMaskAndMenus();
         $this->enableWorkspaceList();
+        $this->moveUploadsDirectory();
     }
 
     public function enableWorkspaceList()
@@ -55,8 +62,8 @@ class Updater100000 extends Updater
             $plugin = new Plugin();
             $plugin->setBundleName('CoreBundle');
             $plugin->setVendorName('Claroline');
-            $this->persist($plugin);
-            $this->flush();
+            $this->om->persist($plugin);
+            $this->om->flush();
         } else {
             $this->log('CoreBundle already installed');
         }
@@ -66,34 +73,25 @@ class Updater100000 extends Updater
     {
         $entities = $this->om->getRepository('ClarolineCoreBundle:Resource\ResourceNode')->findAll();
         $totalObjects = count($entities);
-        $i = 0;
         $this->log("Adding properties for {$totalObjects} resource nodes...");
 
-        foreach ($entities as $entity) {
-            if ($entity->isFullscreen() === null) {
-                $entity->setFullscreen(false);
-            }
-            if (!$entity->isClosable() === null) {
-                $entity->setClosable(false);
-            }
-            if (!$entity->getCloseTarget() === null) {
-                $entity->setCloseTarget(0);
-            }
+        $this->connection->query('
+            UPDATE claro_resource_node crn
+            SET crn.fullscreen = false
+            WHERE crn.fullscreen is NULL'
+        )->execute();
 
-            ++$i;
+        $this->connection->query('
+            UPDATE claro_resource_node crn
+            SET crn.closable = false
+            WHERE crn.closable is NULL'
+        )->execute();
 
-            $this->om->persist($entity);
-
-            if ($i % 300 === 0) {
-                $this->log("Flushing [{$i}/{$totalObjects}]");
-                $this->om->flush();
-            }
-        }
-
-        $this->om->flush();
-        $this->log('Clearing object manager...');
-        $this->om->clear();
-        $this->log('done !');
+        $this->connection->query('
+            UPDATE claro_resource_node crn
+            SET crn.closeTarget = 0
+            WHERE crn.closeTarget is NULL'
+        )->execute();
     }
 
     public function rebuildMaskAndMenus()
@@ -115,5 +113,69 @@ class Updater100000 extends Updater
         $this->container->get('claroline.plugin.installer')->setLogger($this->logger);
         $this->container->get('claroline.plugin.installer')->updateAllConfigurations();
         $this->log('On older plateforms, resource permissions might have changed !');
+    }
+
+    public function moveUploadsDirectory()
+    {
+        try {
+            $this->saveLogos();
+        } catch (\Exception $e) {
+            $this->log($e->getMessage(), LogLevel::ERROR);
+        }
+        $this->log('Moving file storage directories...');
+        $toMove = ['uploads', 'themes'];
+
+        $fs = new FileSystem();
+
+        foreach ($toMove as $directory) {
+            if ($this->logger) {
+                $this->log('Moving '.$directory.'...');
+            }
+
+            try {
+                $fs->rename(
+                  $this->container->getParameter('claroline.param.web_dir').DIRECTORY_SEPARATOR.$directory,
+                  $this->container->getParameter('claroline.param.data_web_dir').DIRECTORY_SEPARATOR.$directory
+              );
+            } catch (IOException $e) {
+                if ($this->logger) {
+                    $this->log('Directory '.$this->container->getParameter('claroline.param.data_web_dir').DIRECTORY_SEPARATOR.$directory.' already exists...', LogLevel::ERROR);
+                }
+            }
+
+            $this->log('Removing '.$this->container->getParameter('claroline.param.web_dir').DIRECTORY_SEPARATOR.$directory.'...');
+            $fs->remove($this->container->getParameter('claroline.param.web_dir').DIRECTORY_SEPARATOR.$directory);
+
+            try {
+                $fs->symlink(
+                  $this->container->getParameter('claroline.param.data_web_dir').DIRECTORY_SEPARATOR.$directory,
+                  $this->container->getParameter('claroline.param.web_dir').DIRECTORY_SEPARATOR.$directory
+              );
+            } catch (IOException $e) {
+                if ($this->logger) {
+                    $this->log('Cannot build new symlinks...', LogLevel::ERROR);
+                    $this->log($e->getMessage(), LogLevel::ERROR);
+                }
+            }
+        }
+    }
+
+    private function saveLogos()
+    {
+        $logos = new \DirectoryIterator($this->container->getParameter('claroline.param.logos_directory'));
+        $logoService = $this->container->get('claroline.common.logo_service');
+        $ch = $this->container->get('claroline.config.platform_config_handler');
+
+        foreach ($logos as $logo) {
+            if ($logo->isFile()) {
+                $this->log('Saving logo '.$logo->getBasename().'...');
+                $file = new File($logo->getPathname());
+                $logoFile = $logoService->createLogo($file);
+
+                if ($logo->getBasename() === $ch->getParameter('logo')) {
+                    $ch->setParameter('logo', $logoFile->getPublicFile()->getUrl());
+                }
+            }
+        }
     }
 }

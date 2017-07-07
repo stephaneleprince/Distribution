@@ -91,7 +91,7 @@ class GroupManager
     {
         $this->eventDispatcher->dispatch(
             'claroline_groups_delete',
-            'GenericDatas',
+            'GenericData',
             [[$group]]
         );
 
@@ -422,6 +422,11 @@ class GroupManager
         }
 
         return true;
+    }
+
+    public function getGroupById($id)
+    {
+        return $this->groupRepo->findById($id);
     }
 
     public function getGroupByName($name, $executeQuery = true)

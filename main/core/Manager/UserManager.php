@@ -22,6 +22,7 @@ use Claroline\CoreBundle\Event\StrictDispatcher;
 use Claroline\CoreBundle\Library\Configuration\PlatformConfigurationHandler;
 use Claroline\CoreBundle\Library\Configuration\PlatformDefaults;
 use Claroline\CoreBundle\Library\Security\PlatformRoles;
+use Claroline\CoreBundle\Library\Utilities\FileUtilities;
 use Claroline\CoreBundle\Manager\Exception\AddRoleException;
 use Claroline\CoreBundle\Manager\Organization\OrganizationManager;
 use Claroline\CoreBundle\Pager\PagerFactory;
@@ -86,7 +87,8 @@ class UserManager
      *     "translator"             = @DI\Inject("translator"),
      *     "uploadsDirectory"       = @DI\Inject("%claroline.param.uploads_directory%"),
      *     "validator"              = @DI\Inject("validator"),
-     *     "workspaceManager"       = @DI\Inject("claroline.manager.workspace_manager")
+     *     "workspaceManager"       = @DI\Inject("claroline.manager.workspace_manager"),
+     *     "fu"                     = @DI\Inject("claroline.utilities.file")
      * })
      */
     public function __construct(
@@ -106,7 +108,8 @@ class UserManager
         TranslatorInterface $translator,
         $uploadsDirectory,
         ValidatorInterface $validator,
-        WorkspaceManager $workspaceManager
+        WorkspaceManager $workspaceManager,
+        FileUtilities $fu
     ) {
         $this->container = $container;
         $this->groupManager = $groupManager;
@@ -126,6 +129,7 @@ class UserManager
         $this->validator = $validator;
         $this->workspaceManager = $workspaceManager;
         $this->userRepo = $objectManager->getRepository('ClarolineCoreBundle:User');
+        $this->fu = $fu;
     }
 
     /**
@@ -360,7 +364,7 @@ class UserManager
         $this->objectManager->persist($user);
         $this->objectManager->flush();
 
-        $this->strictEventDispatcher->dispatch('claroline_users_delete', 'GenericDatas', [[$user]]);
+        $this->strictEventDispatcher->dispatch('claroline_users_delete', 'GenericData', [[$user]]);
         $this->strictEventDispatcher->dispatch('log', 'Log\LogUserDelete', [$user]);
         $this->strictEventDispatcher->dispatch('delete_user', 'DeleteUser', [$user]);
     }
@@ -421,13 +425,16 @@ class UserManager
         //I need to do that to import roles from models. Please don't ask why, I have no fucking idea.
         $this->objectManager->clear();
 
+        $roleUser = $this->roleManager->getRoleByName('ROLE_USER');
+        $this->objectManager->merge($roleUser);
+        $this->objectManager->persist($roleUser);
+
         foreach ($tmpRoles as $role) {
             if ($role) {
                 $additionalRoles[] = $this->objectManager->merge($role);
             }
         }
 
-        $roleUser = $this->roleManager->getRoleByName('ROLE_USER');
         $max = $roleUser->getMaxUsers();
         $total = $this->countUsersByRoleIncludingGroup($roleUser);
 
@@ -488,7 +495,8 @@ class UserManager
                 $organizationName = null;
             }
 
-            $hasPersonalWorkspace = isset($user[11]) ? (bool) $user[11] : false;
+            $hasPersonalWorkspace = (isset($user[11]) && !is_null($user[11]) && trim($user[11]) !== '') ?
+                (bool) $user[11] : null;
             $isMailValidated = isset($user[12]) ? (bool) $user[12] : false;
             $isMailNotified = isset($user[13]) ? (bool) $user[13] : $enableEmailNotifaction;
 
@@ -613,11 +621,13 @@ class UserManager
                 if ($logger) {
                     $logger(' [UOW size: '.$this->objectManager->getUnitOfWork()->size().']');
                 }
+
                 $this->objectManager->forceFlush();
 
                 if ($logger) {
                     $logger(' flushing users...');
                 }
+
                 $tmpRoles = $additionalRoles;
                 $this->objectManager->clear();
                 $additionalRoles = [];
@@ -675,12 +685,10 @@ class UserManager
         }
 
         $personalWorkspaceName = $this->translator->trans('personal_workspace', [], 'platform').' - '.$user->getUsername();
-
         $workspace = new Workspace();
         $workspace->setCode($code);
         $workspace->setName($personalWorkspaceName);
         $workspace->setCreator($user);
-
         $workspace = !$model ?
             $this->workspaceManager->copy($this->workspaceManager->getDefaultModel(true), $workspace) :
             $this->workspaceManager->copy($model, $workspace);
@@ -1137,19 +1145,14 @@ class UserManager
      */
     public function uploadAvatar(User $user)
     {
-        if (null !== $user->getPictureFile()) {
-            if (!is_writable($pictureDir = $this->uploadsDirectory.'/pictures/')) {
-                throw new \Exception("{$pictureDir} is not writable");
-            }
-
-            $user->setPicture(
-                sha1(
-                    $user->getPictureFile()->getClientOriginalName()
-                    .$user->getId())
-                    .'.'
-                    .$user->getPictureFile()->guessExtension()
-            );
-            $user->getPictureFile()->move($pictureDir, $user->getPicture());
+        if ($user->getPictureFile()) {
+            $file = $user->getPictureFile();
+            $publicFile = $this->fu->createFile($file, $file->getBasename());
+            $this->fu->createFileUse($publicFile, get_class($user), $user->getGuid());
+            //../.. for legacy compatibility
+            $user->setPicture('../../'.$publicFile->getUrl());
+            $this->objectManager->persist($user);
+            $this->objectManager->flush();
         }
     }
 
@@ -1325,6 +1328,11 @@ class UserManager
         );
     }
 
+    public function getUsersByUsernamesOrMails($usernames, $mails, $executeQuery = true)
+    {
+        return $this->userRepo->findUsersByUsernamesOrMails($usernames, $mails, $executeQuery);
+    }
+
     public function getUserByUsernameOrMailOrCode($username, $mail, $code)
     {
         if (empty($code) || !$this->platformConfigHandler->getParameter('is_user_admin_code_unique')) {
@@ -1359,23 +1367,17 @@ class UserManager
         $archive->extractTo($tmpDir);
         $iterator = new \DirectoryIterator($tmpDir);
 
-        foreach ($iterator as $file) {
-            if (!$file->isDot()) {
-                $fileName = basename($file->getPathName());
+        foreach ($iterator as $element) {
+            if (!$element->isDot()) {
+                $fileName = basename($element->getPathName());
                 $username = preg_replace("/\.[^.]+$/", '', $fileName);
                 $user = $this->getUserByUsername($username);
+                $file = new File($element->getPathName());
 
-                if (!is_writable($pictureDir = $this->uploadsDirectory.'/pictures/')) {
-                    throw new \Exception("{$pictureDir} is not writable");
-                }
-
-                $hash = sha1($user->getUsername()
-                    .'.'
-                    .pathinfo($fileName, PATHINFO_EXTENSION)
-                );
-
-                $user->setPicture($hash);
-                rename($file->getPathName(), $pictureDir.$user->getPicture());
+                $publicFile = $this->fu->createFile($file, $file->getBasename());
+                $this->fu->createFileUse($publicFile, get_class($user), $user->getGuid());
+                //../.. for legacy compatibility
+                $user->setPicture('../../'.$publicFile->getUrl());
                 $this->objectManager->persist($user);
             }
         }

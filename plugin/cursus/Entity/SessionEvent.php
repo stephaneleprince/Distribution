@@ -84,7 +84,7 @@ class SessionEvent
 
     /**
      * @ORM\Column(name="location_extra", type="text", nullable=true)
-     * @Groups({"api_cursus", "api_user_min"})
+     * @Groups({"api_cursus", "api_cursus_min", "api_user_min"})
      * @SerializedName("locationExtra")
      */
     protected $locationExtra;
@@ -155,6 +155,7 @@ class SessionEvent
      * )
      * @ORM\JoinColumn(name="event_set", nullable=true, onDelete="SET NULL")
      * @Groups({"api_user_min"})
+     * @SerializedName("eventSet")
      */
     protected $eventSet;
 

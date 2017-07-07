@@ -1,5 +1,7 @@
 import {connect} from 'react-redux'
-import React, {Component, PropTypes as T} from 'react'
+import React, {Component} from 'react'
+import {PropTypes as T} from 'prop-types'
+import moment from 'moment'
 import {trans, t} from '#/main/core/translation'
 import {makeModal} from '#/main/core/layout/modal'
 import {selectors} from '../selectors'
@@ -70,11 +72,18 @@ class ManagerView extends Component {
         props: {
           mode: 'creation',
           title: `${trans('session_event_creation', {}, 'cursus')}`,
-          updateEventForm: this.props.updateEventForm,
-          event: this.props.eventFormData,
+          event: {
+            id: null,
+            name: null,
+            description: null,
+            startDate: null,
+            endDate: null,
+            registrationType: 0,
+            maxUsers: null,
+            locationExtra: null
+          },
           session: this.props.session,
-          confirmAction: this.props.createSessionEvent,
-          resetFormData: this.props.resetEventForm
+          confirmAction: this.props.createSessionEvent
         },
         fading: false
       }
@@ -88,12 +97,39 @@ class ManagerView extends Component {
         urlModal: null,
         props: {
           mode: 'edition',
-          title: `${trans('session_event_edition', {}, 'cursus')}`,
-          updateEventForm: this.props.updateEventForm,
+          title: trans('session_event_edition', {}, 'cursus'),
           event: sessionEvent,
-          confirmAction: this.props.editSessionEvent,
-          resetFormData: this.props.resetEventForm,
-          loadFormData: this.props.loadEventForm
+          session: this.props.session,
+          confirmAction: this.props.editSessionEvent
+        },
+        fading: false
+      }
+    })
+  }
+
+  showEventRepeatForm(sessionEvent) {
+    this.setState({
+      modal: {
+        type: 'MODAL_EVENT_REPEAT_FORM',
+        urlModal: null,
+        props: {
+          title: trans('repeat_session_event', {}, 'cursus'),
+          event: sessionEvent,
+          repeatSessionEvent: this.props.repeatSessionEvent
+        },
+        fading: false
+      }
+    })
+  }
+
+  showEventCommentsManagement(sessionEvent) {
+    this.setState({
+      modal: {
+        type: 'MODAL_EVENT_COMMENTS',
+        urlModal: null,
+        props: {
+          title:trans('informations_management', {}, 'cursus'),
+          event: sessionEvent
         },
         fading: false
       }
@@ -102,6 +138,20 @@ class ManagerView extends Component {
 
   hideModal() {
     this.setState({modal: {fading: true, urlModal: null}})
+  }
+
+  showEventSetForm(eventSet) {
+    this.setState({
+      modal: {
+        type: 'MODAL_EVENT_SET_FORM',
+        urlModal: null,
+        props: {
+          title: trans('session_event_set_edition', {}, 'cursus'),
+          eventSet: eventSet
+        },
+        fading: false
+      }
+    })
   }
 
   render() {
@@ -118,14 +168,34 @@ class ManagerView extends Component {
                 label: t('name'),
                 renderer: (rowData) => <a href={`#event/${rowData.id}`}>{rowData.name}</a>
               },
-              {name: 'startDate', type: 'date', label: t('start_date')},
-              {name: 'endDate', type: 'date', label: t('end_date')},
+              {
+                name: 'startDate',
+                type: 'date',
+                label: t('start_date'),
+                renderer: (rowData) => moment(rowData.startDate).format('DD/MM/YYYY HH:mm')
+              },
+              {
+                name: 'endDate',
+                type: 'date',
+                label: t('end_date'),
+                renderer: (rowData) => moment(rowData.endDate).format('DD/MM/YYYY HH:mm')
+              },
               {name: 'maxUsers', type: 'number', label: trans('max_users', {}, 'cursus')},
               {
                 name: 'registrationType',
                 type: 'number',
                 label: t('registration'),
                 renderer: (rowData) => registrationTypes[rowData.registrationType]
+              },
+              {
+                name: 'eventSet',
+                type: 'string',
+                label: t('group'),
+                renderer: (rowData) => rowData.eventSet ?
+                  <a className="pointer-hand" onClick={() => this.showEventSetForm(rowData.eventSet)}>
+                    {rowData.eventSet['name']}
+                  </a> :
+                  ''
               }
             ]}
             actions={[
@@ -133,7 +203,18 @@ class ManagerView extends Component {
                 icon: 'fa fa-fw fa-edit',
                 label: t('edit'),
                 action: (row) => this.showEventEditionForm(row)
-              }, {
+              },
+              {
+                icon: 'fa fa-fw fa-info',
+                label: trans('informations_management', {}, 'cursus'),
+                action: (row) => this.showEventCommentsManagement(row)
+              },
+              {
+                icon: 'fa fa-fw fa-files-o',
+                label: trans('repeat_session_event', {}, 'cursus'),
+                action: (row) => this.showEventRepeatForm(row)
+              },
+              {
                 icon: 'fa fa-fw fa-trash-o',
                 label: t('delete'),
                 action: (row) => this.deleteSessionEvent(row),
@@ -157,9 +238,12 @@ class ManagerView extends Component {
               current: this.props.selected,
               toggle: this.props.toggleSelect,
               toggleAll: this.props.toggleSelectAll,
-              actions: [
-                {label: t('delete'), icon: 'fa fa-fw fa-trash-o', action: () => this.deleteSessionEvents(this.props.selected), isDangerous: true}
-              ]
+              actions: [{
+                label: t('delete'),
+                icon: 'fa fa-fw fa-trash-o',
+                action: () => this.deleteSessionEvents(this.props.selected),
+                isDangerous: true
+              }]
             }}
           />
           <br/>
@@ -196,16 +280,13 @@ ManagerView.propTypes = {
     registrationType: T.number.isRequired,
     maxUsers: T.number
   })).isRequired,
-  eventFormData: T.object.isRequired,
   session: T.object,
   total: T.number.isRequired,
   createSessionEvent: T.func.isRequired,
   editSessionEvent: T.func.isRequired,
   deleteSessionEvent: T.func.isRequired,
+  repeatSessionEvent: T.func.isRequired,
   deleteSessionEvents: T.func.isRequired,
-  resetEventForm: T.func.isRequired,
-  updateEventForm: T.func.isRequired,
-  loadEventForm: T.func.isRequired,
   createModal: T.func.isRequired,
   filters: T.array.isRequired,
   addListFilter: T.func.isRequired,
@@ -228,7 +309,6 @@ function mapStateToProps(state) {
     workspaceId: state.workspaceId,
     events: selectors.sessionEvents(state),
     total: selectors.sessionEventsTotal(state),
-    eventFormData: selectors.eventFormData(state),
     session: selectors.currentSession(state),
     selected: listSelect.selected(state),
     filters: listSelect.filters(state),
@@ -251,13 +331,13 @@ function mapDispatchToProps(dispatch) {
     deleteSessionEvent: (workspaceId, sessionEventId) => {
       dispatch(actions.deleteSessionEvent(workspaceId, sessionEventId))
     },
+    repeatSessionEvent: (sessionEventId, repeatEventData) => {
+      dispatch(actions.repeatSessionEvent(sessionEventId, repeatEventData))
+    },
     deleteSessionEvents: (workspaceId, sessionEvents) => {
       dispatch(actions.deleteSessionEvents(workspaceId, sessionEvents))
     },
     createModal: (type, props, fading, hideModal) => makeModal(type, props, fading, hideModal, hideModal),
-    resetEventForm: () => dispatch(actions.resetEventForm()),
-    updateEventForm: (property, value) => dispatch(actions.updateEventForm(property, value)),
-    loadEventForm: (event) => dispatch(actions.loadEventForm(event)),
     // search
     addListFilter: (property, value) => {
       dispatch(listActions.addFilter(property, value))

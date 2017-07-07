@@ -266,7 +266,7 @@ class WorkspaceManager
         }
         $this->dispatcher->dispatch(
             'claroline_workspaces_delete',
-            'GenericDatas',
+            'GenericData',
             [[$workspace]]
         );
         $this->om->remove($workspace);
@@ -1265,20 +1265,32 @@ class WorkspaceManager
     {
         $newWorkspace->setGuid(uniqid('', true));
         $this->createWorkspace($newWorkspace);
-        $user = $this->container->get('security.token_storage')->getToken() ?
-          $this->container->get('security.token_storage')->getToken()->getUser() :
-          $this->container->get('claroline.manager.user_manager')->getDefaultUser();
+        $token = $this->container->get('security.token_storage')->getToken();
+        $user = null;
 
+        if ($token && $token->getUser() !== 'anon.') {
+            $user = $workspace->getCreator() ?
+            $newWorkspace->getCreator() :
+            $this->container->get('security.token_storage')->getToken()->getUser();
+        }
+
+        //last fool proof check in case something weird happens
+        if (!$user) {
+            $user = $this->container->get('claroline.manager.user_manager')->getDefaultUser();
+        }
+
+        $this->om->startFlushSuite();
         $this->duplicateWorkspaceOptions($workspace, $newWorkspace);
         $this->duplicateWorkspaceRoles($workspace, $newWorkspace, $user);
         $this->duplicateOrderedTools($workspace, $newWorkspace);
         $baseRoot = $this->duplicateRoot($workspace, $newWorkspace, $user);
         $this->duplicateResources(
           $this->resourceManager->getWorkspaceRoot($workspace)->getChildren()->toArray(),
-          $this->getArrayRolesByWorkspace($workspace),
+          $this->getArrayRolesByWorkspace($newWorkspace),
           $user,
           $baseRoot
         );
+        $this->om->endFlushSuite();
 
         return $newWorkspace;
     }
@@ -1289,6 +1301,7 @@ class WorkspaceManager
         $rootDirectory = new Directory();
         $rootDirectory->setName($workspace->getName());
         $directoryType = $this->resourceManager->getResourceTypeByName('directory');
+
         $rootCopy = $this->resourceManager->create(
             $rootDirectory,
             $directoryType,
@@ -1299,7 +1312,7 @@ class WorkspaceManager
             []
         );
 
-        $workspaceRoles = $this->getArrayRolesByWorkspace($source);
+        $workspaceRoles = $this->getArrayRolesByWorkspace($workspace);
         $baseRoot = $this->resourceManager->getWorkspaceRoot($source);
 
         /*** Copies rights ***/
@@ -1330,7 +1343,6 @@ class WorkspaceManager
         $copies = [];
         $resourcesErrors = [];
         $this->log('Duplicating '.count($resourceNodes).' children...');
-
         foreach ($resourceNodes as $resourceNode) {
             try {
                 $this->log('Duplicating '.$resourceNode->getName().' from type '.$resourceNode->getResourceType()->getName().' into '.$rootNode->getName());
@@ -1343,6 +1355,12 @@ class WorkspaceManager
                 );
                 $copy->getResourceNode()->setIndex($resourceNode->getIndex());
                 $this->om->persist($copy->getResourceNode());
+                /*** Copies rights ***/
+                $this->duplicateRights(
+                    $resourceNode,
+                    $copy->getResourceNode(),
+                    $workspaceRoles
+                );
             } catch (NotPopulatedEventException $e) {
                 $resourcesErrors[] = [
                     'resourceName' => $resourceNode->getName(),
@@ -1352,14 +1370,6 @@ class WorkspaceManager
                 ];
                 continue;
             }
-
-            /*** Copies rights ***/
-
-          $this->duplicateRights(
-                $resourceNode,
-                $copy->getResourceNode(),
-                $workspaceRoles
-            );
         }
 
         /*** Sets previous and next for each copied resource ***/
@@ -1390,11 +1400,9 @@ class WorkspaceManager
         array $workspaceRoles
     ) {
         $rights = $resourceNode->getRights();
-        $workspace = $resourceNode->getWorkspace();
 
         foreach ($rights as $right) {
             $role = $right->getRole();
-            $this->log('Duplicating resource rights for '.$copy->getName().' - '.$role->getName().'...');
             $key = $role->getTranslationKey();
             $newRight = new ResourceRights();
             $newRight->setResourceNode($copy);
@@ -1402,10 +1410,12 @@ class WorkspaceManager
             $newRight->setCreatableResourceTypes(
                 $right->getCreatableResourceTypes()->toArray()
             );
-            if ($role->getWorkspace() === $workspace &&
+            if (
                 isset($workspaceRoles[$key]) &&
                 !empty($workspaceRoles[$key])) {
                 $newRight->setRole($workspaceRoles[$key]);
+
+                $this->log('Duplicating resource rights for '.$copy->getName().' - '.$role->getName().'...');
                 $this->om->persist($newRight);
             } else {
                 $newRight->setRole($role);
@@ -1435,6 +1445,7 @@ class WorkspaceManager
             $rights = $orderedTool->getRights();
             foreach ($rights as $right) {
                 $role = $right->getRole();
+
                 if ($role->getType() === 1) {
                     $this->container->get('claroline.manager.tool_rights_manager')->setToolRights(
                         $workspaceOrderedTool,
@@ -1468,15 +1479,18 @@ class WorkspaceManager
         $this->log('Duplicating roles...');
         $guid = $workspace->getGuid();
         $roles = $source->getRoles();
-        $unusedRolePartName = '_'.$source->getGuid();
         foreach ($roles as $role) {
+            $unusedRolePartName = '_'.$role->getWorkspace()->getGuid();
             $roleName = str_replace($unusedRolePartName, '', $role->getName());
+            $this->log('Duplicating '.$role->getName().' as '.$roleName.'_'.$guid);
             $createdRole = $this->roleManager->createWorkspaceRole(
                 $roleName.'_'.$guid,
                 $role->getTranslationKey(),
                 $workspace,
                 $role->isReadOnly()
             );
+
+            $this->om->persist($createdRole);
             if ($roleName === 'ROLE_WS_MANAGER') {
                 $user->addRole($createdRole);
                 $this->om->persist($user);
@@ -1518,6 +1532,7 @@ class WorkspaceManager
         $uow = $this->om->getUnitOfWork();
         $wRoles = $this->roleManager->getRolesByWorkspace($workspace);
         $scheduledForInsert = $uow->getScheduledEntityInsertions();
+
         foreach ($scheduledForInsert as $entity) {
             if (get_class($entity) === 'Claroline\CoreBundle\Entity\Role') {
                 if ($entity->getWorkspace()) {

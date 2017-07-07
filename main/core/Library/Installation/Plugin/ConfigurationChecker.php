@@ -11,7 +11,7 @@
 
 namespace Claroline\CoreBundle\Library\Installation\Plugin;
 
-use Claroline\CoreBundle\Library\PluginBundle;
+use Claroline\CoreBundle\Library\DistributionPluginBundle;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Config\Definition\Processor;
@@ -42,11 +42,11 @@ class ConfigurationChecker implements CheckerInterface
     /**
      * {@inheritdoc}
      *
-     * @param PluginBundle $plugin
+     * @param DistributionPluginBundle $plugin
      *
      * @todo Create dedicated repository methods to retrieve tool/type names
      */
-    public function check(PluginBundle $plugin, $updateMode = false)
+    public function check(DistributionPluginBundle $plugin, $updateMode = false)
     {
         if (!is_file($plugin->getConfigFile())) {
             $error = new ValidationError('config.yml file missing');
@@ -57,7 +57,13 @@ class ConfigurationChecker implements CheckerInterface
 
         $config = $this->yamlParser->parse(file_get_contents($plugin->getConfigFile()));
         $names = [];
-        $listResource = $this->em->getRepository('ClarolineCoreBundle:Resource\ResourceType')->findAll();
+
+        //required for update to claroline v10 because database not updated yet from older version
+        try {
+            $listResource = $this->em->getRepository('ClarolineCoreBundle:Resource\ResourceType')->findAll();
+        } catch (\Exception $e) {
+            $listResource = [];
+        }
 
         foreach ($listResource as $resource) {
             $names[] = $resource->getName();
@@ -74,7 +80,13 @@ class ConfigurationChecker implements CheckerInterface
         }
 
         $resourceActions = [];
-        $listResourceActions = $this->em->getRepository('ClarolineCoreBundle:Resource\MenuAction')->findBy(['resourceType' => null, 'isCustom' => true]);
+
+        //required for update to claroline v10 because database not updated yet from older version
+        try {
+            $listResourceActions = $this->em->getRepository('ClarolineCoreBundle:Resource\MenuAction')->findBy(['resourceType' => null, 'isCustom' => true]);
+        } catch (\Exception $e) {
+            $listResourceActions = [];
+        }
 
         foreach ($listResourceActions as $resourceAction) {
             $resourceActions[] = $resourceAction->getName();

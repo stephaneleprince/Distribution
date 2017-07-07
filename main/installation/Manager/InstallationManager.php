@@ -83,6 +83,8 @@ class InstallationManager
         }
 
         if ($insertPlugin) {
+            $this->container->get('claroline.manager.version_manager')->setLogger($this->logger);
+            $version = $this->container->get('claroline.manager.version_manager')->register($bundle);
             $validator = $this->container->get('claroline.plugin.validator');
             $installer = $this->container->get('claroline.plugin.installer');
             $dbWriter = $this->container->get('claroline.plugin.recorder_database_writer');
@@ -90,6 +92,7 @@ class InstallationManager
             $this->log('Parsing config.yml file for '.get_class($bundle).'...');
             $installer->validatePlugin($bundle);
             $dbWriter->insert($bundle, $validator->getPluginConfiguration());
+            $version = $this->container->get('claroline.manager.version_manager')->execute($version);
         }
 
         if ($fixturesDir = $bundle->getPostInstallFixturesDirectory($this->environment)) {
@@ -128,6 +131,18 @@ class InstallationManager
         if ($additionalInstaller) {
             $this->log('Launching post-update actions...');
             $additionalInstaller->postUpdate($currentVersion, $targetVersion);
+        }
+    }
+
+    //This function is fired at the end of a plugin installation/update.
+    //This is the stuff we do no matter what, at the very end.
+    //It allows us to override some stuff and it's just easier that way.
+    public function end(InstallableInterface $bundle)
+    {
+        $additionalInstaller = $this->getAdditionalInstaller($bundle);
+
+        if ($additionalInstaller) {
+            $additionalInstaller->end();
         }
     }
 

@@ -1,6 +1,8 @@
 /*global UserPicker*/
 import {connect} from 'react-redux'
-import React, {Component, PropTypes as T} from 'react'
+import React, {Component} from 'react'
+import {PropTypes as T} from 'prop-types'
+import moment from 'moment'
 import {trans, t} from '#/main/core/translation'
 import {makeModal} from '#/main/core/layout/modal'
 import {actions} from '../actions'
@@ -28,11 +30,23 @@ class EventView extends Component {
         props: {
           mode: 'edition',
           title: `${trans('session_event_edition', {}, 'cursus')}`,
-          updateEventForm: this.props.updateEventForm,
           event: sessionEvent,
-          confirmAction: this.props.editSessionEvent,
-          resetFormData: this.props.resetEventForm,
-          loadFormData: this.props.loadEventForm
+          session: this.props.session,
+          confirmAction: this.props.editSessionEvent
+        },
+        fading: false
+      }
+    })
+  }
+
+  showEventCommentsManagement(sessionEvent) {
+    this.setState({
+      modal: {
+        type: 'MODAL_EVENT_COMMENTS',
+        urlModal: null,
+        props: {
+          title: this.props.canEdit ? trans('informations_management', {}, 'cursus') : t('informations'),
+          event: sessionEvent
         },
         fading: false
       }
@@ -45,7 +59,6 @@ class EventView extends Component {
       picker_name: 'validators-picker',
       picker_title: trans('validators_selection', {}, 'cursus'),
       multiple: true,
-      //selected_users: this.getSelectedUsersIds(),
       forced_workspaces: [this.props.workspaceId],
       return_datas: true,
       blacklist: this.getParticipantsIds()
@@ -73,6 +86,10 @@ class EventView extends Component {
     this.props.deleteParticipants([id])
   }
 
+  acceptParticipant(id) {
+    this.props.acceptParticipant(id)
+  }
+
   hideModal() {
     this.setState({modal: {fading: true, urlModal: null}})
   }
@@ -81,27 +98,39 @@ class EventView extends Component {
     return (
       <div>
         <h3>{this.props.event.name}</h3>
-        {this.props.canEdit ?
-          <span className="pull-right">
-            <button className="btn btn-primary margin-right-sm"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title={trans('edit_session_event', {}, 'cursus')}
-                    onClick={() => this.showEventEditionForm(this.props.event)}
+        <span className="pull-right">
+          {this.props.canEdit &&
+            <button
+              className="btn btn-primary margin-right-sm"
+              data-toggle="tooltip"
+              data-placement="top"
+              title={trans('edit_session_event', {}, 'cursus')}
+              onClick={() => this.showEventEditionForm(this.props.event)}
             >
               <i className="fa fa-edit"></i>
             </button>
-            <button className="btn btn-primary margin-right-sm"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title={trans('register_participants', {}, 'cursus')}
-                    onClick={() => this.showParticipantsSelection()}
+          }
+          <button
+            className="btn btn-primary margin-right-sm"
+            data-toggle="tooltip"
+            data-placement="top"
+            title={this.props.canEdit ? trans('informations_management', {}, 'cursus') : t('informations')}
+            onClick={() => this.showEventCommentsManagement(this.props.event)}
+          >
+            <i className="fa fa-info"></i>
+          </button>
+          {this.props.canEdit &&
+            <button
+              className="btn btn-primary margin-right-sm"
+              data-toggle="tooltip"
+              data-placement="top"
+              title={trans('register_participants', {}, 'cursus')}
+              onClick={() => this.showParticipantsSelection()}
             >
-                <i className="fa fa-user-plus"></i>
+              <i className="fa fa-user-plus"></i>
             </button>
-          </span> :
-          ''
-        }
+          }
+        </span>
         <br/>
         <br/>
         {this.props.currentError &&
@@ -114,30 +143,32 @@ class EventView extends Component {
           <div className="panel panel-default">
             <div className="panel-heading" role="tab" id="description-heading">
               <h4 className="panel-title">
-                <a role="button"
-                   data-toggle="collapse"
-                   data-parent="#accordion"
-                   href="#description-collapse"
-                   aria-expanded="true"
-                   aria-controls="description-collapse"
+                <a
+                  role="button"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  href="#description-collapse"
+                  aria-expanded="true"
+                  aria-controls="description-collapse"
                 >
                   {trans('session_event_description', {}, 'cursus')}
                 </a>
               </h4>
             </div>
-            <div id="description-collapse"
-                 className="panel-collapse collapse in"
-                 role="tabpanel"
-                 aria-labelledby="description-heading"
+            <div
+              id="description-collapse"
+              className="panel-collapse collapse in"
+              role="tabpanel"
+              aria-labelledby="description-heading"
             >
               <div className="panel-body">
                 <b>{t('duration')} :</b>
                 &nbsp;
-                {this.props.event['startDate']}
+                {moment(this.props.event['startDate']).format('DD/MM/YYYY HH:mm')}
                 &nbsp;
                 <i className="fa fa-long-arrow-right"></i>
                 &nbsp;
-                {this.props.event['endDate']}
+                {moment(this.props.event['endDate']).format('DD/MM/YYYY HH:mm')}
                 <br/>
                 <b>{trans('max_users', {} ,'cursus')} :</b>
                 &nbsp;
@@ -157,6 +188,53 @@ class EventView extends Component {
                     {trans('no_description', {}, 'cursus')}
                   </div>
                 }
+                <hr/>
+                {this.props.event['location'] || this.props.event['locationExtra'] ?
+                  <div>
+                    <h4>{t('location')}</h4>
+                    {this.props.event['location'] &&
+                      <div>
+                        {this.props.event['location']['name']}
+                        <br/>
+                        {this.props.event['location']['street'] }, {this.props.event['location']['street_number'] }
+                        {this.props.event['location']['box_number'] &&
+                          <span> / {this.props.event['location']['box_number']}</span>
+                        }
+                        <br/>
+                        {this.props.event['location']['pc']} {this.props.event['location']['town']}
+                        <br/>
+                        {this.props.event['location']['country']}
+                        {this.props.event['location']['phone'] &&
+                          <span>
+                            <br/>
+                            {this.props.event['location']['phone']}
+                          </span>
+                        }
+                      </div>
+                    }
+                    <div dangerouslySetInnerHTML={{__html: this.props.event['locationExtra']}}>
+                    </div>
+                  </div> :
+                  <div className="alert alert-warning">
+                    {trans('no_location', {}, 'cursus')}
+                  </div>
+                }
+                <hr/>
+                {this.props.event['tutors'] && this.props.event['tutors'].length > 0 ?
+                  <div>
+                    <h4>{trans('tutors', {}, 'cursus')}</h4>
+                    <ul>
+                      {this.props.event['tutors'].map((tutor, index) =>
+                        <li key={index}>
+                          {tutor['firstName']} {tutor['lastName']}
+                        </li>
+                      )}
+                    </ul>
+                  </div> :
+                  <div className="alert alert-warning">
+                    {trans('no_tutor', {}, 'cursus')}
+                  </div>
+                }
               </div>
             </div>
           </div>
@@ -164,21 +242,23 @@ class EventView extends Component {
             <div className="panel panel-default">
               <div className="panel-heading" role="tab" id="participants-heading">
                 <h4 className="panel-title">
-                  <a role="button"
-                     data-toggle="collapse"
-                     data-parent="#accordion"
-                     href="#participants-collapse"
-                     aria-expanded="true"
-                     aria-controls="participants-collapse"
+                  <a
+                    role="button"
+                    data-toggle="collapse"
+                    data-parent="#accordion"
+                    href="#participants-collapse"
+                    aria-expanded="true"
+                    aria-controls="participants-collapse"
                   >
                     {trans('participants', {}, 'cursus')}
                   </a>
                 </h4>
               </div>
-              <div id="participants-collapse"
-                   className="panel-collapse collapse"
-                   role="tabpanel"
-                   aria-labelledby="participants-heading"
+              <div
+                id="participants-collapse"
+                className="panel-collapse collapse"
+                role="tabpanel"
+                aria-labelledby="participants-heading"
               >
                 <div className="panel-body">
                   {this.props.participants.length > 0 ?
@@ -210,6 +290,12 @@ class EventView extends Component {
                                 }
                               </td>
                               <td>
+                                {p.registrationStatus === 1 &&
+                                  <button className="btn btn-success btn-sm" onClick={() => this.acceptParticipant(p.id)}>
+                                    <i className="fa fa-check"></i>
+                                  </button>
+                                }
+                                &nbsp;
                                 <button className="btn btn-danger btn-sm" onClick={() => this.removeParticipant(p.id)}>
                                   <i className="fa fa-trash"></i>
                                 </button>
@@ -257,18 +343,20 @@ EventView.propTypes = {
     startDate: T.string,
     endDate: T.string,
     registrationType: T.number,
-    maxUsers: T.number
+    maxUsers: T.number,
+    location: T.object,
+    locationExtra: T.string,
+    tutors: T.array
   }).isRequired,
+  session: T.object,
   participants: T.array.isRequired,
-  canEdit: T.number.isRequired,
+  canEdit: T.bool.isRequired,
   currentError: T.string,
   resetCurrentSessionEvent: T.func.isRequired,
   editSessionEvent: T.func,
-  resetEventForm: T.func,
-  updateEventForm: T.func,
-  loadEventForm: T.func,
   registerParticipants: T.func,
   deleteParticipants: T.func,
+  acceptParticipant: T.func,
   resetCurrentError: T.func,
   createModal: T.func
 }
@@ -277,6 +365,7 @@ function mapStateToProps(state) {
   return {
     workspaceId: state.workspaceId,
     event: selectors.currentEvent(state),
+    session: selectors.currentSession(state),
     participants: selectors.currentParticipants(state),
     canEdit: selectors.canEdit(state),
     currentError: selectors.currentError(state)
@@ -291,11 +380,9 @@ function mapDispatchToProps(dispatch) {
     editSessionEvent: (eventId, eventData) => {
       dispatch(actions.editSessionEvent(eventId, eventData))
     },
-    resetEventForm: () => dispatch(actions.resetEventForm()),
-    updateEventForm: (property, value) => dispatch(actions.updateEventForm(property, value)),
-    loadEventForm: (event) => dispatch(actions.loadEventForm(event)),
     registerParticipants: (eventId, usersIds) => dispatch(actions.registerUsersToSessionEvent(eventId, usersIds)),
     deleteParticipants: (sessionEventUsersIds) => dispatch(actions.deleteSessionEventUsers(sessionEventUsersIds)),
+    acceptParticipant: (sessionEventUserId) => dispatch(actions.acceptSessionEventUser(sessionEventUserId)),
     resetCurrentError: () => dispatch(actions.resetCurrentError()),
     createModal: (type, props, fading, hideModal) => makeModal(type, props, fading, hideModal, hideModal)
   }
