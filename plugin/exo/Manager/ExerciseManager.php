@@ -107,7 +107,7 @@ class ExerciseManager
      * @throws ValidationException
      */
     public function update(Exercise $exercise, \stdClass $data)
-    {/*1424*/
+    {
         // Validate received data
         $errors = $this->validator->validate($data, [Validation::REQUIRE_SOLUTIONS]);
         if (count($errors) > 0) {
