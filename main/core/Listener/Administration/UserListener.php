@@ -12,10 +12,13 @@
 namespace Claroline\CoreBundle\Listener\Administration;
 
 use Claroline\CoreBundle\Entity\User;
+use Claroline\CoreBundle\Manager\ResourceNodeManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Claroline\CoreBundle\Event\AdminUserActionEvent;
+use Claroline\CoreBundle\Event\AdminUserMergeActionEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @DI\Service()
@@ -24,17 +27,20 @@ class UserListener
 {
     private $container;
     private $httpKernel;
+    private $resourceNodeManager;
 
     /**
      * @DI\InjectParams({
      *     "container"  = @DI\Inject("service_container"),
-     *     "httpKernel" = @DI\Inject("http_kernel")
+     *     "httpKernel" = @DI\Inject("http_kernel"),
+     *     "resourceNodeManager" = @DI\Inject("claroline.manager.resource_node")
      * })
      */
-    public function __construct(ContainerInterface $container, HttpKernelInterface $httpKernel)
+    public function __construct(ContainerInterface $container, HttpKernelInterface $httpKernel, ResourceNodeManager $resourceNodeManager)
     {
         $this->container = $container;
         $this->httpKernel = $httpKernel;
+        $this->resourceNodeManager = $resourceNodeManager;
     }
 
     /**
@@ -74,14 +80,19 @@ class UserListener
     /**
      * @DI\Observe("claroline_users_merge")
      */
-    public function onMergeUsers(AdminUserActionEvent $event)
+    public function onMergeUsers(AdminUserMergeActionEvent $event)
     {
-        // Transfert des resource nodes
-        // Ajout des rôles
+
+        // Replace creator of resource nodes
+        $this->resourceNodeManager->replaceCreator($event->getUserToRemove(), $event->getUserToKeep());
+
+        // Merge all roles onto user to keep
+
+
         // Transfert des workspaces et des inscriptions aux workspaces
 
-        $response = $this->httpKernel->handle($this->container->get('request'), HttpKernelInterface::SUB_REQUEST);
-        $event->setResponse($response);
-        $event->stopPropagation();
+        $event->addReactingBundle('CoreBundle');
+
+
     }
 }

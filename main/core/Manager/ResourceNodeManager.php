@@ -5,6 +5,8 @@ namespace Claroline\CoreBundle\Manager;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Library\Security\Collection\ResourceCollection;
+use Claroline\CoreBundle\Persistence\ObjectManager;
+use Claroline\CoreBundle\Repository\ResourceNodeRepository;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -19,17 +21,30 @@ class ResourceNodeManager
     private $authorization;
 
     /**
+     * @var ObjectManager
+     */
+    private $om;
+
+    /**
+     * @var ResourceNodeRepository
+     */
+    private $repo;
+
+    /**
      * ResourceNodeManager constructor.
      *
      * @DI\InjectParams({
-     *     "authorization" = @DI\Inject("security.authorization_checker")
+     *     "authorization" = @DI\Inject("security.authorization_checker"),
+     *     "om"            = @DI\Inject("claroline.persistence.object_manager")
      * })
      *
      * @param AuthorizationCheckerInterface $authorization
      */
-    public function __construct(AuthorizationCheckerInterface $authorization)
+    public function __construct(AuthorizationCheckerInterface $authorization, ObjectManager $om)
     {
         $this->authorization = $authorization;
+        $this->om = $om;
+        $this->repo = $om->getRepository('ClarolineCoreBundle:Resource\ResourceNode');
     }
 
     /**
@@ -112,6 +127,17 @@ class ResourceNodeManager
             [];
 
         $this->dispatcher->dispatch('log', 'Log\LogResourcePublish', [$resourceNode, $usersToNotify]);
+
+        $this->om->flush();
+    }
+
+    public function replaceCreator(User $from, User $to)
+    {
+        $posts = $this->repo->findByCreator($from);
+
+        foreach($posts as $post) {
+            $post->setCreator($to);
+        }
 
         $this->om->flush();
     }

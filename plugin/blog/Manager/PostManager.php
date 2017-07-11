@@ -122,4 +122,16 @@ class PostManager
             'posts' => $posts,
         ];
     }
+
+    public function replaceAuthor(User $from, User $to)
+    {
+        $posts = $this->repo->findByAuthor($from);
+
+        foreach($posts as $post) {
+            $post->setAuthor($to);
+        }
+
+        $this->om->flush();
+
+    }
 }

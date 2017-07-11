@@ -336,11 +336,7 @@ class UserController extends FOSRestController
             throw new AccessDeniedException('You can\'t merge your own account into another because you\'re currently using it.');
         }
 
-        $this->userManager->mergeUsers($keep, $remove);
-        
-        return [
-            'done' => 'done',
-        ];
+        return $this->userManager->mergeUsers($keep, $remove);
     }
 
     /**

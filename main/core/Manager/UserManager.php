@@ -324,7 +324,7 @@ class UserManager
      *
      * @param \Claroline\CoreBundle\Entity\User $user
      */
-    public function deleteUser(User $user)
+    public function deleteUser(User $user, $deleteAfterMerge = false)
     {
         $this->log('Removing '.$user->getUsername().'...');
         /* When the api will identify a user, please uncomment this
@@ -361,8 +361,10 @@ class UserManager
         $this->objectManager->persist($user);
         $this->objectManager->flush();
 
+        if ($deleteAfterMerge) {
+            $this->strictEventDispatcher->dispatch('log', 'Log\LogUserDelete', [$user]);
+        }
         $this->strictEventDispatcher->dispatch('claroline_users_delete', 'GenericDatas', [[$user]]);
-        $this->strictEventDispatcher->dispatch('log', 'Log\LogUserDelete', [$user]);
         $this->strictEventDispatcher->dispatch('delete_user', 'DeleteUser', [$user]);
     }
 
@@ -660,19 +662,30 @@ class UserManager
      * Merges two users and transfers every resource to the kept user.
      * Optional bundles are notified through an event.
      *
-     * @param User $user_to_keep
-     * @param User $user_to_remove
+     * @param User $userToKeep
+     * @param User $userToRemove
      */
-    public function mergeUsers(User $user_to_keep, User $user_to_remove)
+    public function mergeUsers(User $userToKeep, User $userToRemove)
     {
         // Merging users requires to use several managers other than this one, delegate this work through an event
-        $this->strictEventDispatcher->dispatch('claroline_users_merge', 'AdminUserAction', [
-            'user_kept' => $user_to_keep,
-            'user_removed' => $user_to_remove
+        $event = $this->strictEventDispatcher->dispatch('claroline_users_merge', 'AdminUserMergeAction', [
+            'userToKeep' => $userToKeep,
+            'userToRemove' => $userToRemove
         ]);
 
+        // TODO: improve roles
+        $roles = $userToRemove->getEntityRoles();
 
-        // remove user
+        foreach($roles as $role) {
+            $userToKeep->addRole($role);
+        }
+
+        $this->objectManager->flush();
+
+        // Delete user
+        $this->deleteUser($userToRemove);
+
+        return $event->getReactingBundles();
     }
 
     /**

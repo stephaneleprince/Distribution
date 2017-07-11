@@ -13,9 +13,11 @@ namespace Icap\BlogBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Icap\BlogBundle\Entity\Post;
+use Icap\BlogBundle\Manager\PostManager;
 use Icap\NotificationBundle\Entity\UserPickerContent;
 use JMS\DiExtraBundle\Annotation as DI;
 use Icap\NotificationBundle\Manager\NotificationManager as NotificationManager;
+use Claroline\CoreBundle\Event\AdminUserMergeActionEvent;
 
 /**
  * @DI\Service("icap.blog_bundle.entity_listener.post")
@@ -26,14 +28,19 @@ class PostListener
     /** @var  \Icap\NotificationBundle\Manager\NotificationManager */
     private $notificationManager;
 
+    /** @var PostManager */
+    private $postManager;
+
     /**
      * @DI\InjectParams({
      * "notificationManager" = @DI\Inject("icap.notification.manager"),
+     * "postManager" = @DI\Inject("icap.blog.manager.post")
      * })
      */
-    public function __construct(NotificationManager $notificationManager)
+    public function __construct(NotificationManager $notificationManager, PostManager $postManager)
     {
         $this->notificationManager = $notificationManager;
+        $this->postManager = $postManager;
     }
 
     public function postPersist(Post $post, LifecycleEventArgs $event)
@@ -73,7 +80,7 @@ class PostListener
 
     public function prePersist(Post $post, LifecycleEventArgs $event)
     {
-        if ($post->getContent() != null) {
+        if ($post->getContent() !== null) {
             $userPicker = new UserPickerContent($post->getContent());
             $post->setUserPicker($userPicker);
             $post->setContent($userPicker->getFinalText());
@@ -88,5 +95,17 @@ class PostListener
     public function postUpdate(Post $post, LifecycleEventArgs $event)
     {
         $this->postPersist($post, $event);
+    }
+
+    /**
+     * @DI\Observe("claroline_users_merge")
+     */
+    public function onMergeUsers(AdminUserMergeActionEvent $event)
+    {
+        // Replace post author
+        $this->postManager->replaceAuthor($event->getUserToRemove(), $event->getUserToKeep());
+
+        // TODO: place message in event
+        $event->addReactingBundle('BlogBundle');
     }
 }
