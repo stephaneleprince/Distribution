@@ -86,12 +86,11 @@ class UserListener
         // Replace creator of resource nodes
         $this->resourceNodeManager->replaceCreator($event->getUserToRemove(), $event->getUserToKeep());
 
-        // Merge all roles onto user to keep
+        //TODO: Merge all roles onto user to keep
 
+        //TOSO: Transfert des workspaces et des inscriptions aux workspaces
 
-        // Transfert des workspaces et des inscriptions aux workspaces
-
-        $event->addReactingBundle('CoreBundle');
+        $event->addMessage('[CoreBundle]');
 
 
     }

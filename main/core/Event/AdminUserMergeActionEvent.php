@@ -17,8 +17,7 @@ use Symfony\Component\EventDispatcher\Event;
 class AdminUserMergeActionEvent extends Event implements MandatoryEventInterface, DataConveyorEventInterface
 {
     private $isPopulated;
-
-    private $reactingBundles = [];
+    private $messages = [];
 
     private $userToKeep;
     private $userToRemove;
@@ -41,17 +40,17 @@ class AdminUserMergeActionEvent extends Event implements MandatoryEventInterface
         return $this->userToRemove;
     }
 
-    public function addReactingBundle($bundleName)
+    public function addMessage($message)
     {
-        $this->reactingBundles[] = $bundleName;
+        $this->messages[] = $message;
         $this->isPopulated = true;
 
         return $this;
     }
 
-    public function getReactingBundles()
+    public function getMessages()
     {
-        return $this->reactingBundles;
+        return $this->messages;
     }
 
     public function isPopulated()

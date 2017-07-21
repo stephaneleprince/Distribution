@@ -11,13 +11,13 @@
 
 namespace Icap\BlogBundle\Listener;
 
+use Claroline\CoreBundle\Event\AdminUserMergeActionEvent;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Icap\BlogBundle\Entity\Post;
 use Icap\BlogBundle\Manager\PostManager;
 use Icap\NotificationBundle\Entity\UserPickerContent;
-use JMS\DiExtraBundle\Annotation as DI;
 use Icap\NotificationBundle\Manager\NotificationManager as NotificationManager;
-use Claroline\CoreBundle\Event\AdminUserMergeActionEvent;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @DI\Service("icap.blog_bundle.entity_listener.post")
@@ -103,9 +103,9 @@ class PostListener
     public function onMergeUsers(AdminUserMergeActionEvent $event)
     {
         // Replace post author
-        $this->postManager->replaceAuthor($event->getUserToRemove(), $event->getUserToKeep());
+        $count = $this->postManager->replaceAuthor($event->getUserToRemove(), $event->getUserToKeep());
 
-        // TODO: place message in event
-        $event->addReactingBundle('BlogBundle');
+        // TODO: place message in event (which message ?)
+        $event->addMessage('[BlogBundle] # posts updated: ' . $count);
     }
 }

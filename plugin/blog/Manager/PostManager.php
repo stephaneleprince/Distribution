@@ -133,5 +133,6 @@ class PostManager
 
         $this->om->flush();
 
+        return count($posts);
     }
 }

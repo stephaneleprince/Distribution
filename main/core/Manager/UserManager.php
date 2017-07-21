@@ -685,7 +685,7 @@ class UserManager
         // Delete user
         $this->deleteUser($userToRemove);
 
-        return $event->getReactingBundles();
+        return $event->getMessages();
     }
 
     /**

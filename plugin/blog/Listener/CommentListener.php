@@ -11,11 +11,13 @@
 
 namespace Icap\BlogBundle\Listener;
 
+use Claroline\CoreBundle\Event\AdminUserMergeActionEvent;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Icap\BlogBundle\Entity\Comment;
+use Icap\BlogBundle\Manager\CommentManager;
 use Icap\NotificationBundle\Entity\UserPickerContent;
-use JMS\DiExtraBundle\Annotation as DI;
 use Icap\NotificationBundle\Manager\NotificationManager as NotificationManager;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @DI\Service("icap.blog_bundle.entity_listener.comment")
@@ -26,14 +28,19 @@ class CommentListener
     /** @var  \Icap\NotificationBundle\Manager\NotificationManager */
     private $notificationManager;
 
+    /** @var  \Icap\BlogBundle\Manager\CommentManager */
+    private $commentManager;
+
     /**
      * @DI\InjectParams({
-     * "notificationManager" = @DI\Inject("icap.notification.manager"),
+     *     "notificationManager" = @DI\Inject("icap.notification.manager"),
+     *     "commentManager" = @DI\Inject("icap.blog.manager.comment")
      * })
      */
-    public function __construct(NotificationManager $notificationManager)
+    public function __construct(NotificationManager $notificationManager, CommentManager $commentManager)
     {
         $this->notificationManager = $notificationManager;
+        $this->commentManager = $commentManager;
     }
 
     public function postPersist(Comment $comment, LifecycleEventArgs $event)
@@ -79,7 +86,7 @@ class CommentListener
 
     public function prePersist(Comment $comment, LifecycleEventArgs $event)
     {
-        if ($comment->getMessage() != null) {
+        if ($comment->getMessage() !== null) {
             $userPicker = new UserPickerContent($comment->getMessage());
             $comment->setUserPicker($userPicker);
             $comment->setMessage($userPicker->getFinalText());
@@ -94,5 +101,17 @@ class CommentListener
     public function postUpdate(Comment $comment, LifecycleEventArgs $event)
     {
         $this->postPersist($comment, $event);
+    }
+
+    /**
+     * @DI\Observe("claroline_users_merge")
+     */
+    public function onMergeUsers(AdminUserMergeActionEvent $event)
+    {
+        // Replace comment author
+        $count = $this->commentManager->replaceAuthor($event->getUserToRemove(), $event->getUserToKeep());
+
+        // TODO: place message in event (which message ?)
+        $event->addMessage('[BlogBundle] # comments updated: ' . $count);
     }
 }

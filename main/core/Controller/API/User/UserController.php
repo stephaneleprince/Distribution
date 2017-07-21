@@ -333,6 +333,7 @@ class UserController extends FOSRestController
         $this->throwsExceptionIfNotAdmin();
 
         if ($remove->getId() === $this->tokenStorage->getToken()->getUser()->getId()) {
+            //TODO: use translator
             throw new AccessDeniedException('You can\'t merge your own account into another because you\'re currently using it.');
         }
 

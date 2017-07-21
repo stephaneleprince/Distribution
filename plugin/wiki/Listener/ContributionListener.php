@@ -11,10 +11,12 @@
 
 namespace Icap\WikiBundle\Listener;
 
+use Claroline\CoreBundle\Event\AdminUserMergeActionEvent;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Icap\WikiBundle\Entity\Contribution;
-use JMS\DiExtraBundle\Annotation as DI;
 use Icap\NotificationBundle\Manager\NotificationManager as NotificationManager;
+use Icap\WikiBundle\Entity\Contribution;
+use Icap\WikiBundle\Manager\ContributionManager;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @DI\Service("icap.wiki_bundle.entity_listener.contribution")
@@ -25,14 +27,19 @@ class ContributionListener
     /** @var  \Icap\NotificationBundle\Manager\NotificationManager */
     private $notificationManager;
 
+    /** @var  ContributionManager */
+    private $contributionManager;
+
     /**
      * @DI\InjectParams({
-     * "notificationManager" = @DI\Inject("icap.notification.manager"),
+     *     "notificationManager" = @DI\Inject("icap.notification.manager"),
+     *     "contributionManager" = @DI\Inject("icap.wiki.contribution_manager")
      * })
      */
-    public function __construct(NotificationManager $notificationManager)
+    public function __construct(NotificationManager $notificationManager, ContributionManager $contributionManager)
     {
         $this->notificationManager = $notificationManager;
+        $this->contributionManager = $contributionManager;
     }
 
     public function postPersist(Contribution $contribution, LifecycleEventArgs $event)
@@ -71,5 +78,17 @@ class ContributionListener
             );
             $this->notificationManager->notifyUsers($notification, $userPicker->getUserIds());
         }
+    }
+
+    /**
+     * @DI\Observe("claroline_users_merge")
+     */
+    public function onMergeUsers(AdminUserMergeActionEvent $event)
+    {
+        // Replace contribution author
+        $count = $this->contributionManager->replaceContributor($event->getUserToRemove(), $event->getUserToKeep());
+
+        // TODO: place message in event
+        $event->addMessage('[WikiBundle] # contributions updated: ' . $count);
     }
 }

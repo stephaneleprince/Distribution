@@ -2,6 +2,7 @@
 
 namespace Icap\WikiBundle\Manager;
 
+use Claroline\CoreBundle\Persistence\ObjectManager;
 use Icap\HtmlDiff\HtmlDiff;
 use Icap\WikiBundle\Entity\Contribution;
 use Icap\WikiBundle\Entity\Section;
@@ -13,16 +14,23 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class ContributionManager
 {
+    /**
+     * @var ObjectManager
+     */
+    protected $om;
+
     /** @var \Icap\WikiBundle\Repository\ContributionRepository */
     protected $contributionRepository;
 
     /**
      * @DI\InjectParams({
+     *     "om" = @DI\Inject("claroline.persistence.object_manager"),
      *     "contributionRepository" = @DI\Inject("icap.wiki.contribution_repository")
      * })
      */
-    public function __construct(ContributionRepository $contributionRepository)
+    public function __construct(ObjectManager $om, ContributionRepository $contributionRepository)
     {
+        $this->om = $om;
         $this->contributionRepository = $contributionRepository;
     }
 
@@ -63,5 +71,18 @@ class ContributionManager
     public function getContribution(Contribution $contribution)
     {
         return $this->contributionRepository->findById($contribution->getId());
+    }
+
+    public function replaceContributor($contributorToRemove, $contributorToKeep)
+    {
+        $contributions = $this->contributionRepository->findByContributor($contributorToRemove);
+
+        foreach($contributions as $contribution) {
+            $contribution->setContributor($contributorToKeep);
+        }
+
+        $this->om->flush();
+
+        return count($contributions);
     }
 }
