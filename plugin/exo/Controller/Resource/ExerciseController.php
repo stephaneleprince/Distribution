@@ -52,21 +52,14 @@ class ExerciseController extends Controller
         );
 
         // TODO: the following data should be included directly by the manager/serializer
-        $exerciseData->meta->editable = $canEdit;
         $exerciseData->meta->paperCount = (int) $nbPapers;
         $exerciseData->meta->userPaperCount = (int) $nbUserPapers;
         $exerciseData->meta->userPaperDayCount = (int) $nbUserPapersDayCount;
         $exerciseData->meta->registered = $user instanceof User;
-        $exerciseData->meta->canViewPapers = $this->canViewPapers($exercise);
-        $exerciseData->meta->canViewDocimology = $this->canViewDocimology($exercise);
 
-        // Display the Summary of the Exercise
         return [
-            // Used to build the Claroline Breadcrumbs
-            'workspace' => $exercise->getResourceNode()->getWorkspace(),
             '_resource' => $exercise,
-            'exercise' => $exerciseData,
-            'editEnabled' => $canEdit,
+            'exercise'  => $exerciseData,
         ];
     }
 
@@ -83,12 +76,9 @@ class ExerciseController extends Controller
      */
     public function docimologyAction(Exercise $exercise)
     {
-        if (!$this->canViewDocimology($exercise)) {
-            throw new AccessDeniedException('not allowed to access this page');
-        }
+        $this->assertHasPermission('VIEW_DOCIMOLOGY', $exercise);
 
         return [
-            'workspace' => $exercise->getResourceNode()->getWorkspace(),
             '_resource' => $exercise,
             'exercise' => $this->get('ujm_exo.manager.exercise')->serialize($exercise, [Transfer::MINIMAL]),
             'statistics' => $this->get('ujm_exo.manager.docimology')->getStatistics($exercise, 100),
