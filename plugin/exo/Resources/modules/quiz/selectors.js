@@ -4,7 +4,6 @@ import {select as resourceSelect} from '#/main/core/layout/resource/selectors'
 
 // TODO : use reselect
 // TODO : there is possible code refactoring with editor/selectors.js
-import {createSelector} from 'reselect'
 
 const isLoading = state => state.currentRequests > 0
 const alerts = state => state.alerts

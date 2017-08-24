@@ -14,7 +14,7 @@ import {actions as quizActions} from './../actions'
 
 import {VIEW_EDITOR} from './../enums'
 
-let Quiz = props =>
+const Quiz = props =>
   <Resource
     editor={{
       opened: VIEW_EDITOR === props.viewMode,
@@ -133,6 +133,8 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-Quiz = connect(mapStateToProps, mapDispatchToProps)(Quiz)
+const ConnectedQuiz = connect(mapStateToProps, mapDispatchToProps)(Quiz)
 
-export {Quiz}
+export {
+  ConnectedQuiz as Quiz
+}

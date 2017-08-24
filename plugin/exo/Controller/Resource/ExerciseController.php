@@ -45,10 +45,9 @@ class ExerciseController extends Controller
 
         // TODO : no need to count the $nbPapers for regular users as it's only for admins
         $nbPapers = $this->container->get('ujm_exo.manager.paper')->countExercisePapers($exercise);
-        $canEdit = $this->canEdit($exercise);
         $exerciseData = $this->get('ujm_exo.manager.exercise')->serialize(
             $exercise,
-            $canEdit ? [Transfer::INCLUDE_SOLUTIONS] : []
+            $this->canEdit($exercise) ? [Transfer::INCLUDE_SOLUTIONS] : []
         );
 
         // TODO: the following data should be included directly by the manager/serializer
@@ -90,21 +89,6 @@ class ExerciseController extends Controller
         $collection = new ResourceCollection([$exercise->getResourceNode()]);
 
         return $this->get('security.authorization_checker')->isGranted('EDIT', $collection);
-    }
-
-    private function canViewPapers(Exercise $exercise)
-    {
-        $collection = new ResourceCollection([$exercise->getResourceNode()]);
-
-        return $this->get('security.authorization_checker')->isGranted('MANAGE_PAPERS', $collection);
-    }
-
-    private function canViewDocimology(Exercise $exercise)
-    {
-        $collection = new ResourceCollection([$exercise->getResourceNode()]);
-        $isGranted = $this->get('security.authorization_checker')->isGranted('VIEW_DOCIMOLOGY', $collection) || $this->canEdit($exercise);
-
-        return $isGranted;
     }
 
     private function assertHasPermission($permission, Exercise $exercise)
