@@ -7,7 +7,6 @@ import {HINT_ADD, HINT_ADD_PHOTO, HINT_CHANGE, HINT_REMOVE} from './../actions'
 import {FormGroup} from '#/main/core/layout/form/components/form-group.jsx'
 import {Textarea} from '#/main/core/layout/form/components/textarea.jsx'
 import {SubSection} from './../../../components/form/sub-section.jsx'
-import {SubSection2} from './../../../components/form/sub-section2.jsx'
 import {TooltipButton} from './../../../components/form/tooltip-button.jsx'
 import ObjectsEditor from './item-objects-editor.jsx'
 
@@ -106,7 +105,7 @@ var Tabs = React.createClass({
       var activeClass = (this.state.selected === index ? 'active' : '');
       return (
         <li key={index} style={tabsLi}>
-          <a href="#" 
+          <a href="#"
             className={activeClass}
             onClick={this.handleClick.bind(this, index)}>
             {child.props.label}
@@ -437,7 +436,7 @@ export class ItemForm extends Component {
         </div>
 
 
-          
+
         </SubSection>
       </form>
     )

@@ -231,6 +231,7 @@
     "graphic_type_image": "Image",
     "graphic_type_label": "Label",
     "graphic_label": "Label",
+    "graphic_label_input_title": "Response",
     "grid_edit_cell": "Edit cell",
     "grid_editor_penalty_label": "Penalty for any bad answer",
     "grid_feedback_info": "Feedback if this keyword is used",

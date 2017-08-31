@@ -182,7 +182,7 @@ export class Graphic extends Component {
         >
           <select
             onChange={e => this.props.onChange(
-              actions.selectPointerMode(e.target.value)
+              actions.selectpointerMode(e.target.value)
             )}
             id="type-exo-graphic"
             className="form-control"

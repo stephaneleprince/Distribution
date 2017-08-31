@@ -15,6 +15,7 @@ export const BLUR_AREAS = 'BLUR_AREAS'
 
 export const SELECT_IMAGE_DND = 'SELECT_IMAGE_DND'
 export const SELECT_POINTER_MODE = 'SELECT_POINTER_MODE'
+export const ADD_ZONE_ANSWER = 'ADD_ZONE_ANSWER'
 
 export const actions = {}
 
@@ -32,4 +33,5 @@ actions.setSolutionProperty = makeActionCreator(SET_SOLUTION_PROPERTY, 'id', 'pr
 actions.blurAreas = makeActionCreator(BLUR_AREAS)
 
 actions.selectImageDND = makeActionCreator(SELECT_IMAGE_DND, 'image')
-actions.selectPointerMode = makeActionCreator(SELECT_POINTER_MODE, 'pointerMode')
+actions.selectpointerMode = makeActionCreator(SELECT_POINTER_MODE, 'pointerMode')
+actions.addZoneAnswer = makeActionCreator(ADD_ZONE_ANSWER, 'zoneAnswer', 'id')

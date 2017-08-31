@@ -33,7 +33,9 @@ function reduce(item = {}, action = {}) {
       return decorate(Object.assign({}, item, {
         image: blankImage(),
         pointers: 0,
-        solutions: []
+        solutions: [],
+        pointerMode: '',
+        zoneAnswer: []
       }))
     case SELECT_MODE:
       return Object.assign({}, item, {
@@ -42,7 +44,8 @@ function reduce(item = {}, action = {}) {
       })
     case SELECT_POINTER_MODE:
       return Object.assign({}, item, {
-        pointerMode: action.pointerMode
+        pointerMode: action.pointerMode,
+        zoneAnswer: action.zoneAnswer
       })
     case SELECT_IMAGE:
       return Object.assign({}, item, {
@@ -137,6 +140,7 @@ function reduce(item = {}, action = {}) {
           {
             score: 1,
             feedback: '',
+            data: '',
             _selected: true,
             area
           }
@@ -167,7 +171,7 @@ function reduce(item = {}, action = {}) {
                     x: solution.area.center.x + toAbs(action.x, item.image),
                     y: solution.area.center.y + toAbs(action.y, item.image),
                     _clientX: solution.area.center._clientX + action.x,
-                    _clientY: solution.area.center._clientY + action.y
+                    _clientY: solution.area.center._clientY + action.y,
                   }
                 })
               })
