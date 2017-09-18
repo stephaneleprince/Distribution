@@ -43,7 +43,7 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('users.merge', {
       url: '/merge',
       ncyBreadcrumb: {
-        label: translate('users_merge'),
+        label: translate('merge_users'),
         parent: 'users.list'
       },
       views: {

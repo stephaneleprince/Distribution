@@ -388,4 +388,24 @@ class ItemManager
 
         $definition->parseContents($contentParser, $itemData);
     }
+
+    /**
+     * Replace creator in an item
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return integer
+     */
+    public function replaceCreator(User $from, User $to) {
+        $items = $this->repository->findByCreator($from);
+
+        foreach($items as $item) {
+            $item->setCreator($to);
+        }
+
+        $this->om->flush();
+
+        return count($items);
+    }
 }

@@ -25,6 +25,9 @@ class ShareManager
      */
     private $itemManager;
 
+    /** @var SharedRepository */
+    private $repository;
+
     /**
      * ShareManager constructor.
      *
@@ -42,6 +45,7 @@ class ShareManager
     {
         $this->om = $om;
         $this->itemManager = $itemManager;
+        $this->repository = $this->om->getRepository('UJMExoBundle:Item\Shared');
     }
 
     /**
@@ -149,5 +153,25 @@ class ShareManager
         }
 
         return $errors;
+    }
+
+    /**
+     * Replace user in a share
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return integer
+     */
+    public function replaceUser(User $from, User $to) {
+        $shares = $this->repository->findByUser($from);
+
+        foreach($shares as $share) {
+            $share->setUSer($to);
+        }
+
+        $this->om->flush();
+
+        return count($shares);
     }
 }

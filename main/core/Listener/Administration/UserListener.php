@@ -88,7 +88,7 @@ class UserListener
 
         //TODO: Merge all roles onto user to keep
 
-        //TOSO: Transfert des workspaces et des inscriptions aux workspaces
+        //TODO: Transfert des workspaces et des inscriptions aux workspaces
 
         $event->addMessage('[CoreBundle]');
 

@@ -1,4 +1,8 @@
 {
     "add_choice": "",
-    "InteractionMatching": "Combinazione"
+    "InteractionMatching": "Combinazione",
+    "merge_users_category_success": "",
+    "merge_users_item_success": "",
+    "merge_users_paper_success": "",
+    "merge_users_share_success": ""
 }

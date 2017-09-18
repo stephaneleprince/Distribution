@@ -660,7 +660,7 @@ class UserManager
 
     /**
      * Merges two users and transfers every resource to the kept user.
-     * Optional bundles are notified through an event.
+     * Bundles are notified through an event.
      *
      * @param User $userToKeep
      * @param User $userToRemove
@@ -673,7 +673,7 @@ class UserManager
             'userToRemove' => $userToRemove
         ]);
 
-        // TODO: improve roles
+        // TODO: improve role management ?
         $roles = $userToRemove->getEntityRoles();
 
         foreach($roles as $role) {

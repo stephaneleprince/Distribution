@@ -8,5 +8,7 @@
     "history": "Historial",
     "options": "Opciones",
     "save": "Guardar",
-    "normal": "Normal"
+    "normal": "Normal",
+    "merge_users_contribution_success": "N"
+    "merge_users_section_success": "N"
 }

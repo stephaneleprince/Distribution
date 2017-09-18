@@ -135,6 +135,8 @@
     "List of corrections": "Liste des corrections de la copie",
     "List of corrections made by %user%": "Liste des corrections faites par %user%",
     "List of examiners": "Liste des correcteurs",
+    "merge_users_correction_success": "Nombre de corrections mises à jour : %count%",
+    "merge_users_drop_success": "Nombre de dépôts mis à jour : %count%",
     "Made by": "Rendue par",
     "Make my copy": "Rendre ma copie.",
     "Minimum score to pass": "Score minimum pour réussir l'évaluation (sur 20).",

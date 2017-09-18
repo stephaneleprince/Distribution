@@ -24,9 +24,7 @@ class CategoryManager
      */
     private $om;
 
-    /**
-     * @var CategoryRepository
-     */
+    /** @var CategoryRepository */
     private $repository;
 
     /**
@@ -151,5 +149,25 @@ class CategoryManager
 
         $this->om->remove($category);
         $this->om->flush();
+    }
+
+    /**
+     * Replace user in a category
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return integer
+     */
+    public function replaceUser(User $from, User $to) {
+        $categories = $this->repository->findByUser($from);
+
+        foreach($categories as $category) {
+            $category->setUSer($to);
+        }
+
+        $this->om->flush();
+
+        return count($categories);
     }
 }

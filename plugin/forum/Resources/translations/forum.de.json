@@ -1,7 +1,11 @@
 {
     "author": "",
     "category": "Kategorie",
+    "merge_users_message_author_success": "",
+    "merge_users_message_creator_success": "",
+    "merge_users_notification_success": "",
+    "merge_users_subject_success": "",
+    "no": "Nein",
     "notifications": "",
-    "yes": "Ja",
-    "no": "Nein"
+    "yes": "Ja"
 }

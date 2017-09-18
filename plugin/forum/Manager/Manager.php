@@ -807,4 +807,69 @@ class Manager
     {
         return $this->subjectRepo->findSubjectsByParticipant($user);
     }
+
+    /**
+     * Replace user in a notification
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return integer
+     */
+    public function replaceNotificationUser(User $from, User $to) {
+
+        $notifications = $this->notificationRepo->findByUser($from);
+
+        foreach($notifications as $notification) {
+            $notification->setUser($to);
+        }
+
+        $this->om->flush();
+
+        return count($notifications);
+    }
+
+    /**
+     * Replace creator in a subject
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return integer
+     */
+    public function replaceSubjectCreator(User $from, User $to) {
+
+        $subjects = $this->subjectRepo->findByCreator($from);
+
+        foreach($subjects as $subject) {
+            $subject->setCreator($to);
+            $subject->setAuthor($to->getFirstName() . ' ' . $to->getLastName());
+        }
+
+        $this->om->flush();
+
+        return count($subjects);
+    }
+
+    /**
+     * Replace creator in a message
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return integer
+     */
+    public function replaceMessageCreator(User $from, User $to) {
+
+        $messages = $this->messageRepo->findByCreator($from);
+
+        foreach($messages as $message) {
+            $message->setCreator($to);
+            $message->setAuthor($to->getFirstName() . ' ' . $to->getLastName());
+        }
+
+        $this->om->flush();
+
+        return count($messages);
+    }
 }

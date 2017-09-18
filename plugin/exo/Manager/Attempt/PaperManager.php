@@ -316,4 +316,24 @@ class PaperManager
 
         return $available;
     }
+
+    /**
+     * Replace user in a paper
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return integer
+     */
+    public function replaceUser(User $from, User $to) {
+        $items = $this->repository->findByUser($from);
+
+        foreach($items as $item) {
+            $item->setUSer($to);
+        }
+
+        $this->om->flush();
+
+        return count($items);
+    }
 }

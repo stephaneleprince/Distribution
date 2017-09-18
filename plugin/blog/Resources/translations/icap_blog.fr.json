@@ -90,6 +90,8 @@
     "informations": "Informations",
     "limit_to": "Limiter l'affichage aux",
     "maxlength_field": "Texte trop long",
+    "merge_users_comment_success": "Nombre de commentaires mis à jour : %count%",
+    "merge_users_post_success": "Nombre d'articles mis à jour : %count%",
     "modified_at": "Modifié le",
     "new_post": "Nouvel article",
     "no_archives": "Aucune archive",

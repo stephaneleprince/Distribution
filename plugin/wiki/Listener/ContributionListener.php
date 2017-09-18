@@ -17,6 +17,8 @@ use Icap\NotificationBundle\Manager\NotificationManager as NotificationManager;
 use Icap\WikiBundle\Entity\Contribution;
 use Icap\WikiBundle\Manager\ContributionManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Translation\TranslatorInterface;
+
 
 /**
  * @DI\Service("icap.wiki_bundle.entity_listener.contribution")
@@ -30,16 +32,21 @@ class ContributionListener
     /** @var  ContributionManager */
     private $contributionManager;
 
+    /** @var TranslatorInterface */
+    private $translator;
+
     /**
      * @DI\InjectParams({
      *     "notificationManager" = @DI\Inject("icap.notification.manager"),
-     *     "contributionManager" = @DI\Inject("icap.wiki.contribution_manager")
+     *     "contributionManager" = @DI\Inject("icap.wiki.contribution_manager"),
+     *     "translator"          = @DI\Inject("translator"),
      * })
      */
-    public function __construct(NotificationManager $notificationManager, ContributionManager $contributionManager)
+    public function __construct(NotificationManager $notificationManager, ContributionManager $contributionManager, TranslatorInterface $translator)
     {
         $this->notificationManager = $notificationManager;
         $this->contributionManager = $contributionManager;
+        $this->translator = $translator;
     }
 
     public function postPersist(Contribution $contribution, LifecycleEventArgs $event)
@@ -88,7 +95,17 @@ class ContributionListener
         // Replace contribution author
         $count = $this->contributionManager->replaceContributor($event->getUserToRemove(), $event->getUserToKeep());
 
-        // TODO: place message in event
-        $event->addMessage('[WikiBundle] # contributions updated: ' . $count);
+        $bundle_message = $this->translator->trans('merge_users_contribution_success', ['%count%' => $count], 'icap_wiki');
+
+        $event_message = $this->translator->trans(
+            'merge_users_bundle_message_mask',
+            [
+                '%bundle_name%' => 'WikiBundle',
+                '%bundle_message%' => $bundle_message,
+            ],
+            'platform'
+        );
+
+        $event->addMessage($event_message);
     }
 }

@@ -1,6 +1,8 @@
 {
-    "user": "Usuario",
+    "merge_users_correction_success": "",
+    "merge_users_drop_success": "",
     "no": "no",
     "tools": "Herramientas",
+    "user": "Usuario",
     "yes": "Si"
 }

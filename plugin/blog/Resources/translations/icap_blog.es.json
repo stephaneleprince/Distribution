@@ -4,5 +4,7 @@
     "close": "Cerrar",
     "search": "Buscar",
     "maxlength_field": "",
+    "merge_users_comment_success": "",
+    "merge_users_post_success": "",
     "posts": "Respuestas"
 }

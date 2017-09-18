@@ -18,6 +18,7 @@ use Icap\BlogBundle\Manager\PostManager;
 use Icap\NotificationBundle\Entity\UserPickerContent;
 use Icap\NotificationBundle\Manager\NotificationManager as NotificationManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @DI\Service("icap.blog_bundle.entity_listener.post")
@@ -31,16 +32,21 @@ class PostListener
     /** @var PostManager */
     private $postManager;
 
+    /** @var TranslatorInterface */
+    private $translator;
+
     /**
      * @DI\InjectParams({
      * "notificationManager" = @DI\Inject("icap.notification.manager"),
-     * "postManager" = @DI\Inject("icap.blog.manager.post")
+     * "postManager"         = @DI\Inject("icap.blog.manager.post"),
+     * "translator"          = @DI\Inject("translator"),
      * })
      */
-    public function __construct(NotificationManager $notificationManager, PostManager $postManager)
+    public function __construct(NotificationManager $notificationManager, PostManager $postManager, TranslatorInterface $translator)
     {
         $this->notificationManager = $notificationManager;
         $this->postManager = $postManager;
+        $this->translator = $translator;
     }
 
     public function postPersist(Post $post, LifecycleEventArgs $event)
@@ -105,7 +111,17 @@ class PostListener
         // Replace post author
         $count = $this->postManager->replaceAuthor($event->getUserToRemove(), $event->getUserToKeep());
 
-        // TODO: place message in event (which message ?)
-        $event->addMessage('[BlogBundle] # posts updated: ' . $count);
+        $bundle_message = $this->translator->trans('merge_users_post_success', ['%count%' => $count], 'icap_blog');
+
+        $event_message = $this->translator->trans(
+            'merge_users_bundle_message_mask',
+            [
+                '%bundle_name%' => 'BlogBundle',
+                '%bundle_message%' => $bundle_message,
+            ],
+            'platform'
+        );
+
+        $event->addMessage($event_message);
     }
 }

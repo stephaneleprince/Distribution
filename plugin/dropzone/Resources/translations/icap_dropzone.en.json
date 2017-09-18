@@ -134,6 +134,8 @@
     "List of corrections": "List of corrections for this copy",
     "List of corrections made by %user%": "List of the corrections made by %user%",
     "List of examiners": "List of examiners",
+    "merge_users_correction_success": "# corrections updated : %count%",
+    "merge_users_drop_success": "# drop updated : %count%",
     "Made by": "Rendered by",
     "Make my copy": "Render my copy.",
     "Minimum score to pass": "Minimum score to succeed (out of 20).",

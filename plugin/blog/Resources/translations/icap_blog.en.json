@@ -91,6 +91,8 @@
     "informations": "Information",
     "limit_to": "Limit display to the",
     "maxlength_field": "Text too long",
+    "merge_users_comme,t_success": "# comments updated: %count%",
+    "merge_users_post_success": "# posts updated: %count%",
     "modified_at": "Modified on",
     "new_post": "New post",
     "no_archives": "No archive",

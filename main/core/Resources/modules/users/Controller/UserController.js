@@ -134,6 +134,27 @@ export default class UserController {
         this.addUserDetails()
       }
     })
+
+    // When navigating to user list, remove any previously selected user
+    this.$rootScope.$on('$stateChangeStart', (event, toState) => {
+      if (toState.name === 'users.list') {
+        this.selected = []
+      }
+    })
+
+    this.init()
+  }
+
+  init() {
+    // Entering the merge state without having selected two users redirects to user list
+    if (this.$state.current.name === 'users.merge' && this.selected.length !== 2) {
+      this.alerts.push({
+        type: 'info',
+        msg: this.translate('merge_users_selection_needed')
+      })
+      this.$state.go('users.list')
+    }
+
   }
 
   addUserDetails() {
@@ -145,7 +166,22 @@ export default class UserController {
   }
 
   merge(keep, remove) {
-    this.$http.get(Routing.generate('api_get_user_merge', {'keep': keep, 'remove': remove})).then(() => {})
+    this.$http.get(Routing.generate('api_get_user_merge', {'keep': keep, 'remove': remove})).then(
+      () => {
+        this.alerts.push({
+          type: 'success',
+          msg: this.translate('merge_users_success')
+        })
+      },
+      () => {
+        this.alerts.push({
+          type: 'danger',
+          msg: this.translate('merge_users_error')
+        })
+      }
+    ).finally(() => {
+      this.$state.go('users.list')
+    })
   }
 
   key_exists(key, obj) {

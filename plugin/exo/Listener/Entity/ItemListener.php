@@ -2,11 +2,14 @@
 
 namespace UJM\ExoBundle\Listener\Entity;
 
+use Claroline\CoreBundle\Event\AdminUserMergeActionEvent;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use UJM\ExoBundle\Entity\Item\Item;
 use UJM\ExoBundle\Library\Item\ItemDefinitionsCollection;
+use UJM\ExoBundle\Manager\Item\ItemManager;
 
 /**
  * Manages Life cycle of the Item.
@@ -21,18 +24,28 @@ class ItemListener
      */
     private $itemDefinitions;
 
+    /** @var ItemManager */
+    private $manager;
+
+    /** @var TranslatorInterface */
+    private $translator;
+
     /**
      * ItemListener constructor.
      *
      * @DI\InjectParams({
-     *     "container" = @DI\Inject("service_container")
+     *     "container"  = @DI\Inject("service_container"),
+     *     "manager"    = @DI\Inject("ujm_exo.manager.item"),
+     *     "translator" = @DI\Inject("translator")
      * })
      *
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, ItemManager $manager, TranslatorInterface $translator)
     {
         $this->itemDefinitions = $container->get('ujm_exo.collection.item_definitions');
+        $this->manager = $manager;
+        $this->translator = $translator;
     }
 
     /**
@@ -85,5 +98,27 @@ class ItemListener
         if (null !== $interaction) {
             $event->getEntityManager()->remove($interaction);
         }
+    }
+
+    /**
+     * @DI\Observe("claroline_users_merge")
+     */
+    public function onMergeUsers(AdminUserMergeActionEvent $event)
+    {
+        // Replace item creator
+        $count = $this->manager->replaceCreator($event->getUserToRemove(), $event->getUserToKeep());
+
+        $bundle_message = $this->translator->trans('merge_users_item_success', ['%count%' => $count], 'ujm_exo');
+
+        $event_message = $this->translator->trans(
+            'merge_users_bundle_message_mask',
+            [
+                '%bundle_name%' => 'ExoBundle',
+                '%bundle_message%' => $bundle_message,
+            ],
+            'platform'
+        );
+
+        $event->addMessage($event_message);
     }
 }

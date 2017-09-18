@@ -18,6 +18,7 @@ use Icap\BlogBundle\Manager\CommentManager;
 use Icap\NotificationBundle\Entity\UserPickerContent;
 use Icap\NotificationBundle\Manager\NotificationManager as NotificationManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @DI\Service("icap.blog_bundle.entity_listener.comment")
@@ -31,16 +32,21 @@ class CommentListener
     /** @var  \Icap\BlogBundle\Manager\CommentManager */
     private $commentManager;
 
+    /** @var TranslatorInterface */
+    private $translator;
+
     /**
      * @DI\InjectParams({
      *     "notificationManager" = @DI\Inject("icap.notification.manager"),
-     *     "commentManager" = @DI\Inject("icap.blog.manager.comment")
+     *     "commentManager"      = @DI\Inject("icap.blog.manager.comment"),
+     *     "translator"          = @DI\Inject("translator")
      * })
      */
-    public function __construct(NotificationManager $notificationManager, CommentManager $commentManager)
+    public function __construct(NotificationManager $notificationManager, CommentManager $commentManager, TranslatorInterface $translator)
     {
         $this->notificationManager = $notificationManager;
         $this->commentManager = $commentManager;
+        $this->translator = $translator;
     }
 
     public function postPersist(Comment $comment, LifecycleEventArgs $event)
@@ -111,7 +117,17 @@ class CommentListener
         // Replace comment author
         $count = $this->commentManager->replaceAuthor($event->getUserToRemove(), $event->getUserToKeep());
 
-        // TODO: place message in event (which message ?)
-        $event->addMessage('[BlogBundle] # comments updated: ' . $count);
+        $bundle_message = $this->translator->trans('merge_users_comment_success', ['%count%' => $count], 'icap_blog');
+
+        $event_message = $this->translator->trans(
+            'merge_users_bundle_message_mask',
+            [
+                '%bundle_name%' => 'BlogBundle',
+                '%bundle_message%' => $bundle_message,
+            ],
+            'platform'
+        );
+
+        $event->addMessage($event_message);
     }
 }

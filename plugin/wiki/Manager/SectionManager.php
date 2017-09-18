@@ -2,6 +2,7 @@
 
 namespace Icap\WikiBundle\Manager;
 
+use Claroline\CoreBundle\Persistence\ObjectManager;
 use Icap\WikiBundle\Entity\Section;
 use Icap\WikiBundle\Repository\ContributionRepository;
 use Icap\WikiBundle\Repository\SectionRepository;
@@ -12,6 +13,11 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class SectionManager
 {
+    /**
+     * @var ObjectManager
+     */
+    protected $om;
+
     /** @var \Icap\WikiBundle\Repository\SectionRepository */
     protected $sectionRepository;
 
@@ -19,12 +25,14 @@ class SectionManager
 
     /**
      * @DI\InjectParams({
+     *     "om" = @DI\Inject("claroline.persistence.object_manager"),
      *     "sectionRepository" = @DI\Inject("icap.wiki.section_repository"),
      *     "contributionRepository" = @DI\Inject("icap.wiki.contribution_repository")
      * })
      */
-    public function __construct(SectionRepository $sectionRepository, ContributionRepository $contributionRepository)
+    public function __construct(ObjectManager $om, SectionRepository $sectionRepository, ContributionRepository $contributionRepository)
     {
+        $this->om = $om;
         $this->sectionRepository = $sectionRepository;
         $this->contributionRepository = $contributionRepository;
     }
@@ -59,5 +67,18 @@ class SectionManager
         }
 
         return $archivedSections;
+    }
+
+    public function replaceAuthor($authorToRemove, $authorToKeep)
+    {
+        $sections = $this->sectionRepository->findByAuthor($authorToRemove);
+
+        foreach($sections as $section) {
+            $section->setAuthor($authorToKeep);
+        }
+
+        $this->om->flush();
+
+        return count($sections);
     }
 }

@@ -2,7 +2,10 @@
 
 namespace Icap\DropzoneBundle\Manager;
 
+use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Manager\MaskManager;
+use Claroline\CoreBundle\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Icap\DropzoneBundle\Entity\Correction;
 use Icap\DropzoneBundle\Entity\Dropzone;
 use Icap\DropzoneBundle\Event\Log\LogCorrectionUpdateEvent;
@@ -15,20 +18,28 @@ class CorrectionManager
 {
     private $container;
     private $maskManager;
-    private $em;
+
+    /** @var ObjectManager */
+    private $om;
+
+
+    /** @var \Icap\DropzoneBundle\Repository\CorrectionRepository */
+    protected $repository;
 
     /**
      * @DI\InjectParams({
      *     "container" = @DI\Inject("service_container"),
      *     "maskManager" = @DI\Inject("claroline.manager.mask_manager"),
-     *     "em" = @DI\Inject("doctrine.orm.entity_manager")
+     *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
+     *     "om" = @DI\Inject("claroline.persistence.object_manager")
      * })
      */
-    public function __construct($container, MaskManager $maskManager, $em)
+    public function __construct($container, MaskManager $maskManager, EntityManager $em, ObjectManager $om)
     {
         $this->container = $container;
         $this->maskManager = $maskManager;
-        $this->em = $em;
+        $this->om = $om;
+        $this->repository = $em->getRepository('IcapDropzoneBundle:Correction');
     }
 
     /**
@@ -49,7 +60,7 @@ class CorrectionManager
         }
 
         $totalGrade = 0;
-        if ($nbCriteria != 0) {
+        if ($nbCriteria !== 0) {
             $totalGrade = $sumGrades / ($nbCriteria);
             $totalGrade = ($totalGrade * 20) / ($maxGrade);
         }
@@ -71,10 +82,30 @@ class CorrectionManager
             $em->flush();
 
             $currentDrop = $correction->getDrop();
-            if ($currentDrop != null && $oldTotalGrade != $totalGrade) {
+            if ($currentDrop !== null && $oldTotalGrade !== $totalGrade) {
                 $event = new LogCorrectionUpdateEvent($dropzone, $currentDrop, $correction);
                 $this->container->get('event_dispatcher')->dispatch('log', $event);
             }
         }
+    }
+
+    /**
+     * Replace user in a correction
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return integer
+     */
+    public function replaceUser(User $from, User $to) {
+        $corrections = $this->repository->findByUser($from);
+
+        foreach($corrections as $correction) {
+            $correction->setUser($to);
+        }
+
+        $this->om->flush();
+
+        return count($corrections);
     }
 }

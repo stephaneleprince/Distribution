@@ -1,7 +1,11 @@
-<div class="panel panel-body"><style>.account-keep{background-color: green;}.account-remove{background-color:red;}</style>
+<div class="panel panel-body">
     <div class="row">
-        <div class="col-md-6" data-ng-repeat="user in uc.selected" data-ng-class="uc.getHoveredClass($index)">
-            <h1>Compte n°{{ $index + 1 }}</h1>
+        <div
+            class="col-md-6"
+            data-ng-repeat="user in uc.selected"
+            data-ng-class="uc.getHoveredClass($index)"
+            data-ng-init="firstAccountIdx = $index; secondAccountIdx = ($index + 1)%2">
+            <h1>Compte n°{{ firstAccountIdx + 1 }}</h1>
             <div class="form-group row">
                 <label class="col-md-3">{{ 'firstName' | trans:{}:'platform' }}</label>
                 <div class="col-md-9">
@@ -31,14 +35,14 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-md-3">{{ 'created' | trans:{}:'platform' }}</label>
+                <label class="col-md-3">{{ 'creation_date' | trans:{}:'platform' }}</label>
                 <div class="col-md-9">
                     <input type="text" class="form-control" disabled="disabled" value="{{user.created | datetime}}" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col-md-3">{{ 'last_login' | trans:{}:'platform' }}</label>
+                <label class="col-md-3">{{ 'last_login_date' | trans:{}:'platform' }}</label>
                 <div class="col-md-9">
                     <input type="text" class="form-control" disabled="disabled" value="{{(user.additional_info.last_login_milliseconds | datetime) || ('never'|trans:{}:'platform')}}" />
                 </div>
@@ -46,14 +50,14 @@
 
 
             <div class="form-group row">
-                <label class="col-md-3">{{ 'is_enabled' | trans:{}:'platform' }}</label>
+                <label class="col-md-3">{{ 'is_account_enabled' | trans:{}:'platform' }}</label>
                 <div class="col-md-9">
                     <input type="checkbox" disabled="disabled" data-ng-checked="user.is_enabled" />
                 </div>
             </div>
 
             <div class="form-group row" data-ng-if="user.additional_info.is_validated_mail_mandatory">
-                <label class="col-md-3">{{ 'isMailValidated' | trans:{}:'platform' }}</label>
+                <label class="col-md-3">{{ 'is_mail_validated' | trans:{}:'platform' }}</label>
                 <div class="col-md-9">
                     <input type="checkbox" disabled="disabled" data-ng-checked="user.isMailValidated" />
                 </div>
@@ -63,7 +67,7 @@
                 <label class="col-md-3">{{ 'is_connected_to_cas' | trans:{}:'platform' }}</label>
                 <div class="col-md-9">
                     <input type="checkbox" disabled="disabled" data-ng-checked="user.additional_info.cas_id" />
-                    <span data-ng-if="user.additional_info.cas_id">ID: {{user.additional_info.cas_id}}</span>
+                    <span data-ng-if="user.additional_info.cas_id">ID: {{ user.additional_info.cas_id }}</span>
                 </div>
             </div>
 
@@ -76,15 +80,15 @@
 
             <div class="col-md-12">
 
-                <button data-ng-click="uc.merge(uc.selected[$index].id, uc.selected[($index + 1)%2].id)"
-                        data-ng-if="uc.selected[($index + 1)%2].id !== user.additional_info.connected_user_id"
-                        data-ng-mouseover="uc.hoveredAccount = $index"
+                <button data-ng-click="uc.merge(uc.selected[firstAccountIdx].id, uc.selected[secondAccountIdx].id)"
+                        data-ng-if="uc.selected[secondAccountIdx].id !== user.additional_info.connected_user_id"
+                        data-ng-mouseover="uc.hoveredAccount = firstAccountIdx"
                         data-ng-mouseleave="uc.hoveredAccount = null">
                     {{ 'keep_this_account' | trans:{}:'platform' }}
                 </button>
 
-                <span data-ng-if="uc.selected[($index + 1)%2].id === user.additional_info.connected_user_id">
-                    Vous ne pouvez pas conserver ce compte lors de la fusion car le second compte sélectionné est celui avec lequel vous êtes actuellement connecté.
+                <span data-ng-if="uc.selected[secondAccountIdx].id === user.additional_info.connected_user_id">
+                    {{ 'merge_users_impossible' | trans:{'accountToKeep': firstAccountIdx + 1, 'accountToRemove': secondAccountIdx + 1}:'platform' }}
                 </span>
 
             </div>
