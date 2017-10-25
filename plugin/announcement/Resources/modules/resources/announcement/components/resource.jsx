@@ -116,8 +116,8 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-const ConnectedAnnouncementResource = connect(mapStateToProps, mapDispatchToProps)(Resource)
+const AnnouncementResource = connect(mapStateToProps, mapDispatchToProps)(Resource)
 
 export {
-  ConnectedAnnouncementResource as AnnouncementResource
+  AnnouncementResource
 }

@@ -25,7 +25,7 @@ const updateViewMode = (mode, hasFragment = true) => {
       select.noItems(state)
     ) {
       // Redirects to editor for admins if the quiz is empty
-      navigate('editor', false)
+      navigate('edit', false)
       dispatch(openFirstStep(select.firstStepId(state)))
     } else if (mode === VIEW_OVERVIEW &&
       !select.hasOverview(state)

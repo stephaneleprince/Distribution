@@ -22,7 +22,7 @@ import {MODAL_MOVE_ITEM} from './modal/move-item-modal.jsx'
 import {MODAL_DUPLICATE_ITEM} from '#/plugin/exo/items/components/modal/duplicate-modal.jsx'
 
 import {Icon as ItemIcon} from './../../../items/components/icon.jsx'
-import {ValidationStatus} from './validation-status.jsx'
+import {ValidationStatus} from '#/plugin/exo/components/validation-status.jsx'
 import {StepForm} from './step-form.jsx'
 import {ItemForm} from './item-form.jsx'
 import {ContentItemForm} from './content-item-form.jsx'

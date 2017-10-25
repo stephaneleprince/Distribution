@@ -9,7 +9,7 @@ import {TooltipButton} from '#/main/core/layout/button/components/tooltip-button
 import {SORT_DETECT, makeSortable} from './../../../utils/sortable'
 
 import {TYPE_STEP, TYPE_QUIZ} from './../../enums'
-import {ValidationStatus} from './validation-status.jsx'
+import {ValidationStatus} from '#/plugin/exo/components/validation-status.jsx'
 import {ThumbnailDragPreview} from './thumbnail-drag-preview.jsx'
 
 const Actions = props =>
@@ -27,6 +27,7 @@ const Actions = props =>
         })
       }}
     />
+
     {props.connectDragSource(
       <span
         role="button"
@@ -50,8 +51,8 @@ let Thumbnail = props => props.connectDropTarget(
     onClick={() => props.onClick(props.id, props.type)}
     style={{opacity: props.isDragging ? 0 : 1}}
   >
-    {props.type === TYPE_QUIZ && <span className="step-actions"/>}
-    {props.type === TYPE_STEP && <Actions {...props}/>}
+    {props.type === TYPE_QUIZ && <span className="step-actions" />}
+    {props.type === TYPE_STEP && <Actions {...props} />}
 
     <a
       className={classes('step-title', {'type-quiz': props.type === TYPE_QUIZ})}
@@ -62,10 +63,7 @@ let Thumbnail = props => props.connectDropTarget(
 
     <span className="step-bottom">
       {props.hasErrors &&
-        <ValidationStatus
-          id={`${props.id}-thumb-tip`}
-          validating={props.validating}
-        />
+        <ValidationStatus id={`${props.id}-thumb-tip`} validating={props.validating} />
       }
     </span>
   </span>

@@ -2,12 +2,15 @@ import React from 'react'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
 
+import {actions as modalActions} from '#/main/core/layout/modal/actions'
+import {Routes} from '#/main/core/router/components/router.jsx'
+
 import {ThumbnailBox} from './thumbnail-box.jsx'
 import {QuizEditor} from './quiz-editor.jsx'
 import {StepEditor} from './step-editor.jsx'
 import {actions} from './../actions'
 import {TYPE_QUIZ, TYPE_STEP} from './../../enums'
-import select from './../selectors'
+import {select} from './../selectors'
 import {CustomDragLayer} from './../../../utils/custom-drag-layer.jsx'
 
 let Editor = props =>
@@ -21,11 +24,29 @@ let Editor = props =>
       onStepDeleteClick={props.deleteStepAndItems}
       showModal={props.showModal}
     />
+
     <div className="edit-zone user-select-disabled">
-      {selectSubEditor(props)}
+      <Routes
+        path=""
+        exact={false}
+        routes={[
+          {
+            path: '',
+            onEnter: () => props.selectObject(props.quizProperties.id, TYPE_QUIZ), // todo configure editor to edit quiz
+            component: QuizEditor
+          }, {
+            path: 'steps/:id',
+            onEnter: (params) => props.selectObject(params.id, TYPE_STEP), // todo configure editor to edit step
+            component: StepEditor
+          }
+        ]}
+      />
     </div>
+
     <CustomDragLayer/>
   </div>
+
+// {selectSubEditor(props)}
 
 Editor.propTypes = {
   thumbnails: T.array.isRequired,
@@ -79,6 +100,7 @@ function selectSubEditor(props) {
         />
       )
   }
+
   throw new Error(`Unkwnown type ${props.currentObject}`)
 }
 
@@ -122,10 +144,12 @@ function mapStateToProps(state) {
     activeQuizPanel: select.quizOpenPanel(state),
     activeStepPanel: select.stepOpenPanel(state),
     quizProperties: select.quiz(state),
-    validating: select.validating(state)
+    validating: select.validating(state),
   }
 }
 
-Editor = connect(mapStateToProps, actions)(Editor)
+Editor = connect(mapStateToProps, Object.assign({}, modalActions, actions))(Editor)
 
-export {Editor}
+export {
+  Editor
+}
