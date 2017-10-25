@@ -7,7 +7,7 @@ import {navigate} from './../router'
 import {actions as baseActions} from './../actions'
 import {VIEW_PAPERS, VIEW_PAPER} from './../enums'
 import {selectors} from './selectors'
-import quizSelectors from './../selectors'
+import {select as quizSelectors} from './../selectors'
 import {normalize} from './normalizer'
 
 export const PAPER_ADD = 'PAPER_ADD'

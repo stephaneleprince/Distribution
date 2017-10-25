@@ -13,7 +13,7 @@ import {
 } from './../../enums'
 
 import {select as resourceSelect} from '#/main/core/layout/resource/selectors'
-import select from './../../selectors'
+import {select} from './../../selectors'
 
 const Parameter = props =>
   <tr>

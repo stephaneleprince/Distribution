@@ -6,7 +6,7 @@ import {REQUEST_SEND} from '#/main/core/api/actions'
 
 import {actions as quizActions} from './../actions'
 import {VIEW_PLAYER} from './../enums'
-import quizSelectors from './../selectors'
+import {select as quizSelectors} from './../selectors'
 import {navigate} from './../router'
 import {select as playerSelectors} from './selectors'
 import {generatePaper} from './../papers/generator'

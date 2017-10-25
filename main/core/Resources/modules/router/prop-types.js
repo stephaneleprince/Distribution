@@ -10,7 +10,7 @@ const Route = {
     onLeave: T.func
   },
   defaultProps: {
-    exact: true
+    exact: false
   }
 }
 

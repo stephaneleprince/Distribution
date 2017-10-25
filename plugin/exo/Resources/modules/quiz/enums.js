@@ -51,7 +51,6 @@ export const SHOW_CORRECTION_AT_NEVER = 'never'
 export const correctionModes = [
   {value: SHOW_CORRECTION_AT_VALIDATION,   label: tex('at_the_end_of_assessment')},
   {value: SHOW_CORRECTION_AT_LAST_ATTEMPT, label: tex('after_the_last_attempt')},
-  {value: SHOW_CORRECTION_AT_LAST_ATTEMPT, label: tex('after_the_last_attempt')},
   {value: SHOW_CORRECTION_AT_DATE,         label: tex('from')},
   {value: SHOW_CORRECTION_AT_NEVER,        label: tex('never')}
 ]

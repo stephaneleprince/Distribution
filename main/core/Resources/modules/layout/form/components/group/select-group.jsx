@@ -22,7 +22,7 @@ const SelectGroup = props =>
 SelectGroup.propTypes = {
   controlId: T.string.isRequired,
   options: T.array.isRequired,
-  selectedValue: T.oneOfType([T.string, T.number, T.array]).isRequired,
+  selectedValue: T.oneOfType([T.string, T.number, T.array, T.bool]).isRequired,
   disabled: T.bool,
   multiple: T.bool,
   allowEmpty: T.bool,

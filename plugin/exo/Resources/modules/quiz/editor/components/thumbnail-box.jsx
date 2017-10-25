@@ -20,11 +20,7 @@ const Actions = props =>
       className="fa fa-fw fa-trash-o"
       onClick={e => {
         e.stopPropagation()
-        props.showModal(MODAL_DELETE_CONFIRM, {
-          title: tex('delete_step'),
-          question: tex('remove_step_confirm_message'),
-          handleConfirm: () => props.onDeleteClick(props.id)
-        })
+        props.onDeleteClick(props.id)
       }}
     />
 
@@ -41,32 +37,28 @@ const Actions = props =>
 Actions.propTypes = {
   id: T.string.isRequired,
   onDeleteClick: T.func.isRequired,
-  showModal: T.func.isRequired,
   connectDragSource: T.func.isRequired
 }
 
 let Thumbnail = props => props.connectDropTarget(
-  <span
+  <a
     className={classes('thumbnail', {'active': props.active})}
-    onClick={() => props.onClick(props.id, props.type)}
+    href={TYPE_QUIZ === props.type ? '#/edit/parameters' : `#/edit/steps/${props.id}`}
     style={{opacity: props.isDragging ? 0 : 1}}
   >
     {props.type === TYPE_QUIZ && <span className="step-actions" />}
     {props.type === TYPE_STEP && <Actions {...props} />}
 
-    <a
-      className={classes('step-title', {'type-quiz': props.type === TYPE_QUIZ})}
-      href="#editor"
-    >
+    <span className={classes('step-title', {'type-quiz': props.type === TYPE_QUIZ})}>
       {props.title}
-    </a>
+    </span>
 
     <span className="step-bottom">
       {props.hasErrors &&
         <ValidationStatus id={`${props.id}-thumb-tip`} validating={props.validating} />
       }
     </span>
-  </span>
+  </a>
 )
 
 Thumbnail.propTypes = {
@@ -81,7 +73,6 @@ Thumbnail.propTypes = {
   sortDirection: T.string.isRequired,
   validating: T.bool.isRequired,
   hasErrors: T.bool.isRequired,
-  showModal: T.func.isRequired,
   connectDragPreview: T.func.isRequired,
   connectDragSource: T.func.isRequired,
   connectDropTarget: T.func.isRequired
@@ -129,7 +120,6 @@ class ThumbnailBox extends Component {
             onDeleteClick={this.props.onStepDeleteClick}
             onSort={this.props.onThumbnailMove}
             sortDirection={SORT_DETECT}
-            showModal={this.props.showModal}
           />
         )}
 
@@ -156,8 +146,7 @@ ThumbnailBox.propTypes = {
   onNewStepClick: T.func.isRequired,
   onStepDeleteClick: T.func.isRequired,
   onThumbnailClick: T.func.isRequired,
-  onThumbnailMove: T.func.isRequired,
-  showModal: T.func.isRequired
+  onThumbnailMove: T.func.isRequired
 }
 
 export {

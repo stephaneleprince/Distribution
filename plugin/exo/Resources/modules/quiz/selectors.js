@@ -36,6 +36,11 @@ const quizNumbering = createSelector(
   (parameters) => parameters.numbering
 )
 
+const mandatoryQuestions = createSelector(
+  parameters,
+  (parameters) => parameters.mandatoryQuestions
+)
+
 const papersAdmin = createSelector(
   [resourceSelect.currentRights],
   (currentRights) => !!currentRights.manage_papers
@@ -46,7 +51,7 @@ const docimologyAdmin = createSelector(
   (currentRights) => !!currentRights.view_docimology
 )
 
-export default {
+export const select = {
   id,
   quiz,
   steps,
@@ -71,5 +76,6 @@ export default {
   quizNumbering,
   papersShowExpectedAnswers,
   papersShowStatistics,
-  allPapersStatistics
+  allPapersStatistics,
+  mandatoryQuestions
 }

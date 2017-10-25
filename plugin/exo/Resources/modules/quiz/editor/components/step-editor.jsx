@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {PropTypes as T} from 'prop-types'
+import {connect} from 'react-redux'
 import classes from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 
@@ -15,11 +16,16 @@ import {getDefinition, isQuestionType} from './../../../items/item-types'
 import {getContentDefinition} from './../../../contents/content-types'
 
 import {MODAL_DELETE_CONFIRM} from '#/main/core/layout/modal'
+import {actions as modalActions} from '#/main/core/layout/modal/actions'
 import {MODAL_ADD_ITEM} from './modal/add-item-modal.jsx'
 import {MODAL_IMPORT_ITEMS} from './modal/import-items-modal.jsx'
 import {MODAL_ADD_CONTENT} from './modal/add-content-modal.jsx'
 import {MODAL_MOVE_ITEM} from './modal/move-item-modal.jsx'
 import {MODAL_DUPLICATE_ITEM} from '#/plugin/exo/items/components/modal/duplicate-modal.jsx'
+
+import {select as quizSelect} from './../../selectors'
+import {select} from './../selectors'
+import {actions} from './../actions'
 
 import {Icon as ItemIcon} from './../../../items/components/icon.jsx'
 import {ValidationStatus} from '#/plugin/exo/components/validation-status.jsx'
@@ -493,7 +499,7 @@ StepFooter.propTypes = {
   handleFileUpload: T.func
 }
 
-export const StepEditor = props =>
+const StepEditor = props =>
   <div>
     <PanelGroup accordion activeKey={props.activePanelKey}>
       <Panel
@@ -587,6 +593,7 @@ export const StepEditor = props =>
   </div>
 
 StepEditor.propTypes = {
+  stepIndex: T.number,
   step: T.shape({
     id: T.string.isRequired,
     title: T.string.isRequired,
@@ -598,9 +605,9 @@ StepEditor.propTypes = {
   }).isRequired,
   mandatoryQuestions: T.bool.isRequired,
   numbering: T.string,
-  stepIndex: T.number,
   activePanelKey: T.oneOfType([T.string, T.bool]).isRequired,
   validating: T.bool.isRequired,
+
   updateStep: T.func.isRequired,
   handlePanelClick: T.func.isRequired,
   handleItemDelete: T.func.isRequired,
@@ -616,4 +623,21 @@ StepEditor.propTypes = {
   handleFileUpload: T.func,
   showModal: T.func.isRequired,
   closeModal: T.func.isRequired
+}
+
+function mapStateToProps(state) {
+  return {
+    validating: select.validating(state),
+    step: select.currentObjectDeep(state),
+    stepIndex: select.currentObjectIndex(state),
+    numbering: quizSelect.quizNumbering(state),
+    mandatoryQuestions: quizSelect.mandatoryQuestions(state),
+    activePanelKey: select.stepOpenPanel(state)
+  }
+}
+
+const ConnectedStepEditor = connect(mapStateToProps, Object.assign({}, modalActions, actions))(StepEditor)
+
+export {
+  ConnectedStepEditor as StepEditor
 }

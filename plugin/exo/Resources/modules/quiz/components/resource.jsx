@@ -12,7 +12,7 @@ import {Router} from '#/main/core/router/components/router.jsx'
 import {ResourceContainer} from '#/main/core/layout/resource/containers/resource.jsx'
 
 import {select as resourceSelect} from '#/main/core/layout/resource/selectors'
-import select from './../selectors'
+import {select} from './../selectors'
 import {select as editorSelect} from './../editor/selectors'
 
 import {actions as editorActions} from './../editor/actions'
@@ -28,7 +28,7 @@ const Resource = props =>
   <ResourceContainer
     editor={{
       opened: VIEW_EDITOR === props.viewMode,
-      open: '#/edit',
+      open: '#/edit/parameters',
       save: {
         disabled: !props.saveEnabled,
         action: props.save
@@ -39,13 +39,13 @@ const Resource = props =>
       {
         icon: 'fa fa-fw fa-home',
         label: tex('pass_quiz'),
-        action: '#overview'
+        action: '/'
       }, {
         icon: 'fa fa-fw fa-play',
         label: tex('exercise_try'),
         displayed: props.editable,
         disabled: !props.valid,
-        action: '#test'
+        action: '/test'
       }, {
         icon: 'fa fa-fw fa-list',
         label: tex('results_list'),
@@ -94,7 +94,6 @@ const Resource = props =>
         }, {
           path: '/edit',
           canEnter: () => props.editable,
-          exact: false,
           component: Editor
         }
       ]}
@@ -106,12 +105,12 @@ Resource.propTypes = {
     id: T.string.isRequired,
     title: T.string.isRequired
   }).isRequired,
-  steps: T.object.isRequired,
   editable: T.bool.isRequired,
   valid: T.bool.isRequired,
-  hasUserPapers: T.bool.isRequired,
+  hasPapers: T.bool.isRequired,
+  papersAdmin: T.bool.isRequired,
+  docimologyAdmin: T.bool.isRequired,
   registeredUser: T.bool.isRequired,
-  //viewMode: T.string.isRequired,
   saveEnabled: T.bool.isRequired,
 
   save: T.func.isRequired,
@@ -121,18 +120,13 @@ Resource.propTypes = {
 function mapStateToProps(state) {
   return {
     quiz: select.quiz(state),
-    steps: select.steps(state),
-    //viewMode: select.viewMode(state),
     editable: resourceSelect.editable(state),
-    empty: select.empty(state),
+    valid: editorSelect.valid(state),
     hasPapers: select.hasPapers(state),
-    hasUserPapers: select.hasUserPapers(state),
     papersAdmin: select.papersAdmin(state),
     docimologyAdmin: select.docimologyAdmin(state),
     registeredUser: select.registered(state),
-    saveEnabled: select.saveEnabled(state),
-    currentQuestionId: state.correction.currentQuestionId,
-    valid: editorSelect.valid(state)
+    saveEnabled: select.saveEnabled(state)
   }
 }
 
