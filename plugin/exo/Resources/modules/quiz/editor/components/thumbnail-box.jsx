@@ -3,34 +3,34 @@ import {PropTypes as T} from 'prop-types'
 import classes from 'classnames'
 
 import {t, tex} from '#/main/core/translation'
-import {MODAL_DELETE_CONFIRM} from '#/main/core/layout/modal'
-import {TooltipButton} from '#/main/core/layout/button/components/tooltip-button.jsx'
 
 import {SORT_DETECT, makeSortable} from './../../../utils/sortable'
-
 import {TYPE_STEP, TYPE_QUIZ} from './../../enums'
 import {ValidationStatus} from '#/plugin/exo/components/validation-status.jsx'
-import {ThumbnailDragPreview} from './thumbnail-drag-preview.jsx'
 
 const Actions = props =>
   <span className="step-actions">
-    <span
-      role="button"
-      title={tex('delete_step')}
-      className="fa fa-fw fa-trash-o"
+    <button
+      type="button"
+      className="btn btn-link-danger"
       onClick={e => {
         e.stopPropagation()
         props.onDeleteClick(props.id)
       }}
-    />
+    >
+      <span className="fa fa-fw fa-trash-o" />
+      <span className="sr-only">{tex('delete_step')}</span>
+    </button>
 
     {props.connectDragSource(
       <span
         role="button"
-        title={t('move')}
-        className="fa fa-fw fa-arrows drag-handle"
+        className="btn btn-link-default drag-handle"
         draggable="true"
-      />
+      >
+        <span className="fa fa-fw fa-arrows" />
+        <span className="sr-only">{t('move')}</span>
+      </span>
     )}
   </span>
 
@@ -78,6 +78,17 @@ Thumbnail.propTypes = {
   connectDropTarget: T.func.isRequired
 }
 
+const ThumbnailDragPreview = props =>
+  <span className="thumbnail">
+    <a className="step-title">
+      {props.title}
+    </a>
+  </span>
+
+ThumbnailDragPreview.propTypes = {
+  title: T.string.isRequired
+}
+
 Thumbnail = makeSortable(
   Thumbnail,
   'THUMBNAIL',
@@ -102,7 +113,7 @@ class ThumbnailBox extends Component {
 
   render() {
     return (
-      <div
+      <nav
         className="thumbnail-box scroller"
         ref={node => this.node = node}
       >
@@ -123,19 +134,17 @@ class ThumbnailBox extends Component {
           />
         )}
 
-        <TooltipButton
-          id="quiz-add-step"
-          className="btn btn-primary new-step"
-          title={tex('add_step')}
-          position="bottom"
+        <button
+          type="button"
+          className="btn new-step"
           onClick={() => {
             this.props.onNewStepClick(this.props.thumbnails.length)
             this.setState({addedThumbnail: true})
           }}
         >
-          <span className="fa fa-plus" />
-        </TooltipButton>
-      </div>
+          +
+        </button>
+      </nav>
     )
   }
 }
