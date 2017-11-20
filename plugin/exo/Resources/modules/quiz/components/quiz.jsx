@@ -113,7 +113,6 @@ function customActions(props) {
 
 function mapStateToProps(state) {
   return {
-    alerts: select.alerts(state),
     quiz: select.quiz(state),
     steps: select.steps(state),
     viewMode: select.viewMode(state),

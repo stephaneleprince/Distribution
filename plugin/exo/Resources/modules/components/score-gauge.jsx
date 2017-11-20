@@ -3,7 +3,8 @@ import {PropTypes as T} from 'prop-types'
 import classes from 'classnames'
 
 const ScoreGauge = props => {
-  const userScore = Math.round(props.userScore * 100) / 100
+  const userScore = props.userScore ? Math.round(props.userScore * 100) / 100 : props.userScore
+
   const pClass = 'p' + (Math.round((props.userScore / props.maxScore) * 100))
   const pObj = {}
   pObj[pClass] = props.userScore && Math.round(props.userScore) > 0

@@ -4,11 +4,14 @@ import {connect} from 'react-redux'
 
 import {tex} from '#/main/core/translation'
 import {select as resourceSelect} from '#/main/core/layout/resource/selectors'
+import {HtmlText} from '#/main/core/layout/components/html-text.jsx'
+
 import {select as playerSelectors} from './../selectors'
 import quizSelectors from './../../selectors'
 import {selectors as paperSelectors} from './../../papers/selectors'
 import {utils as paperUtils} from './../../papers/utils'
-import {ScoreGauge} from './../../../components/score-gauge.jsx'
+import {ScoreGauge} from '#/plugin/exo/components/score-gauge.jsx'
+import {QuizStart} from '#/plugin/exo/quiz/components/quiz-start.jsx'
 
 const AttemptEnd = props => {
   const showScore = paperUtils.showScore(props.admin, props.paper.finished, paperSelectors.showScoreAt(props.paper), paperSelectors.showCorrectionAt(props.paper), paperSelectors.correctionDate(props.paper))
@@ -24,7 +27,7 @@ const AttemptEnd = props => {
         }
         <div className={showScore ? 'col-md-9':'col-md-12'}>
           {props.endMessage ?
-            <div dangerouslySetInnerHTML={{__html: props.endMessage}}></div> :
+            <HtmlText>{props.endMessage}</HtmlText> :
             <div>
               <h2 className="step-title">{tex('attempt_end_title')}</h2>
               <p>{tex('attempt_end_info')}</p>
@@ -36,9 +39,8 @@ const AttemptEnd = props => {
               {tex('view_paper')}
             </a>
           }
-          <a href="#play" className="btn btn-start btn-lg btn-block btn-primary">
-            {tex('exercise_restart')}
-          </a>
+
+          <QuizStart />
         </div>
       </div>
     </div>

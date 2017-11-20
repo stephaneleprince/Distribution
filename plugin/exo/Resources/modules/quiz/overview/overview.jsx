@@ -10,6 +10,10 @@ import {
   SHOW_CORRECTION_AT_DATE
 } from './../enums'
 
+import {HtmlText} from '#/main/core/layout/components/html-text.jsx'
+import {ScoreGauge} from '#/plugin/exo/components/score-gauge.jsx'
+import {QuizStart} from '#/plugin/exo/quiz/components/quiz-start.jsx'
+
 const Parameter = props =>
   <tr>
     <th className="text-right col-md-4" scope="row">
@@ -114,36 +118,123 @@ Parameters.propTypes = {
   }).isRequired
 }
 
+const ParameterGridItem = props =>
+  <div className="quiz-parameter">
+    {props.children}
+  </div>
+
+const ParametersGrid = props =>
+  <div className="quiz-parameters-grid">
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading">10</span>
+      <span className="quiz-parameter-value">étapes</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading">14</span>
+      <span className="quiz-parameter-value">questions</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading fa fa-random" />
+      <span className="quiz-parameter-value">aléatoire</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading">100</span>
+      <span className="quiz-parameter-value">points</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading fa fa-clock-o" />
+      <span className="quiz-parameter-value">1h30min</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading fa fa-ban" />
+      <span className="quiz-parameter-value">pas d'interruption</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading fa fa-repeat" />
+      <span className="quiz-parameter-value">10 fois</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading fa fa-repeat" />
+      <span className="quiz-parameter-value">1 fois/jour</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading fa fa-user-secret" />
+      <span className="quiz-parameter-value">réponses anonymes</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading fa fa-check-square-o" />
+      <span className="quiz-parameter-value">le 23/05/2018</span>
+    </ParameterGridItem>
+
+    <ParameterGridItem>
+      <span className="quiz-parameter-heading fa fa-percent" />
+      <span className="quiz-parameter-value">en même temps que les résultats</span>
+    </ParameterGridItem>
+  </div>
+
+// !props.empty && props.parameters.showMetadata &&
+
+const UserProgression = props =>
+  <div className="panel panel-default user-progression">
+    <div className="panel-body">
+      <ScoreGauge maxScore={100} />
+
+      <h2 className="h5">Vous n'avez jamais répondu à ce quiz</h2>
+    </div>
+
+    <ul className="list-group">
+      <li className="list-group-item">
+        Nbre d'essais aujourd'hui
+        <span className="attempts-count">1 / 10</span>
+      </li>
+      <li className="list-group-item">
+        Nbre d'essais total
+        <span className="attempts-count">20</span>
+      </li>
+    </ul>
+
+
+  </div>
+
 const Layout = props =>
   <div className="quiz-overview">
-    {props.empty &&
-      <div className="alert alert-info text-center">
-        <span className="fa fa-fw fa-warning" />
-        {tex('exo_empty_user_read_only')}
+    <div className="row">
+      <div className="col-md-4">
+        <UserProgression />
+        <QuizStart />
       </div>
-    }
 
-    {props.description &&
-      <div className="quiz-description panel panel-default">
-        <div className="panel-body" dangerouslySetInnerHTML={{ __html: props.description }} />
+      <div className="col-md-8">
+        {props.description &&
+          <div className="quiz-description panel panel-default">
+            <HtmlText className="panel-body">{props.description}</HtmlText>
+          </div>
+        }
+
+        {props.description && props.parameters.showMetadata &&
+          <hr/>
+        }
+
+        {props.parameters.showMetadata &&
+          <div className="quiz-parameters">
+            <div className="quiz-parameter-primary">
+              <span className="quiz-parameter-heading fa fa-graduation-cap" />
+              <span className="quiz-parameter-value">Exercice Formatif</span>
+            </div>
+            <ParametersGrid />
+          </div>
+        }
       </div>
-    }
-    {props.parameters.showMetadata &&
-      <Parameters {...props}/>
-    }
-
-    {!props.empty &&
-      (props.parameters.maxAttempts === 0 ||
-        (
-          props.meta.userPaperCount < props.parameters.maxAttempts &&
-          ((props.meta.userPaperDayCount < props.parameters.maxAttemptsPerDay) || props.parameters.maxAttemptsPerDay === 0)
-        )
-      ) && ((props.meta.paperCount < props.parameters.maxPapers) || props.parameters.maxPapers === 0) &&
-
-      <a href="#play" className="btn btn-start btn-lg btn-primary btn-block">
-        {tex('exercise_start')}
-      </a>
-    }
+    </div>
   </div>
 
 Layout.propTypes = {
@@ -171,6 +262,7 @@ Layout.defaultProps = {
 class Overview extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       additionalInfo: false
     }
