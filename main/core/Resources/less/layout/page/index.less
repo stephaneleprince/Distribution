@@ -1,0 +1,45 @@
+/**
+ * Page styles
+ */
+
+@import "actions";
+@import "content";
+@import "header";
+@import "tabs";
+
+
+.page-container {
+    display: flex; // this permits to have the .page component to fill the available height
+}
+
+.page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; // fill parent
+    max-width: 100%;
+
+    &.fullscreen {
+        position: fixed;
+        z-index: @zindex-fullscreen;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        padding: floor(@grid-gutter-width / 2); // mimic grid
+        background: @body-bg; // regular page container has no background. We need to hide what is under
+        overflow-y: scroll; // get the scrollbar
+    }
+}
+
+.tabbed-page {
+    .page-header {
+        > div {
+            flex: 1;
+        }
+    }
+
+    .page-title {
+        margin-bottom: 5px;
+    }
+}

@@ -1,0 +1,44 @@
+
+.page-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto; // only specifying flex property here make the item fill the remaining space in its parent
+}
+
+.page-content-nav {
+    padding: 0;
+    margin-bottom: @component-margin-bottom;
+}
+
+.page-content-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    color: @text-color;
+    background: #ebebeb;
+    text-decoration: none;
+    border-radius: @border-radius-base;
+
+    > .fa {
+        margin-right: @icon-text-spacer;
+    }
+
+    &.active {
+        background: @summary-bg;
+        color: @summary-link-active-color;
+        padding-right: 30px;
+        margin-right: floor(-@grid-gutter-width / 2);
+        border-top-right-radius: @grid-gutter-width;
+        border-bottom-right-radius: @grid-gutter-width;
+
+        .box-shadow(@summary-box-shadow);
+    }
+
+    +.page-content-link {
+        margin-top: 5px;
+    }
+}

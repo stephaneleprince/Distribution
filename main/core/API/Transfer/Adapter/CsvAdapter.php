@@ -15,6 +15,10 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class CsvAdapter implements AdapterInterface
 {
+    const ROW_DELIMITER = PHP_EOL;
+    const COL_DELIMITER = ';';
+    const ARRAY_DELIMITER = ',';
+
     /** @var TranslatorInterface */
     private $translator;
     /** @var ArrayUtils */
@@ -33,27 +37,34 @@ class CsvAdapter implements AdapterInterface
         $this->arrayUtils = new ArrayUtils();
     }
 
+    public function getMimeTypes()
+    {
+        return ['text/csv', 'csv', 'text/plain'];
+    }
+
     /**
      * Create a php array object from the schema according to the data passed on.
      * Each line is a new object.
      *
      * @param string      $content
      * @param Explanation $explanation
+     *
+     * @return array
      */
     public function decodeSchema($content, Explanation $explanation)
     {
         $data = [];
-        $lines = str_getcsv($content, PHP_EOL);
+        $lines = str_getcsv($content, static::ROW_DELIMITER);
         $header = array_shift($lines);
         $headers = array_filter(
-          str_getcsv($header, ';'),
+          str_getcsv($header, static::COL_DELIMITER),
           function ($header) {
               return $header !== '';
           }
         );
 
         foreach ($lines as $line) {
-            $properties = str_getcsv($line, ';');
+            $properties = str_getcsv($line, static::COL_DELIMITER);
             $data[] = $this->buildObjectFromLine($properties, $headers, $explanation);
         }
 
@@ -66,6 +77,8 @@ class CsvAdapter implements AdapterInterface
      * @param array       $properties
      * @param array       $headers
      * @param Explanation $explanation
+     *
+     * @return array
      */
     private function buildObjectFromLine(array $properties, array $headers, Explanation $explanation)
     {
@@ -104,7 +117,7 @@ class CsvAdapter implements AdapterInterface
                 $object[$objectProp] = $value;
 
                 return $object;
-            }, explode(',', $value));
+            }, explode(static::ARRAY_DELIMITER, $value));
 
             $propertyName = implode('.', $keys);
         }
@@ -137,7 +150,7 @@ class CsvAdapter implements AdapterInterface
     {
         $lines = [];
         $headers = $options['headers'];
-        $lines[] = implode(';', $headers);
+        $lines[] = implode(static::COL_DELIMITER, $headers);
 
         foreach ($data as $object) {
             $properties = [];
@@ -148,7 +161,7 @@ class CsvAdapter implements AdapterInterface
                 $properties[] = $this->getCsvSerialized($object, $header);
             }
 
-            $lines[] = implode(';', $properties);
+            $lines[] = implode(static::COL_DELIMITER, $properties);
         }
 
         $data = implode('</br>', $lines);
@@ -181,6 +194,8 @@ class CsvAdapter implements AdapterInterface
         if (property_exists($object, $first) && !is_array($object->$first)) {
             return $object->{$first};
         }
+
+        return '';
     }
 
     /**
@@ -199,11 +214,6 @@ class CsvAdapter implements AdapterInterface
             $data[] = $this->getCsvSerialized($element, $path);
         }
 
-        return implode($data, ',');
-    }
-
-    public function getMimeTypes()
-    {
-        return ['text/csv', 'csv', 'text/plain'];
+        return implode($data, static::ARRAY_DELIMITER);
     }
 }

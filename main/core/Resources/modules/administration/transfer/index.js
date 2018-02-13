@@ -2,7 +2,7 @@ import {bootstrap} from '#/main/core/scaffolding/bootstrap'
 
 // reducers
 import {reducer} from '#/main/core/administration/transfer/reducer'
-import {Transfer} from '#/main/core/administration/transfer/components/transfer.jsx'
+import {TransferTool} from '#/main/core/administration/transfer/components/tool.jsx'
 
 // mount the react application
 bootstrap(
@@ -10,7 +10,7 @@ bootstrap(
   '.import-container',
 
   // app main component
-  Transfer,
+  TransferTool,
 
   // app store configuration
   reducer,

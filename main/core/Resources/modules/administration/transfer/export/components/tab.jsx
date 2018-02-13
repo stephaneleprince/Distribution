@@ -1,15 +1,24 @@
 import React from 'react'
-import {PageActions, PageAction} from '#/main/core/layout/page/components/page-actions.jsx'
-import {t} from '#/main/core/translation'
 
-const Action = () =>
+import {trans} from '#/main/core/translation'
+import {PageActions, PageAction} from '#/main/core/layout/page/components/page-actions.jsx'
+
+const ExportActions = () =>
   <PageActions>
     <PageAction
       id="execute-action"
-      icon="fa fa-download"
-      title={t('download')}
+      icon="fa fa-floppy-o"
+      title={trans('export')}
       action="#"
     />
   </PageActions>
 
-export {Action}
+const Export = () =>
+  <div>
+    //??
+  </div>
+
+export {
+  ExportActions,
+  Export
+}

@@ -18,9 +18,9 @@ const AdvancedSection = props =>
     showText={props.showText}
     hideText={props.hideText}
   >
-    {props.fields.map(field =>
+    {props.fields.map((field, index) =>
       <FormField
-        key={field.name}
+        key={`${field.name}-${index}`}
         {...field}
       />
     )}
@@ -88,11 +88,11 @@ class Form extends Component {
   renderFields(fields) {
     let rendered = []
 
-    fields.map(field => {
+    fields.map((field, index) => {
       rendered.push(
         <FormField
           {...field}
-          key={field.name}
+          key={`${field.name}-${index}`}
           value={undefined !== field.calculated ? field.calculated : get(this.props.data, field.name)}
           disabled={this.props.disabled || field.disabled}
           validating={this.props.validating}

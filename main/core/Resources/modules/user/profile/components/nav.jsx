@@ -9,12 +9,12 @@ import {Action as ActionTypes} from '#/main/core/layout/button/prop-types'
 import {TooltipAction} from '#/main/core/layout/button/components/tooltip-action.jsx'
 
 const ProfileNav = props =>
-  <nav className="user-profile-nav">
+  <nav className="page-content-nav user-profile-nav">
     {props.facets.map(facet =>
       <NavLink
         key={facet.id}
         to={`${props.prefix}/${facet.id}`}
-        className="user-profile-link"
+        className="page-content-link user-profile-link"
       >
         {facet.icon &&
           <span className={facet.icon} />

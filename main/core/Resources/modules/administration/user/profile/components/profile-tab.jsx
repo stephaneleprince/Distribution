@@ -44,7 +44,7 @@ const ProfileTabComponent = props =>
 
       <button
         type="button"
-        className="btn btn-block profile-facet-add"
+        className="btn btn-block profile-facet-add page-content-link"
         onClick={props.addFacet}
       >
         <span className="fa fa-fw fa-plus" />

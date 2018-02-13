@@ -1,0 +1,66 @@
+/*
+ * Styles for describing JSON Schemas in UI.
+ */
+
+// styles for flattened schemas (CSV)
+.schema-explain-flat {
+    .schema-property {
+        .label {
+            float: right;
+        }
+    }
+
+    .schema-oneOf {
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .schema-or {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            text-transform: uppercase;
+            line-height: 1;
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            background: #ebebeb;
+            border-radius: 50%;
+        }
+
+        .list-group {
+            flex: 1;
+            margin: 0;
+        }
+
+        .list-group-item {
+            background: transparent;
+
+            &:first-child {
+                border-top: none;
+            }
+        }
+    }
+
+    .property-name {
+        > small {
+            color: #777;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+    }
+
+    .property-type {
+        color: @text-muted;
+    }
+
+    .property-desc {
+        font-size: @font-size-small;
+        text-align: justify;
+        font-style: italic;
+        margin: 0;
+        margin-top: 5px;
+    }
+}

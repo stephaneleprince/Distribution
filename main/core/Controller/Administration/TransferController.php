@@ -43,6 +43,11 @@ class TransferController
      */
     public function indexAction()
     {
-        return ['explanation' => $this->transfer->getAvailableActions('csv')];
+        return [
+            'explanation' => [
+                'csv' => $this->transfer->getAvailableActions('csv'),
+                'json' => $this->transfer->getAvailableActions('json'),
+            ],
+        ];
     }
 }

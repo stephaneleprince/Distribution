@@ -93,7 +93,7 @@ export class ContentEditable extends Component {
       return
     }
 
-    const content = this.el.innerHTML
+    const content = this.el.innerHTML.trim()
     const offsets = getOffsets(document.getElementById(this.props.id))
 
     if (this.props.onChange && content !== this.lastContent) {

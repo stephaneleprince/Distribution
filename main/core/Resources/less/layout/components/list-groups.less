@@ -11,6 +11,18 @@
     .list-group-item-variant(selected; @state-info-bg; @state-info-text);
 }
 
+.list-group-stripped {
+    > .list-group-item:nth-of-type(odd) {
+        background-color: @table-bg-accent;
+    }
+}
+
+.list-group-hover {
+    > .list-group-item:hover {
+        background: @list-group-hover-bg;
+    }
+}
+
 .list-group-values {
     .list-group-item {
         display: flex;

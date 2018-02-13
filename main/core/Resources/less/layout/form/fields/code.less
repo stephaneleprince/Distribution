@@ -1,0 +1,12 @@
+.code-control {
+    .CodeMirror {
+        border: 1px solid @input-border;
+        border-radius: @input-border-radius;
+        box-shadow: @input-box-shadow;
+    }
+
+    .CodeMirror-focused {
+        border-color: @input-border-focus;
+        .box-shadow(~"@{input-box-shadow}, 0 0 8px @{input-border-focus}");
+    }
+}

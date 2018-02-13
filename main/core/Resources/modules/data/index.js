@@ -16,9 +16,12 @@ import {NUMBER_TYPE,      numberDefinition}      from '#/main/core/data/types/nu
 import {PASSWORD_TYPE,    passwordDefinition}    from '#/main/core/data/types/password'
 import {SCORE_TYPE,       scoreDefinition}       from '#/main/core/data/types/score'
 import {STRING_TYPE,      stringDefinition}      from '#/main/core/data/types/string'
+import {TRANSLATED_TYPE,  translatedDefinition}  from '#/main/core/data/types/translated'
 import {TRANSLATION_TYPE, translationDefinition} from '#/main/core/data/types/translation'
 import {USERNAME_TYPE,    usernameDefinition}    from '#/main/core/data/types/username'
-import {TRANSLATED_TYPE, translatedDefinition}   from '#/main/core/data/types/translated'
+
+// todo : do not register everywhere to avoid grabbing codemirror
+import {CODE_TYPE,    codeDefinition}            from '#/main/core/data/types/code'
 
 // the list of registered data types
 const dataTypes = {}
@@ -40,9 +43,11 @@ registerType(NUMBER_TYPE,      numberDefinition)
 registerType(PASSWORD_TYPE,    passwordDefinition)
 registerType(SCORE_TYPE,       scoreDefinition)
 registerType(STRING_TYPE,      stringDefinition)
-registerType(TRANSLATION_TYPE, translationDefinition)
 registerType(TRANSLATED_TYPE,  translatedDefinition)
+registerType(TRANSLATION_TYPE, translationDefinition)
 registerType(USERNAME_TYPE,    usernameDefinition)
+
+registerType(CODE_TYPE,    codeDefinition)
 
 /**
  * Validates & registers a data type.
