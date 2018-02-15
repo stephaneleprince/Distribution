@@ -2,6 +2,7 @@
 
 namespace Innova\PathBundle\Entity\Path;
 
+use Claroline\CoreBundle\Entity\Model\UuidTrait;
 use Claroline\CoreBundle\Entity\Resource\AbstractResource;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Path extends AbstractResource implements \JsonSerializable
 {
+    use UuidTrait;
+
     /**
      * Name of the path (only for forms).
      *
@@ -98,10 +101,20 @@ class Path extends AbstractResource implements \JsonSerializable
     protected $manualProgressionAllowed;
 
     /**
+     * Show overview to users or directly start the path.
+     *
+     * @ORM\Column(name="show_overview", type="boolean")
+     *
+     * @var bool
+     */
+    private $showOverview = true;
+
+    /**
      * Class constructor.
      */
     public function __construct()
     {
+        $this->refreshUuid();
         $this->steps = new ArrayCollection();
         $this->modified = false;
         $this->completeBlockingCondition = true;
@@ -239,6 +252,18 @@ class Path extends AbstractResource implements \JsonSerializable
         if ($this->steps->contains($step)) {
             $this->steps->removeElement($step);
         }
+
+        return $this;
+    }
+
+    /**
+     * Remove all steps.
+     *
+     * @return \Innova\PathBundle\Entity\Path\Path
+     */
+    public function emptySteps()
+    {
+        $this->steps->clear();
 
         return $this;
     }
@@ -445,5 +470,25 @@ class Path extends AbstractResource implements \JsonSerializable
             'manualProgressionAllowed' => $this->manualProgressionAllowed,
             'steps' => $steps,
         ];
+    }
+
+    /**
+     * Set show overview.
+     *
+     * @param bool $showOverview
+     */
+    public function setShowOverview($showOverview)
+    {
+        $this->showOverview = $showOverview;
+    }
+
+    /**
+     * Is overview shown ?
+     *
+     * @return bool
+     */
+    public function getShowOverview()
+    {
+        return $this->showOverview;
     }
 }

@@ -1,6 +1,7 @@
 {
   "webpack": {
     "entry": {
+      "resource": "resources/path",
       "editor": "editor",
       "player": "player"
     }

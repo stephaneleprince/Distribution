@@ -3,7 +3,9 @@
 namespace Innova\PathBundle\Entity;
 
 use Claroline\CoreBundle\Entity\Activity\ActivityParameters;
+use Claroline\CoreBundle\Entity\Model\UuidTrait;
 use Claroline\CoreBundle\Entity\Resource\Activity;
+use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,6 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Step implements \JsonSerializable
 {
+    use UuidTrait;
+
     const DEFAULT_NAME = 'Step';
 
     /**
@@ -122,6 +126,14 @@ class Step implements \JsonSerializable
      * @ORM\OrderBy({"lvl" = "ASC"})
      */
     protected $inheritedResources;
+
+    /**
+     * @var \Claroline\CoreBundle\Entity\Resource\ResourceNode
+     *
+     * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\Resource\ResourceNode")
+     * @ORM\JoinColumn(name="resource_id", nullable=true, onDelete="SET NULL")
+     */
+    protected $resource;
 
     /**
      * Class constructor.
@@ -745,5 +757,21 @@ class Step implements \JsonSerializable
         }
 
         return $jsonArray;
+    }
+
+    /**
+     * @return ResourceNode
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
+    /**
+     * @param ResourceNode $resource
+     */
+    public function setResource(ResourceNode $resource)
+    {
+        $this->resource = $resource;
     }
 }

@@ -5,10 +5,10 @@ namespace Innova\PathBundle\Entity\Path;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/** 
+/**
  * Abstract path.
- *  
- * @ORM\MappedSuperclass 
+ *
+ * @ORM\MappedSuperclass
  */
 class AbstractPath
 {

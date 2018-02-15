@@ -43,6 +43,29 @@ class PathController extends Controller
     }
 
     /**
+     * Open resource action.
+     *
+     * @EXT\Route("/{id}/old", name="innova_path_player_wizard_old")
+     * @EXT\Method("GET")
+     * @EXT\Template("InnovaPathBundle:Path:open2.html.twig")
+     *
+     * @param Path $path
+     *
+     * @return array
+     */
+    public function open2Action(Path $path)
+    {
+        $this->assertHasPermission('OPEN', $path);
+
+        return [
+            '_resource' => $path,
+            'editEnabled' => $this->get('innova_path.manager.path')->canEdit($path),
+            'userProgression' => $this->get('innova_path.manager.user_progression')->getUserProgression($path),
+            'totalProgression' => $this->get('innova_path.manager.user_progression')->calculateUserProgressionInPath($path),
+        ];
+    }
+
+    /**
      * Edit resource action.
      *
      * @EXT\Route("/{id}/edit", name="innova_path_editor_wizard")
