@@ -17,6 +17,7 @@ use Claroline\CoreBundle\Entity\Model\OrganizationsTrait;
 use Claroline\CoreBundle\Entity\Model\UuidTrait;
 use Claroline\CoreBundle\Entity\Organization\Organization;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
+use Claroline\CoreBundle\Entity\Task\ScheduledTask;
 use Claroline\CoreBundle\Entity\Tool\OrderedTool;
 use Claroline\CoreBundle\Validator\Constraints as ClaroAssert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -47,7 +48,7 @@ use Symfony\Component\Validator\ExecutionContextInterface;
  * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
  * @DoctrineAssert\UniqueEntity("username")
- * @DoctrineAssert\UniqueEntity("mail")
+ * @DoctrineAssert\UniqueEntity("email")
  * @Assert\Callback(methods={"isPublicUrlValid"})
  * @ClaroAssert\Username()
  * @ClaroAssert\UserAdministrativeCode()
@@ -142,13 +143,13 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     /**
      * @var string
      *
-     * @ORM\Column(unique=true)
+     * @ORM\Column(unique=true, name="mail")
      * @Assert\NotBlank()
      * @Assert\Email(strict = true)
      * @Groups({"api_user", "api_user_min"})
      * @SerializedName("mail")
      */
-    protected $mail;
+    protected $email;
 
     /**
      * @var string
@@ -436,6 +437,17 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
      */
     protected $locations;
 
+    /**
+     * @ORM\ManyToMany(
+     *     targetEntity="Claroline\CoreBundle\Entity\Task\ScheduledTask",
+     *     inversedBy="users"
+     * )
+     * @ORM\JoinTable(name="claro_scheduled_task_users")
+     *
+     * @var ArrayCollection
+     */
+    private $scheduledTasks;
+
     public function __construct()
     {
         parent::__construct();
@@ -448,6 +460,7 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
         $this->fieldsFacetValue = new ArrayCollection();
         $this->organizations = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->scheduledTasks = new ArrayCollection();
         $this->administratedOrganizations = new ArrayCollection();
         $this->refreshUuid();
         $this->setEmailValidationHash(uniqid('', true));
@@ -731,9 +744,9 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     /**
      * @return string
      */
-    public function getMail()
+    public function getEmail()
     {
-        return $this->mail;
+        return $this->email;
     }
 
     /**
@@ -741,9 +754,9 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
      *
      * @return User
      */
-    public function setMail($mail)
+    public function setEmail($email)
     {
-        $this->mail = $mail;
+        $this->email = $email;
 
         return $this;
     }
@@ -855,7 +868,7 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
         $roles = $this->getEntityRoles();
 
         foreach ($roles as $role) {
-            if ($role->getType() !== Role::WS_ROLE) {
+            if (Role::WS_ROLE !== $role->getType()) {
                 return $role;
             }
         }
@@ -872,7 +885,7 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
         $removedRoles = [];
 
         foreach ($roles as $role) {
-            if ($role->getType() !== Role::WS_ROLE) {
+            if (Role::WS_ROLE !== $role->getType()) {
                 $removedRoles[] = $role;
             }
         }
@@ -959,7 +972,7 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     public function isAccountNonExpired()
     {
         foreach ($this->getRoles() as $role) {
-            if ($role === 'ROLE_ADMIN') {
+            if ('ROLE_ADMIN' === $role) {
                 return true;
             }
         }
@@ -1069,7 +1082,7 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     {
         $defaultExpirationDate = (strtotime('2100-01-01')) ? '2100-01-01' : '2038-01-01';
 
-        return ($this->expirationDate !== null && $this->expirationDate->getTimestamp()) ?
+        return (null !== $this->expirationDate && $this->expirationDate->getTimestamp()) ?
             $this->expirationDate :
             new \DateTime($defaultExpirationDate);
     }
@@ -1082,6 +1095,8 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     public function addFieldFacet(FieldFacetValue $fieldFacetValue)
     {
         $this->fieldsFacetValue->add($fieldFacetValue);
+
+        $fieldFacetValue->setUser($this);
     }
 
     public function setInitDate($initDate)
@@ -1245,7 +1260,7 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     public function clearRoles()
     {
         foreach ($this->roles as $role) {
-            if ($role->getName() !== 'ROLE_USER') {
+            if ('ROLE_USER' !== $role->getName()) {
                 $this->removeRole($role);
             }
         }
@@ -1264,5 +1279,15 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     public function getLocations()
     {
         return $this->locations;
+    }
+
+    public function addScheduledTask(ScheduledTask $task)
+    {
+        $this->scheduledTasks->add($task);
+    }
+
+    public function removeScheduledTask(ScheduledTask $task)
+    {
+        $this->scheduledTasks->removeElement($task);
     }
 }

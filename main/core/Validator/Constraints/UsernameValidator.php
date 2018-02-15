@@ -54,8 +54,8 @@ class UsernameValidator extends ConstraintValidator
             $this->context->addViolation($constraint->error);
         }
 
-        if ($username !== $user->getMail()) {
-            $user = $this->om->getRepository('ClarolineCoreBundle:User')->findOneByMail($username);
+        if ($username !== $user->getEmail()) {
+            $user = $this->om->getRepository('ClarolineCoreBundle:User')->findOneByEmail($username);
 
             if ($user) {
                 $this->context->addViolation($this->translator->trans('username_already_used', ['%username%' => $username], 'platform'));

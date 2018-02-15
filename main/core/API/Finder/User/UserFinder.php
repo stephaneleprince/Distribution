@@ -79,6 +79,10 @@ class UserFinder implements FinderInterface
 
         foreach ($searches as $filterName => $filterValue) {
             switch ($filterName) {
+                case 'isDisabled':
+                    $qb->andWhere('obj.isEnabled = :isEnabled');
+                    $qb->setParameter('isEnabled', !$filterValue);
+                    break;
                 case 'hasPersonalWorkspace':
                     $qb->andWhere('obj.personalWorkspace IS NOT NULL');
                     break;
@@ -86,6 +90,11 @@ class UserFinder implements FinderInterface
                     $qb->leftJoin('obj.groups', 'g');
                     $qb->andWhere('g.uuid IN (:groupIds)');
                     $qb->setParameter('groupIds', is_array($filterValue) ? $filterValue : [$filterValue]);
+                    break;
+                case 'scheduledtask':
+                    $qb->leftJoin('obj.scheduledTasks', 'st');
+                    $qb->andWhere('st.id IN (:scheduledTasks)');
+                    $qb->setParameter('scheduledTasks', is_array($filterValue) ? $filterValue : [$filterValue]);
                     break;
                 case 'role':
                     $qb->leftJoin('obj.roles', 'r');
@@ -126,6 +135,10 @@ class UserFinder implements FinderInterface
 
         if (!in_array('isRemoved', array_keys($searches))) {
             $qb->andWhere('obj.isRemoved = FALSE');
+        }
+
+        if (!empty($sortBy) && 'isDisabled' === $sortBy['property'] && 0 !== $sortBy['direction']) {
+            $qb->orderBy('obj.isEnabled ', 1 === $sortBy['direction'] ? 'ASC' : 'DESC');
         }
 
         return $qb;
