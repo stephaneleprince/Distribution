@@ -5,7 +5,7 @@ import '#/main/core/innova/angular-translation'
 import {} from '#/main/core/modal/module'
 import {} from '#/main/core/api/router/module'
 import {} from '#/main/core/scaffolding/asset/module'
-import register from '#/main/core/register/register'
+import register from '#/main/core/utilities/register'
 import resourceIconSetList from './resource-icon-set-list.directive'
 import resourceIconSetService from './resource-icon-set-list.service'
 

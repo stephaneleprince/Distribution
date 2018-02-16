@@ -10,7 +10,8 @@ module.exports = {
     'prop-types',
     'invariant',
     'classnames',
-    'moment'
+    'moment',
+    'tinymce'
   ],
   'angular_dll': [
     'angular',

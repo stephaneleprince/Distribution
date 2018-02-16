@@ -3,7 +3,7 @@
  */
 
 import angular from 'angular/index'
-import 'angular-ui-tinymce/src/tinymce'
+import 'angular-ui-tinymce'
 
 import '#/main/core/api/router/module'
 import '#/main/core/translation/module'

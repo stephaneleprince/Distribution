@@ -118,8 +118,8 @@ class Form extends Component {
     const hLevel = this.props.level + (this.props.title ? 1 : 0)
     const sections = createFormDefinition(this.props.sections)
 
-    const primarySection = 1 === sections.length ? sections[0] : sections.find(section => section.primary)
-    const otherSections = sections.filter(section => section !== primarySection)
+    const primarySections = 1 === sections.length ? [sections[0]] : sections.filter(section => section.primary)
+    const otherSections = 1 !== sections.length ? sections.filter(section => !section.primary) : []
     const openedSection = otherSections.find(section => section.defaultOpened)
 
     return (
@@ -128,8 +128,8 @@ class Form extends Component {
           React.createElement('h'+this.props.level, {}, this.props.title)
         }
 
-        {primarySection &&
-          <div className="form-primary-section panel panel-default">
+        {primarySections.map(primarySection =>
+          <div key={primarySection.id} className="form-primary-section panel panel-default">
             <fieldset className="panel-body">
               {React.createElement('h'+hLevel, {
                 className: 'sr-only'
@@ -138,11 +138,11 @@ class Form extends Component {
               {this.renderFields(primarySection.fields)}
 
               {primarySection.advanced &&
-                <AdvancedSection {...primarySection.advanced} />
+              <AdvancedSection {...primarySection.advanced} />
               }
             </fieldset>
           </div>
-        }
+        )}
 
         {0 !== otherSections.length &&
           <FormSections
