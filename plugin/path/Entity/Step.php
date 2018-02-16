@@ -366,6 +366,18 @@ class Step implements \JsonSerializable
     }
 
     /**
+     * Empty a step from children.
+     *
+     * @return \Innova\PathBundle\Entity\Step
+     */
+    public function emptyChildren()
+    {
+        $this->children->clear();
+
+        return $this;
+    }
+
+    /**
      * Wrapper to access workspace of the Step.
      *
      * @return \Claroline\CoreBundle\Entity\Workspace\Workspace

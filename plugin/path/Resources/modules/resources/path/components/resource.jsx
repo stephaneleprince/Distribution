@@ -8,14 +8,14 @@ import {select as resourceSelect} from '#/main/core/resource/selectors'
 import {select as formSelect} from '#/main/core/data/form/selectors'
 import {actions as formActions} from '#/main/core/data/form/actions'
 import {Routes} from '#/main/core/router/components/router.jsx'
-import {ResourceContainer} from '#/main/core/resource/containers/resource.jsx'
+import {ResourcePageContainer} from '#/main/core/resource/containers/page.jsx'
 
 import {select} from '#/plugin/path/resources/path/selectors'
 import {Overview} from '#/plugin/path/resources/path/overview/components/overview.jsx'
 import {Editor} from '#/plugin/path/resources/path/editor/components/editor.jsx'
 
 const Resource = props =>
-  <ResourceContainer
+  <ResourcePageContainer
     editor={{
       opened: props.editorOpened,
       open: '#/edit',
@@ -58,7 +58,7 @@ const Resource = props =>
         }
       ]}
     />
-  </ResourceContainer>
+  </ResourcePageContainer>
 
 Resource.propTypes = {
   canEdit: T.bool.isRequired,
@@ -80,7 +80,7 @@ const PathResource = connect(
   (dispatch) => ({
     resetForm: (formData) => dispatch(formActions.resetForm('pathForm', formData)),
     saveForm: (pathId) => {}
-    // saveForm: (dropzoneId) => dispatch(formActions.saveForm('pathForm', ['claro_dropzone_update', {id: dropzoneId}]))
+    // saveForm: (pathId) => dispatch(formActions.saveForm('pathForm', ['apiv2_path_update', {id: pathId}]))
   })
 )(Resource)
 

@@ -5,7 +5,7 @@ namespace Innova\PathBundle\Installation\Updater;
 use Claroline\CoreBundle\Persistence\ObjectManager;
 use Claroline\InstallationBundle\Updater\Updater;
 
-class Updater110100 extends Updater
+class Updater110200 extends Updater
 {
     private $container;
 

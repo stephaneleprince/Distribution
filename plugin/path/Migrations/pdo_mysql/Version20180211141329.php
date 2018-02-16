@@ -14,11 +14,12 @@ class Version20180211141329 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
-        $this->addSql('
+        $this->addSql("
             ALTER TABLE innova_path 
-            ADD show_overview TINYINT(1) NOT NULL, 
+            ADD show_overview TINYINT(1) DEFAULT '1' NOT NULL, 
+            ADD show_summary TINYINT(1) DEFAULT '1' NOT NULL
             ADD uuid VARCHAR(36) NOT NULL
-        ');
+        ");
         $this->addSql('
             UPDATE innova_path SET uuid = (SELECT UUID())
         ');
@@ -54,7 +55,8 @@ class Version20180211141329 extends AbstractMigration
         ');
         $this->addSql('
             ALTER TABLE innova_path 
-            DROP show_overview, 
+            DROP show_overview,  
+            DROP show_summary
             DROP uuid
         ');
         $this->addSql('

@@ -7,9 +7,6 @@ import {select as formSelect} from '#/main/core/data/form/selectors'
 import {actions as formActions} from '#/main/core/data/form/actions'
 import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
 
-// import {DropzoneType} from '#/plugin/drop-zone/resources/dropzone/prop-types'
-// import {constants} from '#/plugin/drop-zone/resources/dropzone/constants'
-
 const EditorComponent = props =>
   <section className="resource-section">
     <h2 className="h-first">{trans('path_configuration', {}, 'path')}</h2>

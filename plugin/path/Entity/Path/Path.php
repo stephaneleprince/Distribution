@@ -103,11 +103,20 @@ class Path extends AbstractResource implements \JsonSerializable
     /**
      * Show overview to users or directly start the path.
      *
-     * @ORM\Column(name="show_overview", type="boolean")
+     * @ORM\Column(name="show_overview", type="boolean", options={"default" = 1})
      *
      * @var bool
      */
     private $showOverview = true;
+
+    /**
+     * Show summary.
+     *
+     * @ORM\Column(name="show_summary", type="boolean")
+     *
+     * @var bool
+     */
+    private $showSummary = true;
 
     /**
      * Class constructor.
@@ -490,5 +499,25 @@ class Path extends AbstractResource implements \JsonSerializable
     public function getShowOverview()
     {
         return $this->showOverview;
+    }
+
+    /**
+     * Set show summary.
+     *
+     * @param bool $showSummary
+     */
+    public function setShowSummary($showSummary)
+    {
+        $this->showSummary = $showSummary;
+    }
+
+    /**
+     * Is summary shown ?
+     *
+     * @return bool
+     */
+    public function getShowSummary()
+    {
+        return $this->showSummary;
     }
 }
