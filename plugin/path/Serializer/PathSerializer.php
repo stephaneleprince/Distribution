@@ -93,6 +93,7 @@ class PathSerializer
     {
         return [
             'id' => $step->getId(),
+            'description' => $step->getDescription(),
             'children' => array_map(function (Step $child) {
                 return $this->serialize($child);
             }, $step->getChildren()->toArray()),
@@ -128,6 +129,9 @@ class PathSerializer
         if (empty($step)) {
             $step = new Step();
             $step->setUuid($data['id']);
+        }
+        if (isset($data['description'])) {
+            $step->setDescription($data['description']);
         }
         $step->emptyChildren();
 

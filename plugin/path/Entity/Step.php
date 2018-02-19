@@ -128,6 +128,15 @@ class Step implements \JsonSerializable
     protected $inheritedResources;
 
     /**
+     * Description of the step.
+     *
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    protected $description;
+
+    /**
      * @var \Claroline\CoreBundle\Entity\Resource\ResourceNode
      *
      * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\Resource\ResourceNode")
@@ -401,20 +410,6 @@ class Step implements \JsonSerializable
     {
         if (!empty($this->activity)) {
             return $this->activity->getResourceNode()->getName();
-        }
-
-        return '';
-    }
-
-    /**
-     * Wrapper to access Activity description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        if (!empty($this->activity) && ' ' !== $this->activity->getDescription()) {
-            return $this->activity->getDescription();
         }
 
         return '';
@@ -769,6 +764,26 @@ class Step implements \JsonSerializable
         }
 
         return $jsonArray;
+    }
+
+    /**
+     * Get description of the step.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description.
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     /**

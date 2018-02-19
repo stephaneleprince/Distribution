@@ -112,7 +112,7 @@ class Path extends AbstractResource implements \JsonSerializable
     /**
      * Show summary.
      *
-     * @ORM\Column(name="show_summary", type="boolean")
+     * @ORM\Column(name="show_summary", type="boolean", options={"default" = 1})
      *
      * @var bool
      */

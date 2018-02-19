@@ -32,8 +32,11 @@ class Updater110200 extends Updater
         foreach ($steps as $step) {
             $activity = $step->getActivity();
 
-            if (!empty($activity) && !empty($activity->getPrimaryResource())) {
-                $step->setResource($activity->getPrimaryResource());
+            if (!empty($activity)) {
+                if (!empty($activity->getPrimaryResource())) {
+                    $step->setResource($activity->getPrimaryResource());
+                }
+                $step->setDescription($activity->getDescription());
                 $om->persist($step);
             }
             ++$i;

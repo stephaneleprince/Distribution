@@ -17,7 +17,7 @@ class Version20180211141329 extends AbstractMigration
         $this->addSql("
             ALTER TABLE innova_path 
             ADD show_overview TINYINT(1) DEFAULT '1' NOT NULL, 
-            ADD show_summary TINYINT(1) DEFAULT '1' NOT NULL
+            ADD show_summary TINYINT(1) DEFAULT '1' NOT NULL,
             ADD uuid VARCHAR(36) NOT NULL
         ");
         $this->addSql('
@@ -29,6 +29,7 @@ class Version20180211141329 extends AbstractMigration
         $this->addSql('
             ALTER TABLE innova_step 
             ADD resource_id INT DEFAULT NULL, 
+            ADD description LONGTEXT DEFAULT NULL,
             ADD uuid VARCHAR(36) NOT NULL
         ');
         $this->addSql('
@@ -56,7 +57,7 @@ class Version20180211141329 extends AbstractMigration
         $this->addSql('
             ALTER TABLE innova_path 
             DROP show_overview,  
-            DROP show_summary
+            DROP show_summary,
             DROP uuid
         ');
         $this->addSql('
@@ -72,6 +73,7 @@ class Version20180211141329 extends AbstractMigration
         $this->addSql('
             ALTER TABLE innova_step 
             DROP resource_id, 
+            DROP description,
             DROP uuid
         ');
     }
