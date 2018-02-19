@@ -132,6 +132,7 @@
     "autoload": {
         "psr-4": {
             "Claroline\\CoreBundle\\": "main/core/",
+            "Claroline\\AppBundle\\": "main/app/",
             "Claroline\\BundleRecorder\\": "main/recorder/",
             "Claroline\\InstallationBundle\\": "main/installation/",
             "Claroline\\MigrationBundle\\": "main/migration/",
