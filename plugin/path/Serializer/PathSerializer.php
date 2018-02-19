@@ -41,7 +41,6 @@ class PathSerializer
     {
         return [
             'id' => $path->getId(),
-            'name' => $path->getName(),
             'display' => [
                 'description' => $path->getDescription(),
                 'showOverview' => $path->getShowOverview(),
@@ -62,7 +61,6 @@ class PathSerializer
      */
     public function deserialize($data, Path $path)
     {
-        $path->setName($data['name']);
         $path->setUuid($data['id']);
 
         if (isset($data['display']['description'])) {

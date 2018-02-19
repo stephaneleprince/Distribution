@@ -5,13 +5,13 @@ import {makeReducer} from '#/main/core/scaffolding/reducer'
 import {makeFormReducer} from '#/main/core/data/form/reducer'
 
 import {
-  STEP_OPEN,
+  SECTION_OPEN,
   STEP_ADD,
   STEP_REMOVE
 } from '#/plugin/path/resources/path/editor/actions'
 
 const defaultState = {
-  currentStep: null,
+  currentSection: 'parameters',
   data: []
 }
 
@@ -27,7 +27,7 @@ const reducer = makeFormReducer('pathForm', defaultState, {
       if (!action.parentId) {
         steps.push({
           id: makeId(),
-          title: null,
+          title: `Step ${steps.length + 1}`,
           description: null,
           children: []
         })
@@ -36,8 +36,8 @@ const reducer = makeFormReducer('pathForm', defaultState, {
       return Object.assign({}, state, {steps: steps})
     }
   }),
-  currentStep: makeReducer(defaultState.currentStep, {
-    [STEP_OPEN]: (state, action) => action.id
+  currentSection: makeReducer(defaultState.currentSection, {
+    [SECTION_OPEN]: (state, action) => action.id
   })
 })
 

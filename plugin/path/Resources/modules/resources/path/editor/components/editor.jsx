@@ -8,9 +8,36 @@ import {actions as formActions} from '#/main/core/data/form/actions'
 import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
 
 import {actions} from '#/plugin/path/resources/path/editor/actions'
+import {select} from '#/plugin/path/resources/path/editor/selectors'
+
+const SummaryStep = props =>
+  <li className="summary-link">
+    <div className="tree-item">
+      <div className="step">
+        <span className="step-progression fa fa-fw fa-circle"/>
+        <span className="step-name">
+          {props.step.title}
+        </span>
+      </div>
+      <div className="step-actions">
+        <button
+          type="button"
+          className="btn btn-link"
+        >
+          <span className="fa fa-fw fa-plus"/>
+        </button>
+        <button
+          type="button"
+          className="btn btn-link"
+        >
+          <span className="fa fa-fw fa-trash-o"/>
+        </button>
+      </div>
+    </div>
+  </li>
 
 const Summary = props =>
-  <aside className="summary-container opened">
+  <aside className="summary-container opened pinned">
     <header className="summary-header">
       <h2 className="summary-title">
         <span className="fa fa-fw fa-ellipsis-v"/>
@@ -43,6 +70,14 @@ const Summary = props =>
             </div>
           </div>
         </li>
+        {props.path.steps.map(step =>
+          <SummaryStep
+            key={`summary-step-${step.id}`}
+            step={step}
+            addStep={props.addStep}
+            removeStep={props.removeStep}
+          />
+        )}
       </ul>
       <button
         className="btn btn-primary"
@@ -57,11 +92,35 @@ const EditorComponent = props =>
   <section className="resource-section">
     <h2 className="h-first">{trans('configuration', {}, 'platform')}</h2>
     <Summary {...props}/>
-    <FormContainer
-      level={3}
-      name="pathForm"
-      sections={[]}
-    />
+    {props.currentSection === 'parameters' &&
+      <FormContainer
+        level={3}
+        name="pathForm"
+        className="content-container"
+        sections={[{
+          id: 'parameters',
+          title: trans('parameters', {}, 'platform'),
+          fields: [
+            {
+              name: 'display.description',
+              type: 'html',
+              label: trans('description', {}, 'platform'),
+              required: false
+            },
+            {
+              name: 'display.showOverview',
+              type: 'boolean',
+              label: trans('show_overview', {}, 'path_wizards')
+            },
+            {
+              name: 'display.showSummary',
+              type: 'boolean',
+              label: trans('show_summary', {}, 'path_wizards')
+            }
+          ]
+        }]}
+      />
+    }
   </section>
 
 EditorComponent.propTypes = {
@@ -73,7 +132,8 @@ EditorComponent.propTypes = {
 
 const Editor = connect(
   state => ({
-    path: formSelect.data(formSelect.form(state, 'pathForm'))
+    path: formSelect.data(formSelect.form(state, 'pathForm')),
+    currentSection: select.currentSection(state)
   }),
   dispatch => ({
     addStep(parentId) {
