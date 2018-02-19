@@ -9,7 +9,7 @@ import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
 
 const EditorComponent = props =>
   <section className="resource-section">
-    <h2 className="h-first">{trans('path_configuration', {}, 'path')}</h2>
+    <h2 className="h-first">{trans('configuration', {}, 'platform')}</h2>
     <FormContainer
       level={3}
       name="pathForm"

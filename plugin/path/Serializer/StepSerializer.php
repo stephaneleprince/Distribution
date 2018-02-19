@@ -3,6 +3,7 @@
 namespace Innova\PathBundle\Serializer;
 
 use Claroline\CoreBundle\API\Serializer\SerializerTrait;
+use Claroline\CoreBundle\Persistence\ObjectManager;
 use Innova\PathBundle\Entity\Step;
 use JMS\DiExtraBundle\Annotation as DI;
 
