@@ -12,7 +12,6 @@ const pathReducer = makeReducer({}, {
 })
 
 const reducer = makeResourceReducer({}, {
-  user: makeReducer({}, {}),
   path: pathReducer,
   pathForm: editorReducer
 })

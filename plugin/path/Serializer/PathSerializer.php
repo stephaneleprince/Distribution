@@ -3,6 +3,7 @@
 namespace Innova\PathBundle\Serializer;
 
 use Claroline\CoreBundle\API\Serializer\SerializerTrait;
+use Claroline\CoreBundle\Persistence\ObjectManager;
 use Innova\PathBundle\Entity\Path\Path;
 use Innova\PathBundle\Entity\Step;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -15,20 +16,20 @@ class PathSerializer
 {
     use SerializerTrait;
 
-    private $stepSerializer;
+    private $stepRepo;
 
     /**
      * PathSerializer constructor.
      *
      * @DI\InjectParams({
-     *     "stepSerializer" = @DI\Inject("claroline.serializer.path.step")
+     *     "om" = @DI\Inject("claroline.persistence.object_manager")
      * })
      *
-     * @param StepSerializer $stepSerializer
+     * @param ObjectManager $om
      */
-    public function __construct(StepSerializer $stepSerializer)
+    public function __construct(ObjectManager $om)
     {
-        $this->stepSerializer = $stepSerializer;
+        $this->stepRepo = $om->getRepository('Innova\PathBundle\Entity\Step');
     }
 
     /**
@@ -41,8 +42,6 @@ class PathSerializer
         return [
             'id' => $path->getId(),
             'name' => $path->getName(),
-            'structure' => $path->getStructure(),
-            'modified' => $path->isModified(),
             'display' => [
                 'description' => $path->getDescription(),
                 'showOverview' => $path->getShowOverview(),
@@ -50,7 +49,7 @@ class PathSerializer
                 'summaryDisplayed' => $path->isSummaryDisplayed(),
             ],
             'steps' => array_map(function (Step $step) {
-                return $this->stepSerializer->serialize($step);
+                return $this->serializeStep($step);
             }, $path->getSteps()->toArray()),
         ];
     }
@@ -66,12 +65,6 @@ class PathSerializer
         $path->setName($data['name']);
         $path->setUuid($data['id']);
 
-        if (isset($data['structure'])) {
-            $path->setStructure($data['structure']);
-        }
-        if (isset($data['modified'])) {
-            $path->setModified($data['modified']);
-        }
         if (isset($data['display']['description'])) {
             $path->setDescription($data['display']['description']);
         }
@@ -92,6 +85,21 @@ class PathSerializer
     }
 
     /**
+     * @param Step $step
+     *
+     * @return array
+     */
+    private function serializeStep(Step $step)
+    {
+        return [
+            'id' => $step->getId(),
+            'children' => array_map(function (Step $child) {
+                return $this->serialize($child);
+            }, $step->getChildren()->toArray()),
+        ];
+    }
+
+    /**
      * @param array $stepsData
      * @param Path  $path
      */
@@ -100,8 +108,43 @@ class PathSerializer
         $path->emptySteps();
 
         foreach ($stepsData as $stepData) {
-            $step = $this->stepSerializer->deserialize($stepData, null, ['path' => $path]);
+            $step = $this->deserializeStep($stepData, null, ['path' => $path]);
             $path->addStep($step);
         }
+    }
+
+    /**
+     * @param array $data
+     * @param Step  $step
+     * @param array $options
+     *
+     * @return Step
+     */
+    private function deserializeStep($data, Step $step = null, array $options = [])
+    {
+        if (empty($step)) {
+            $step = $this->stepRepo->findOneBy(['uuid' => $data['id']]);
+        }
+        if (empty($step)) {
+            $step = new Step();
+            $step->setUuid($data['id']);
+        }
+        $step->emptyChildren();
+
+        if (isset($options['path'])) {
+            $step->setPath($options['path']);
+        }
+        if (isset($data['children'])) {
+            foreach ($data['children'] as $childData) {
+                $childOptions = [
+                    'path' => $options['path'],
+                    'parent' => $step,
+                ];
+                $child = $this->deserializeStep($childData, null, $childOptions);
+                $step->addChild($child);
+            }
+        }
+
+        return $step;
     }
 }
