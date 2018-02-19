@@ -24,6 +24,14 @@ const reducer = makeFormReducer('pathForm', defaultState, {
     [STEP_ADD]: (state, action) => {
       const steps = cloneDeep(state.steps)
 
+      if (!action.parentId) {
+        steps.push({
+          id: makeId(),
+          title: null,
+          description: null,
+          children: []
+        })
+      }
 
       return Object.assign({}, state, {steps: steps})
     }

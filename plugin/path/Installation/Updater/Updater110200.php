@@ -36,6 +36,7 @@ class Updater110200 extends Updater
                 if (!empty($activity->getPrimaryResource())) {
                     $step->setResource($activity->getPrimaryResource());
                 }
+                $step->setTitle($activity->getResourceNode()->getName());
                 $step->setDescription($activity->getDescription());
                 $om->persist($step);
             }

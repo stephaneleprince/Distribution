@@ -29,6 +29,7 @@ class Version20180211141329 extends AbstractMigration
         $this->addSql('
             ALTER TABLE innova_step 
             ADD resource_id INT DEFAULT NULL, 
+            ADD title VARCHAR(255) DEFAULT NULL,
             ADD description LONGTEXT DEFAULT NULL,
             ADD uuid VARCHAR(36) NOT NULL
         ');
@@ -73,6 +74,7 @@ class Version20180211141329 extends AbstractMigration
         $this->addSql('
             ALTER TABLE innova_step 
             DROP resource_id, 
+            DROP title,
             DROP description,
             DROP uuid
         ');

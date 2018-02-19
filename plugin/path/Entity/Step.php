@@ -128,6 +128,15 @@ class Step implements \JsonSerializable
     protected $inheritedResources;
 
     /**
+     * Title of the step.
+     *
+     * @var string
+     *
+     * @ORM\Column(name="title", nullable=true)
+     */
+    protected $title;
+
+    /**
      * Description of the step.
      *
      * @var string
@@ -764,6 +773,26 @@ class Step implements \JsonSerializable
         }
 
         return $jsonArray;
+    }
+
+    /**
+     * Get title of the step.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set title.
+     *
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**
