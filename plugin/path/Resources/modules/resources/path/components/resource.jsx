@@ -79,8 +79,8 @@ const PathResource = connect(
   }),
   (dispatch) => ({
     resetForm: (formData) => dispatch(formActions.resetForm('pathForm', formData)),
-    saveForm: (pathId) => {}
-    // saveForm: (pathId) => dispatch(formActions.saveForm('pathForm', ['apiv2_path_update', {id: pathId}]))
+    // saveForm: (pathId) => {}
+    saveForm: (pathId) => dispatch(formActions.saveForm('pathForm', ['apiv2_path_update', {id: pathId}]))
   })
 )(Resource)
 

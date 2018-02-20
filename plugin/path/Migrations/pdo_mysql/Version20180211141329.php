@@ -31,7 +31,8 @@ class Version20180211141329 extends AbstractMigration
             ADD resource_id INT DEFAULT NULL, 
             ADD title VARCHAR(255) DEFAULT NULL,
             ADD description LONGTEXT DEFAULT NULL,
-            ADD uuid VARCHAR(36) NOT NULL
+            ADD uuid VARCHAR(36) NOT NULL,
+            CHANGE activity_height activity_height INT DEFAULT NULL
         ');
         $this->addSql('
             UPDATE innova_step SET uuid = (SELECT UUID())
@@ -76,7 +77,8 @@ class Version20180211141329 extends AbstractMigration
             DROP resource_id, 
             DROP title,
             DROP description,
-            DROP uuid
+            DROP uuid,
+            CHANGE activity_height activity_height INT NOT NULL
         ');
     }
 }

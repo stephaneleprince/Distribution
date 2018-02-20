@@ -13,7 +13,10 @@ import {select} from '#/plugin/path/resources/path/editor/selectors'
 const SummaryStep = props =>
   <li className="summary-link">
     <div className="tree-item">
-      <div className="step">
+      <div
+        className="step"
+        onClick={() => props.openSection(props.step.id)}
+      >
         <span className="step-progression fa fa-fw fa-circle"/>
         <span className="step-name">
           {props.step.title}
@@ -35,6 +38,13 @@ const SummaryStep = props =>
       </div>
     </div>
   </li>
+
+SummaryStep.propTypes = {
+  step: T.shape({
+    title: T.string
+  }).isRequired,
+  openSection: T.func.isRequired
+}
 
 const Summary = props =>
   <aside className="summary-container opened pinned">
@@ -62,7 +72,10 @@ const Summary = props =>
       <ul className="tree">
         <li className="summary-link">
           <div className="tree-item">
-            <div className="step">
+            <div
+              className="step"
+              onClick={() => props.openSection('parameters')}
+            >
               <span className="step-progression fa fa-fw fa-circle"/>
               <span className="step-name">
                 {trans('parameters', {}, 'platform')}
@@ -74,6 +87,7 @@ const Summary = props =>
           <SummaryStep
             key={`summary-step-${step.id}`}
             step={step}
+            openSection={props.openSection}
             addStep={props.addStep}
             removeStep={props.removeStep}
           />
@@ -88,11 +102,37 @@ const Summary = props =>
     </nav>
   </aside>
 
+const StepForm = props =>
+  <FormContainer
+    level={3}
+    name="pathForm"
+    className="content-container"
+    dataPart={`steps[${props.currentSection}]`}
+    sections={[{
+      id: `step-${props.currentSection}`,
+      title: props.path.steps[props.currentSection],
+      fields: [
+        {
+          title: 'title',
+          type: 'string',
+          label: trans('title', {}, 'platform'),
+          required: true
+        },
+        {
+          name: 'description',
+          type: 'html',
+          label: trans('description', {}, 'platform'),
+          required: false
+        }
+      ]
+    }]}
+  />
+
 const EditorComponent = props =>
   <section className="resource-section">
     <h2 className="h-first">{trans('configuration', {}, 'platform')}</h2>
     <Summary {...props}/>
-    {props.currentSection === 'parameters' &&
+    {props.currentSection === 'parameters' ?
       <FormContainer
         level={3}
         name="pathForm"
@@ -102,15 +142,18 @@ const EditorComponent = props =>
           title: trans('parameters', {}, 'platform'),
           fields: [
             {
-              name: 'display.description',
-              type: 'html',
-              label: trans('description', {}, 'platform'),
-              required: false
-            },
-            {
               name: 'display.showOverview',
               type: 'boolean',
-              label: trans('show_overview', {}, 'path_wizards')
+              label: trans('show_overview', {}, 'path_wizards'),
+              linked: [
+                {
+                  name: 'display.description',
+                  type: 'html',
+                  label: trans('description', {}, 'platform'),
+                  displayed: props.path.display.showOverview,
+                  required: false
+                }
+              ]
             },
             {
               name: 'display.showSummary',
@@ -119,12 +162,14 @@ const EditorComponent = props =>
             }
           ]
         }]}
-      />
+      /> :
+      <StepForm {...props}/>
     }
   </section>
 
 EditorComponent.propTypes = {
   path: T.object,
+  currentSection: T.string,
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired,
   updateProp: T.func.isRequired
@@ -136,6 +181,9 @@ const Editor = connect(
     currentSection: select.currentSection(state)
   }),
   dispatch => ({
+    openSection(id) {
+      dispatch(actions.openSection(id))
+    },
     addStep(parentId) {
       dispatch(actions.addStep(parentId))
     },

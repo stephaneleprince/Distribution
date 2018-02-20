@@ -40,16 +40,14 @@ class PathSerializer
     public function serialize(Path $path)
     {
         return [
-            'id' => $path->getId(),
+            'id' => $path->getUuid(),
             'display' => [
                 'description' => $path->getDescription(),
                 'showOverview' => $path->getShowOverview(),
                 'showSummary' => $path->getShowSummary(),
                 'summaryDisplayed' => $path->isSummaryDisplayed(),
             ],
-            'steps' => array_map(function (Step $step) {
-                return $this->serializeStep($step);
-            }, $path->getSteps()->toArray()),
+            'steps' => $this->serializeSteps($path),
         ];
     }
 
@@ -83,20 +81,40 @@ class PathSerializer
     }
 
     /**
+     * @param Path $path
+     *
+     * @return array
+     */
+    private function serializeSteps(Path $path)
+    {
+        $steps = [];
+
+        foreach ($path->getSteps() as $step) {
+            $steps[] = $this->serializeStep($step);
+        }
+
+        return $steps;
+    }
+
+    /**
      * @param Step $step
      *
      * @return array
      */
     private function serializeStep(Step $step)
     {
-        return [
-            'id' => $step->getId(),
+        $serializedStep = [
+            'id' => $step->getUuid(),
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
-            'children' => array_map(function (Step $child) {
-                return $this->serialize($child);
-            }, $step->getChildren()->toArray()),
+            'children' => [],
         ];
+
+        foreach ($step->getChildren() as $child) {
+            $serializedStep['children'][] = $this->serializeStep($child);
+        }
+
+        return $serializedStep;
     }
 
     /**
@@ -106,10 +124,12 @@ class PathSerializer
     private function deserializeSteps($stepsData, Path $path)
     {
         $path->emptySteps();
+        $order = 0;
 
         foreach ($stepsData as $stepData) {
-            $step = $this->deserializeStep($stepData, null, ['path' => $path]);
+            $step = $this->deserializeStep($stepData, null, ['path' => $path, 'order' => $order]);
             $path->addStep($step);
+            ++$order;
         }
     }
 
@@ -140,14 +160,27 @@ class PathSerializer
         if (isset($options['path'])) {
             $step->setPath($options['path']);
         }
+        if (isset($options['order'])) {
+            $step->setOrder($options['order']);
+        }
+        if (isset($options['parent'])) {
+            $step->setParent($options['parent']);
+            $step->setLvl($options['parent']->getLvl() + 1);
+        } else {
+            $step->setLvl(0);
+        }
         if (isset($data['children'])) {
+            $order = 0;
+
             foreach ($data['children'] as $childData) {
                 $childOptions = [
                     'path' => $options['path'],
                     'parent' => $step,
+                    'order' => $order,
                 ];
                 $child = $this->deserializeStep($childData, null, $childOptions);
                 $step->addChild($child);
+                ++$order;
             }
         }
 
