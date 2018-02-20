@@ -9,6 +9,7 @@ import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
 
 import {actions} from '#/plugin/path/resources/path/editor/actions'
 import {select} from '#/plugin/path/resources/path/editor/selectors'
+import {getFormDataPart} from '#/plugin/path/resources/path/editor/utils'
 
 const SummaryStep = props =>
   <li className="summary-link">
@@ -26,6 +27,7 @@ const SummaryStep = props =>
         <button
           type="button"
           className="btn btn-link"
+          onClick={() => props.addStep(props.step.id)}
         >
           <span className="fa fa-fw fa-plus"/>
         </button>
@@ -37,13 +39,29 @@ const SummaryStep = props =>
         </button>
       </div>
     </div>
+    {props.step.children.length > 0 &&
+      <ul className="step-children">
+        {props.step.children.map(child =>
+          <SummaryStep
+            key={`summary-step-${child.id}`}
+            step={child}
+            openSection={props.openSection}
+            addStep={props.addStep}
+            removeStep={props.removeStep}
+          />
+        )}
+      </ul>
+    }
   </li>
 
 SummaryStep.propTypes = {
   step: T.shape({
-    title: T.string
+    title: T.string,
+    children: T.array
   }).isRequired,
-  openSection: T.func.isRequired
+  openSection: T.func.isRequired,
+  addStep: T.func.isRequired,
+  removeStep: T.func.isRequired
 }
 
 const Summary = props =>
@@ -107,13 +125,13 @@ const StepForm = props =>
     level={3}
     name="pathForm"
     className="content-container"
-    dataPart={`steps[${props.currentSection}]`}
+    dataPart={getFormDataPart(props.currentSection, props.path.steps)}
     sections={[{
-      id: `step-${props.currentSection}`,
-      title: props.path.steps[props.currentSection],
+      id: 'step',
+      title: 'step',
       fields: [
         {
-          title: 'title',
+          name: 'title',
           type: 'string',
           label: trans('title', {}, 'platform'),
           required: true

@@ -90,7 +90,9 @@ class PathSerializer
         $steps = [];
 
         foreach ($path->getSteps() as $step) {
-            $steps[] = $this->serializeStep($step);
+            if (is_null($step->getParent())) {
+                $steps[] = $this->serializeStep($step);
+            }
         }
 
         return $steps;

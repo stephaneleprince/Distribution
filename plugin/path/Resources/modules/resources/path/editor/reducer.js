@@ -4,6 +4,8 @@ import {makeId} from '#/main/core/scaffolding/id'
 import {makeReducer} from '#/main/core/scaffolding/reducer'
 import {makeFormReducer} from '#/main/core/data/form/reducer'
 
+import {getStepPath} from '#/plugin/path/resources/path/editor/utils'
+
 import {
   SECTION_OPEN,
   STEP_ADD,
@@ -28,6 +30,21 @@ const reducer = makeFormReducer('pathForm', defaultState, {
         steps.push({
           id: makeId(),
           title: `Step ${steps.length + 1}`,
+          description: null,
+          children: []
+        })
+      } else {
+        const stepPath = getStepPath(action.parentId, steps, 0, [])
+        let step = steps[stepPath[0]]
+        let name = `Step ${stepPath[0] + 1}`
+
+        for (let i = 1; i < stepPath.length; ++i) {
+          step = step.children[stepPath[i]]
+          name += `.${stepPath[i] + 1}`
+        }
+        step.children.push({
+          id: makeId(),
+          title: `${name}.${step.children.length + 1}`,
           description: null,
           children: []
         })

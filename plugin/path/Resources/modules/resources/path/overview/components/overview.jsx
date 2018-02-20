@@ -9,7 +9,7 @@ import {select} from '#/plugin/path/resources/path/selectors'
 
 const OverviewComponent = props =>
   <ResourceOverview
-    contentText={props.path.description ||
+    contentText={props.path.display.description ||
       <span className="empty-text">{trans('no_description', {}, 'platform')}</span>
     }
     actions={[]}
