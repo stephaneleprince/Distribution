@@ -94,7 +94,7 @@ class PathSerializer
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
             'children' => array_map(function (Step $child) {
-                return $this->serialize($child);
+                return $this->serializeStep($child);
             }, $step->getChildren()->toArray()),
         ];
     }
