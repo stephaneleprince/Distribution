@@ -37,12 +37,12 @@
                 {% if path.canEdit %}
                 <a href="{{ path('innova_path_publish', { id: path.entity.id }) }}" class="btn btn-default btn-xs">
                     <span class="fa fa-share-square-o"></span>
-                    {{ 'publish'|trans({}, 'innova_tools') }}
+                    {{ 'publish'|trans({}, 'platform') }}
                 </a>
 
                 <a href="{{ path('innova_path_editor_wizard', { id: path.entity.id }) }}" class="btn btn-default btn-xs">
                     <span class="fa fa-pencil"></span>
-                    {{ 'edit'|trans({}, 'innova_tools') }}
+                    {{ 'edit'|trans({}, 'platform') }}
                 </a>
                 {% endif %}
             </td>
@@ -51,5 +51,5 @@
     </tbody>
 </table>
 {% else %}
-<em style="display: block;margin-top: 15px;" class="text-center">{{ 'no_path'|trans({}, 'innova_tools') }}</em>
+<em style="display: block;margin-top: 15px;" class="text-center">{{ 'empty'|trans({}, 'platform') }}</em>
 {% endif %}

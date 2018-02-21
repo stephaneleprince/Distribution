@@ -77,6 +77,15 @@ class Path extends AbstractResource implements \JsonSerializable
     protected $modified;
 
     /**
+     * Numbering of the steps.
+     *
+     * @var string
+     *
+     * @ORM\Column
+     */
+    protected $numbering = 'none';
+
+    /**
      * Description of the path.
      *
      * @var string
@@ -288,6 +297,30 @@ class Path extends AbstractResource implements \JsonSerializable
     public function getSteps()
     {
         return $this->steps;
+    }
+
+    /**
+     * Get numbering.
+     *
+     * @return string
+     */
+    public function getNumbering()
+    {
+        return $this->numbering;
+    }
+
+    /**
+     * Set numbering.
+     *
+     * @param string $numbering
+     *
+     * @return Path
+     */
+    public function setNumbering($numbering)
+    {
+        $this->numbering = $numbering;
+
+        return $this;
     }
 
     /**

@@ -48,6 +48,7 @@ class PathSerializer
                 'showOverview' => $path->getShowOverview(),
                 'showSummary' => $path->getShowSummary(),
                 'openSummary' => $path->isSummaryDisplayed(),
+                'numbering' => $path->getNumbering(),
             ],
             'steps' => array_map(function (Step $step) {
                 return $this->serializeStep($step);
@@ -77,6 +78,9 @@ class PathSerializer
         if (isset($data['display']['summaryDisplayed'])) {
             $path->setSummaryDisplayed($data['display']['summaryDisplayed']);
         }
+        if (isset($data['display']['numbering'])) {
+            $path->setNumbering($data['display']['numbering']);
+        }
         if (isset($data['steps'])) {
             $this->deserializeSteps($data['steps'], $path);
         }
@@ -91,7 +95,7 @@ class PathSerializer
      */
     private function serializeStep(Step $step)
     {
-        $serializedStep = [
+        return [
             'id' => $step->getUuid(),
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
