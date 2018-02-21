@@ -20,6 +20,9 @@ bootstrap(
     summary: {
       opened: initialData.path.display.summaryDisplayed,
       pinned: initialData.path.display.summaryDisplayed
+    },
+    pathForm: {
+      data: initialData.path
     }
   })
 )

@@ -18,8 +18,7 @@ import {Player} from '#/plugin/path/resources/path/player/components/player.jsx'
 const Resource = props =>
   <ResourcePageContainer
     editor={{
-      opened: props.editorOpened,
-      open: '#/edit',
+      path: '/edit',
       save: {
         disabled: !props.saveEnabled,
         action: () => props.saveForm(props.path.id)
@@ -42,9 +41,7 @@ const Resource = props =>
         }, {
           path: '/edit',
           component: Editor,
-          canEnter: () => props.canEdit,
-          onLeave: () => props.resetForm(),
-          onEnter: () => props.resetForm(props.path)
+          canEnter: () => props.canEdit
         }, {
           path: '/play',
           component: Player
@@ -59,7 +56,6 @@ Resource.propTypes = {
   editorOpened: T.bool.isRequired,
   saveEnabled: T.bool.isRequired,
 
-  resetForm: T.func.isRequired,
   saveForm: T.func.isRequired
 }
 
@@ -71,8 +67,6 @@ const PathResource = connect(
     saveEnabled: formSelect.saveEnabled(formSelect.form(state, 'pathForm'))
   }),
   (dispatch) => ({
-    resetForm: (formData) => dispatch(formActions.resetForm('pathForm', formData)),
-    // saveForm: (pathId) => {}
     saveForm: (pathId) => dispatch(formActions.saveForm('pathForm', ['apiv2_path_update', {id: pathId}]))
   })
 )(Resource)
