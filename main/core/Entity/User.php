@@ -16,7 +16,9 @@ use Claroline\CoreBundle\Entity\Model\GroupsTrait;
 use Claroline\CoreBundle\Entity\Model\OrganizationsTrait;
 use Claroline\CoreBundle\Entity\Model\UuidTrait;
 use Claroline\CoreBundle\Entity\Organization\Organization;
+use Claroline\CoreBundle\Entity\Organization\UserOrganizationReference;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
+use Claroline\CoreBundle\Entity\Task\ScheduledTask;
 use Claroline\CoreBundle\Entity\Tool\OrderedTool;
 use Claroline\CoreBundle\Validator\Constraints as ClaroAssert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -203,7 +205,7 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
      * @ORM\OneToOne(
      *     targetEntity="Claroline\CoreBundle\Entity\Workspace\Workspace",
      *     inversedBy="personalUser",
-     *     cascade={"persist"}
+     *     cascade={"persist", "remove"}
      * )
      * @ORM\JoinColumn(name="workspace_id", onDelete="SET NULL")
      * @Groups({"api_user"})
@@ -401,25 +403,6 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     protected $emailValidationHash;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(
-     *     targetEntity="Claroline\CoreBundle\Entity\Organization\Organization",
-     *     inversedBy="users"
-     * )
-     */
-    protected $organizations;
-
-    /**
-     * @ORM\OneToMany(
-     *     targetEntity="Claroline\CoreBundle\Entity\Calendar\Event",
-     *     mappedBy="user",
-     *     cascade={"persist"}
-     * )
-     */
-    protected $events;
-
-    /**
      * @ORM\ManyToMany(targetEntity="Claroline\CoreBundle\Entity\Organization\Organization", inversedBy="administrators")
      * @ORM\JoinTable(name="claro_user_administrator")
      * @Groups({"api_user"})
@@ -436,6 +419,29 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
      */
     protected $locations;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Claroline\CoreBundle\Entity\Organization\UserOrganizationReference",
+     *     mappedBy="user",
+     *     cascade={"persist"},
+     *
+     *     orphanRemoval=true
+     *  )
+     * @ORM\JoinColumn(name="user_id", nullable=false)
+     */
+    protected $userOrganizationReferences;
+
+    /**
+     * @ORM\ManyToMany(
+     *     targetEntity="Claroline\CoreBundle\Entity\Task\ScheduledTask",
+     *     inversedBy="users"
+     * )
+     * @ORM\JoinTable(name="claro_scheduled_task_users")
+     *
+     * @var ArrayCollection
+     */
+    private $scheduledTasks;
+
     public function __construct()
     {
         parent::__construct();
@@ -447,8 +453,9 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
         $this->orderedTools = new ArrayCollection();
         $this->fieldsFacetValue = new ArrayCollection();
         $this->organizations = new ArrayCollection();
-        $this->events = new ArrayCollection();
+        $this->scheduledTasks = new ArrayCollection();
         $this->administratedOrganizations = new ArrayCollection();
+        $this->userOrganizationReferences = new ArrayCollection();
         $this->refreshUuid();
         $this->setEmailValidationHash(uniqid('', true));
     }
@@ -1182,15 +1189,35 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
             }
         }
 
-        return array_merge($organizations, $this->organizations->toArray());
+        $userOrgas = $this->userOrganizationReferences->toArray();
+        $userOrgas = array_map(function ($ref) {
+            return $ref->getOrganization();
+        }, $userOrgas);
+
+        return array_merge($organizations, $userOrgas);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getUserOrganizations()
+    public function addOrganization(Organization $organization)
     {
-        return $this->organizations;
+        $ref = new UserOrganizationReference();
+        $ref->setOrganization($organization);
+        $ref->setUser($this);
+        $this->userOrganizationReferences->add($ref);
+    }
+
+    public function removeOrganization(Organization $organization)
+    {
+        $found = null;
+
+        foreach ($this->userOrganizationReferences as $ref) {
+            if ($ref->getOrganization()->getId() === $organization->getId()) {
+                $found = $ref;
+            }
+        }
+
+        if ($found) {
+            $this->userOrganizationReferences->removeElement($found);
+        }
     }
 
     public function getAdministratedOrganizations()
@@ -1211,6 +1238,40 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     public function setAdministratedOrganizations($organizations)
     {
         $this->administratedOrganizations = $organizations;
+    }
+
+    public function getMainOrganization()
+    {
+        foreach ($this->userOrganizationReferences as $ref) {
+            if ($ref->isMain()) {
+                return $ref->getOrganization();
+            }
+        }
+    }
+
+    public function setMainOrganization(Organization $organization)
+    {
+        $found = false;
+
+        foreach ($this->userOrganizationReferences as $ref) {
+            if ($ref->isMain()) {
+                $ref->setIsMain(false);
+            }
+
+            if ($ref->getOrganization()->getUuid() === $organization->getUuid()) {
+                $found = true;
+                $ref->setIsMain(true);
+            }
+        }
+
+        //if it's not in the organization list, we add it
+        if (!$found) {
+            $ref = new UserOrganizationReference();
+            $ref->setOrganization($organization);
+            $ref->setUser($this);
+            $ref->setIsMain(true);
+            $this->userOrganizationReferences->add($ref);
+        }
     }
 
     public function setIsRemoved($isRemoved)
@@ -1266,5 +1327,15 @@ class User extends AbstractRoleSubject implements Serializable, AdvancedUserInte
     public function getLocations()
     {
         return $this->locations;
+    }
+
+    public function addScheduledTask(ScheduledTask $task)
+    {
+        $this->scheduledTasks->add($task);
+    }
+
+    public function removeScheduledTask(ScheduledTask $task)
+    {
+        $this->scheduledTasks->removeElement($task);
     }
 }
