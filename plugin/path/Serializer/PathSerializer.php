@@ -16,6 +16,7 @@ class PathSerializer
 {
     use SerializerTrait;
 
+    private $om;
     private $stepRepo;
 
     /**
@@ -29,6 +30,7 @@ class PathSerializer
      */
     public function __construct(ObjectManager $om)
     {
+        $this->om = $om;
         $this->stepRepo = $om->getRepository('Innova\PathBundle\Entity\Step');
     }
 
@@ -93,10 +95,14 @@ class PathSerializer
             'id' => $step->getUuid(),
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
-            'children' => array_map(function (Step $child) {
-                return $this->serializeStep($child);
-            }, $step->getChildren()->toArray()),
+            'children' => [],
         ];
+
+        foreach ($step->getChildren() as $child) {
+            $serializedStep['children'][] = $this->serializeStep($child);
+        }
+
+        return $serializedStep;
     }
 
     /**
@@ -105,23 +111,35 @@ class PathSerializer
      */
     private function deserializeSteps($stepsData, Path $path)
     {
+        $oldSteps = $path->getSteps()->toArray();
+        $newStepsUuids = [];
         $path->emptySteps();
+        $order = 0;
 
         foreach ($stepsData as $stepData) {
-            $step = $this->deserializeStep($stepData, null, ['path' => $path]);
+            $step = $this->deserializeStep($stepData, null, $newStepsUuids, ['path' => $path, 'order' => $order]);
             $path->addStep($step);
+            ++$order;
+        }
+        foreach ($oldSteps as $step) {
+            if (!in_array($step->getUuid(), $newStepsUuids)) {
+                $this->om->remove($step);
+            }
         }
     }
 
     /**
      * @param array $data
      * @param Step  $step
+     * @param array $newStepsUuids
      * @param array $options
      *
      * @return Step
      */
-    private function deserializeStep($data, Step $step = null, array $options = [])
+    private function deserializeStep($data, Step $step = null, array &$newStepsUuids, array $options = [])
     {
+        $newStepsUuids[] = $data['id'];
+
         if (empty($step)) {
             $step = $this->stepRepo->findOneBy(['uuid' => $data['id']]);
         }
@@ -140,14 +158,27 @@ class PathSerializer
         if (isset($options['path'])) {
             $step->setPath($options['path']);
         }
+        if (isset($options['order'])) {
+            $step->setOrder($options['order']);
+        }
+        if (isset($options['parent'])) {
+            $step->setParent($options['parent']);
+            $step->setLvl($options['parent']->getLvl() + 1);
+        } else {
+            $step->setLvl(0);
+        }
         if (isset($data['children'])) {
+            $order = 0;
+
             foreach ($data['children'] as $childData) {
                 $childOptions = [
                     'path' => $options['path'],
                     'parent' => $step,
+                    'order' => $order,
                 ];
-                $child = $this->deserializeStep($childData, null, $childOptions);
+                $child = $this->deserializeStep($childData, null, $newStepsUuids, $childOptions);
                 $step->addChild($child);
+                ++$order;
             }
         }
 

@@ -57,7 +57,7 @@ class Step implements \JsonSerializable
      *
      * @var int
      *
-     * @ORM\Column(name="activity_height", type="integer")
+     * @ORM\Column(name="activity_height", type="integer", nullable=true)
      */
     protected $activityHeight;
 
