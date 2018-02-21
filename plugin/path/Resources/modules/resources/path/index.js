@@ -14,5 +14,16 @@ bootstrap(
   PathResource,
 
   // app store configuration
-  reducer
+  reducer,
+
+  // transform data attributes for redux store
+  (initialData) => {
+    return {
+      resourceNode: initialData.resourceNode,
+      path: initialData.path,
+      pathForm: {
+        data: initialData.path
+      }
+    }
+  }
 )

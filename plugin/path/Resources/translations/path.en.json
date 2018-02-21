@@ -117,6 +117,7 @@
     "show_overview": "Display path information page",
     "show_path_info": "Show information about the path",
     "show_summary": "Display summary",
+    "step": "Step",
     "step_access_denied": "You haven't passed the previous steps",
     "step_access_denied_condition": "You don't meet the condition to access this step %stepName% because : %conditionList%",
     "step_access_denied_no_activity_set": "You can't access the step %stepName% because no activity has been set up for it. Please contact the workspace manager",
