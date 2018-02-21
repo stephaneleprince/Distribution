@@ -18,6 +18,8 @@ use Claroline\CoreBundle\Controller\APINew\Model\HasGroupsTrait;
 use Claroline\CoreBundle\Controller\APINew\Model\HasOrganizationsTrait;
 use Claroline\CoreBundle\Controller\APINew\Model\HasRolesTrait;
 use Claroline\CoreBundle\Entity\User;
+use Claroline\CoreBundle\Event\StrictDispatcher;
+use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -30,6 +32,23 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UserController extends AbstractCrudController
 {
+    /** @var StrictDispatcher */
+    private $eventDispatcher;
+
+    /**
+     * UserController constructor.
+     *
+     * @DI\InjectParams({
+     *    "eventDispatcher" = @DI\Inject("claroline.event.event_dispatcher")
+     * })
+     *
+     * @param StrictDispatcher $eventDispatcher
+     */
+    public function __construct(StrictDispatcher $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
     public function getName()
     {
         return 'user';
@@ -121,5 +140,36 @@ class UserController extends AbstractCrudController
             ['filters' => ['user' => $user->getUuid()]],
             $this->options['list']
         ));
+    }
+
+    /**
+     * @Route(
+     *    "/{keep}/{remove}/merge",
+     *    name="apiv2_user_merge"
+     * )
+     * @Method("POST")
+     * @ParamConverter("keep", options={"mapping": {"keep": "uuid"}})
+     * @ParamConverter("remove", options={"mapping": {"remove": "uuid"}})
+     */
+    public function mergeUsersAction(User $keep, User $remove)
+    {
+        // Change ownership of resource nodes
+
+        // Dispatch event
+        /** @var MergeUserEvent $event */
+        $event = $this->eventDispatcher->dispatch(
+            'merge_user',
+            'User\MergeUser',
+            [
+                $keep,
+                $remove,
+            ]
+        );
+
+        // Fetch success and error messages
+
+        // Delete old user
+
+        return new JsonResponse($event->getMessages());
     }
 }
