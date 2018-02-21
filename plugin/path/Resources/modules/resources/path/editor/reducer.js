@@ -51,6 +51,23 @@ const reducer = makeFormReducer('pathForm', defaultState, {
       }
 
       return Object.assign({}, state, {steps: steps})
+    },
+    [STEP_REMOVE]: (state, action) => {
+      const steps = cloneDeep(state.steps)
+      const stepPath = getStepPath(action.id, steps, 0, [])
+
+      if (stepPath.length === 1) {
+        steps.splice(stepPath[0], 1)
+      } else {
+        let step = steps[stepPath[0]]
+
+        for (let i = 1; i < stepPath.length - 1; ++i) {
+          step = step.children[stepPath[i]]
+        }
+        step.children.splice(stepPath[stepPath.length - 1], 1)
+      }
+
+      return Object.assign({}, state, {steps: steps})
     }
   }),
   currentSection: makeReducer(defaultState.currentSection, {

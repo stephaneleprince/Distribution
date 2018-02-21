@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
+import classes from 'classnames'
 
 import {trans} from '#/main/core/translation'
 import {select as formSelect} from '#/main/core/data/form/selectors'
@@ -12,7 +13,7 @@ import {select} from '#/plugin/path/resources/path/editor/selectors'
 import {getFormDataPart} from '#/plugin/path/resources/path/editor/utils'
 
 const SummaryStep = props =>
-  <li className="summary-link">
+  <li className={classes('summary-link', {active: props.step.id === props.currentSection})}>
     <div className="tree-item">
       <div
         className="step"
@@ -34,6 +35,7 @@ const SummaryStep = props =>
         <button
           type="button"
           className="btn btn-link"
+          onClick={() => props.removeStep(props.step.id)}
         >
           <span className="fa fa-fw fa-trash-o"/>
         </button>
@@ -45,6 +47,7 @@ const SummaryStep = props =>
           <SummaryStep
             key={`summary-step-${child.id}`}
             step={child}
+            currentSection={props.currentSection}
             openSection={props.openSection}
             addStep={props.addStep}
             removeStep={props.removeStep}
@@ -59,66 +62,95 @@ SummaryStep.propTypes = {
     title: T.string,
     children: T.array
   }).isRequired,
+  currentSection: T.string.isRequired,
   openSection: T.func.isRequired,
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired
 }
 
-const Summary = props =>
-  <aside className="summary-container opened pinned">
-    <header className="summary-header">
-      <h2 className="summary-title">
-        <span className="fa fa-fw fa-ellipsis-v"/>
-        {trans('summary', {}, 'path_wizards')}
-      </h2>
-      <div className="summary-controls">
-        <button
-          type="button"
-          className="summary-control summary-control-pin btn btn-link"
-        >
-          <span className="fa fa-fw fa-map-pin"/>
-        </button>
-        <button
-          type="button"
-          className="summary-control btn btn-link"
-        >
-          <span className="fa fa-fw fa-chevron-left"/>
-        </button>
-      </div>
-    </header>
-    <nav className="path-summary-tree">
-      <ul className="tree">
-        <li className="summary-link">
-          <div className="tree-item">
-            <div
-              className="step"
-              onClick={() => props.openSection('parameters')}
+class Summary extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      opened: true,
+      pinned: true
+    }
+  }
+
+  render() {
+    return (
+      <aside className={classes('summary-container', {opened: this.state.opened, pinned: this.state.pinned})}>
+        <header className="summary-header">
+          <h2 className="summary-title">
+            <span className="fa fa-fw fa-ellipsis-v"/>
+            {trans('summary', {}, 'path_wizards')}
+          </h2>
+          <div className="summary-controls">
+            <button
+              type="button"
+              className="summary-control summary-control-pin btn btn-link"
+              onClick={() => this.setState({pinned: !this.state.pinned})}
             >
-              <span className="step-progression fa fa-fw fa-circle"/>
-              <span className="step-name">
-                {trans('parameters', {}, 'platform')}
-              </span>
-            </div>
+              <span className="fa fa-fw fa-map-pin"/>
+            </button>
+            <button
+              type="button"
+              className="summary-control btn btn-link"
+              onClick={() => this.setState({opened: !this.state.opened})}
+            >
+              <span className={classes('fa fa-fw', {'fa-chevron-left': this.state.opened, 'fa-chevron-right': !this.state.opened})}/>
+            </button>
           </div>
-        </li>
-        {props.path.steps.map(step =>
-          <SummaryStep
-            key={`summary-step-${step.id}`}
-            step={step}
-            openSection={props.openSection}
-            addStep={props.addStep}
-            removeStep={props.removeStep}
-          />
-        )}
-      </ul>
-      <button
-        className="btn btn-primary"
-        onClick={() => props.addStep(null)}
-      >
-        {trans('step_add_child', {}, 'path_wizards')}
-      </button>
-    </nav>
-  </aside>
+        </header>
+        <nav className="path-summary-tree">
+          <ul className="tree">
+            <li className={classes('summary-link', {active: this.props.currentSection === 'parameters'})}>
+              <div className="tree-item">
+                <div
+                  className="step"
+                  onClick={() => this.props.openSection('parameters')}
+                >
+                  <span className="step-progression fa fa-fw fa-cog"/>
+                  <span className="step-name">
+                    {trans('parameters', {}, 'platform')}
+                  </span>
+                </div>
+                <div className="step-actions">
+                  <button
+                    type="button"
+                    className="btn btn-link"
+                    onClick={() => this.props.addStep(null)}
+                  >
+                    <span className="fa fa-fw fa-plus"/>
+                  </button>
+                </div>
+              </div>
+            </li>
+            {this.props.path.steps.map(step =>
+              <SummaryStep
+                key={`summary-step-${step.id}`}
+                step={step}
+                currentSection={this.props.currentSection}
+                openSection={this.props.openSection}
+                addStep={this.props.addStep}
+                removeStep={this.props.removeStep}
+              />
+            )}
+          </ul>
+        </nav>
+      </aside>
+    )
+  }
+}
+
+Summary.propTypes = {
+  path: T.shape({
+    steps: T.array
+  }).isRequired,
+  openSection: T.func.isRequired,
+  addStep: T.func.isRequired,
+  removeStep: T.func.isRequired
+}
 
 const StepForm = props =>
   <FormContainer
@@ -145,6 +177,13 @@ const StepForm = props =>
       ]
     }]}
   />
+
+StepForm.propTypes = {
+  path: T.shape({
+    steps: T.array
+  }).isRequired,
+  currentSection: T.string.isRequired
+}
 
 const EditorComponent = props =>
   <section className="resource-section">
@@ -187,10 +226,7 @@ const EditorComponent = props =>
 
 EditorComponent.propTypes = {
   path: T.object,
-  currentSection: T.string,
-  addStep: T.func.isRequired,
-  removeStep: T.func.isRequired,
-  updateProp: T.func.isRequired
+  currentSection: T.string.isRequired
 }
 
 const Editor = connect(
