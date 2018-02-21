@@ -16,14 +16,13 @@ bootstrap(
   // app store configuration
   reducer,
 
-  // transform data attributes for redux store
-  (initialData) => {
-    return {
-      resourceNode: initialData.resourceNode,
-      path: initialData.path,
-      pathForm: {
-        data: initialData.path
-      }
+  initialData => Object.assign({}, initialData, {
+    summary: {
+      opened: initialData.path.display.summaryDisplayed,
+      pinned: initialData.path.display.summaryDisplayed
+    },
+    pathForm: {
+      data: initialData.path
     }
-  }
+  })
 )
