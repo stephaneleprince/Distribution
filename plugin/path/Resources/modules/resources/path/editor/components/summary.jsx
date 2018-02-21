@@ -74,12 +74,19 @@ const SummaryHeader = props =>
         id="path-summary-open"
         position="bottom"
         className="btn-link summary-control"
-        icon="fa fa-fw fa-chevron-left"
+        icon={classes('fa fa-fw', {'fa-chevron-left': props.opened, 'fa-chevron-right': !props.opened})}
         label={trans('summary_open', {}, 'path')}
         action={props.toggleOpen}
       />
     </div>
   </header>
+
+SummaryHeader.propTypes = {
+  opened: T.bool.isRequired,
+  pinned: T.bool.isRequired,
+  toggleOpen: T.func.isRequired,
+  togglePin: T.func.isRequired
+}
 
 const Summary = props =>
   <aside className={classes('summary-container', {
