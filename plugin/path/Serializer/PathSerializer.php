@@ -91,7 +91,7 @@ class PathSerializer
      */
     private function serializeStep(Step $step)
     {
-        return [
+        $serializedStep = [
             'id' => $step->getUuid(),
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
