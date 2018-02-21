@@ -138,12 +138,12 @@ class PathController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                $this->get('translator')->trans('publish_success', [], 'path_wizards')
+                $this->get('translator')->trans('publish_success', [], 'path')
             );
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                $this->get('translator')->trans('publish_error', [], 'path_wizards')
+                $this->get('translator')->trans('publish_error', [], 'path')
             );
         }
 

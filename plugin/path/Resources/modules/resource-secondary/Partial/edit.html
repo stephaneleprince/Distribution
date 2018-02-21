@@ -23,10 +23,10 @@
                    href="{{ resource.url || ('claro_resource_open'|path:{node: resource.resourceId, resourceType: resource.type}) }}"
                    data-toggle="tooltip"
                    data-placement="left"
-                   data-title="{{ 'resource_show'|trans:{}:'path_wizards' }}"
+                   data-title="{{ 'resource_show'|trans:{}:'path' }}"
                 >
                     <span class="fa fa-fw fa-sign-out"></span>
-                    <span class="sr-only">{{ 'resource_show'|trans:{}:'path_wizards' }}</span>
+                    <span class="sr-only">{{ 'resource_show'|trans:{}:'path' }}</span>
                 </a>
 
                 <!-- Toggle visibility of the resource for the current step -->
@@ -35,7 +35,7 @@
                         data-ng-click="resourcesSecondaryEditCtrl.toggleExcluded(resource)"
                         data-toggle="tooltip"
                         data-placement="left"
-                        data-title="{{( resource.isExcluded ? 'resource_show_parent' : 'resource_hide_parent')|trans:{}:'path_wizards' }}"
+                        data-title="{{( resource.isExcluded ? 'resource_show_parent' : 'resource_hide_parent')|trans:{}:'path' }}"
                 >
                     <span class="fa fa-fw fa-eye"
                           data-ng-class="{
@@ -44,7 +44,7 @@
                           }"
                     ></span>
                     <span class="sr-only">
-                        {{( resource.isExcluded ? 'resource_show_parent' : 'resource_hide_parent')|trans:{}:'path_wizards' }}
+                        {{( resource.isExcluded ? 'resource_show_parent' : 'resource_hide_parent')|trans:{}:'path' }}
                     </span>
                 </button>
             </div>
@@ -69,10 +69,10 @@
                    href="{{ resource.url || ('claro_resource_open'|path:{node: resource.resourceId, resourceType: resource.type}) }}"
                    data-toggle="tooltip"
                    data-placement="left"
-                   data-title="{{ 'resource_show'|trans:{}:'path_wizards' }}"
+                   data-title="{{ 'resource_show'|trans:{}:'path' }}"
                 >
                     <span class="fa fa-fw fa-sign-out"></span>
-                    <span class="sr-only">{{ 'resource_show'|trans:{}:'path_wizards' }}</span>
+                    <span class="sr-only">{{ 'resource_show'|trans:{}:'path' }}</span>
                 </a>
 
                 <!-- Toggle visibility of the resource for the children -->
@@ -81,7 +81,7 @@
                         data-ng-click="resourcesSecondaryEditCtrl.togglePropagation(resource)"
                         data-toggle="tooltip"
                         data-placement="left"
-                        data-title="{{ (!resource.propagateToChildren ? 'resource_propagate' : 'resource_no_propagate')|trans:{}:'path_wizards' }}"
+                        data-title="{{ (!resource.propagateToChildren ? 'resource_propagate' : 'resource_no_propagate')|trans:{}:'path' }}"
                 >
                     <span class="fa fa-fw"
                           data-ng-class="{
@@ -90,7 +90,7 @@
                           }"
                     ></span>
                     <span class="sr-only">
-                        {{ (!resource.propagateToChildren ? 'resource_propagate' : 'resource_no_propagate')|trans:{}:'path_wizards' }}
+                        {{ (!resource.propagateToChildren ? 'resource_propagate' : 'resource_no_propagate')|trans:{}:'path' }}
                     </span>
                 </button>
 
@@ -99,10 +99,10 @@
                         data-ng-click="resourcesSecondaryEditCtrl.removeResource(resource)"
                         data-toggle="tooltip"
                         data-placement="left"
-                        data-title="{{ 'resource_delete'|trans:{}:'path_wizards' }}"
+                        data-title="{{ 'resource_delete'|trans:{}:'path' }}"
                 >
                     <span class="fa fa-fw fa-trash-o"></span>
-                    <span class="sr-only">{{ 'resource_delete'|trans:{}:'path_wizards' }}</span>
+                    <span class="sr-only">{{ 'resource_delete'|trans:{}:'path' }}</span>
                 </button>
             </div>
         </li>
@@ -111,7 +111,7 @@
     <div class="panel-body text-center">
         <btn-resource-picker class="btn btn-default" data-parameters="resourcesSecondaryEditCtrl.resourcePicker">
             <span class="fa fa-fw fa-plus"></span>
-            {{ 'resource_secondary_add'|trans:{}:'path_wizards' }}
+            {{ 'resource_secondary_add'|trans:{}:'path' }}
         </btn-resource-picker>
     </div>
 </div>

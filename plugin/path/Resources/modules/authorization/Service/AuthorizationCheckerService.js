@@ -55,7 +55,7 @@ export default class AuthorizationCheckerService {
       // No access to step that are not in accessibility dates
       deferred.resolve({
         granted: false,
-        errors: [this.Translator.trans('step_not_accessible', {}, 'path_wizards')]
+        errors: [this.Translator.trans('step_not_accessible', {}, 'path')]
       })
     } else if (this.UserProgressionService.iStepAlreadyAuthorized(step)) {
       // User has already unlock the step

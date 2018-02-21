@@ -22,7 +22,7 @@ class ResourcePage extends Component {
 
     // open resource in fullscreen if configured
     this.state = {
-      fullscreen: this.props.resourceNode.parameters.fullscreen
+      fullscreen: this.props.resourceNode.display.fullscreen
     }
 
     this.toggleFullscreen = this.toggleFullscreen.bind(this)
@@ -74,7 +74,7 @@ class ResourcePage extends Component {
 ResourcePage.propTypes = {
   resourceNode: T.shape({
     name: T.string.isRequired,
-    parameters: T.shape({
+    display: T.shape({
       fullscreen: T.bool.isRequired
     }).isRequired
   }).isRequired,

@@ -78,7 +78,7 @@ export default class SummaryItemEditDirective {
 
               // Override name
               step.name  = step.name ? step.name + ' ' : ''
-              step.name += '(' + Translator.trans('copy', {}, 'path_wizards') + ')'
+              step.name += '(' + Translator.trans('copy', {}, 'path') + ')'
             })
           })
         }
@@ -89,9 +89,9 @@ export default class SummaryItemEditDirective {
         this.removeStep = function () {
           if (0 !== this.step.lvl) {
             ConfirmService.open({
-              title:         Translator.trans('step_delete_title',   { stepName: this.step.name }, 'path_wizards'),
-              message:       Translator.trans('step_delete_confirm', {}                     , 'path_wizards'),
-              confirmButton: Translator.trans('step_delete',         {}                     , 'path_wizards')
+              title:         Translator.trans('step_delete_title',   { stepName: this.step.name }, 'path'),
+              message:       Translator.trans('step_delete_confirm', {}                     , 'path'),
+              confirmButton: Translator.trans('step_delete',         {}                     , 'path')
             },
               // Confirm success callback
               () => {

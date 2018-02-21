@@ -8,7 +8,7 @@
     <header class="summary-header">
         <h2 class="summary-title">
             <span class="fa fa-ellipsis-v"></span>
-            {{ 'summary'|trans:{}:'path_wizards' }}
+            {{ 'summary'|trans:{}:'path' }}
         </h2>
 
         <div class="summary-controls">
@@ -23,13 +23,13 @@
                           'fa-chevron-right': !summaryEditCtrl.state.opened
                       }"
                 ></span>
-                <span class="sr-only">{{ 'summary'|trans:{}:'path_wizards' }}</span>
+                <span class="sr-only">{{ 'summary'|trans:{}:'path' }}</span>
             </button>
         </div>
     </header>
 
     <em class="summary-empty" data-ng-if="summaryEditCtrl.structure.length === 0">
-        {{ 'path_no_structure'|trans:{}:'path_wizards' }}
+        {{ 'path_no_structure'|trans:{}:'path' }}
     </em>
 
     <!-- Block to display when a structure is set -->

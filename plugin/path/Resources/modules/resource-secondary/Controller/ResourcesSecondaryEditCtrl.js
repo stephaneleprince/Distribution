@@ -54,9 +54,9 @@ export default class ResourcesSecondaryEditCtrl extends ResourcesSecondaryBaseCt
    */
   removeResource(resource) {
     this.confirmService.open({
-      title:         this.Translator.trans('resource_delete_title',   { resourceName: resource.name }, 'path_wizards'),
-      message:       this.Translator.trans('resource_delete_confirm', {}                             , 'path_wizards'),
-      confirmButton: this.Translator.trans('resource_delete',         {}                             , 'path_wizards')
+      title:         this.Translator.trans('resource_delete_title',   { resourceName: resource.name }, 'path'),
+      message:       this.Translator.trans('resource_delete_confirm', {}                             , 'path'),
+      confirmButton: this.Translator.trans('resource_delete',         {}                             , 'path')
     },
     // Confirm success callback
     () => {

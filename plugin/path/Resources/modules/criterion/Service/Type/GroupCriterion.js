@@ -32,9 +32,9 @@ export default class GroupCriterion extends BaseCriterion {
           let message = null
           if (0 === this.userGroups.length) {
             // Current user has no group
-            message = this.Translator.trans('condition_criterion_test_usergroup_nogroup', {activityGroup: this.platformGroups[dataToTest]}, 'path_wizards')
+            message = this.Translator.trans('condition_criterion_test_usergroup_nogroup', {activityGroup: this.platformGroups[dataToTest]}, 'path')
           } else {
-            message = this.Translator.trans('condition_criterion_test_usergroup', {activityGroup: this.platformGroups[dataToTest], userGroup: this.getGroupNames(this.userGroups)}, 'path_wizards')
+            message = this.Translator.trans('condition_criterion_test_usergroup', {activityGroup: this.platformGroups[dataToTest], userGroup: this.getGroupNames(this.userGroups)}, 'path')
           }
 
           errors.push(message)

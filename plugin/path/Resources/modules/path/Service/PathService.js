@@ -147,7 +147,7 @@ export default class PathService {
           angular.merge(this.path, response.data)
 
           // Display confirm message
-          this.AlertService.addAlert('success', this.Translator.trans('path_save_success', {}, 'path_wizards'))
+          this.AlertService.addAlert('success', this.Translator.trans('path_save_success', {}, 'path'))
 
           // Resolve the Promise
           deferred.resolve(response)
@@ -156,7 +156,7 @@ export default class PathService {
 
       .error((response) => {
         // Display generic error for the User
-        this.AlertService.addAlert('error', this.Translator.trans('path_save_error', {}, 'path_wizards'))
+        this.AlertService.addAlert('error', this.Translator.trans('path_save_error', {}, 'path'))
 
         // Reject the Promise
         deferred.reject(response)
@@ -188,7 +188,7 @@ export default class PathService {
           angular.merge(this.path, response.data)
 
           // Display confirm message
-          this.AlertService.addAlert('success', this.Translator.trans('publish_success', {}, 'path_wizards'))
+          this.AlertService.addAlert('success', this.Translator.trans('publish_success', {}, 'path'))
 
           // Resolve the promise
           deferred.resolve(response)
@@ -197,7 +197,7 @@ export default class PathService {
 
       .error((response) => {
         // Display generic error to the User
-        this.AlertService.addAlert('error', this.Translator.trans('publish_error', {}, 'path_wizards'))
+        this.AlertService.addAlert('error', this.Translator.trans('publish_error', {}, 'path'))
 
         // Reject the Promise
         deferred.reject(response)

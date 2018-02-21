@@ -40,7 +40,7 @@ class PathSerializer
     public function serialize(Path $path)
     {
         return [
-            'id' => $path->getId(),
+            'id' => $path->getUuid(),
             'display' => [
                 'description' => $path->getDescription(),
                 'showOverview' => $path->getShowOverview(),
@@ -49,7 +49,7 @@ class PathSerializer
             ],
             'steps' => array_map(function (Step $step) {
                 return $this->serializeStep($step);
-            }, $path->getSteps()->toArray()),
+            }, $path->getRootSteps()),
         ];
     }
 
@@ -90,7 +90,7 @@ class PathSerializer
     private function serializeStep(Step $step)
     {
         return [
-            'id' => $step->getId(),
+            'id' => $step->getUuid(),
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
             'children' => array_map(function (Step $child) {

@@ -34,7 +34,7 @@
                                 {% if (userprogression.step.activity.title is defined) %}
                                         <tr>
                                             <td class="stepname">{{ userprogression.step.activity.title }}</td>
-                                            <td class="stepstatus">{{ userprogression.status | trans({}, 'path_wizards') }}</td>
+                                            <td class="stepstatus">{{ userprogression.status | trans({}, 'path') }}</td>
                                             <td>
                                             {% if userprogression.lockedcall %}
                                                 <button class="btn btn-primary btn-xs unlock"

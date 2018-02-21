@@ -1,7 +1,7 @@
 <div class="current-step-container" id="scroll-to-onload">
     <!-- No selected step alert -->
     <div class="alert alert-info text-center" data-ng-if="!stepShowCtrl.step">
-        {{ 'no_step_selected'|trans:{}:'path_wizards' }}
+        {{ 'no_step_selected'|trans:{}:'path' }}
     </div>
 
     <!-- User is not authorized to access this step -->
@@ -21,7 +21,7 @@
             data-original-title="{{ stepShowCtrl.previous.name }}"
         >
             <span class="fa fa-fw fa-angle-double-left"></span>
-            <span class="hidden-xs">{{ 'previous_step'|trans:{}:'path_wizards' }}</span>
+            <span class="hidden-xs">{{ 'previous_step'|trans:{}:'path' }}</span>
         </button>
 
         <button type="button" class="btn btn-lg btn-next btn-link"
@@ -31,7 +31,7 @@
             data-placement="left"
             data-original-title="{{ stepShowCtrl.next.name }}"
         >
-            <span class="hidden-xs">{{ 'next_step'|trans:{}:'path_wizards' }}</span>
+            <span class="hidden-xs">{{ 'next_step'|trans:{}:'path' }}</span>
             <span class="fa fa-fw fa-angle-double-right"></span>
         </button>
     </nav>
@@ -50,7 +50,7 @@
 
                         <div class="dropdown" data-ng-if="stepShowCtrl.path.manualProgressionAllowed">
                             <span class="dropdown-toggle" role="button" id="pathProgression" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                {{ 'user_progression'|trans:{}:'path_wizards' }} :
+                                {{ 'user_progression'|trans:{}:'path' }} :
                                 <b
                                     data-ng-class="{
                                         'text-muted': 'seen' === stepShowCtrl.progression.status,
@@ -59,7 +59,7 @@
                                         'text-success': 'done' === stepShowCtrl.progression.status,
                                     }"
                                 >
-                                    {{ 'user_progression_step_' + (stepShowCtrl.progression.status || 'seen') + '_label'|trans:{}:'path_wizards' }}
+                                    {{ 'user_progression_step_' + (stepShowCtrl.progression.status || 'seen') + '_label'|trans:{}:'path' }}
 
                                     <span class="caret"></span>
                                 </b>
@@ -68,17 +68,17 @@
                             <ul class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="pathProgression">
                                 <li data-ng-class="{active: 'to_do' === stepShowCtrl.progression.status}">
                                     <a href="" role="button" data-ng-click="stepShowCtrl.updateProgression('to_do')">
-                                        {{ 'user_progression_step_to_do_label'|trans:{}:'path_wizards' }}
+                                        {{ 'user_progression_step_to_do_label'|trans:{}:'path' }}
                                     </a>
                                 </li>
                                 <li data-ng-class="{active: 'done' === stepShowCtrl.progression.status}">
                                     <a href="" role="button" data-ng-click="stepShowCtrl.updateProgression('done')">
-                                        {{ 'user_progression_step_done_label'|trans:{}:'path_wizards' }}
+                                        {{ 'user_progression_step_done_label'|trans:{}:'path' }}
                                     </a>
                                 </li>
                                 <li data-ng-class="{active: 'to_review' === stepShowCtrl.progression.status}">
                                     <a href="" role="button" data-ng-click="stepShowCtrl.updateProgression('to_review')">
-                                        {{ 'user_progression_step_to_review_label'|trans:{}:'path_wizards' }}
+                                        {{ 'user_progression_step_to_review_label'|trans:{}:'path' }}
                                     </a>
                                 </li>
                             </ul>

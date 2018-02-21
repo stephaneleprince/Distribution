@@ -24,7 +24,7 @@
             <div class="page-actions-group">
                 <button type="button" class="btn page-action-btn page-action-primary" data-ng-click="pathShowCtrl.edit()">
                     <span class="action-icon fa fa-pencil"></span>
-                    <span class="sr-only">{{ 'edit'|trans:{}:'path_wizards' }}</span>
+                    <span class="sr-only">{{ 'edit'|trans:{}:'path' }}</span>
                 </button>
             </div>
 
@@ -43,13 +43,13 @@
                 <div class="btn-group dropdown">
                     <button class="btn page-action-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <span class="action-icon fa fa-ellipsis-v"></span>
-                        <span class="sr-only">{{ 'more_actions'|trans:{}:'path_wizards' }}</span>
+                        <span class="sr-only">{{ 'more_actions'|trans:{}:'path' }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-header">{{ 'innova_path'|trans:{}:'resource' }}</li>
                         <li>
                             <a href="" data-ng-click="pathShowCtrl.unlockManager()">
-                                <span class="fa fa-fw fa-lock"></span> {{ 'path_dashboard'|trans:{}:'path_wizards' }}
+                                <span class="fa fa-fw fa-lock"></span> {{ 'path_dashboard'|trans:{}:'path' }}
                             </a>
                         </li>
                     </ul>
@@ -84,16 +84,16 @@
                 <span class="fa fa-fw fa-warning"></span>
 
                 <!-- Message for Users who can only read the Path -->
-                <span data-ng-if="!pathShowCtrl.editEnabled">{{ 'path_empty_user_read_only'|trans:{}:'path_wizards' }}</span>
+                <span data-ng-if="!pathShowCtrl.editEnabled">{{ 'path_empty_user_read_only'|trans:{}:'path' }}</span>
 
                 <!-- Message for Users who can edit the Path -->
-                <span data-ng-if="pathShowCtrl.editEnabled">{{ 'path_empty_user_can_edit'|trans:{}:'path_wizards' }}</span>
+                <span data-ng-if="pathShowCtrl.editEnabled">{{ 'path_empty_user_can_edit'|trans:{}:'path' }}</span>
             </div>
 
             <!-- Display a big button for those who can edit Paths -->
             <button class="btn btn-block btn-primary btn-lg" data-ng-if="pathShowCtrl.editEnabled" data-ng-click="pathShowCtrl.edit()">
                 <span class="fa fa-pencil"></span>
-                {{ 'edit'|trans:{}:'path_wizards' }}
+                {{ 'edit'|trans:{}:'path' }}
             </button>
         </div>
     </div>

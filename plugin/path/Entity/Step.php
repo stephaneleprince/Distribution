@@ -94,7 +94,7 @@ class Step implements \JsonSerializable
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Step", mappedBy="parent", indexBy="id", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Step", mappedBy="parent", cascade={"persist", "remove"})
      * @ORM\OrderBy({"order" = "ASC"})
      */
     protected $children;

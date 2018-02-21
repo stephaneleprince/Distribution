@@ -18,9 +18,9 @@ export default class CriteriaGroupCtrl {
 
   removeGroup() {
     this.ConfirmService.open({
-      title:         this.Translator.trans('criteriagroup_delete_title',   {}, 'path_wizards'),
-      message:       this.Translator.trans('criteriagroup_delete_confirm', {}, 'path_wizards'),
-      confirmButton: this.Translator.trans('criteriagroup_delete',         {}, 'path_wizards')
+      title:         this.Translator.trans('criteriagroup_delete_title',   {}, 'path'),
+      message:       this.Translator.trans('criteriagroup_delete_confirm', {}, 'path'),
+      confirmButton: this.Translator.trans('criteriagroup_delete',         {}, 'path')
     },
       // Confirm success callback
       () => {

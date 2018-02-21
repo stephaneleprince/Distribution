@@ -1,16 +1,16 @@
 <div class="form-group">
-    <label>{{ 'primary_resource'|trans:{}:'path_wizards' }}</label>
+    <label>{{ 'primary_resource'|trans:{}:'path' }}</label>
 
     <div>
         <div class="no-resource" data-ng-if="!resourcesPrimaryEditCtrl.resources || resourcesPrimaryEditCtrl.resources.length == 0">
             <!-- No resource message -->
             <em>
-                {{ 'no_primary_resource'|trans:{}:'path_wizards' }}
+                {{ 'no_primary_resource'|trans:{}:'path' }}
             </em>
 
             <btn-resource-picker data-parameters="resourcesPrimaryEditCtrl.resourcePicker" class="btn btn-primary">
                 <span class="fa fa-plus"></span>
-                {{ 'resource_primary_add'|trans:{}:'path_wizards' }}
+                {{ 'resource_primary_add'|trans:{}:'path' }}
             </btn-resource-picker>
         </div>
 
@@ -32,7 +32,7 @@
                         data-ng-click="resourcesPrimaryEditCtrl.showResource(resourcesPrimaryEditCtrl.resources[0])"
                 >
                     <span class="fa fa-fw fa-sign-out"></span>
-                    <span class="sr-only">{{ 'resource_show'|trans:{}:'path_wizards' }}</span>
+                    <span class="sr-only">{{ 'resource_show'|trans:{}:'path' }}</span>
                 </button>
 
                 <!-- Delete resource -->
@@ -41,7 +41,7 @@
                         data-ng-click="resourcesPrimaryEditCtrl.removeResource(resourcesPrimaryEditCtrl.resources[0])"
                 >
                     <span class="fa fa-trash-o"></span>
-                    <span class="sr-only">{{ 'resource_primary_delete'|trans:{}:'path_wizards' }}</span>
+                    <span class="sr-only">{{ 'resource_primary_delete'|trans:{}:'path' }}</span>
                 </button>
             </div>
         </div>

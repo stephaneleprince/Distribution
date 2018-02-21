@@ -34,7 +34,7 @@ export default class StepService {
     const newStep = {
       id                : this.IdentifierService.generateUUID(),
       lvl               : lvl,
-      name              : parentStep ? 'Step '+lvl+'.'+(parentStep.children.length + 1) : this.Translator.trans('root_default_name', {}, 'path_wizards'),
+      name              : parentStep ? 'Step '+lvl+'.'+(parentStep.children.length + 1) : this.Translator.trans('root_default_name', {}, 'path'),
       description       : ' ',
       children          : [],
       activityId        : null,

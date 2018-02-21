@@ -27,9 +27,9 @@ export default class ConditionEditCtrl {
    */
   removeCondition() {
     this.ConfirmService.open({
-      title:         this.Translator.trans('condition_delete_title',   {}, 'path_wizards'),
-      message:       this.Translator.trans('condition_delete_confirm', {}, 'path_wizards'),
-      confirmButton: this.Translator.trans('condition_delete',         {}, 'path_wizards')
+      title:         this.Translator.trans('condition_delete_title',   {}, 'path'),
+      message:       this.Translator.trans('condition_delete_confirm', {}, 'path'),
+      confirmButton: this.Translator.trans('condition_delete',         {}, 'path')
     },
     // Confirm success callback
     () => {

@@ -123,7 +123,7 @@ export default class UserProgressionService {
       })
       .error((response) => {
         this.inProgress[step.resourceId] = false
-        this.AlertService.addAlert('error', this.Translator.trans('progression_save_error', {}, 'path_wizards'))
+        this.AlertService.addAlert('error', this.Translator.trans('progression_save_error', {}, 'path'))
 
         deferred.reject(response)
       })
@@ -173,7 +173,7 @@ export default class UserProgressionService {
 
       .error((response) => {
         this.inProgress[step.resourceId] = false
-        this.AlertService.addAlert('error', this.Translator.trans('progression_save_error', {}, 'path_wizards'))
+        this.AlertService.addAlert('error', this.Translator.trans('progression_save_error', {}, 'path'))
 
         deferred.reject(response)
       })

@@ -303,7 +303,7 @@ class PathListener
         $event->setTemplate($template);
 
         // Set translations
-        $event->addTranslationDomain('path_wizards');
+        $event->addTranslationDomain('path');
 
         // Add template required files
         $webpack = $this->container->get('claroline.extension.webpack');

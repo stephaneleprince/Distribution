@@ -41,7 +41,7 @@ const Summary = props =>
     <header className="summary-header">
       <h2 className="summary-title">
         <span className="fa fa-fw fa-ellipsis-v"/>
-        {trans('summary', {}, 'path_wizards')}
+        {trans('summary', {}, 'path')}
       </h2>
       <div className="summary-controls">
         <button
@@ -83,15 +83,17 @@ const Summary = props =>
         className="btn btn-primary"
         onClick={() => props.addStep(null)}
       >
-        {trans('step_add_child', {}, 'path_wizards')}
+        {trans('step_add_child', {}, 'path')}
       </button>
     </nav>
   </aside>
 
 const EditorComponent = props =>
   <section className="resource-section">
-    <h2 className="h-first">{trans('configuration', {}, 'platform')}</h2>
+    <h2 className="h2 h-first sr-only">{trans('configuration', {}, 'platform')}</h2>
+
     <Summary {...props}/>
+
     {props.currentSection === 'parameters' &&
       <FormContainer
         level={3}
@@ -110,12 +112,12 @@ const EditorComponent = props =>
             {
               name: 'display.showOverview',
               type: 'boolean',
-              label: trans('show_overview', {}, 'path_wizards')
+              label: trans('show_overview', {}, 'path')
             },
             {
               name: 'display.showSummary',
               type: 'boolean',
-              label: trans('show_summary', {}, 'path_wizards')
+              label: trans('show_summary', {}, 'path')
             }
           ]
         }]}

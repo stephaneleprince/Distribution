@@ -1,7 +1,7 @@
 <div class="current-step-container" id="scroll-to-onload">
     <!-- No selected step alert -->
     <div class="alert alert-info text-center" data-ng-if="!stepEditCtrl.step">
-        {{ 'no_step_selected'|trans:{}:'path_wizards' }}
+        {{ 'no_step_selected'|trans:{}:'path' }}
     </div>
 
     <!-- Next & previous navs -->
@@ -14,7 +14,7 @@
                 data-title="{{ stepEditCtrl.previous.name }}"
         >
             <span class="fa fa-fw fa-angle-double-left"></span>
-            <span class="hidden-xs">{{ 'previous_step'|trans:{}:'path_wizards' }}</span>
+            <span class="hidden-xs">{{ 'previous_step'|trans:{}:'path' }}</span>
         </button>
 
         <button type="button" class="btn btn-lg btn-next btn-link"
@@ -24,7 +24,7 @@
                 data-placement="left"
                 data-title="{{ stepShowCtrl.next.name }}"
         >
-            <span class="hidden-xs">{{ 'next_step'|trans:{}:'path_wizards' }}</span>
+            <span class="hidden-xs">{{ 'next_step'|trans:{}:'path' }}</span>
             <span class="fa fa-fw fa-angle-double-right"></span>
         </button>
     </nav>
@@ -44,19 +44,19 @@
                         <h2>{{ stepEditCtrl.step.name }}</h2>
 
                         <div class="actions">
-                            <button type="button" class="btn btn-link-default" data-ng-click="stepEditCtrl.showActivity()" data-ng-if="stepEditCtrl.step.activityId" data-toggle="tooltip" data-container="body" title="{{ 'see_activity'|trans:{}:'path_wizards' }}">
+                            <button type="button" class="btn btn-link-default" data-ng-click="stepEditCtrl.showActivity()" data-ng-if="stepEditCtrl.step.activityId" data-toggle="tooltip" data-container="body" title="{{ 'see_activity'|trans:{}:'path' }}">
                                 <span class="fa fa-fw fa-sign-out"></span>
-                                <span class="sr-only">{{ 'see_activity'|trans:{}:'path_wizards' }}</span>
+                                <span class="sr-only">{{ 'see_activity'|trans:{}:'path' }}</span>
                             </button>
 
-                            <btn-resource-picker class="btn btn-link-default" data-parameters="stepEditCtrl.resourcePicker" data-toggle="tooltip" data-container="body" title="{{ 'select_activity'|trans:{}:'path_wizards' }}">
+                            <btn-resource-picker class="btn btn-link-default" data-parameters="stepEditCtrl.resourcePicker" data-toggle="tooltip" data-container="body" title="{{ 'select_activity'|trans:{}:'path' }}">
                                 <span class="fa fa-fw fa-folder-open"></span>
-                                <span class="sr-only">{{ 'select_activity'|trans:{}:'path_wizards' }}</span>
+                                <span class="sr-only">{{ 'select_activity'|trans:{}:'path' }}</span>
                             </btn-resource-picker>
 
-                            <button type="button" class="btn btn-link-default" data-ng-click="stepEditCtrl.deleteActivity()" data-ng-if="stepEditCtrl.step.activityId" data-toggle="tooltip" data-container="body" title="{{ 'delete_activity'|trans:{}:'path_wizards' }}">
+                            <button type="button" class="btn btn-link-default" data-ng-click="stepEditCtrl.deleteActivity()" data-ng-if="stepEditCtrl.step.activityId" data-toggle="tooltip" data-container="body" title="{{ 'delete_activity'|trans:{}:'path' }}">
                                 <span class="fa fa-fw fa-trash-o"></span>
-                                <span class="sr-only">{{ 'delete_activity'|trans:{}:'path_wizards' }}</span>
+                                <span class="sr-only">{{ 'delete_activity'|trans:{}:'path' }}</span>
                             </button>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                     <fieldset data-ng-if="!stepEditCtrl.collapsedPanels.properties">
                         <!-- Evaluation Type -->
                         <div class="form-group">
-                            <label class="control-label" for="evaluation-type">{{ 'step_evaluation_type'|trans:{}:'path_wizards' }}</label>
+                            <label class="control-label" for="evaluation-type">{{ 'step_evaluation_type'|trans:{}:'path' }}</label>
                             <select class="form-control" id="evaluation-type" name="evaluation-type" data-ng-model="stepEditCtrl.step.evaluationType">
                                 <option value="manual">{{ 'manual'|trans:{}:'platform' }}</option>
                                 <option value="automatic">{{ 'automatic'|trans:{}:'platform' }}</option>
@@ -90,7 +90,7 @@
 
                         <!-- Min height of the Activity -->
                         <div class="form-group">
-                            <label class="control-label" for="activity-height">{{ 'activity_height'|trans:{}:'path_wizards' }}</label>
+                            <label class="control-label" for="activity-height">{{ 'activity_height'|trans:{}:'path' }}</label>
                             <div class="input-group">
                                 <input type="text" class="form-control text-right" name="activity-height" id="activity-height" data-ng-model="stepEditCtrl.step.activityHeight" data-ng-disabled="!stepEditCtrl.step.primaryResource || stepEditCtrl.step.primaryResource.length == 0" />
                                 <span class="input-group-addon">px</span>
@@ -99,17 +99,17 @@
 
                         <!-- With tutor -->
                         <div class="form-group">
-                            <label class="control-label" for="with-tutor">{{ 'with_tutor'|trans:{}:'path_wizards' }}</label>
+                            <label class="control-label" for="with-tutor">{{ 'with_tutor'|trans:{}:'path' }}</label>
                             <select class="form-control" name="with-tutor" id="with-tutor" data-ng-model="stepEditCtrl.step.withTutor">
                                 <option value=""></option>
-                                <option value="true">{{ 'yes'|trans:{}:'path_wizards' }}</option>
-                                <option value="false">{{ 'no'|trans:{}:'path_wizards' }}</option>
+                                <option value="true">{{ 'yes'|trans:{}:'path' }}</option>
+                                <option value="false">{{ 'no'|trans:{}:'path' }}</option>
                             </select>
                         </div>
 
                         <!-- Who -->
                         <div class="form-group">
-                            <label class="control-label" for="step-who">{{ 'step_who'|trans:{}:'path_wizards' }}</label>
+                            <label class="control-label" for="step-who">{{ 'step_who'|trans:{}:'path' }}</label>
                             <select class="form-control" id="step-who" name="step-who" data-ng-model="stepEditCtrl.step.who">
                                 <option value=""></option>
                                 <option value="individual">{{ 'individual'|trans:{}:'platform' }}</option>
@@ -120,7 +120,7 @@
 
                         <!-- Where -->
                         <div class="form-group">
-                            <label class="control-label" for="step-where">{{ 'step_where'|trans:{}:'path_wizards' }}</label>
+                            <label class="control-label" for="step-where">{{ 'step_where'|trans:{}:'path' }}</label>
                             <select class="form-control" id="step-where" name="step-where" data-ng-model="stepEditCtrl.step.where">
                                 <option value=""></option>
                                 <option value="classroom">{{ 'classroom'|trans:{}:'platform' }}</option>
@@ -130,7 +130,7 @@
 
                         <!-- Duration -->
                         <div class="form-group">
-                            <label class="control-label" for="duration">{{ 'step_duration'|trans:{}:'path_wizards' }}</label>
+                            <label class="control-label" for="duration">{{ 'step_duration'|trans:{}:'path' }}</label>
                             <duration-field class="row" data-model="stepEditCtrl.step.duration"></duration-field>
                         </div>
                     </fieldset>
@@ -142,7 +142,7 @@
                                 'fa-caret-up': !stepEditCtrl.collapsedPanels.properties
                               }"
                         ></span>
-                        {{ (!stepEditCtrl.collapsedPanels.properties ? 'properties_hide' : 'properties_show')|trans:{}:'path_wizards' }}
+                        {{ (!stepEditCtrl.collapsedPanels.properties ? 'properties_hide' : 'properties_show')|trans:{}:'path' }}
                     </a>
 
                     <hr/>

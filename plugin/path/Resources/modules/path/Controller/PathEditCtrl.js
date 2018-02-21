@@ -113,9 +113,9 @@ export default class PathEditCtrl extends PathBaseCtrl {
       if (this.modified) {
         // Path modified => modifications will not be visible before publishing so warn user
         this.confirmService.open({
-          title:         this.Translator.trans('preview_with_pending_changes_title',   {}, 'path_wizards'),
-          message:       this.Translator.trans('preview_with_pending_changes_message', {}, 'path_wizards'),
-          confirmButton: this.Translator.trans('preview_with_pending_changes_button',  {}, 'path_wizards')
+          title:         this.Translator.trans('preview_with_pending_changes_title',   {}, 'path'),
+          message:       this.Translator.trans('preview_with_pending_changes_message', {}, 'path'),
+          confirmButton: this.Translator.trans('preview_with_pending_changes_button',  {}, 'path')
         }, () => this.window.location.href = url)
       } else {
         // Open player to preview the path

@@ -1,7 +1,7 @@
 import React from 'react'
-import isEmpty from 'lodash/isEmpty'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
 
 import {trans} from '#/main/core/translation'
 import {select as resourceSelect} from '#/main/core/resource/selectors'
@@ -13,13 +13,13 @@ import {ResourcePageContainer} from '#/main/core/resource/containers/page.jsx'
 import {select} from '#/plugin/path/resources/path/selectors'
 import {Overview} from '#/plugin/path/resources/path/overview/components/overview.jsx'
 import {Editor} from '#/plugin/path/resources/path/editor/components/editor.jsx'
+import {Player} from '#/plugin/path/resources/path/player/components/player.jsx'
 
 const Resource = props =>
   <ResourcePageContainer
     editor={{
       opened: props.editorOpened,
       open: '#/edit',
-      label: trans('configure', {}, 'platform'),
       save: {
         disabled: !props.saveEnabled,
         action: () => props.saveForm(props.path.id)
@@ -30,16 +30,6 @@ const Resource = props =>
         icon: 'fa fa-fw fa-home',
         label: trans('show_overview', {}, 'platform'),
         action: '#/'
-      }, {
-        icon: 'fa fa-fw fa-share-square-o',
-        label: trans('publish', {}, 'platform'),
-        action: '#/',
-        displayed: props.canEdit
-      }, {
-        icon: 'fa fa-fw fa-lock',
-        label: trans('dashboard', {}, 'platform'),
-        action: '#/',
-        displayed: props.canEdit
       }
     ]}
   >
@@ -55,6 +45,9 @@ const Resource = props =>
           canEnter: () => props.canEdit,
           onLeave: () => props.resetForm(),
           onEnter: () => props.resetForm(props.path)
+        }, {
+          path: '/play',
+          component: Player
         }
       ]}
     />

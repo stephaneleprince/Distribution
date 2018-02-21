@@ -35,9 +35,9 @@ export default class TeamCriterion extends BaseCriterion {
           let message = null
           if (0 === this.userTeams.length) {
             // Current user has no team
-            message = this.Translator.trans('condition_criterion_test_userteam_noteam', {activityTeam: this.workspaceTeams[dataToTest]}, 'path_wizards')
+            message = this.Translator.trans('condition_criterion_test_userteam_noteam', {activityTeam: this.workspaceTeams[dataToTest]}, 'path')
           } else {
-            message = this.Translator.trans('condition_criterion_test_userteam', {activityTeam: this.workspaceTeams[dataToTest], userTeam: this.getTeamNames(this.userTeams)}, 'path_wizards')
+            message = this.Translator.trans('condition_criterion_test_userteam', {activityTeam: this.workspaceTeams[dataToTest], userTeam: this.getTeamNames(this.userTeams)}, 'path')
           }
 
           errors.push(message)

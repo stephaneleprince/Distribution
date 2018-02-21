@@ -15,9 +15,9 @@
                 var steprow = that.parent().parent();
                 var step = steprow.find('.stepname').html();
                 //update the column data
-                steprow.find('.stepstatus').html(window.Translator.trans('unseen', {}, 'path_wizards'));
+                steprow.find('.stepstatus').html(window.Translator.trans('unseen', {}, 'path'));
                 //set msg
-                $('#unlocked').html(window.Translator.trans('step_unlocked', {'user':user, 'step':step}, 'path_wizards'));
+                $('#unlocked').html(window.Translator.trans('step_unlocked', {'user':user, 'step':step}, 'path'));
                 //display msg
                 $('.lockmsg').css('display', 'block');
                 //remove button
