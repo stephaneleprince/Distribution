@@ -47,7 +47,7 @@ class PathSerializer
                 'description' => $path->getDescription(),
                 'showOverview' => $path->getShowOverview(),
                 'showSummary' => $path->getShowSummary(),
-                'summaryDisplayed' => $path->isSummaryDisplayed(),
+                'openSummary' => $path->isSummaryDisplayed(),
             ],
             'steps' => array_map(function (Step $step) {
                 return $this->serializeStep($step);
@@ -95,14 +95,10 @@ class PathSerializer
             'id' => $step->getUuid(),
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
-            'children' => [],
+            'children' => array_map(function (Step $child) {
+                return $this->serializeStep($child);
+            }, $step->getChildren()->toArray()),
         ];
-
-        foreach ($step->getChildren() as $child) {
-            $serializedStep['children'][] = $this->serializeStep($child);
-        }
-
-        return $serializedStep;
     }
 
     /**

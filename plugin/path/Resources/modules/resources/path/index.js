@@ -14,5 +14,12 @@ bootstrap(
   PathResource,
 
   // app store configuration
-  reducer
+  reducer,
+
+  initialData => Object.assign({}, initialData, {
+    summary: {
+      opened: initialData.path.display.summaryDisplayed,
+      pinned: initialData.path.display.summaryDisplayed
+    }
+  })
 )
