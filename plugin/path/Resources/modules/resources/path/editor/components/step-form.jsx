@@ -37,13 +37,6 @@ implementPropTypes(StepForm, StepTypes, {
   stepPath: T.string.isRequired
 })
 
-StepForm.propTypes = {
-  path: T.shape({
-    steps: T.array
-  }).isRequired,
-  stepId: T.string.isRequired
-}
-
 export {
   StepForm
 }
