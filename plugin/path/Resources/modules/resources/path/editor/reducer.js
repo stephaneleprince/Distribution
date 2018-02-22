@@ -23,18 +23,18 @@ const reducer = makeFormReducer('pathForm', defaultState, {
   }),
   data: makeReducer(defaultState.data, {
     [STEP_ADD]: (state, action) => {
-      const steps = cloneDeep(state.steps)
+      const newState = cloneDeep(state)
 
       if (!action.parentId) {
-        steps.push({
+        newState.steps.push({
           id: makeId(),
-          title: `${trans('step', {}, 'path')} ${steps.length + 1}`,
+          title: `${trans('step', {}, 'path')} ${newState.steps.length + 1}`,
           description: null,
           children: []
         })
       } else {
-        const stepPath = getStepPath(action.parentId, steps, 0, [])
-        let step = steps[stepPath[0]]
+        const stepPath = getStepPath(action.parentId, newState.steps, 0, [])
+        let step = newState.steps[stepPath[0]]
         let name = `${trans('step', {}, 'path')} ${stepPath[0] + 1}`
 
         for (let i = 1; i < stepPath.length; ++i) {
@@ -49,16 +49,16 @@ const reducer = makeFormReducer('pathForm', defaultState, {
         })
       }
 
-      return Object.assign({}, state, {steps: steps})
+      return newState
     },
     [STEP_REMOVE]: (state, action) => {
-      const steps = cloneDeep(state.steps)
-      const stepPath = getStepPath(action.id, steps, 0, [])
+      const newState = cloneDeep(state)
+      const stepPath = getStepPath(action.id, newState.steps, 0, [])
 
       if (stepPath.length === 1) {
-        steps.splice(stepPath[0], 1)
+        newState.steps.splice(stepPath[0], 1)
       } else {
-        let step = steps[stepPath[0]]
+        let step = newState.steps[stepPath[0]]
 
         for (let i = 1; i < stepPath.length - 1; ++i) {
           step = step.children[stepPath[i]]
@@ -66,7 +66,7 @@ const reducer = makeFormReducer('pathForm', defaultState, {
         step.children.splice(stepPath[stepPath.length - 1], 1)
       }
 
-      return Object.assign({}, state, {steps: steps})
+      return newState
     }
   })
 })
