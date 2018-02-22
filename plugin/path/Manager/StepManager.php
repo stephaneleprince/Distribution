@@ -213,7 +213,7 @@ class StepManager
             if (!empty($resource)) {
                 $activity->setPrimaryResource($resource);
             } else {
-                $warning = $this->translator->trans('warning_primary_resource_deleted', ['resourceId' => $stepStructure->primaryResource[0]->resourceId, 'resourceName' => $stepStructure->primaryResource[0]->name], 'innova_tools');
+                $warning = $this->translator->trans('warning_primary_resource_deleted', ['resourceId' => $stepStructure->primaryResource[0]->resourceId, 'resourceName' => $stepStructure->primaryResource[0]->name]);
                 $this->session->getFlashBag()->add('warning', $warning);
                 $stepStructure->primaryResource = [];
             }
@@ -321,7 +321,7 @@ class StepManager
                     $publishedResources[] = $resourceNode;
                 } else {
                     // Resource has been deleted => remove the reference in path
-                    $warning = $this->translator->trans('warning_compl_resource_deleted', ['resourceId' => $resource->resourceId, 'resourceName' => $resource->name], 'innova_tools');
+                    $warning = $this->translator->trans('warning_compl_resource_deleted', ['resourceId' => $resource->resourceId, 'resourceName' => $resource->name]);
                     $this->session->getFlashBag()->add('warning', $warning);
 
                     unset($stepStructure->resources[$index]);

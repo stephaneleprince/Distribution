@@ -116,6 +116,11 @@ class Form extends Component {
 
   render() {
     const hLevel = this.props.level + (this.props.title ? 1 : 0)
+    let hDisplay
+    if (this.props.displayLevel) {
+      hDisplay = this.props.displayLevel + (this.props.title ? 1 : 0)
+    }
+
     const sections = createFormDefinition(this.props.sections)
 
     const primarySection = 1 === sections.length ? sections[0] : sections.find(section => section.primary)
@@ -125,7 +130,9 @@ class Form extends Component {
     return (
       <FormWrapper embedded={this.props.embedded} className={this.props.className}>
         {this.props.title &&
-          React.createElement('h'+this.props.level, {}, this.props.title)
+          React.createElement('h'+this.props.level, {
+            className: classes(this.props.displayLevel && `h${this.props.displayLevel}`)
+          }, this.props.title)
         }
 
         {primarySection &&
@@ -147,6 +154,7 @@ class Form extends Component {
         {0 !== otherSections.length &&
           <FormSections
             level={hLevel}
+            displayLevel={hDisplay}
             defaultOpened={openedSection ? openedSection.id : undefined}
           >
             {otherSections.map(section =>
@@ -186,6 +194,7 @@ Form.propTypes = {
    */
   embedded: T.bool,
   level: T.number,
+  displayLevel: T.number,
   title: T.string,
   data: T.object,
   errors: T.object,

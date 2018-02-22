@@ -1,9 +1,13 @@
 import React from 'react'
 
+import {implementPropTypes} from '#/main/core/scaffolding/prop-types'
 import {HtmlText} from '#/main/core/layout/components/html-text.jsx'
 
 import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
 
+/**
+ * Renders step content.
+ */
 const Step = props =>
   <section className="current-step">
     <img className="step-poster img-responsive" src="/img/paper.jpg" />
@@ -17,7 +21,7 @@ const Step = props =>
     }
   </section>
 
-Step.propTypes = StepTypes.propTypes
+implementPropTypes(Step, StepTypes)
 
 export {
   Step
