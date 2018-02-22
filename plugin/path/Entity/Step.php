@@ -826,7 +826,7 @@ class Step implements \JsonSerializable
     /**
      * @param ResourceNode $resource
      */
-    public function setResource(ResourceNode $resource)
+    public function setResource(ResourceNode $resource = null)
     {
         $this->resource = $resource;
     }

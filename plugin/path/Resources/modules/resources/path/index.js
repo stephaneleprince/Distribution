@@ -1,5 +1,4 @@
 import {bootstrap} from '#/main/core/scaffolding/bootstrap'
-import {registerModals} from '#/main/core/layout/modal'
 
 import {reducer} from '#/plugin/path/resources/path/reducer'
 
