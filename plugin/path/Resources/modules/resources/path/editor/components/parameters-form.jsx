@@ -13,7 +13,7 @@ const ParametersForm = props =>
     className="content-container"
     sections={[{
       id: 'parameters',
-      title: trans('parameters', {}, 'platform'),
+      title: trans('parameters'),
       fields: [
         {
           name: 'display.showOverview',
@@ -23,16 +23,22 @@ const ParametersForm = props =>
             {
               name: 'display.description',
               type: 'html',
-              label: trans('description', {}, 'platform'),
-              displayed: props.path.display.showOverview,
-              required: false
+              label: trans('overview_message', {}, 'path'),
+              displayed: props.path.display.showOverview
             }
           ]
-        },
-        {
+        }, {
           name: 'display.showSummary',
           type: 'boolean',
-          label: trans('show_summary', {}, 'path')
+          label: trans('show_summary', {}, 'path'),
+          linked: [
+            {
+              name: 'display.openSummary',
+              type: 'boolean',
+              label: trans('show_opened_summary', {}, 'path'),
+              displayed: props.path.display.showSummary
+            }
+          ]
         }
       ]
     }]}
