@@ -35,7 +35,7 @@ const PlayerComponent = props =>
       <Routes
         routes={props.steps.map(step => ({
           path: `/play/${step.id}`,
-          component: () => <Step {...step} />
+          render: () => <Step {...step} />
         }))}
       />
 
