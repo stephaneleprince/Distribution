@@ -79,6 +79,10 @@ class UserFinder implements FinderInterface
 
         foreach ($searches as $filterName => $filterValue) {
             switch ($filterName) {
+                case 'id':
+                    $qb->andWhere('obj.uuid IN (:userUuids)');
+                    $qb->setParameter('userUuids', is_array($filterValue) ? $filterValue : [$filterValue]);
+                    break;
                 case 'isDisabled':
                     $qb->andWhere('obj.isEnabled = :isEnabled');
                     $qb->setParameter('isEnabled', !$filterValue);
