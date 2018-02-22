@@ -9,50 +9,10 @@
 @import "../../variables";
 
 // Components styles
-@import "../../components/path";
 @import "../../components/summary";
-//@import "../../components/step";
-@import "../../components/resources";
 
+@import "overview";
+@import "navigation";
 @import "step";
+@import "scaffolding";
 @import "summary";
-
-.path-navigation {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-
-    .btn {
-        flex: 1;
-
-        &:first-child {
-            text-align: left;
-            margin-right: floor(@path-grid-spacing-x / 2);
-        }
-
-        &:last-child {
-            text-align: right;
-            margin-left: floor(@path-grid-spacing-x / 2);
-        }
-    }
-
-    /*.btn-previous,
-    .btn-next {
-        border-radius: @panel-border-radius;
-        background-color: transparent; // todo : need a var
-
-        &[disabled],
-        &.disabled {
-            background-color: #fafafa;
-        }
-    }*/
-    /*.btn-previous {
-        text-align: left;
-        margin-right: floor(@path-grid-spacing-x / 2);
-    }
-
-    .btn-next {
-        text-align: right;
-        margin-left: floor(@path-grid-spacing-x / 2);
-    }*/
-}

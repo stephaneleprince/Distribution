@@ -11,7 +11,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Innova\PathBundle\Entity\InheritedResource;
 use Innova\PathBundle\Entity\Path\Path;
 use Innova\PathBundle\Entity\Step;
-use Innova\PathBundle\Manager\Condition\StepConditionManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -49,27 +48,23 @@ class StepManager
      *     "session"              = @DI\Inject("session"),
      *     "translator"           = @DI\Inject("translator"),
      *     "resourceManager"      = @DI\Inject("claroline.manager.resource_manager"),
-     *     "stepConditionManager" = @DI\Inject("innova_path.manager.condition")
      * })
      *
      * @param ObjectManager        $om
      * @param SessionInterface     $session
      * @param TranslatorInterface  $translator
      * @param ResourceManager      $resourceManager
-     * @param StepConditionManager $stepConditionManager
      */
     public function __construct(
         ObjectManager        $om,
         SessionInterface     $session,
         TranslatorInterface  $translator,
-        ResourceManager      $resourceManager,
-        StepConditionManager $stepConditionManager)
+        ResourceManager      $resourceManager)
     {
         $this->om = $om;
         $this->session = $session;
         $this->translator = $translator;
         $this->resourceManager = $resourceManager;
-        $this->stepConditionManager = $stepConditionManager;
     }
 
     /**
@@ -129,41 +124,10 @@ class StepManager
         $this->updateParameters($step, $stepStructure);
         $this->updateActivity($step, $stepStructure);
 
-        // Manages Access condition for the next Step
-        $this->updateCondition($step, $stepStructure);
-
         // Save modifications
         $this->om->persist($step);
 
         return $step;
-    }
-
-    /**
-     * Update or create Access condition.
-     *
-     * @param Step      $step
-     * @param \stdClass $stepStructure
-     */
-    public function updateCondition(Step $step, \stdClass $stepStructure)
-    {
-        $condition = null;
-        $oldCondition = $step->getCondition();
-        if (!empty($stepStructure->condition)) {
-            // Create or Update the Condition
-            if (empty($stepStructure->condition->scid) || (!empty($oldCondition) && $stepStructure->condition->scid !== $oldCondition->getId())) {
-                // Condition has never been published or has been replaced by a new one
-                $condition = $this->stepConditionManager->create($step, $stepStructure->condition);
-            } elseif ($oldCondition) {
-                // Update existing condition
-                $condition = $this->stepConditionManager->edit($step, $oldCondition, $stepStructure->condition);
-            }
-        }
-
-        // Remove the old condition if needed
-        if (!empty($oldCondition) && (empty($condition) || $condition->getId() !== $oldCondition->getId())) {
-            $oldCondition->setStep(null);
-            $this->om->remove($oldCondition);
-        }
     }
 
     /**

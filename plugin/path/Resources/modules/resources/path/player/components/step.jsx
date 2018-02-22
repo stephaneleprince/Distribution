@@ -12,7 +12,10 @@ const Step = props =>
   <section className="current-step">
     <img className="step-poster img-responsive" src="/img/paper.jpg" />
 
-    <h3 className="h2">{props.title}</h3>
+    <h3 className="h2">
+      <span className="step-number">1</span>
+      {props.title}
+    </h3>
 
     {props.description &&
       <div className="panel panel-default">
