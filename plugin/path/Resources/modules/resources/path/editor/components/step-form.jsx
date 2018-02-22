@@ -1,16 +1,18 @@
 import React from 'react'
-import {PropTypes as T} from 'prop-types'
 
 import {trans} from '#/main/core/translation'
+import {PropTypes as T, implementPropTypes} from '#/main/core/scaffolding/prop-types'
 import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
 
-import {getFormDataPart} from '#/plugin/path/resources/path/editor/utils'
+import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
 
-export const StepForm = props =>
+const StepForm = props =>
   <FormContainer
     level={3}
+    displayLevel={2}
     name="pathForm"
-    dataPart={getFormDataPart(props.stepId, props.path.steps)}
+    title={props.title}
+    dataPart={props.stepPath}
     sections={[{
       id: 'step',
       title: 'step',
@@ -31,9 +33,17 @@ export const StepForm = props =>
     }]}
   />
 
+implementPropTypes(StepForm, StepTypes, {
+  stepPath: T.string.isRequired
+})
+
 StepForm.propTypes = {
   path: T.shape({
     steps: T.array
   }).isRequired,
   stepId: T.string.isRequired
+}
+
+export {
+  StepForm
 }
