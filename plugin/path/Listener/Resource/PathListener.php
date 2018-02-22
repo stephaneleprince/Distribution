@@ -11,10 +11,10 @@ use Claroline\CoreBundle\Event\CreateResourceEvent;
 use Claroline\CoreBundle\Event\CustomActionResourceEvent;
 use Claroline\CoreBundle\Event\DeleteResourceEvent;
 use Claroline\CoreBundle\Event\OpenResourceEvent;
+use Claroline\CoreBundle\Form\ResourceNameType;
 use Claroline\CoreBundle\Manager\ResourceManager;
 use Claroline\ScormBundle\Event\ExportScormResourceEvent;
 use Innova\PathBundle\Entity\Path\Path;
-use Innova\PathBundle\Form\Type\PathType;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -98,7 +98,7 @@ class PathListener
     public function onCreateForm(CreateFormResourceEvent $event)
     {
         /** @var FormInterface $form */
-        $form = $this->container->get('form.factory')->create(new PathType(), new Path());
+        $form = $this->container->get('form.factory')->create(new ResourceNameType(true), new Path());
 
         $content = $this->container->get('templating')->render(
             'ClarolineCoreBundle:Resource:createForm.html.twig', [
@@ -121,27 +121,18 @@ class PathListener
     public function onCreate(CreateResourceEvent $event)
     {
         /** @var FormInterface $form */
-        $form = $this->container->get('form.factory')->create(new PathType(), new Path());
+        $form = $this->container->get('form.factory')->create(new ResourceNameType(true), new Path());
 
         // Try to process the form data
         $form->handleRequest($this->container->get('request'));
         if ($form->isValid()) {
-            $path = $form->getData();
+            $event->setPublished(
+                $form->get('published')->getData()
+            );
 
-            $published = $form->get('published')->getData();
-            $event->setPublished($published);
-
-            $path->setStructure('');
-
-            // We need to force the save of the Path to get its ID
-            $this->container->get('claroline.persistence.object_manager')->persist($path);
-            $this->container->get('claroline.persistence.object_manager')->flush();
-
-            // Initialize JSON structure for the Path
-            $path->initializeStructure();
-
-            // Send new path to dispatcher through event object
-            $event->setResources([$path]);
+            $event->setResources(
+                [$form->getData()]
+            );
         } else {
             $content = $this->container->get('templating')->render(
                 'ClarolineCoreBundle:Resource:createForm.html.twig', [
