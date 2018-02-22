@@ -66,7 +66,7 @@ EditorComponent.propTypes = {
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired,
   toggleSummaryOpen: T.func.isRequired,
-  toggleSummaryPin: T.func.isRequired,
+  toggleSummaryPin: T.func.isRequired
 }
 
 const Editor = connect(
