@@ -72,7 +72,7 @@ Corrections.propTypes = {
 
 const MyDropComponent = props =>
   <section className="resource-section drop-panel">
-    <h2 className="h-first">{trans('my_drop', {}, 'dropzone')}</h2>
+    <h2>{trans('my_drop', {}, 'dropzone')}</h2>
 
     <HtmlText>{props.dropzone.instruction}</HtmlText>
 

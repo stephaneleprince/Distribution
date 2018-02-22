@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {PropTypes as T} from 'prop-types'
 
 import {registerModals} from '#/main/core/layout/modal'
-import {PageHeader, PageContent} from '#/main/core/layout/page'
+import {PageHeader} from '#/main/core/layout/page'
 import {RoutedPage} from '#/main/core/layout/router'
 import {t_res} from '#/main/core/resource/translation'
 import {ResourcePageActions} from '#/main/core/resource/components/page-actions.jsx'
@@ -63,9 +63,7 @@ class ResourcePage extends Component {
           />
         </PageHeader>
 
-        <PageContent>
-          {this.props.children}
-        </PageContent>
+        {this.props.children}
       </RoutedPage>
     )
   }

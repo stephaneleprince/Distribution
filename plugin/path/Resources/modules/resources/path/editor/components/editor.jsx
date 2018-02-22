@@ -92,7 +92,7 @@ function generateStepsRoutes(steps, path, routes) {
 
 const EditorComponent = props =>
   <section className="resource-section">
-    <h2 className="h-first">{trans('configuration', {}, 'platform')}</h2>
+    <h2>{trans('configuration', {}, 'platform')}</h2>
 
     <Summary
       steps={props.path.steps}

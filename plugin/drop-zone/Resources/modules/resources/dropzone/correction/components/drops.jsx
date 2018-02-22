@@ -13,7 +13,7 @@ import {actions} from '#/plugin/drop-zone/resources/dropzone/correction/actions'
 
 const DropsList = props =>
   <section className="resource-section">
-    <h2 className="h-first">{trans('corrections_management', {}, 'dropzone')}</h2>
+    <h2>{trans('corrections_management', {}, 'dropzone')}</h2>
 
     <DataListContainer
       name="drops"

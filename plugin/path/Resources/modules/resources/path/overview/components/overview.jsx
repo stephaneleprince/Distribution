@@ -24,7 +24,7 @@ const OverviewComponent = props =>
     ]}
   >
     <section className="resource-parameters">
-      <h3 className="h2 h-first">{trans('summary')}</h3>
+      <h3 className="h2">{trans('summary')}</h3>
 
       <Summary
         steps={props.path.steps}

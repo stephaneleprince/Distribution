@@ -6,7 +6,9 @@ import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
 
 const Step = props =>
   <section className="current-step">
-    <h3 className="h2 h-first step-title">{props.title}</h3>
+    <img className="step-poster img-responsive" src="/img/paper.jpg" />
+
+    <h3 className="h2">{props.title}</h3>
 
     {props.description &&
       <div className="panel panel-default">

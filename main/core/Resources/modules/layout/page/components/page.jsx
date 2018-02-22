@@ -118,19 +118,28 @@ PageHeader.defaultTypes = {
  * @constructor
  */
 const PageContent = props =>
-  <div className={classes('page-content', props.className)}>
+  <div className={classes('page-content', props.className, {
+    'page-content-shift': props.headerSpacer
+  })}>
     {props.children ?
       props.children :
       <div className="placeholder">This page has no content for now.</div>
     }
   </div>
 
+
 PageContent.propTypes = {
   className: T.string,
+  headerSpacer: T.bool,
+
   /**
    * Content to display in the page.
    */
   children: T.node
+}
+
+PageContent.defaultProps = {
+  headerSpacer: true
 }
 
 export {
