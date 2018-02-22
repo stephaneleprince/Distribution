@@ -34,10 +34,10 @@ const EditorComponent = props =>
         routes={
           [{
             path: `/edit/parameters`,
-            component: () => <ParametersForm path={props.path}/>
+            render: () => <ParametersForm path={props.path}/>
           }].concat(props.steps.map(s => ({
             path: `/edit/${s.id}`,
-            component: () => <StepForm stepId={s.id} path={props.path}/>
+            render: () => <StepForm stepId={s.id} path={props.path}/>
           })))
         }
       />
