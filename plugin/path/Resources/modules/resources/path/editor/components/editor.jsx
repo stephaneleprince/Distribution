@@ -41,6 +41,17 @@ const EditorComponent = props =>
           })))
         }
       />
+
+      <nav className="path-navigation">
+        <button className="btn btn-lg btn-link">
+          <span className="fa fa-angle-double-left icon-with-text-right" />
+          {trans('previous', {}, 'platform')}
+        </button>
+        <button className="btn btn-lg btn-link">
+          {trans('next', {}, 'platform')}
+          <span className="fa fa-angle-double-right icon-with-text-left" />
+        </button>
+      </nav>
     </div>
   </section>
 
@@ -52,7 +63,7 @@ EditorComponent.propTypes = {
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired,
   toggleSummaryOpen: T.func.isRequired,
-  toggleSummaryPin: T.func.isRequired,
+  toggleSummaryPin: T.func.isRequired
 }
 
 const Editor = connect(

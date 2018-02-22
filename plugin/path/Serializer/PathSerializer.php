@@ -75,8 +75,8 @@ class PathSerializer
         if (isset($data['display']['showSummary'])) {
             $path->setShowSummary($data['display']['showSummary']);
         }
-        if (isset($data['display']['summaryDisplayed'])) {
-            $path->setSummaryDisplayed($data['display']['summaryDisplayed']);
+        if (isset($data['display']['openSummary'])) {
+            $path->setSummaryDisplayed($data['display']['openSummary']);
         }
         if (isset($data['display']['numbering'])) {
             $path->setNumbering($data['display']['numbering']);
@@ -87,6 +87,14 @@ class PathSerializer
 
         return $path;
     }
+
+    /**
+     * @return string
+     */
+//    public function getSchema()
+//    {
+//        return '#/plugin/path/path.json';
+//    }
 
     /**
      * @param Step $step
