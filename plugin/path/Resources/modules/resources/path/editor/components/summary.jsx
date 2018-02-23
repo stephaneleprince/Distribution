@@ -1,10 +1,10 @@
 import React from 'react'
 import {PropTypes as T} from 'prop-types'
-import classes from 'classnames'
 
 import {trans} from '#/main/core/translation'
 import {NavLink} from '#/main/core/router'
-import {TooltipAction} from '#/main/core/layout/button/components/tooltip-action.jsx'
+
+import {PathSummary} from '#/plugin/path/resources/path/components/summary.jsx'
 
 const SummaryStep = props =>
   <li className="summary-link">
@@ -13,6 +13,7 @@ const SummaryStep = props =>
         <span className="fa fa-fw fa-circle"/>
         {props.step.title}
       </NavLink>
+
       <div className="step-actions">
         <button
           type="button"
@@ -30,6 +31,7 @@ const SummaryStep = props =>
         </button>
       </div>
     </div>
+
     {props.step.children.length > 0 &&
       <ul className="step-children">
         {props.step.children.map(child =>
@@ -53,52 +55,8 @@ SummaryStep.propTypes = {
   removeStep: T.func.isRequired
 }
 
-const SummaryHeader = props =>
-  <header className="summary-header">
-    <h3 className="summary-title">
-      <span className="fa fa-fw fa-ellipsis-v" />
-      {trans('summary', {}, 'path')}
-    </h3>
-
-    <div className="summary-controls">
-      <TooltipAction
-        id="path-summary-pin"
-        position="bottom"
-        className="btn-link summary-control"
-        icon="fa fa-fw fa-map-pin"
-        label={trans('summary_pin', {}, 'path')}
-        action={props.togglePin}
-      />
-
-      <TooltipAction
-        id="path-summary-open"
-        position="bottom"
-        className="btn-link summary-control"
-        icon={classes('fa fa-fw', {'fa-chevron-left': props.opened, 'fa-chevron-right': !props.opened})}
-        label={trans('summary_open', {}, 'path')}
-        action={props.toggleOpen}
-      />
-    </div>
-  </header>
-
-SummaryHeader.propTypes = {
-  opened: T.bool.isRequired,
-  pinned: T.bool.isRequired,
-  toggleOpen: T.func.isRequired,
-  togglePin: T.func.isRequired
-}
-
 const Summary = props =>
-  <aside className={classes('summary-container', {
-    opened: props.opened,
-    pinned: props.pinned
-  })}>
-    <SummaryHeader
-      opened={props.opened}
-      pinned={props.pinned}
-      toggleOpen={props.toggleOpen}
-      togglePin={props.togglePin}
-    />
+  <PathSummary>
     <nav className="path-summary-tree">
       <ul className="tree">
         <li className="summary-link">
@@ -107,6 +65,7 @@ const Summary = props =>
               <span className="fa fa-fw fa-cog"/>
               {trans('parameters', {}, 'platform')}
             </NavLink>
+
             <div className="step-actions">
               <button
                 type="button"
@@ -118,6 +77,7 @@ const Summary = props =>
             </div>
           </div>
         </li>
+
         {props.steps.map(step =>
           <SummaryStep
             key={`summary-step-${step.id}`}
@@ -128,14 +88,10 @@ const Summary = props =>
         )}
       </ul>
     </nav>
-  </aside>
+  </PathSummary>
 
 Summary.propTypes = {
   steps: T.array.isRequired,
-  opened: T.bool.isRequired,
-  pinned: T.bool.isRequired,
-  toggleOpen: T.func.isRequired,
-  togglePin: T.func.isRequired,
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired
 }

@@ -3,20 +3,29 @@ import {PropTypes as T} from 'prop-types'
 
 import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
 
-const Summary = props =>
-  <ul className="summary">
-    {props.steps.map(step =>
-      <li key={step.id}>
-        <a href={`#/play/${step.id}`} role="link">
-          {step.title}
-        </a>
+const SummaryStep = props =>
+  <li>
+    <a className="summary-link" href={`#/play/${props.id}`} role="link">
+      {props.title}
+    </a>
 
-        {step.children && 0 !== step.children.length &&
-          <Summary
-            steps={step.children}
-          />
-        }
-      </li>
+    {0 !== props.children.length &&
+      <ul>
+        {props.children.map(child =>
+          <SummaryStep key={child.id} {...child} />
+        )}
+      </ul>
+    }
+  </li>
+
+SummaryStep.propTypes = {
+
+}
+
+const Summary = props =>
+  <ul className="summary-overview">
+    {props.steps.map(step =>
+      <SummaryStep key={step.id} {...step} />
     )}
   </ul>
 

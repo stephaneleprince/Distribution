@@ -24,6 +24,8 @@
     "select_primary_resource": "Select primary resource",
     "show_overview": "Display path home page",
     "show_summary": "Display summary",
+    "pin_summary": "Pin summary",
+    "unpin_summary": "Unpin summary",
     "show_opened_summary": "Open summary by default",
     "step": "Step",
     "step_add_child": "Add a step",

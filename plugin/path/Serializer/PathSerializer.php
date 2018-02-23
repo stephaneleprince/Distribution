@@ -56,7 +56,7 @@ class PathSerializer
                 'showOverview' => $path->getShowOverview(),
                 'showSummary' => $path->getShowSummary(),
                 'openSummary' => $path->isSummaryDisplayed(),
-                'numbering' => $path->getNumbering(),
+                'numbering' => $path->getNumbering() ? $path->getNumbering() : 'none',
             ],
             'steps' => array_map(function (Step $step) {
                 return $this->serializeStep($step);

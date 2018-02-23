@@ -1,18 +1,15 @@
 
 .path-container {
-    position: relative; // to fix summary and content z-indexes
+    .page-content {
+        position: relative; // to fix summary and content z-indexes
+    }
 
     .summary-container {
         z-index: 2; // Make the summary overlaps the content
     }
 
-    .content-container {
+    /*.content-container {
         display: flex;
         flex-direction: column;
-        /*min-height: 100%;
-
-        .path-navigation {
-            margin-top: auto;
-        }*/
-    }
+    }*/
 }

@@ -8,10 +8,8 @@ import {MODAL_DATA_PICKER} from '#/main/core/data/list/modals'
 import {select as formSelect} from '#/main/core/data/form/selectors'
 import {Routes} from '#/main/core/router'
 
-import {select} from '#/plugin/path/resources/path/selectors'
-import {select as editorSelect} from '#/plugin/path/resources/path/editor/selectors'
-import {actions} from '#/plugin/path/resources/path/actions'
-import {actions as editorActions} from '#/plugin/path/resources/path/editor/actions'
+import {select} from '#/plugin/path/resources/path/editor/selectors'
+import {actions} from '#/plugin/path/resources/path/editor/actions'
 import {PathCurrent} from '#/plugin/path/resources/path/components/current.jsx'
 import {Summary} from '#/plugin/path/resources/path/editor/components/summary.jsx'
 import {ParametersForm} from '#/plugin/path/resources/path/editor/components/parameters-form.jsx'
@@ -24,10 +22,6 @@ const EditorComponent = props =>
 
     <Summary
       steps={props.path.steps}
-      opened={props.summaryOpened}
-      pinned={props.summaryPinned}
-      toggleOpen={props.toggleSummaryOpen}
-      togglePin={props.toggleSummaryPin}
       addStep={props.addStep}
       removeStep={props.removeStep}
     />
@@ -65,12 +59,8 @@ const EditorComponent = props =>
 EditorComponent.propTypes = {
   path: T.object,
   steps: T.array,
-  summaryOpened: T.bool.isRequired,
-  summaryPinned: T.bool.isRequired,
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired,
-  toggleSummaryOpen: T.func.isRequired,
-  toggleSummaryPin: T.func.isRequired,
   pickPrimaryResource: T.func.isRequired,
   removePrimaryResource: T.func.isRequired
 }
@@ -78,22 +68,14 @@ EditorComponent.propTypes = {
 const Editor = connect(
   state => ({
     path: formSelect.data(formSelect.form(state, 'pathForm')),
-    steps: editorSelect.flatStepsForm(state),
-    summaryOpened: select.summaryOpened(state),
-    summaryPinned: select.summaryPinned(state)
+    steps: select.flatStepsForm(state)
   }),
   dispatch => ({
     addStep(parentId) {
-      dispatch(editorActions.addStep(parentId))
+      dispatch(actions.addStep(parentId))
     },
     removeStep(id) {
-      dispatch(editorActions.removeStep(id))
-    },
-    toggleSummaryOpen() {
-      dispatch(actions.toggleSummaryOpen())
-    },
-    toggleSummaryPin() {
-      dispatch(actions.toggleSummaryPin())
+      dispatch(actions.removeStep(id))
     },
     pickPrimaryResource(stepId) {
       dispatch(modalActions.showModal(MODAL_DATA_PICKER, {
@@ -127,11 +109,11 @@ const Editor = connect(
           url: ['apiv2_resourcenode_list'],
           autoload: true
         },
-        handleSelect: (selected) => dispatch(editorActions.updatePrimaryResource(stepId, selected[0]))
+        handleSelect: (selected) => dispatch(actions.updatePrimaryResource(stepId, selected[0]))
       }))
     },
     removePrimaryResource(stepId) {
-      dispatch(editorActions.updatePrimaryResource(stepId, null))
+      dispatch(actions.updatePrimaryResource(stepId, null))
     }
   })
 )(EditorComponent)
