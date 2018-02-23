@@ -23,6 +23,8 @@
     "secondary_resources": "Ressources complémentaires",
     "show_overview": "Afficher la page d'accueil du parcours",
     "show_summary": "Afficher le sommaire",
+    "pin_summary": "Attacher le sommaire",
+    "unpin_summary": "Détacher le sommaire",
     "show_opened_summary": "Ouvrir le sommaire par défaut",
     "step": "Étape",
     "step_add_child": "Ajouter une étape",

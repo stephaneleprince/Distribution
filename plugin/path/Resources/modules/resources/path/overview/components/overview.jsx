@@ -11,7 +11,7 @@ import {Path as PathTypes} from '#/plugin/path/resources/path/prop-types'
 
 const OverviewComponent = props =>
   <ResourceOverview
-    contentText={props.path.description}
+    contentText={props.path.display.description}
     actions={[
       { // TODO : implement continue and restart
         icon: 'fa fa-fw fa-play icon-with-text-right',

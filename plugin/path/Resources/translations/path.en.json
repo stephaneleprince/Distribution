@@ -22,6 +22,8 @@
     "see_step_siblings": "See siblings of the step",
     "show_overview": "Display path home page",
     "show_summary": "Display summary",
+    "pin_summary": "Pin summary",
+    "unpin_summary": "Unpin summary",
     "show_opened_summary": "Open summary by default",
     "step": "Step",
     "step_add_child": "Add a step",

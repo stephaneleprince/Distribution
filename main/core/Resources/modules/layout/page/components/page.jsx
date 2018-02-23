@@ -40,7 +40,7 @@ const Page = props =>
       embedded: props.embedded
     })}
   >
-    {props.alerts &&
+    {props.alerts && 0 !== props.alerts.length &&
       <FlyingAlerts alerts={props.alerts} removeAlert={props.removeAlert}/>
     }
 
