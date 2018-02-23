@@ -27,10 +27,10 @@ const EditorComponent = props =>
     <Routes
       routes={[
         {
-          path: `/edit/parameters`,
+          path: '/edit/parameters',
           render: () => <ParametersForm path={props.path}/>
         }, {
-          path: `/edit/:id`,
+          path: '/edit/:id',
           render: (routeProps) => {
             const step = props.steps.find(step => routeProps.match.params.id === step.id)
 

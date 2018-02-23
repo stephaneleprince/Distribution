@@ -4,6 +4,7 @@ namespace Innova\PathBundle\Serializer;
 
 use Claroline\AppBundle\API\Serializer\SerializerTrait;
 use Claroline\AppBundle\Persistence\ObjectManager;
+use Claroline\CoreBundle\API\Serializer\Resource\ResourceNodeSerializer;
 use Innova\PathBundle\Entity\Path\Path;
 use Innova\PathBundle\Entity\Step;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -17,21 +18,28 @@ class PathSerializer
     use SerializerTrait;
 
     private $om;
+    private $resourceNodeSerializer;
+
     private $stepRepo;
+    private $resourceNodeRepo;
 
     /**
      * PathSerializer constructor.
      *
      * @DI\InjectParams({
-     *     "om" = @DI\Inject("claroline.persistence.object_manager")
+     *     "om"                 = @DI\Inject("claroline.persistence.object_manager"),
+     *     "resourceSerializer" = @DI\Inject("claroline.serializer.resource_node")
      * })
      *
-     * @param ObjectManager $om
+     * @param ObjectManager          $om
+     * @param ResourceNodeSerializer $resourceSerializer
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, ResourceNodeSerializer $resourceSerializer)
     {
         $this->om = $om;
+        $this->resourceNodeSerializer = $resourceSerializer;
         $this->stepRepo = $om->getRepository('Innova\PathBundle\Entity\Step');
+        $this->resourceNodeRepo = $om->getRepository('Claroline\CoreBundle\Entity\Resource\ResourceNode');
     }
 
     /**
@@ -91,10 +99,10 @@ class PathSerializer
     /**
      * @return string
      */
-//    public function getSchema()
-//    {
-//        return '#/plugin/path/path.json';
-//    }
+    public function getSchema()
+    {
+        return '#/plugin/path/path.json';
+    }
 
     /**
      * @param Step $step
@@ -107,6 +115,7 @@ class PathSerializer
             'id' => $step->getUuid(),
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
+            'resource' => $step->getResource() ? $this->resourceNodeSerializer->serialize($step->getResource()) : null,
             'children' => array_map(function (Step $child) {
                 return $this->serializeStep($child);
             }, $step->getChildren()->toArray()),
@@ -161,7 +170,11 @@ class PathSerializer
         if (isset($data['description'])) {
             $step->setDescription($data['description']);
         }
-        $step->emptyChildren();
+        /* Set primary resource */
+        $resource = isset($data['resource']['id']) ?
+            $this->resourceNodeRepo->findOneBy(['uuid' => $data['resource']['id']]) :
+            null;
+        $step->setResource($resource);
 
         if (isset($options['path'])) {
             $step->setPath($options['path']);
@@ -175,6 +188,9 @@ class PathSerializer
         } else {
             $step->setLvl(0);
         }
+        /* Set children steps */
+        $step->emptyChildren();
+
         if (isset($data['children'])) {
             $order = 0;
 
