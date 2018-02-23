@@ -172,7 +172,7 @@ class PathSerializer
         }
         /* Set primary resource */
         $resource = isset($data['resource']['id']) ?
-            $this->resourceNodeRepo->findOneBy(['uuid' => $data['resource']['id']]) :
+            $this->resourceNodeRepo->findOneBy(['guid' => $data['resource']['id']]) :
             null;
         $step->setResource($resource);
 

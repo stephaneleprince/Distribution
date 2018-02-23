@@ -31,7 +31,7 @@ const DataPicker = props =>
       disabled={0 === props.selected.length}
       onClick={() => {
         if (0 <props.selected.length) {
-          props.handleSelect(props.selected)
+          props.handleSelect(props.onlyId ? props.selected : props.selectedFull)
           props.resetSelect()
           props.fadeModal()
         }
@@ -48,6 +48,7 @@ DataPicker.propTypes = {
   confirmText: T.string,
   fetch: T.object,
   card: T.func.isRequired,
+  onlyId: T.bool,
 
   /**
    * Definition of the data properties.
@@ -66,12 +67,14 @@ DataPicker.propTypes = {
 DataPicker.defaultProps = {
   title: t('objects_select_title'),
   confirmText: t('objects_select_confirm'),
-  icon: 'fa fa-fw fa-hand-pointer-o'
+  icon: 'fa fa-fw fa-hand-pointer-o',
+  onlyId: true
 }
 
 const DataPickerModal = connect(
   (state, ownProps) => ({
-    selected: listSelect.selected(listSelect.list(state, ownProps.name))
+    selected: listSelect.selected(listSelect.list(state, ownProps.name)),
+    selectedFull: ownProps.onlyId ? [] : listSelect.selectedFull(listSelect.list(state, ownProps.name))
   }),
   (dispatch, ownProps) => ({
     resetSelect() {

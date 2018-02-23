@@ -19,7 +19,8 @@ const reducer = makeResourceReducer({}, {
       [SUMMARY_OPEN_TOGGLE]: (state) => !state
     })
   }),
-  pathForm: editorReducer,
+  pathForm: editorReducer.pathForm,
+  resourcesPicker: editorReducer.resourcesPicker,
   path: makeReducer({}, {
     // replaces path data after success updates
     [FORM_SUBMIT_SUCCESS+'/pathForm']: (state, action) => action.updatedData

@@ -21,6 +21,8 @@
     "resource_show_parent": "Afficher dans cette étape",
     "resources_replace": "Remplacer",
     "secondary_resources": "Ressources complémentaires",
+    "select": "Sélectionner",
+    "select_primary_resource": "Sélectionner la ressource principale",
     "show_overview": "Afficher la page d'accueil du parcours",
     "show_summary": "Afficher le sommaire",
     "show_opened_summary": "Ouvrir le sommaire par défaut",

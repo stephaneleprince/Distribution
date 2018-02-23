@@ -2,13 +2,18 @@
 
 namespace Claroline\CoreBundle\Controller\APINew;
 
+use Claroline\AppBundle\Annotations\ApiMeta;
 use Claroline\AppBundle\Controller\AbstractCrudController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * This controller will probably need to change heavily in the future.
+ * @ApiMeta(
+ *     class="Claroline\CoreBundle\Entity\Resource\ResourceNode",
+ *     ignore={"schema", "find", "create", "update", "copyBulk", "deleteBulk", "exist", "get"}
+ * )
+ * @Route("/resourcenode")
  */
 class ResourceNodeController extends AbstractCrudController
 {

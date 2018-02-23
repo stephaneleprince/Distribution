@@ -20,6 +20,8 @@
     "resources_replace": "Replace",
     "secondary_resources": "Secondary resources",
     "see_step_siblings": "See siblings of the step",
+    "select": "Select",
+    "select_primary_resource": "Select primary resource",
     "show_overview": "Display path home page",
     "show_summary": "Display summary",
     "show_opened_summary": "Open summary by default",

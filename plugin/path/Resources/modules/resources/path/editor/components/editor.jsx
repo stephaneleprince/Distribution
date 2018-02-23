@@ -3,6 +3,8 @@ import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
 
 import {trans} from '#/main/core/translation'
+import {actions as modalActions} from '#/main/core/layout/modal/actions'
+import {MODAL_DATA_PICKER} from '#/main/core/data/list/modals'
 import {select as formSelect} from '#/main/core/data/form/selectors'
 import {Routes} from '#/main/core/router'
 
@@ -49,6 +51,8 @@ const EditorComponent = props =>
                 <StepForm
                   {...step}
                   stepPath={getFormDataPart(step.id, props.path.steps)}
+                  pickPrimaryResource={props.pickPrimaryResource}
+                  removePrimaryResource={props.removePrimaryResource}
                 />
               </PathCurrent>
             )
@@ -66,7 +70,9 @@ EditorComponent.propTypes = {
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired,
   toggleSummaryOpen: T.func.isRequired,
-  toggleSummaryPin: T.func.isRequired
+  toggleSummaryPin: T.func.isRequired,
+  pickPrimaryResource: T.func.isRequired,
+  removePrimaryResource: T.func.isRequired
 }
 
 const Editor = connect(
@@ -88,6 +94,44 @@ const Editor = connect(
     },
     toggleSummaryPin() {
       dispatch(actions.toggleSummaryPin())
+    },
+    pickPrimaryResource(stepId) {
+      dispatch(modalActions.showModal(MODAL_DATA_PICKER, {
+        icon: 'fa fa-fw fa-folder-open',
+        title: trans('select_primary_resource', {}, 'path'),
+        confirmText: trans('select', {}, 'path'),
+        name: 'resourcesPicker',
+        onlyId: false,
+        definition: [
+          {
+            name: 'name',
+            type: 'string',
+            label: trans('name'),
+            displayed: true,
+            primary: true
+          },
+          {
+            name: 'meta.type',
+            type: 'string',
+            label: trans('type'),
+            displayed: true,
+            renderer: (rowData) => trans(rowData.meta.type, {}, 'resource')
+          }
+        ],
+        card: (row) => ({
+          icon: 'fa fa-folder-open',
+          title: row.name,
+          subtitle: row.code
+        }),
+        fetch: {
+          url: ['apiv2_resourcenode_list'],
+          autoload: true
+        },
+        handleSelect: (selected) => dispatch(editorActions.updatePrimaryResource(stepId, selected[0]))
+      }))
+    },
+    removePrimaryResource(stepId) {
+      dispatch(editorActions.updatePrimaryResource(stepId, null))
     }
   })
 )(EditorComponent)
