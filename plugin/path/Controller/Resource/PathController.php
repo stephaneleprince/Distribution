@@ -34,8 +34,7 @@ class PathController extends Controller
     public function openAction(Path $path)
     {
         $this->assertHasPermission('OPEN', $path);
-        $canEdit = $this->get('innova_path.manager.path')->canEdit($path);
-        $resourceTypes = $canEdit ?
+        $resourceTypes = $this->hasPermission('EDIT', $path) ?
             $this->get('claroline.persistence.object_manager')
                 ->getRepository('ClarolineCoreBundle:Resource\ResourceType')
                 ->findBy(['isEnabled' => true]) :
@@ -43,35 +42,12 @@ class PathController extends Controller
 
         return [
             '_resource' => $path,
-            'editEnabled' => $canEdit,
+            'editEnabled' => $this->get('innova_path.manager.path')->canEdit($path),
             'userProgression' => $this->get('innova_path.manager.user_progression')->getUserProgression($path),
             'totalProgression' => $this->get('innova_path.manager.user_progression')->calculateUserProgressionInPath($path),
             'resourceTypes' => array_map(function (ResourceType $resourceType) {
                 return $this->get('claroline.serializer.resource_type')->serialize($resourceType);
             }, $resourceTypes),
-        ];
-    }
-
-    /**
-     * Open resource action.
-     *
-     * @EXT\Route("/{id}/old", name="innova_path_player_wizard_old")
-     * @EXT\Method("GET")
-     * @EXT\Template("InnovaPathBundle:Path:open2.html.twig")
-     *
-     * @param Path $path
-     *
-     * @return array
-     */
-    public function open2Action(Path $path)
-    {
-        $this->assertHasPermission('OPEN', $path);
-
-        return [
-            '_resource' => $path,
-            'editEnabled' => $this->get('innova_path.manager.path')->canEdit($path),
-            'userProgression' => $this->get('innova_path.manager.user_progression')->getUserProgression($path),
-            'totalProgression' => $this->get('innova_path.manager.user_progression')->calculateUserProgressionInPath($path),
         ];
     }
 
@@ -167,5 +143,12 @@ class PathController extends Controller
         if (!$this->get('security.authorization_checker')->isGranted($permission, $collection)) {
             throw new AccessDeniedException($collection->getErrorsForDisplay());
         }
+    }
+
+    private function hasPermission($permission, Path $path)
+    {
+        $collection = new ResourceCollection([$path->getResourceNode()]);
+
+        return $this->get('security.authorization_checker')->isGranted($permission, $collection);
     }
 }

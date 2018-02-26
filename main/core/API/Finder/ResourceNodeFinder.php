@@ -88,7 +88,23 @@ class ResourceNodeFinder implements FinderInterface
                     $this->usedJoin['parent'] = true;
                     break;
                 case 'roles':
+                    $managerRoles = [];
+                    $otherRoles = [];
+
+                    foreach ($filterValue as $roleName) {
+                        if (preg_match('/^ROLE_WS_MANAGER_/', $roleName)) {
+                            $managerRoles[] = $roleName;
+                        } else {
+                            $otherRoles[] = $roleName;
+                        }
+                    }
                     $qb->leftJoin('ow.roles', 'owr');
+                    $qb->leftJoin('obj.rights', 'rights');
+                    $qb->join('rights.role', 'rightsr');
+                    $qb->andWhere('(owr.name IN (:managerRoles)) OR ((rightsr.name IN (:otherRoles)) AND (BIT_AND(rights.mask, 1) = 1))');
+
+                    $qb->setParameter('managerRoles', $managerRoles);
+                    $qb->setParameter('otherRoles', $otherRoles);
                     break;
                 default:
                     if (is_string($filterValue)) {
