@@ -1586,6 +1586,7 @@
     "workspace_awaiting_validation": "Un administrateur doit valider votre inscription à l'espace d'activité",
     "main_organization": "Organization principale",
     "vat_number": "Numéro de TVA",
+    "open_url": "Url d'ouverture",
     "resource_allowed_ip": "IPs authorisées",
     "summary": "Sommaire"
 }
