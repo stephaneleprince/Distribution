@@ -217,6 +217,17 @@ class WorkspaceController extends Controller
     }
 
     /**
+     * @EXT\Template()
+     *
+     * Renders the registered workspace list for a user.
+     *
+     * @return Response
+     */
+    public function usersManagementAction(Workspace $workspace)
+    {
+    }
+
+    /**
      * @EXT\Route(
      *     "/user/picker",
      *     name="claro_workspace_by_user_picker",
