@@ -14,9 +14,9 @@
       "type": ["string", "null"],
       "description": "The description of the step"
     },
-    "resource": {
+    "primaryResource": {
       "type": ["object", "null"],
-      "description": "The main resource og the step",
+      "description": "The primary resource of the step",
       "properties": {
         "id": {
           "type": "string",

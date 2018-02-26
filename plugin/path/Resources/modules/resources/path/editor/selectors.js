@@ -1,5 +1,7 @@
 import {createSelector} from 'reselect'
 
+const resourceTypes = state => state.resourceTypes
+
 const pathFormData = state => state.pathForm.data
 
 const stepsForm = createSelector(
@@ -35,5 +37,6 @@ const flatStepsForm = createSelector(
 )
 
 export const select = {
+  resourceTypes,
   flatStepsForm
 }

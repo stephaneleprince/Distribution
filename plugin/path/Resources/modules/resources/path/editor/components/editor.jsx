@@ -45,7 +45,7 @@ const EditorComponent = props =>
                 <StepForm
                   {...step}
                   stepPath={getFormDataPart(step.id, props.path.steps)}
-                  pickPrimaryResource={props.pickPrimaryResource}
+                  pickPrimaryResource={stepId => props.pickPrimaryResource(stepId, props.resourceTypes)}
                   removePrimaryResource={props.removePrimaryResource}
                 />
               </PathCurrent>
@@ -59,6 +59,7 @@ const EditorComponent = props =>
 EditorComponent.propTypes = {
   path: T.object,
   steps: T.array,
+  resourceTypes: T.array,
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired,
   pickPrimaryResource: T.func.isRequired,
@@ -68,7 +69,8 @@ EditorComponent.propTypes = {
 const Editor = connect(
   state => ({
     path: formSelect.data(formSelect.form(state, 'pathForm')),
-    steps: select.flatStepsForm(state)
+    steps: select.flatStepsForm(state),
+    resourceTypes: select.resourceTypes(state)
   }),
   dispatch => ({
     addStep(parentId) {
@@ -77,7 +79,7 @@ const Editor = connect(
     removeStep(id) {
       dispatch(actions.removeStep(id))
     },
-    pickPrimaryResource(stepId) {
+    pickPrimaryResource(stepId, resourceTypes) {
       dispatch(modalActions.showModal(MODAL_DATA_PICKER, {
         icon: 'fa fa-fw fa-folder-open',
         title: trans('select_primary_resource', {}, 'path'),
@@ -93,11 +95,37 @@ const Editor = connect(
             primary: true
           },
           {
+            name: 'resourceType',
+            label: trans('type'),
+            displayable: false,
+            displayed: false,
+            type: 'enum',
+            options: {
+              choices: resourceTypes.filter(rt => rt.name != 'directory').reduce(
+                (choices, rt) => Object.assign(choices, {[rt.name]: trans(rt.name, {}, 'resource')}),
+                {}
+              )
+            }
+          },
+          {
             name: 'meta.type',
             type: 'string',
             label: trans('type'),
             displayed: true,
+            filterable: false,
             renderer: (rowData) => trans(rowData.meta.type, {}, 'resource')
+          },
+          {
+            name: 'workspace.name',
+            type: 'string',
+            label: trans('workspace'),
+            displayed: true
+          },
+          {
+            name: 'meta.parent.name',
+            type: 'string',
+            label: trans('parent'),
+            displayed: true
           }
         ],
         card: (row) => ({
@@ -106,7 +134,7 @@ const Editor = connect(
           subtitle: row.code
         }),
         fetch: {
-          url: ['apiv2_resourcenode_list'],
+          url: ['apiv2_resources_picker'],
           autoload: true
         },
         handleSelect: (selected) => dispatch(actions.updatePrimaryResource(stepId, selected[0]))

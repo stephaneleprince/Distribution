@@ -2,6 +2,7 @@
 
 namespace Innova\PathBundle\Controller\Resource;
 
+use Claroline\CoreBundle\Entity\Resource\ResourceType;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Library\Security\Collection\ResourceCollection;
 use Innova\PathBundle\Entity\Path\Path;
@@ -33,12 +34,21 @@ class PathController extends Controller
     public function openAction(Path $path)
     {
         $this->assertHasPermission('OPEN', $path);
+        $canEdit = $this->get('innova_path.manager.path')->canEdit($path);
+        $resourceTypes = $canEdit ?
+            $this->get('claroline.persistence.object_manager')
+                ->getRepository('ClarolineCoreBundle:Resource\ResourceType')
+                ->findBy(['isEnabled' => true]) :
+            [];
 
         return [
             '_resource' => $path,
-            'editEnabled' => $this->get('innova_path.manager.path')->canEdit($path),
+            'editEnabled' => $canEdit,
             'userProgression' => $this->get('innova_path.manager.user_progression')->getUserProgression($path),
             'totalProgression' => $this->get('innova_path.manager.user_progression')->calculateUserProgressionInPath($path),
+            'resourceTypes' => array_map(function (ResourceType $resourceType) {
+                return $this->get('claroline.serializer.resource_type')->serialize($resourceType);
+            }, $resourceTypes),
         ];
     }
 
