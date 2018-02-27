@@ -8,52 +8,35 @@ import {navigate, matchPath, Routes, withRouter} from '#/main/core/router'
 import {PageActions} from '#/main/core/layout/page/components/page-actions.jsx'
 import {FormPageActionsContainer} from '#/main/core/data/form/containers/page-actions.jsx'
 
-import {Group}   from '#/main/core/administration/user/group/components/group.jsx'
-import {Groups}  from '#/main/core/administration/user/group/components/groups.jsx'
+import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
+import {FormSections, FormSection} from '#/main/core/layout/form/components/form-sections.jsx'
+import {select as formSelect} from '#/main/core/data/form/selectors'
+import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
+import {actions as modalActions} from '#/main/core/layout/modal/actions'
+
+import {UserList} from '#/main/core/administration/user/user/components/user-list.jsx'
+
+import {select} from '#/main/core/workspace/user/selectors'
 import {actions} from '#/main/core/administration/user/group/actions'
 
 const UserTabComponent = props =>
-  <FormSection
-    id="group-organizations"
-    className="embedded-list-section"
-    icon="fa fa-fw fa-building"
-    title={t('organizations')}
-    disabled={props.new}
-    actions={[
-      {
-        icon: 'fa fa-fw fa-plus',
-        label: t('add_organizations'),
-        action: () => props.pickOrganizations(props.user.id)
-      }
-    ]}
-  >
     <DataListContainer
-      name="users.current.organizations"
-      open={OrganizationList.open}
+      name="users"
+      open={UserList.open}
       fetch={{
-        url: ['apiv2_user_list_organizations', {id: props.user.id}],
-        autoload: props.user.id && !props.new
+        url: ['apiv2_workspace_list_users', {id: props.workspace.uuid}],
+        autoload: true
       }}
       delete={{
-        url: ['apiv2_user_remove_organizations', {id: props.user.id}]
+        url: ['apiv2_workspace_remove_users', {id: props.workspace.uuid}]
       }}
-      definition={OrganizationList.definition}
-      card={OrganizationList.card}
+      definition={UserList.definition}
+      card={UserList.card}
     />
-  </FormSection>
-
-
-UserTabComponent.propTypes = {
-  openForm: T.func.isRequired
-}
 
 const UserTab = connect(
-  null,
-  dispatch => ({
-    openForm(id = null) {
-      dispatch(actions.open('groups.current', id))
-    }
-  })
+  state => ({workspace: select.workspace(state)}),
+  null
 )(UserTabComponent)
 
 export {

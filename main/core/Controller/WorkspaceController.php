@@ -225,6 +225,7 @@ class WorkspaceController extends Controller
      */
     public function usersManagementAction(Workspace $workspace)
     {
+        return ['workspace' => $workspace];
     }
 
     /**

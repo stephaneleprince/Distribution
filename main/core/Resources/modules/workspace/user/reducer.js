@@ -1,4 +1,5 @@
 import {makePageReducer} from '#/main/core/layout/page/reducer'
+import {makeReducer} from '#/main/core/scaffolding/reducer'
 
 import {reducer as pendingReducer} from '#/main/core/workspace/user/pending/reducer'
 import {reducer as usersReducer} from '#/main/core/workspace/user/user/reducer'
@@ -9,7 +10,8 @@ const reducer = makePageReducer({}, {
   users: usersReducer,
   groups: groupsReducer,
   roles: rolesReducer,
-  pending: pendingReducer
+  pending: pendingReducer,
+  workspace: makeReducer({}, {})
 })
 
 export {

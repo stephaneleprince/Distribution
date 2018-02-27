@@ -23,7 +23,7 @@
 {% block section_content %}
     <div
       class="page-container workspaces-container"
-      data-workspace="{{ workspace | json_encode | raw | escape }}"
+      data-workspace="{{ workspace | api_serialize | json_encode | raw | escape }}"
     >
     </div>
 {% endblock %}
