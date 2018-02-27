@@ -8,7 +8,6 @@ import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
 
 import {actions as listActions} from '#/main/core/data/list/actions'
 import {select as listSelect} from '#/main/core/data/list/selectors'
-import {constants as listConst} from '#/main/core/data/list/constants'
 
 import {DataListProperty} from '#/main/core/data/list/prop-types'
 
@@ -71,11 +70,7 @@ DataPicker.defaultProps = {
   title: t('objects_select_title'),
   confirmText: t('objects_select_confirm'),
   icon: 'fa fa-fw fa-hand-pointer-o',
-  onlyId: true,
-  display: {
-    current: listConst.DISPLAY_TABLE,
-    available: Object.keys(listConst.DISPLAY_MODES)
-  }
+  onlyId: true
 }
 
 const DataPickerModal = connect(
