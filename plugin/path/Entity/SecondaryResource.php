@@ -25,7 +25,7 @@ class SecondaryResource
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * Step.
@@ -35,7 +35,7 @@ class SecondaryResource
      * @ORM\ManyToOne(targetEntity="Innova\PathBundle\Entity\Step", inversedBy="secondaryResources")
      * @ORM\JoinColumn(name="step_id", onDelete="CASCADE", nullable=false)
      */
-    private $step;
+    protected $step;
 
     /**
      * Resource.
@@ -45,7 +45,7 @@ class SecondaryResource
      * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\Resource\ResourceNode")
      * @ORM\JoinColumn(name="resource_id", onDelete="CASCADE", nullable=false)
      */
-    private $resource;
+    protected $resource;
 
     /**
      * Order of the secondary resource in the step.
@@ -55,6 +55,13 @@ class SecondaryResource
      * @ORM\Column(name="resource_order", type="integer")
      */
     protected $order;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="inheritance_enabled", type="boolean")
+     */
+    protected $inheritanceEnabled = false;
 
     /**
      * Get id.
@@ -134,6 +141,26 @@ class SecondaryResource
     public function setOrder($order)
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInheritanceEnabled()
+    {
+        return $this->inheritanceEnabled;
+    }
+
+    /**
+     * @param bool $inheritanceEnabled
+     *
+     * @return SecondaryResource
+     */
+    public function setInheritanceEnabled($inheritanceEnabled)
+    {
+        $this->inheritanceEnabled = $inheritanceEnabled;
 
         return $this;
     }

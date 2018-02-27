@@ -20,6 +20,7 @@ class Version20180227115453 extends AbstractMigration
                 step_id INT NOT NULL, 
                 resource_id INT NOT NULL, 
                 resource_order INT NOT NULL, 
+                inheritance_enabled TINYINT(1) NOT NULL,
                 uuid VARCHAR(36) NOT NULL, 
                 UNIQUE INDEX UNIQ_4E895FCBD17F50A6 (uuid), 
                 INDEX IDX_4E895FCB73B21E9C (step_id), 
