@@ -16,25 +16,23 @@ const Tool = () =>
 
     tabs={[
       {
-        icon: 'fa fa-book',
+        icon: 'fa fa-user',
         title: trans('users'),
         path: '/users',
         content: UserTab
-      }/*,
+      },
       {
-        icon: 'fa fa-book',
+        icon: 'fa fa-users',
         title: trans('groups'),
         path: '/groups',
-        actions: GroupTabActions,
         content: GroupTab
       },
       {
-        icon: 'fa fa-book',
+        icon: 'fa fa-id-badge',
         title: trans('roles'),
         path: '/roles',
-        actions: RoleTabActions,
         content: RoleTab
-      },
+      }/*,
       {
         icon: 'fa fa-book',
         title: trans('pending'),

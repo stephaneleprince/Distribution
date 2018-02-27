@@ -21,7 +21,7 @@ import {actions} from '#/main/core/administration/user/group/actions'
 
 const UserTabComponent = props =>
     <DataListContainer
-      name="users"
+      name="users.list"
       open={UserList.open}
       fetch={{
         url: ['apiv2_workspace_list_users', {id: props.workspace.uuid}],

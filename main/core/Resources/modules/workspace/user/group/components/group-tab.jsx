@@ -8,67 +8,37 @@ import {navigate, matchPath, Routes, withRouter} from '#/main/core/router'
 import {PageActions} from '#/main/core/layout/page/components/page-actions.jsx'
 import {FormPageActionsContainer} from '#/main/core/data/form/containers/page-actions.jsx'
 
-import {Group}   from '#/main/core/administration/user/group/components/group.jsx'
-import {Groups}  from '#/main/core/administration/user/group/components/groups.jsx'
+import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
+import {FormSections, FormSection} from '#/main/core/layout/form/components/form-sections.jsx'
+import {select as formSelect} from '#/main/core/data/form/selectors'
+import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
+import {actions as modalActions} from '#/main/core/layout/modal/actions'
+
+import {GroupList} from '#/main/core/administration/user/group/components/group-list.jsx'
+
+import {select} from '#/main/core/workspace/user/selectors'
 import {actions} from '#/main/core/administration/user/group/actions'
 
-const GroupTabActionsComponent = props =>
-  <PageActions>
-    <FormPageActionsContainer
-      formName="groups.current"
-      target={(group, isNew) => isNew ?
-        ['apiv2_group_create'] :
-        ['apiv2_group_update', {id: group.id}]
-      }
-      opened={!!matchPath(props.location.pathname, {path: '/groups/form'})}
-      open={{
-        icon: 'fa fa-plus',
-        label: t('add_group'),
-        action: '#/groups/form'
-      }}
-      cancel={{
-        action: () => navigate('/groups')
-      }}
-    />
-  </PageActions>
-
-GroupTabActionsComponent.propTypes = {
-  location: T.shape({
-    pathname: T.string
-  }).isRequired
-}
-
-const GroupTabActions = withRouter(GroupTabActionsComponent)
-
 const GroupTabComponent = props =>
-  <Routes
-    routes={[
-      {
-        path: '/groups',
-        exact: true,
-        component: Groups
-      }, {
-        path: '/groups/form/:id?',
-        onEnter: (params) => props.openForm(params.id || null),
-        component: Group
-      }
-    ]}
-  />
-
-GroupTabComponent.propTypes = {
-  openForm: T.func.isRequired
-}
+    <DataListContainer
+      name="users.list"
+      open={GroupList.open}
+      fetch={{
+        url: ['apiv2_workspace_list_groups', {id: props.workspace.uuid}],
+        autoload: true
+      }}
+      delete={{
+        url: ['apiv2_workspace_remove_groups', {id: props.workspace.uuid}]
+      }}
+      definition={GroupList.definition}
+      card={GroupList.card}
+    />
 
 const GroupTab = connect(
-  null,
-  dispatch => ({
-    openForm(id = null) {
-      dispatch(actions.open('groups.current', id))
-    }
-  })
+  state => ({workspace: select.workspace(state)}),
+  null
 )(GroupTabComponent)
 
 export {
-  GroupTabActions,
   GroupTab
 }
