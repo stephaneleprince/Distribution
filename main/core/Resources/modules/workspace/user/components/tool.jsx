@@ -21,7 +21,7 @@ const Tool = () =>
         path: '/users',
         content: UserTab,
         actions: UserTabActions
-      },
+      }/*,
       {
         icon: 'fa fa-users',
         title: trans('groups'),
@@ -35,7 +35,7 @@ const Tool = () =>
         path: '/roles',
         content: RoleTab,
         //actions: RoleTabActions
-      }/*,
+      },
       {
         icon: 'fa fa-book',
         title: trans('pending'),
