@@ -4,7 +4,13 @@ const Step = {
   propTypes: {
     id: T.string.isRequired,
     title: T.string,
-    description: T.string
+    description: T.string,
+    poster: T.shape({
+      url: T.string
+    }),
+    display: T.shape({
+      numbering: T.string
+    }).isRequired,
   },
   defaultProps: {
     children: []
@@ -15,7 +21,10 @@ const Path = {
   propTypes: {
     id: T.string.isRequired,
     display: T.shape({
-
+      showOverview: T.bool,
+      showSummary: T.bool,
+      openSummary: T.bool,
+      numbering: T.oneOf(['none', 'numeric', 'literal', 'custom'])
     }).isRequired,
     steps: T.arrayOf(T.shape(
       Step.propTypes

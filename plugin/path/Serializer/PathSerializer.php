@@ -4,7 +4,9 @@ namespace Innova\PathBundle\Serializer;
 
 use Claroline\AppBundle\API\Serializer\SerializerTrait;
 use Claroline\AppBundle\Persistence\ObjectManager;
+use Claroline\CoreBundle\API\Serializer\File\PublicFileSerializer;
 use Claroline\CoreBundle\API\Serializer\Resource\ResourceNodeSerializer;
+use Claroline\CoreBundle\Entity\File\PublicFile;
 use Innova\PathBundle\Entity\Path\Path;
 use Innova\PathBundle\Entity\Step;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -18,6 +20,11 @@ class PathSerializer
     use SerializerTrait;
 
     private $om;
+
+    /** @var PublicFileSerializer */
+    private $fileSerializer;
+
+    /** @var ResourceNodeSerializer */
     private $resourceNodeSerializer;
 
     private $stepRepo;
@@ -28,18 +35,32 @@ class PathSerializer
      *
      * @DI\InjectParams({
      *     "om"                 = @DI\Inject("claroline.persistence.object_manager"),
+     *     "fileSerializer"     = @DI\Inject("claroline.serializer.public_file"),
      *     "resourceSerializer" = @DI\Inject("claroline.serializer.resource_node")
      * })
      *
      * @param ObjectManager          $om
+     * @param PublicFileSerializer   $fileSerializer
      * @param ResourceNodeSerializer $resourceSerializer
      */
-    public function __construct(ObjectManager $om, ResourceNodeSerializer $resourceSerializer)
+    public function __construct(
+        ObjectManager $om,
+        PublicFileSerializer $fileSerializer,
+        ResourceNodeSerializer $resourceSerializer)
     {
         $this->om = $om;
+        $this->fileSerializer = $fileSerializer;
         $this->resourceNodeSerializer = $resourceSerializer;
         $this->stepRepo = $om->getRepository('Innova\PathBundle\Entity\Step');
         $this->resourceNodeRepo = $om->getRepository('Claroline\CoreBundle\Entity\Resource\ResourceNode');
+    }
+
+    /**
+     * @return string
+     */
+    public function getSchema()
+    {
+        return '#/plugin/path/path.json';
     }
 
     /**
@@ -74,34 +95,17 @@ class PathSerializer
     {
         $path->setUuid($data['id']);
 
-        if (isset($data['display']['description'])) {
-            $path->setDescription($data['display']['description']);
-        }
-        if (isset($data['display']['showOverview'])) {
-            $path->setShowOverview($data['display']['showOverview']);
-        }
-        if (isset($data['display']['showSummary'])) {
-            $path->setShowSummary($data['display']['showSummary']);
-        }
-        if (isset($data['display']['openSummary'])) {
-            $path->setSummaryDisplayed($data['display']['openSummary']);
-        }
-        if (isset($data['display']['numbering'])) {
-            $path->setNumbering($data['display']['numbering']);
-        }
+        $this->sipe('display.description', 'setDescription', $data, $path);
+        $this->sipe('display.showOverview', 'setShowOverview', $data, $path);
+        $this->sipe('display.showSummary', 'setShowSummary', $data, $path);
+        $this->sipe('display.openSummary', 'setSummaryDisplayed', $data, $path);
+        $this->sipe('display.numbering', 'setNumbering', $data, $path);
+
         if (isset($data['steps'])) {
             $this->deserializeSteps($data['steps'], $path);
         }
 
         return $path;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSchema()
-    {
-        return '#/plugin/path/path.json';
     }
 
     /**
@@ -111,10 +115,26 @@ class PathSerializer
      */
     private function serializeStep(Step $step)
     {
+        $poster = null;
+        if (!empty($step->getPoster())) {
+            /** @var PublicFile $file */
+            $file = $this->om
+                ->getRepository('Claroline\CoreBundle\Entity\File\PublicFile')
+                ->findOneBy(['url' => $step->getPoster()]);
+
+            if ($file) {
+                $poster = $this->fileSerializer->serialize($file);
+            }
+        }
+
         return [
             'id' => $step->getUuid(),
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
+            'poster' => $poster,
+            'display' => [
+                'numbering' => $step->getNumbering(),
+            ],
             'resource' => $step->getResource() ? $this->resourceNodeSerializer->serialize($step->getResource()) : null,
             'children' => array_map(function (Step $child) {
                 return $this->serializeStep($child);
@@ -170,6 +190,14 @@ class PathSerializer
         if (isset($data['description'])) {
             $step->setDescription($data['description']);
         }
+        if (isset($data['poster'])) {
+            $step->setPoster($data['poster']['url']);
+        }
+
+        if (isset($data['display']) && isset($data['display']['numbering'])) {
+            $step->setNumbering($data['display']['numbering']);
+        }
+
         /* Set primary resource */
         $resource = isset($data['resource']['id']) ?
             $this->resourceNodeRepo->findOneBy(['guid' => $data['resource']['id']]) :

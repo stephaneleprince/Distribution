@@ -49,6 +49,7 @@
             display: block; // todo this may have broken some things
             margin-top: 5px;
             font-size: 50%;
+            font-style: italic;
         }
     }
 
@@ -70,6 +71,30 @@
 
     + .page-content-shift {
         margin-top: @component-margin-bottom;
+    }
+}
+
+.page-header-poster {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 300px;
+    border-color: transparent;
+
+    // use movie subtitles styles to make title always readable
+    // maybe one day add a background checker
+    .page-title,
+    .page-title > small {
+        color: white;
+        text-shadow:
+            0.07em 0 rgba(0, 0, 0, 0.75),
+            0 0.07em rgba(0, 0, 0, 0.75),
+            -0.07em 0 rgba(0, 0, 0, 0.75),
+            0 -0.07em rgba(0, 0, 0, 0.75);
+    }
+
+    .poster {
+
     }
 }
 

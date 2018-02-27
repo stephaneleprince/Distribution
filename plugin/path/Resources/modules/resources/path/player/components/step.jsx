@@ -1,6 +1,7 @@
 import React from 'react'
 
-import {implementPropTypes} from '#/main/core/scaffolding/prop-types'
+import {asset} from '#/main/core/scaffolding/asset'
+import {PropTypes as T, implementPropTypes} from '#/main/core/scaffolding/prop-types'
 import {HtmlText} from '#/main/core/layout/components/html-text.jsx'
 
 import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
@@ -10,10 +11,15 @@ import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
  */
 const Step = props =>
   <section className="current-step">
-    <img className="step-poster img-responsive" src="/img/paper.jpg" />
+    {props.poster &&
+      <img className="step-poster img-responsive" alt={props.title} src={asset(props.poster.url)} />
+    }
 
     <h3 className="h2">
-      <span className="step-number">1</span>
+      {props.numbering &&
+        <span className="step-number">{props.numbering}</span>
+      }
+
       {props.title}
     </h3>
 
@@ -24,7 +30,9 @@ const Step = props =>
     }
   </section>
 
-implementPropTypes(Step, StepTypes)
+implementPropTypes(Step, StepTypes, {
+  numbering: T.string
+})
 
 export {
   Step

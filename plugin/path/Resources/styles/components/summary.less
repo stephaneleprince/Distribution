@@ -4,12 +4,11 @@
 
 .summary-container {
     position: absolute;
-
+    overflow-x: hidden;
     color: @path-summary-color;
     background: @path-summary-bg;
     padding: @path-summary-padding;
     border-radius: @summary-border-radius;
-    overflow-x: hidden;
 
     .summary-header {
         display: flex;
@@ -57,7 +56,7 @@
         margin-top: @path-summary-header-margin-bottom;
 
         .tree {
-          padding-left: 0px;
+          padding-left: 0;
         }
     }
 }
@@ -225,7 +224,7 @@
 
         // Take full height of the viewport / content (if taller than than viewport)
         left: 0;
-        top: 0;
+        top: @component-margin-bottom;
         bottom: 0;
 
         // hide title when closed
@@ -260,7 +259,7 @@
 
         // Take full height of the viewport / content (if taller than than viewport)
         left: 0;
-        top: 0;
+        top: @component-margin-bottom;
         bottom: 0;
 
         // hide title when closed

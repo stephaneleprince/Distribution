@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import {trans} from '#/main/core/translation'
 import {actions as modalActions} from '#/main/core/layout/modal/actions'
 import {MODAL_DATA_PICKER} from '#/main/core/data/list/modals'
-import {select as formSelect} from '#/main/core/data/form/selectors'
 import {Routes} from '#/main/core/router'
 
 import {select} from '#/plugin/path/resources/path/editor/selectors'
@@ -14,6 +13,9 @@ import {PathCurrent} from '#/plugin/path/resources/path/components/current.jsx'
 import {Summary} from '#/plugin/path/resources/path/editor/components/summary.jsx'
 import {ParametersForm} from '#/plugin/path/resources/path/editor/components/parameters-form.jsx'
 import {StepForm} from '#/plugin/path/resources/path/editor/components/step-form.jsx'
+import {Path as PathTypes, Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
+import {constants} from '#/plugin/path/resources/path/constants'
+import {getNumbering, flattenSteps} from '#/plugin/path/resources/path/utils'
 import {getFormDataPart} from '#/plugin/path/resources/path/editor/utils'
 
 const EditorComponent = props =>
@@ -27,10 +29,13 @@ const EditorComponent = props =>
     />
 
     <Routes
+      redirect={[
+        {from: '/edit/', to: '/edit/parameters', exact: true}
+      ]}
       routes={[
         {
           path: '/edit/parameters',
-          render: () => <ParametersForm path={props.path}/>
+          render: () => <ParametersForm path={props.path} />
         }, {
           path: '/edit/:id',
           render: (routeProps) => {
@@ -44,6 +49,8 @@ const EditorComponent = props =>
               >
                 <StepForm
                   {...step}
+                  numbering={getNumbering(props.path.display.numbering, props.path.steps, step)}
+                  customNumbering={constants.NUMBERING_CUSTOM === props.path.display.numbering}
                   stepPath={getFormDataPart(step.id, props.path.steps)}
                   pickPrimaryResource={props.pickPrimaryResource}
                   removePrimaryResource={props.removePrimaryResource}
@@ -57,8 +64,12 @@ const EditorComponent = props =>
   </section>
 
 EditorComponent.propTypes = {
-  path: T.object,
-  steps: T.array,
+  path: T.shape(
+    PathTypes.propTypes
+  ).isRequired,
+  steps: T.arrayOf(T.shape(
+    StepTypes.propTypes
+  )),
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired,
   pickPrimaryResource: T.func.isRequired,
@@ -67,8 +78,8 @@ EditorComponent.propTypes = {
 
 const Editor = connect(
   state => ({
-    path: formSelect.data(formSelect.form(state, 'pathForm')),
-    steps: select.flatStepsForm(state)
+    path: select.path(state),
+    steps: flattenSteps(select.steps(state))
   }),
   dispatch => ({
     addStep(parentId) {

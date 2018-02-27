@@ -62,7 +62,7 @@ const PortalPage = props =>
             () => {props.displayModalVideo(row.name, row.url.embedYoutubeUrl)} // open a modal with the video in a iframe
             :
             generateUrl('claro_resource_open', {node: row.id, resourceType: row.meta.type}), // direct link to the resource
-          poster: row.poster,
+          poster: row.thumbnail,
           className: row.url && row.url.isExternal ? 'external-resource' : 'internal-resource',
           icon: row.url && row.url.isYoutube ?
             <span className="item-icon-container fa fa-play" />

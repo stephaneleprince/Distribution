@@ -92,6 +92,13 @@ class EditPropertiesModal extends Component {
             title: trans('display_parameters'),
             fields: [
               {
+                name: 'poster',
+                label: trans('poster'),
+                type: 'image',
+                options: {
+                  ratio: '3:1'
+                }
+              }, {
                 name: 'display.fullscreen',
                 label: t_res('resource_fullscreen'),
                 type: 'boolean'

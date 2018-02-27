@@ -17,8 +17,8 @@ bootstrap(
 
   initialData => Object.assign({}, initialData, {
     summary: {
-      opened: initialData.path.display.summaryDisplayed,
-      pinned: initialData.path.display.summaryDisplayed
+      opened: initialData.path.display.openSummary,
+      pinned: initialData.path.display.openSummary
     },
     pathForm: {
       data: initialData.path

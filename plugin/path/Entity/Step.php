@@ -2,8 +2,10 @@
 
 namespace Innova\PathBundle\Entity;
 
+use Claroline\AppBundle\Entity\Identifier\Id;
+use Claroline\AppBundle\Entity\Identifier\Uuid;
+use Claroline\AppBundle\Entity\Meta\Poster;
 use Claroline\CoreBundle\Entity\Activity\ActivityParameters;
-use Claroline\CoreBundle\Entity\Model\UuidTrait;
 use Claroline\CoreBundle\Entity\Resource\Activity;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,20 +19,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Step implements \JsonSerializable
 {
-    use UuidTrait;
-
-    const DEFAULT_NAME = 'Step';
-
-    /**
-     * Unique identifier of the step.
-     *
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use Id;
+    use Uuid;
+    use Poster;
 
     /**
      * Activity of this step.
@@ -39,6 +30,8 @@ class Step implements \JsonSerializable
      *
      * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\Resource\Activity", cascade={"persist"})
      * @ORM\JoinColumn(name="activity_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @deprecated
      */
     protected $activity;
 
@@ -49,6 +42,8 @@ class Step implements \JsonSerializable
      *
      * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\Activity\ActivityParameters", cascade={"all"})
      * @ORM\JoinColumn(name="parameters_id", referencedColumnName="id", onDelete="SET NULL")
+     *
+     * @deprecated
      */
     protected $parameters;
 
@@ -58,6 +53,8 @@ class Step implements \JsonSerializable
      * @var int
      *
      * @ORM\Column(name="activity_height", type="integer", nullable=true)
+     *
+     * @deprecated
      */
     protected $activityHeight;
 
@@ -114,6 +111,8 @@ class Step implements \JsonSerializable
      * @var \Innova\PathBundle\Entity\StepCondition
      *
      * @ORM\OneToOne(targetEntity="Innova\PathBundle\Entity\StepCondition", mappedBy="step", cascade={"persist", "remove"})
+     *
+     * @deprecated
      */
     protected $condition;
 
@@ -146,6 +145,15 @@ class Step implements \JsonSerializable
     protected $description;
 
     /**
+     * The number of the step (either a number, a literal or a custom label).
+     *
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     */
+    protected $numbering;
+
+    /**
      * @var \Claroline\CoreBundle\Entity\Resource\ResourceNode
      *
      * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\Resource\ResourceNode")
@@ -158,23 +166,10 @@ class Step implements \JsonSerializable
      */
     public function __construct()
     {
+        $this->refreshUuid();
+
         $this->children = new ArrayCollection();
         $this->inheritedResources = new ArrayCollection();
-    }
-
-    public function __toString()
-    {
-        return $this->getId().' - '.$this->getName();
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -813,6 +808,16 @@ class Step implements \JsonSerializable
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    public function getNumbering()
+    {
+        return $this->numbering;
+    }
+
+    public function setNumbering($numbering)
+    {
+        $this->numbering = $numbering;
     }
 
     /**

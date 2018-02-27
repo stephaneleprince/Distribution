@@ -27,8 +27,13 @@ const Resource = props =>
     customActions={[
       {
         icon: 'fa fa-fw fa-home',
-        label: trans('show_overview', {}, 'platform'),
+        label: trans('show_overview'),
+        displayed: props.path.display.showOverview,
         action: '#/'
+      }, {
+        icon: 'fa fa-fw fa-play',
+        label: trans('start_path', {}, 'path'),
+        action: '#/play'
       }
     ]}
   >

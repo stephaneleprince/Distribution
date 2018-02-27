@@ -7,19 +7,22 @@ import {Routes} from '#/main/core/router'
 
 import {select} from '#/plugin/path/resources/path/selectors'
 
-import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
+import {Path as PathTypes, Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
 import {PathCurrent} from '#/plugin/path/resources/path/components/current.jsx'
 import {Step} from '#/plugin/path/resources/path/player/components/step.jsx'
 import {Summary} from '#/plugin/path/resources/path/player/components/summary.jsx'
+import {getNumbering, flattenSteps} from '#/plugin/path/resources/path/utils'
 
 // todo manage empty steps
 const PlayerComponent = props =>
   <section>
     <h2 className="sr-only">{trans('play')}</h2>
 
-    <Summary
-      steps={props.steps}
-    />
+    {props.path.display.showSummary &&
+      <Summary
+        steps={props.steps}
+      />
+    }
 
     <Routes
       redirect={[
@@ -27,7 +30,7 @@ const PlayerComponent = props =>
       ]}
       routes={[
         {
-          path: `/play/:id`,
+          path: '/play/:id',
           render: (routeProps) => {
             const step = props.steps.find(step => routeProps.match.params.id === step.id)
 
@@ -37,7 +40,10 @@ const PlayerComponent = props =>
                 current={step}
                 all={props.steps}
               >
-                <Step {...step} />
+                <Step
+                  {...step}
+                  numbering={getNumbering(props.path.display.numbering, props.path.steps, step)}
+                />
               </PathCurrent>
             )
           }
@@ -47,6 +53,9 @@ const PlayerComponent = props =>
   </section>
 
 PlayerComponent.propTypes = {
+  path: T.shape(
+    PathTypes.propTypes
+  ).isRequired,
   steps: T.arrayOf(T.shape(
     StepTypes.propTypes
   ))
@@ -54,7 +63,8 @@ PlayerComponent.propTypes = {
 
 const Player = connect(
   state => ({
-    steps: select.flatSteps(state)
+    path: select.path(state),
+    steps: flattenSteps(select.steps(state))
   })
 )(PlayerComponent)
 

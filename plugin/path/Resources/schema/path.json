@@ -27,7 +27,7 @@
         },
         "numbering": {
           "enum": ["none", "numeric", "literal", "custom"],
-          "description": "Numbering"
+          "description": "Numbering of the steps"
         }
       },
       "required": ["showOverview", "showSummary", "openSummary"]

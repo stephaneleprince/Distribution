@@ -43,5 +43,13 @@
     "user_progression_step_to_review_label": "To review",
     "user_progression_step_unseen": "You have not seen this step.",
     "overview_message": "Welcome message",
-    "start_path": "Start path"
+    "start_path": "Start path",
+    "continue_path": "Continue path",
+    "restart_path": "Restart path",
+    "path_numbering": "Step numbering",
+    "path_numbering_none": "None",
+    "path_numbering_numeric": "Numeric",
+    "path_numbering_literal": "Literal",
+    "path_numbering_custom": "Custom",
+    "step_numbering": "Numbering"
 }

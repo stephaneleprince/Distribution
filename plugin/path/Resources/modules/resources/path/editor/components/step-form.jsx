@@ -29,7 +29,7 @@ const ResourceSection = props =>
         className="btn btn-primary"
         onClick={() => props.pickPrimaryResource(props.stepId)}
       >
-        <span className="fa fa-fw fa-plus"/>
+        <span className="fa fa-fw fa-plus icon-with-text-right"/>
         {trans('select_primary_resource', {}, 'path')}
       </button>
     </div>
@@ -51,24 +51,44 @@ const StepForm = props =>
     name="pathForm"
     title={props.title}
     dataPart={props.stepPath}
-    sections={[{
-      id: 'step',
-      title: 'step',
-      fields: [
-        {
-          name: 'title',
-          type: 'string',
-          label: trans('title'),
-          required: true
-        },
-        {
-          name: 'description',
-          type: 'html',
-          label: trans('description'),
-          required: false
-        }
-      ]
-    }]}
+    sections={[
+      {
+        id: 'info',
+        title: trans('information'),
+        icon: 'fa fa-fw fa-info',
+        fields: [
+          {
+            name: 'title',
+            type: 'string',
+            label: trans('title'),
+            required: true
+          }, {
+            name: 'description',
+            type: 'html',
+            label: trans('description')
+          }
+        ]
+      }, {
+        id: 'display',
+        icon: 'fa fa-fw fa-desktop',
+        title: trans('display_parameters'),
+        fields: [
+          {
+            name: 'poster',
+            type: 'image',
+            label: trans('poster'),
+            options: {
+              ratio: '3:1'
+            }
+          }, {
+            name: 'display.numbering',
+            type: 'string',
+            label: trans('step_numbering', {}, 'path'),
+            displayed: props.customNumbering
+          }
+        ]
+      }
+    ]}
   >
     <ResourceSection
       stepId={props.id}
@@ -80,8 +100,12 @@ const StepForm = props =>
 
 implementPropTypes(StepForm, StepTypes, {
   stepPath: T.string.isRequired,
+  numbering: T.string,
+  customNumbering: T.bool,
   pickPrimaryResource: T.func.isRequired,
   removePrimaryResource: T.func.isRequired
+}, {
+  customNumbering: false
 })
 
 export {

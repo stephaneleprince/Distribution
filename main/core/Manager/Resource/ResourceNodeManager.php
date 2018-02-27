@@ -69,6 +69,7 @@ class ResourceNodeManager
      * @param ResourceNodeSerializer        $resourceNodeSerializer
      * @param RightsManager                 $rightsManager
      * @param ResourceManager               $resourceManager
+     * @param SessionInterface              $session
      */
     public function __construct(
         AuthorizationCheckerInterface $authorization,
@@ -122,7 +123,11 @@ class ResourceNodeManager
             $this->resourceManager->rename($resourceNode, $data['name'], true);
         }
 
-        //why no unserialize from serializer ?
+        if (isset($data['poster'])) {
+            $resourceNode->setPoster($data['poster']['url']);
+        }
+
+        //why no deserialize from serializer ?
         //@todo move in serializer
 
         $this->updateMeta($data['meta'], $resourceNode);

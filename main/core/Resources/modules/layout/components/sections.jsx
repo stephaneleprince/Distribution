@@ -17,7 +17,7 @@ import {TooltipAction} from '#/main/core/layout/button/components/tooltip-action
  */
 const Section = props =>
   <Panel
-    {...omit(props, ['level', 'title', 'icon', 'actions', 'children'])}
+    {...omit(props, ['level', 'displayLevel', 'title', 'icon', 'actions', 'children'])}
     collapsible={true}
     expanded={props.disabled ? false : props.expanded}
     className={classes(props.className, {

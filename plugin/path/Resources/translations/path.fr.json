@@ -47,5 +47,11 @@
     "overview_message": "Message d'accueil",
     "start_path": "Commencer le parcours",
     "continue_path": "Continuer le parcours",
-    "resartart_path": "Recommencer le parcours"
+    "restart_path": "Recommencer le parcours",
+    "path_numbering": "Numérotation des étapes",
+    "path_numbering_none": "Aucune",
+    "path_numbering_numeric": "Numérique",
+    "path_numbering_literal": "Littérale",
+    "path_numbering_custom": "Customisée",
+    "step_numbering": "Numérotation"
 }

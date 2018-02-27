@@ -5,7 +5,9 @@ namespace Claroline\CoreBundle\API\Serializer\Resource;
 use Claroline\AppBundle\Event\StrictDispatcher;
 use Claroline\AppBundle\Persistence\ObjectManager;
 use Claroline\AppBundle\API\Serializer\SerializerTrait;
+use Claroline\CoreBundle\API\Serializer\File\PublicFileSerializer;
 use Claroline\CoreBundle\API\Serializer\User\UserSerializer;
+use Claroline\CoreBundle\Entity\File\PublicFile;
 use Claroline\CoreBundle\Entity\Resource\MaskDecoder;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Claroline\CoreBundle\Entity\Resource\ResourceShortcut;
@@ -38,6 +40,9 @@ class ResourceNodeSerializer
     /** @var StrictDispatcher */
     private $eventDispatcher;
 
+    /** @var PublicFileSerializer */
+    private $fileSerializer;
+
     /** @var UserSerializer */
     private $userSerializer;
 
@@ -60,6 +65,7 @@ class ResourceNodeSerializer
      *     "om"                = @DI\Inject("claroline.persistence.object_manager"),
      *     "authorization"     = @DI\Inject("security.authorization_checker"),
      *     "eventDispatcher"   = @DI\Inject("claroline.event.event_dispatcher"),
+     *     "fileSerializer"    = @DI\Inject("claroline.serializer.public_file"),
      *     "userSerializer"    = @DI\Inject("claroline.serializer.user"),
      *     "maskManager"       = @DI\Inject("claroline.manager.mask_manager"),
      *     "rightsManager"     = @DI\Inject("claroline.manager.rights_manager"),
@@ -70,6 +76,7 @@ class ResourceNodeSerializer
      * @param ObjectManager                 $om
      * @param AuthorizationCheckerInterface $authorization
      * @param StrictDispatcher              $eventDispatcher
+     * @param PublicFileSerializer          $fileSerializer
      * @param UserSerializer                $userSerializer
      * @param MaskManager                   $maskManager
      * @param BreadcrumbManager             $breadcrumbManager
@@ -80,6 +87,7 @@ class ResourceNodeSerializer
         ObjectManager $om,
         AuthorizationCheckerInterface $authorization,
         StrictDispatcher $eventDispatcher,
+        PublicFileSerializer $fileSerializer,
         UserSerializer $userSerializer,
         MaskManager $maskManager,
         BreadcrumbManager $breadcrumbManager,
@@ -89,6 +97,7 @@ class ResourceNodeSerializer
         $this->om = $om;
         $this->authorization = $authorization;
         $this->eventDispatcher = $eventDispatcher;
+        $this->fileSerializer = $fileSerializer;
         $this->userSerializer = $userSerializer;
         $this->maskManager = $maskManager;
         $this->breadcrumbManager = $breadcrumbManager;
@@ -110,8 +119,8 @@ class ResourceNodeSerializer
             'autoId' => $resourceNode->getId(),
             'actualId' => $resourceNode->getId(),
             'name' => $resourceNode->getName(),
-            'poster' => $resourceNode->getThumbnail() ? '/'.$resourceNode->getThumbnail()->getRelativeUrl() : null, // todo : add as ResourceNode prop
-            'thumbnail' => null,
+            'thumbnail' => $resourceNode->getThumbnail() ? '/'.$resourceNode->getThumbnail()->getRelativeUrl() : null, // todo : add as ResourceNode prop
+            'poster' => $this->serializePoster($resourceNode),
             'meta' => $this->serializeMeta($resourceNode),
             'display' => $this->serializeDisplay($resourceNode),
             'restrictions' => $this->getRestrictions($resourceNode),
@@ -151,7 +160,7 @@ class ResourceNodeSerializer
         $unauthorizedKeys = array_keys($serializedNode);
 
         // 'poster' is a key that can be overridden by another plugin. For example: UrlBundle
-        if (false !== ($key = array_search('poster', $unauthorizedKeys))) {
+        if (false !== ($key = array_search('thumbnail', $unauthorizedKeys))) {
             unset($unauthorizedKeys[$key]);
         }
 
@@ -171,12 +180,35 @@ class ResourceNodeSerializer
         );
     }
 
+    /**
+     * Serialize the resource poster.
+     *
+     * @param ResourceNode $resourceNode
+     *
+     * @return array|null
+     */
+    private function serializePoster(ResourceNode $resourceNode)
+    {
+        if (!empty($resourceNode->getPoster())) {
+            /** @var PublicFile $file */
+            $file = $this->om
+                ->getRepository('Claroline\CoreBundle\Entity\File\PublicFile')
+                ->findOneBy(['url' => $resourceNode->getPoster()]);
+
+            if ($file) {
+                return $this->fileSerializer->serialize($file);
+            }
+        }
+
+        return null;
+    }
+
     private function serializeMeta(ResourceNode $resourceNode)
     {
         return [
             'type' => $resourceNode->getResourceType()->getName(),
             'mimeType' => $resourceNode->getMimeType(),
-            'description' => $resourceNode->getDescription(), // todo : migrate custom descriptions (Path, Quiz, etc.)
+            'description' => $resourceNode->getDescription(),
             'created' => $resourceNode->getCreationDate()->format('Y-m-d\TH:i:s'),
             'updated' => $resourceNode->getModificationDate()->format('Y-m-d\TH:i:s'),
             'license' => $resourceNode->getLicense(),
