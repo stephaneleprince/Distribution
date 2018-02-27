@@ -225,7 +225,16 @@ class WorkspaceController extends Controller
      */
     public function usersManagementAction(Workspace $workspace)
     {
-        return ['workspace' => $workspace];
+        return [
+            'workspace' => $workspace,
+            'restrictions' => [
+                'hasUserManagementAccess' => $this->authorization->isGranted(
+                    'OPEN', $this->container->get('claroline.persistence.object_manager')
+                      ->getRepository('ClarolineCoreBundle:Tool\AdminTool')
+                      ->findOneByName('user_management')
+                ),
+            ],
+        ];
     }
 
     /**

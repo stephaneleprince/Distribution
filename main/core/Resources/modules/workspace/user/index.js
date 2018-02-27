@@ -18,7 +18,8 @@ bootstrap(
   // todo load remaining through ajax
   (initialData) => {
     return {
-      workspace: initialData.workspace
+      workspace: initialData.workspace,
+      restrictions: initialData.restrictions
     }
   }
 )

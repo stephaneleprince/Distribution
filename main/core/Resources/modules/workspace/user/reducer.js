@@ -11,7 +11,8 @@ const reducer = makePageReducer({}, {
   groups: groupsReducer,
   roles: rolesReducer,
   pending: pendingReducer,
-  workspace: makeReducer({}, {})
+  workspace: makeReducer({}, {}),
+  restrictions: makeReducer({}, {})
 })
 
 export {

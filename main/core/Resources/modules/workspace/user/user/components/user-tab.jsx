@@ -33,9 +33,6 @@ const UserTabActionsComponent = props =>
   </PageActions>
 
 UserTabActionsComponent.propTypes = {
-  location: T.shape({
-    pathname: T.string
-  }).isRequired
 }
 
 const UserTabActions = withRouter(UserTabActionsComponent)

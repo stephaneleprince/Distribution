@@ -21,14 +21,14 @@ const Tool = () =>
         path: '/users',
         content: UserTab,
         actions: UserTabActions
-      }/*,
+      },
       {
         icon: 'fa fa-users',
         title: trans('groups'),
         path: '/groups',
         content: GroupTab,
-        //actions: GroupTabActions
-      },
+        actions: GroupTabActions
+      }/*,
       {
         icon: 'fa fa-id-badge',
         title: trans('roles'),
