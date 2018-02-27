@@ -679,19 +679,6 @@ class WorkspaceController extends Controller
 
     /**
      * @EXT\Route(
-     *     "/slug/{slug}/open",
-     *     name="claro_workspace_open_slug",
-     *     options={"expose"=true}
-     * )
-     * @EXT\ParamConverter("workspace",  options={"mapping": {"slug": "slug"}})
-     */
-    public function openSlugAction(Workspace $workspace)
-    {
-        return $this->openAction($workspace);
-    }
-
-    /**
-     * @EXT\Route(
      *     "/{workspaceId}/open",
      *     name="claro_workspace_open",
      *     options={"expose"=true}
