@@ -132,10 +132,10 @@ class PathSerializer
             'title' => $step->getTitle(),
             'description' => $step->getDescription(),
             'poster' => $poster,
+            'primaryResource' => $step->getResource() ? $this->resourceNodeSerializer->serialize($step->getResource()) : null,
             'display' => [
                 'numbering' => $step->getNumbering(),
             ],
-            'resource' => $step->getResource() ? $this->resourceNodeSerializer->serialize($step->getResource()) : null,
             'children' => array_map(function (Step $child) {
                 return $this->serializeStep($child);
             }, $step->getChildren()->toArray()),
@@ -199,8 +199,8 @@ class PathSerializer
         }
 
         /* Set primary resource */
-        $resource = isset($data['resource']['id']) ?
-            $this->resourceNodeRepo->findOneBy(['guid' => $data['resource']['id']]) :
+        $resource = isset($data['primaryResource']['id']) ?
+            $this->resourceNodeRepo->findOneBy(['guid' => $data['primaryResource']['id']]) :
             null;
         $step->setResource($resource);
 

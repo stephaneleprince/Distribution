@@ -24,6 +24,7 @@ const DataPicker = props =>
       fetch={props.fetch}
       definition={props.definition}
       card={props.card}
+      display={props.display}
     />
 
     <button
@@ -49,6 +50,7 @@ DataPicker.propTypes = {
   fetch: T.object,
   card: T.func.isRequired,
   onlyId: T.bool,
+  display: T.object,
 
   /**
    * Definition of the data properties.

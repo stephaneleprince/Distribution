@@ -6,7 +6,7 @@ import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
 
 import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
 
-const ResourceSection = props =>
+const PrimaryResourceSection = props =>
   <div className="panel panel-default">
     <div className="panel-body">
       <label>
@@ -35,7 +35,7 @@ const ResourceSection = props =>
     </div>
   </div>
 
-ResourceSection.propTypes = {
+PrimaryResourceSection.propTypes = {
   resource: T.shape({
     id: T.string.isRequired,
     name: T.string.isRequired
@@ -90,9 +90,9 @@ const StepForm = props =>
       }
     ]}
   >
-    <ResourceSection
+    <PrimaryResourceSection
       stepId={props.id}
-      resource={props.resource}
+      resource={props.primaryResource}
       pickPrimaryResource={props.pickPrimaryResource}
       removePrimaryResource={props.removePrimaryResource}
     />

@@ -81,7 +81,7 @@ const reducer = {
         for (let i = 1; i < stepPath.length; ++i) {
           step = step.children[stepPath[i]]
         }
-        step.resource = action.resource
+        step.primaryResource = action.resource
 
         return newState
       }

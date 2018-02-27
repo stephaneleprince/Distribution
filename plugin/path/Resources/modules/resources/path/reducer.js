@@ -24,7 +24,8 @@ const reducer = makeResourceReducer({}, {
   path: makeReducer({}, {
     // replaces path data after success updates
     [FORM_SUBMIT_SUCCESS+'/pathForm']: (state, action) => action.updatedData
-  })
+  }),
+  resourceTypes: makeReducer({}, {})
 })
 
 export {

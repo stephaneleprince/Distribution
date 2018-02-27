@@ -2,10 +2,12 @@ import React from 'react'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
 
+import {asset} from '#/main/core/scaffolding/asset'
 import {trans} from '#/main/core/translation'
 import {actions as modalActions} from '#/main/core/layout/modal/actions'
 import {MODAL_DATA_PICKER} from '#/main/core/data/list/modals'
 import {Routes} from '#/main/core/router'
+import {constants as listConst} from '#/main/core/data/list/constants'
 
 import {select} from '#/plugin/path/resources/path/editor/selectors'
 import {actions} from '#/plugin/path/resources/path/editor/actions'
@@ -52,7 +54,7 @@ const EditorComponent = props =>
                   numbering={getNumbering(props.path.display.numbering, props.path.steps, step)}
                   customNumbering={constants.NUMBERING_CUSTOM === props.path.display.numbering}
                   stepPath={getFormDataPart(step.id, props.path.steps)}
-                  pickPrimaryResource={props.pickPrimaryResource}
+                  pickPrimaryResource={stepId => props.pickPrimaryResource(stepId, props.resourceTypes)}
                   removePrimaryResource={props.removePrimaryResource}
                 />
               </PathCurrent>
@@ -64,6 +66,7 @@ const EditorComponent = props =>
   </section>
 
 EditorComponent.propTypes = {
+  resourceTypes: T.array,
   path: T.shape(
     PathTypes.propTypes
   ).isRequired,
@@ -78,6 +81,7 @@ EditorComponent.propTypes = {
 
 const Editor = connect(
   state => ({
+    resourceTypes: select.resourceTypes(state),
     path: select.path(state),
     steps: flattenSteps(select.steps(state))
   }),
@@ -88,13 +92,17 @@ const Editor = connect(
     removeStep(id) {
       dispatch(actions.removeStep(id))
     },
-    pickPrimaryResource(stepId) {
+    pickPrimaryResource(stepId, resourceTypes) {
       dispatch(modalActions.showModal(MODAL_DATA_PICKER, {
         icon: 'fa fa-fw fa-folder-open',
         title: trans('select_primary_resource', {}, 'path'),
         confirmText: trans('select', {}, 'path'),
         name: 'resourcesPicker',
         onlyId: false,
+        display: {
+          current: listConst.DISPLAY_TILES_SM,
+          available: Object.keys(listConst.DISPLAY_MODES)
+        },
         definition: [
           {
             name: 'name',
@@ -104,20 +112,49 @@ const Editor = connect(
             primary: true
           },
           {
+            name: 'resourceType',
+            label: trans('type'),
+            displayable: false,
+            displayed: false,
+            type: 'enum',
+            options: {
+              choices: resourceTypes.filter(rt => rt.name != 'directory').reduce(
+                (choices, rt) => Object.assign(choices, {[rt.name]: trans(rt.name, {}, 'resource')}),
+                {}
+              )
+            }
+          },
+          {
             name: 'meta.type',
             type: 'string',
             label: trans('type'),
             displayed: true,
+            filterable: false,
             renderer: (rowData) => trans(rowData.meta.type, {}, 'resource')
+          },
+          {
+            name: 'workspace.name',
+            type: 'string',
+            label: trans('workspace'),
+            displayed: true
+          },
+          {
+            name: 'meta.parent.name',
+            type: 'string',
+            label: trans('parent'),
+            displayed: true
           }
         ],
         card: (row) => ({
+          poster: asset(row.meta.icon),
           icon: 'fa fa-folder-open',
           title: row.name,
-          subtitle: row.code
+          subtitle: trans(row.meta.type, {}, 'resource'),
+          footer:
+            <b>{row.workspace.name}</b>
         }),
         fetch: {
-          url: ['apiv2_resourcenode_list'],
+          url: ['apiv2_resources_picker'],
           autoload: true
         },
         handleSelect: (selected) => dispatch(actions.updatePrimaryResource(stepId, selected[0]))
