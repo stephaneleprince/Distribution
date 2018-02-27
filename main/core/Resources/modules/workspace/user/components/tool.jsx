@@ -19,19 +19,22 @@ const Tool = () =>
         icon: 'fa fa-user',
         title: trans('users'),
         path: '/users',
-        content: UserTab
+        content: UserTab,
+        actions: UserTabActions
       },
       {
         icon: 'fa fa-users',
         title: trans('groups'),
         path: '/groups',
-        content: GroupTab
+        content: GroupTab,
+        //actions: GroupTabActions
       },
       {
         icon: 'fa fa-id-badge',
         title: trans('roles'),
         path: '/roles',
-        content: RoleTab
+        content: RoleTab,
+        //actions: RoleTabActions
       }/*,
       {
         icon: 'fa fa-book',

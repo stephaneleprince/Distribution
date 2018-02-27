@@ -8,37 +8,67 @@ import {navigate, matchPath, Routes, withRouter} from '#/main/core/router'
 import {PageActions} from '#/main/core/layout/page/components/page-actions.jsx'
 import {FormPageActionsContainer} from '#/main/core/data/form/containers/page-actions.jsx'
 
-import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
-import {FormSections, FormSection} from '#/main/core/layout/form/components/form-sections.jsx'
-import {select as formSelect} from '#/main/core/data/form/selectors'
-import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
-import {actions as modalActions} from '#/main/core/layout/modal/actions'
+import {User}    from '#/main/core/administration/user/user/components/user.jsx'
+import {Users}   from '#/main/core/workspace/user/user/components/users.jsx'
+import {actions} from '#/main/core/workspace/user/user/actions'
 
-import {UserList} from '#/main/core/administration/user/user/components/user-list.jsx'
+const UserTabActionsComponent = props =>
+  <PageActions>
+    <FormPageActionsContainer
+      formName="users.current"
+      target={(user, isNew) => isNew ?
+        ['apiv2_user_create'] :
+        ['apiv2_user_update', {id: user.id}]
+      }
+      opened={!!matchPath(props.location.pathname, {path: '/users/form'})}
+      open={{
+        icon: 'fa fa-plus',
+        label: t('add_user'),
+        action: '#/users/form'
+      }}
+      cancel={{
+        action: () => navigate('/users')
+      }}
+    />
+  </PageActions>
 
-import {select} from '#/main/core/workspace/user/selectors'
-import {actions} from '#/main/core/administration/user/group/actions'
+UserTabActionsComponent.propTypes = {
+  location: T.shape({
+    pathname: T.string
+  }).isRequired
+}
+
+const UserTabActions = withRouter(UserTabActionsComponent)
 
 const UserTabComponent = props =>
-    <DataListContainer
-      name="users.list"
-      open={UserList.open}
-      fetch={{
-        url: ['apiv2_workspace_list_users', {id: props.workspace.uuid}],
-        autoload: true
-      }}
-      delete={{
-        url: ['apiv2_workspace_remove_users', {id: props.workspace.uuid}]
-      }}
-      definition={UserList.definition}
-      card={UserList.card}
-    />
+  <Routes
+    routes={[
+      {
+        path: '/users',
+        exact: true,
+        component: Users
+      }, {
+        path: '/users/form/:id?',
+        component: User,
+        onEnter: (params) => props.openForm(params.id || null)
+      }
+    ]}
+  />
+
+UserTabComponent.propTypes = {
+  openForm: T.func.isRequired
+}
 
 const UserTab = connect(
-  state => ({workspace: select.workspace(state)}),
-  null
+  null,
+  dispatch => ({
+    openForm(id = null) {
+      dispatch(actions.open('users.current', id))
+    }
+  })
 )(UserTabComponent)
 
 export {
+  UserTabActions,
   UserTab
 }
