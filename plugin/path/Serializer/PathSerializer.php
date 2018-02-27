@@ -157,6 +157,7 @@ class PathSerializer
     {
         return [
             'id' => $secondaryResource->getUuid(),
+            'inheritanceEnabled' => $secondaryResource->isInheritanceEnabled(),
             'resource' => $this->resourceNodeSerializer->serialize($secondaryResource->getResource()),
         ];
     }
@@ -297,6 +298,7 @@ class PathSerializer
             $secondaryResource = new SecondaryResource();
             $secondaryResource->setUuid($data['id']);
         }
+        $secondaryResource->setInheritanceEnabled($data['inheritanceEnabled']);
 
         /* Set resource */
         $resource = $this->resourceNodeRepo->findOneBy(['guid' => $data['resource']['id']]);

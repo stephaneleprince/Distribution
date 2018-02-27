@@ -64,6 +64,14 @@ class SecondaryResource
     protected $inheritanceEnabled = false;
 
     /**
+     * SecondaryResource constructor.
+     */
+    public function __construct()
+    {
+        $this->refreshUuid();
+    }
+
+    /**
      * Get id.
      *
      * @return int

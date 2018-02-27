@@ -100,6 +100,7 @@ const reducer = {
         }
         action.resources.forEach(r => step.secondaryResources.push({
           id: makeId(),
+          inheritanceEnabled: false,
           resource: r
         }))
 
