@@ -2,11 +2,13 @@ import React from 'react'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
 
+import {asset} from '#/main/core/scaffolding/asset'
 import {trans} from '#/main/core/translation'
 import {actions as modalActions} from '#/main/core/layout/modal/actions'
 import {MODAL_DATA_PICKER} from '#/main/core/data/list/modals'
 import {select as formSelect} from '#/main/core/data/form/selectors'
 import {Routes} from '#/main/core/router'
+import {constants as listConst} from '#/main/core/data/list/constants'
 
 import {select} from '#/plugin/path/resources/path/editor/selectors'
 import {actions} from '#/plugin/path/resources/path/editor/actions'
@@ -86,6 +88,10 @@ const Editor = connect(
         confirmText: trans('select', {}, 'path'),
         name: 'resourcesPicker',
         onlyId: false,
+        display: {
+          current: listConst.DISPLAY_TILES_SM,
+          available: Object.keys(listConst.DISPLAY_MODES)
+        },
         definition: [
           {
             name: 'name',
@@ -129,9 +135,12 @@ const Editor = connect(
           }
         ],
         card: (row) => ({
+          poster: asset(row.meta.icon),
           icon: 'fa fa-folder-open',
           title: row.name,
-          subtitle: row.code
+          subtitle: trans(row.meta.type, {}, 'resource'),
+          footer:
+            <b>{row.workspace.name}</b>
         }),
         fetch: {
           url: ['apiv2_resources_picker'],

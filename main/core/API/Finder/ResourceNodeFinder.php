@@ -102,7 +102,6 @@ class ResourceNodeFinder implements FinderInterface
                     $qb->leftJoin('obj.rights', 'rights');
                     $qb->join('rights.role', 'rightsr');
                     $qb->andWhere('(owr.name IN (:managerRoles)) OR ((rightsr.name IN (:otherRoles)) AND (BIT_AND(rights.mask, 1) = 1))');
-
                     $qb->setParameter('managerRoles', $managerRoles);
                     $qb->setParameter('otherRoles', $otherRoles);
                     break;

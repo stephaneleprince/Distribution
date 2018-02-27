@@ -8,6 +8,7 @@ import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
 
 import {actions as listActions} from '#/main/core/data/list/actions'
 import {select as listSelect} from '#/main/core/data/list/selectors'
+import {constants as listConst} from '#/main/core/data/list/constants'
 
 import {DataListProperty} from '#/main/core/data/list/prop-types'
 
@@ -24,6 +25,7 @@ const DataPicker = props =>
       fetch={props.fetch}
       definition={props.definition}
       card={props.card}
+      display={props.display}
     />
 
     <button
@@ -49,6 +51,7 @@ DataPicker.propTypes = {
   fetch: T.object,
   card: T.func.isRequired,
   onlyId: T.bool,
+  display: T.object,
 
   /**
    * Definition of the data properties.
@@ -68,7 +71,11 @@ DataPicker.defaultProps = {
   title: t('objects_select_title'),
   confirmText: t('objects_select_confirm'),
   icon: 'fa fa-fw fa-hand-pointer-o',
-  onlyId: true
+  onlyId: true,
+  display: {
+    current: listConst.DISPLAY_TABLE,
+    available: Object.keys(listConst.DISPLAY_MODES)
+  }
 }
 
 const DataPickerModal = connect(
