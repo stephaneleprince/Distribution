@@ -8,8 +8,8 @@ import {FORM_RESET, FORM_SUBMIT_SUCCESS} from '#/main/core/data/form/actions'
 import {PLATFORM_ROLE} from '#/main/core/user/role/constants'
 
 const reducer = combineReducers({
-  picker: makeListReducer('users.picker'),
-  list: makeListReducer('users.list', {}, {
+  picker: makeListReducer('role.picker'),
+  list: makeListReducer('role.list', {}, {
     invalidated: makeReducer(false, {
 
     })

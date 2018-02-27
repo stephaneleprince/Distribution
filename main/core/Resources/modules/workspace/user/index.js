@@ -1,7 +1,7 @@
 import {bootstrap} from '#/main/core/scaffolding/bootstrap'
 
-import {reducer} from '#/main/core/administration/workspace/workspace/reducer'
-import {WorkspaceTool} from '#/main/core/administration/workspace/components/tool.jsx'
+import {reducer} from '#/main/core/workspace/user/reducer'
+import {UserTool} from '#/main/core/workspace/user/components/tool.jsx'
 
 // mount the react application
 bootstrap(
@@ -9,7 +9,7 @@ bootstrap(
   '.workspaces-container',
 
   // app main component
-  WorkspaceTool,
+  UserTool,
 
   // app store configuration
   reducer

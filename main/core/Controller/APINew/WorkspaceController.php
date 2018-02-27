@@ -14,7 +14,10 @@ namespace Claroline\CoreBundle\Controller\APINew;
 use Claroline\AppBundle\Annotations\ApiMeta;
 use Claroline\AppBundle\API\Options;
 use Claroline\AppBundle\Controller\AbstractCrudController;
+use Claroline\CoreBundle\Controller\APINew\Model\HasGroupsTrait;
 use Claroline\CoreBundle\Controller\APINew\Model\HasOrganizationsTrait;
+use Claroline\CoreBundle\Controller\APINew\Model\HasRolesTrait;
+use Claroline\CoreBundle\Controller\APINew\Model\HasUsersTrait;
 use Claroline\CoreBundle\Entity\Workspace\Workspace;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -29,6 +32,9 @@ use Symfony\Component\HttpFoundation\Request;
 class WorkspaceController extends AbstractCrudController
 {
     use HasOrganizationsTrait;
+    use HasRolesTrait;
+    use HasUsersTrait;
+    use HasGroupsTrait;
 
     public function getName()
     {

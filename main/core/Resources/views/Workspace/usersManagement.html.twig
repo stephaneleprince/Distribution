@@ -21,9 +21,15 @@
 {% endblock %}
 
 {% block section_content %}
-
+    <div
+      class="page-container workspaces-container"
+      data-workspace="{{ workspace | json_encode | raw | escape }}"
+    >
+    </div>
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
 
+    <script src="{{ hotAsset('dist/claroline-distribution-main-core-workspace-user-management.js') }}"></script>
 {% endblock %}
