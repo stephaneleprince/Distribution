@@ -11,7 +11,9 @@ import {getStepPath} from '#/plugin/path/resources/path/editor/utils'
 import {
   STEP_ADD,
   STEP_REMOVE,
-  STEP_UPDATE_PRIMARY_RESOURCE
+  STEP_UPDATE_PRIMARY_RESOURCE,
+  STEP_ADD_SECONDARY_RESOURCES,
+  STEP_REMOVE_SECONDARY_RESOURCES
 } from '#/plugin/path/resources/path/editor/actions'
 
 const defaultState = {
@@ -23,7 +25,9 @@ const reducer = {
     pendingChanges: makeReducer(false, {
       [STEP_ADD]: () => true,
       [STEP_REMOVE]: () => true,
-      [STEP_UPDATE_PRIMARY_RESOURCE]: () => true
+      [STEP_UPDATE_PRIMARY_RESOURCE]: () => true,
+      [STEP_ADD_SECONDARY_RESOURCES]: () => true,
+      [STEP_REMOVE_SECONDARY_RESOURCES]: () => true
     }),
     data: makeReducer(defaultState.data, {
       [STEP_ADD]: (state, action) => {
@@ -82,6 +86,41 @@ const reducer = {
           step = step.children[stepPath[i]]
         }
         step.primaryResource = action.resource
+
+        return newState
+      },
+      [STEP_ADD_SECONDARY_RESOURCES]: (state, action) => {
+        const newState = cloneDeep(state)
+        const stepPath = getStepPath(action.stepId, newState.steps, 0, [])
+
+        let step = newState.steps[stepPath[0]]
+
+        for (let i = 1; i < stepPath.length; ++i) {
+          step = step.children[stepPath[i]]
+        }
+        action.resources.forEach(r => step.secondaryResources.push({
+          id: makeId(),
+          resource: r
+        }))
+
+        return newState
+      },
+      [STEP_REMOVE_SECONDARY_RESOURCES]: (state, action) => {
+        const newState = cloneDeep(state)
+        const stepPath = getStepPath(action.stepId, newState.steps, 0, [])
+
+        let step = newState.steps[stepPath[0]]
+
+        for (let i = 1; i < stepPath.length; ++i) {
+          step = step.children[stepPath[i]]
+        }
+        action.resources.forEach(r => {
+          const index = step.secondaryResources.findIndex(sr => sr.id === r)
+
+          if (index > -1) {
+            step.secondaryResources.splice(index, 1)
+          }
+        })
 
         return newState
       }

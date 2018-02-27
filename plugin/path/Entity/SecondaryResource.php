@@ -2,19 +2,22 @@
 
 namespace Innova\PathBundle\Entity;
 
+use Claroline\AppBundle\Entity\Identifier\Uuid;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Inherited resources.
+ * Secondary resources.
  *
- * @ORM\Table("innova_step_inherited_resources")
+ * @ORM\Table("innova_step_secondary_resource")
  * @ORM\Entity
  */
-class InheritedResource
+class SecondaryResource
 {
+    use Uuid;
+
     /**
-     * Unique identifier.
+     * Identifier.
      *
      * @var int
      *
@@ -25,21 +28,12 @@ class InheritedResource
     private $id;
 
     /**
-     * Depth of the original step of the resource.
-     *
-     * @var int
-     *
-     * @ORM\Column(name="lvl", type="integer")
-     */
-    private $lvl;
-
-    /**
      * Step.
      *
      * @var \Innova\PathBundle\Entity\Step
      *
-     * @ORM\ManyToOne(targetEntity="Innova\PathBundle\Entity\Step", inversedBy="inheritedResources")
-     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Innova\PathBundle\Entity\Step", inversedBy="secondaryResources")
+     * @ORM\JoinColumn(name="step_id", onDelete="CASCADE", nullable=false)
      */
     private $step;
 
@@ -47,17 +41,18 @@ class InheritedResource
      * Resource.
      *
      * @var \Claroline\CoreBundle\Entity\Resource\ResourceNode
+     *
      * @ORM\ManyToOne(targetEntity="Claroline\CoreBundle\Entity\Resource\ResourceNode")
-     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
+     * @ORM\JoinColumn(name="resource_id", onDelete="CASCADE", nullable=false)
      */
     private $resource;
 
     /**
-     * Order of the inherited resource in the step.
+     * Order of the secondary resource in the step.
      *
      * @var int
      *
-     * @ORM\Column(name="resource_order", type="integer", options={"default" = 0})
+     * @ORM\Column(name="resource_order", type="integer")
      */
     protected $order;
 
@@ -69,54 +64,6 @@ class InheritedResource
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get level.
-     *
-     * @return int
-     */
-    public function getLvl()
-    {
-        return $this->lvl;
-    }
-
-    /**
-     * Set level.
-     *
-     * @param int $lvl
-     *
-     * @return \Innova\PathBundle\Entity\InheritedResource
-     */
-    public function setLvl($lvl)
-    {
-        $this->lvl = $lvl;
-
-        return $this;
-    }
-
-    /**
-     * Get resource.
-     *
-     * @return \Claroline\CoreBundle\Entity\Resource\ResourceNode
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-
-    /**
-     * Set resource.
-     *
-     * @param \Claroline\CoreBundle\Entity\Resource\ResourceNode $resource
-     *
-     * @return \Innova\PathBundle\Entity\InheritedResource
-     */
-    public function setResource(ResourceNode $resource)
-    {
-        $this->resource = $resource;
-
-        return $this;
     }
 
     /**
@@ -134,11 +81,35 @@ class InheritedResource
      *
      * @param Step $step
      *
-     * @return \Innova\PathBundle\Entity\InheritedResource
+     * @return SecondaryResource
      */
-    public function setStep(Step $step = null)
+    public function setStep(Step $step)
     {
         $this->step = $step;
+
+        return $this;
+    }
+
+    /**
+     * Get resource.
+     *
+     * @return ResourceNode
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
+    /**
+     * Set resource.
+     *
+     * @param ResourceNode $resource
+     *
+     * @return SecondaryResource
+     */
+    public function setResource(ResourceNode $resource)
+    {
+        $this->resource = $resource;
 
         return $this;
     }
@@ -158,7 +129,7 @@ class InheritedResource
      *
      * @param int $order
      *
-     * @return InheritedResource
+     * @return SecondaryResource
      */
     public function setOrder($order)
     {

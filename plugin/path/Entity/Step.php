@@ -162,6 +162,16 @@ class Step implements \JsonSerializable
     protected $resource;
 
     /**
+     * Secondary resources.
+     *
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Innova\PathBundle\Entity\SecondaryResource", mappedBy="step", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"order" = "ASC"})
+     */
+    protected $secondaryResources;
+
+    /**
      * Class constructor.
      */
     public function __construct()
@@ -170,6 +180,7 @@ class Step implements \JsonSerializable
 
         $this->children = new ArrayCollection();
         $this->inheritedResources = new ArrayCollection();
+        $this->secondaryResources = new ArrayCollection();
     }
 
     /**
@@ -834,5 +845,60 @@ class Step implements \JsonSerializable
     public function setResource(ResourceNode $resource = null)
     {
         $this->resource = $resource;
+    }
+
+    /**
+     * Get secondary resources.
+     *
+     * @return ArrayCollection
+     */
+    public function getSecondaryResources()
+    {
+        return $this->secondaryResources;
+    }
+
+    /**
+     * Removes all secondary resources.
+     *
+     * @return Step
+     */
+    public function emptySecondaryResources()
+    {
+        $this->secondaryResources->clear();
+
+        return $this;
+    }
+
+    /**
+     * Add a secondary resource.
+     *
+     * @param SecondaryResource $secondaryResource
+     *
+     * @return Step
+     */
+    public function addSecondaryResource(SecondaryResource $secondaryResource)
+    {
+        if (!$this->secondaryResources->contains($secondaryResource)) {
+            $this->secondaryResources->add($secondaryResource);
+            $secondaryResource->setStep($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a secondary resource.
+     *
+     * @param SecondaryResource $secondaryResource
+     *
+     * @return Step
+     */
+    public function removeSecondaryResource(SecondaryResource $secondaryResource)
+    {
+        if ($this->secondaryResources->contains($secondaryResource)) {
+            $this->secondaryResources->removeElement($secondaryResource);
+        }
+
+        return $this;
     }
 }
