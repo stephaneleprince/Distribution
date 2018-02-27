@@ -28,14 +28,14 @@ const Tool = () =>
         path: '/groups',
         content: GroupTab,
         actions: GroupTabActions
-      }/*,
+      },
       {
         icon: 'fa fa-id-badge',
         title: trans('roles'),
         path: '/roles',
         content: RoleTab,
-        //actions: RoleTabActions
-      },
+        actions: RoleTabActions
+      }/*,
       {
         icon: 'fa fa-book',
         title: trans('pending'),

@@ -8,37 +8,64 @@ import {navigate, matchPath, Routes, withRouter} from '#/main/core/router'
 import {PageActions} from '#/main/core/layout/page/components/page-actions.jsx'
 import {FormPageActionsContainer} from '#/main/core/data/form/containers/page-actions.jsx'
 
-import {FormContainer} from '#/main/core/data/form/containers/form.jsx'
-import {FormSections, FormSection} from '#/main/core/layout/form/components/form-sections.jsx'
-import {select as formSelect} from '#/main/core/data/form/selectors'
-import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
-import {actions as modalActions} from '#/main/core/layout/modal/actions'
+import {Role}    from '#/main/core/administration/user/role/components/role.jsx'
+import {Roles}   from '#/main/core/workspace/user/role/components/role-list.jsx'
+import {actions} from '#/main/core/workspace/user/user/actions'
 
-import {RoleList} from '#/main/core/administration/user/role/components/role-list.jsx'
+const RoleTabActionsComponent = props =>
+  <PageActions>
+    <FormPageActionsContainer
+      formName="roles.current"
+      target={(user, isNew) => isNew ?
+        ['apiv2_role_create'] :
+        ['apiv2_role_update', {id: user.id}]
+      }
+      opened={!!matchPath(props.location.pathname, {path: '/roles/form'})}
+      open={{
+        icon: 'fa fa-plus',
+        label: t('add_role'),
+        action: '#/roles/form'
+      }}
+      cancel={{
+        action: () => navigate('/roles')
+      }}
+    />
+  </PageActions>
 
-import {select} from '#/main/core/workspace/user/selectors'
-import {actions} from '#/main/core/administration/user/group/actions'
+RoleTabActionsComponent.propTypes = {
+}
+
+const RoleTabActions = withRouter(RoleTabActionsComponent)
 
 const RoleTabComponent = props =>
-    <DataListContainer
-      name="users.list"
-      open={RoleList.open}
-      fetch={{
-        url: ['apiv2_workspace_list_roles', {id: props.workspace.uuid}],
-        autoload: true
-      }}
-      delete={{
-        url: ['apiv2_workspace_remove_roles', {id: props.workspace.uuid}]
-      }}
-      definition={RoleList.definition}
-      card={RoleList.card}
-    />
+  <Routes
+    routes={[
+      {
+        path: '/roles',
+        exact: true,
+        component: Roles
+      }, {
+        path: '/roles/form/:id?',
+        component: Role,
+        onEnter: (params) => props.openForm(params.id || null)
+      }
+    ]}
+  />
+
+RoleTabComponent.propTypes = {
+  openForm: T.func.isRequired
+}
 
 const RoleTab = connect(
-  state => ({workspace: select.workspace(state)}),
-  null
+  null,
+  dispatch => ({
+    openForm(id = null) {
+      dispatch(actions.open('roles.current', id))
+    }
+  })
 )(RoleTabComponent)
 
 export {
+  RoleTabActions,
   RoleTab
 }
