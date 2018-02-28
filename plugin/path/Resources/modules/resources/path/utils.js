@@ -29,8 +29,6 @@ function flattenSteps(steps) {
   }, [])
 }
 
-// todo finish implementation
-
 /**
  * Get the display numbering of a step.
  *
@@ -60,7 +58,7 @@ function getNumbering(type, steps, step) {
 
   switch (type) {
     /**
-     * The numbering label is a letter.
+     * The numbering label is a number.
      */
     case constants.NUMBERING_NUMERIC:
       return '' + buildPath(steps, step)
@@ -69,10 +67,11 @@ function getNumbering(type, steps, step) {
           .join('.')
 
     /**
-     * The numbering label is a number.
+     * The numbering label is a letter.
      */
     case constants.NUMBERING_LITERAL:
       return buildPath(steps, step)
+        // get correct letter
         .map(i => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[i])
         .join('.')
 
