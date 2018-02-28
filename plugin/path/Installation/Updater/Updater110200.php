@@ -4,6 +4,7 @@ namespace Innova\PathBundle\Installation\Updater;
 
 use Claroline\CoreBundle\Persistence\ObjectManager;
 use Claroline\InstallationBundle\Updater\Updater;
+use Innova\PathBundle\Entity\SecondaryResource;
 
 class Updater110200 extends Updater
 {
@@ -38,6 +39,21 @@ class Updater110200 extends Updater
                 }
                 $step->setTitle($activity->getResourceNode()->getName());
                 $step->setDescription($activity->getDescription());
+
+                $parameters = $activity->getParameters();
+
+                if (!empty($parameters)) {
+                    $order = 0;
+
+                    foreach ($parameters->getSecondaryResources as $resource) {
+                        $secondaryResource = new SecondaryResource();
+                        $secondaryResource->setResource($resource);
+                        $secondaryResource->setOrder($order);
+                        $step->addSecondaryResource($secondaryResource);
+                        $om->persist($secondaryResource);
+                        ++$order;
+                    }
+                }
                 $om->persist($step);
             }
             ++$i;

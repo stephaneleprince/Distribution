@@ -23,6 +23,7 @@
     "secondary_resources": "Ressources complémentaires",
     "select": "Sélectionner",
     "select_primary_resource": "Sélectionner la ressource principale",
+    "select_secondary_resources": "Sélectionner des ressources complémentaires",
     "show_overview": "Afficher la page d'accueil du parcours",
     "show_summary": "Afficher le sommaire",
     "pin_summary": "Attacher le sommaire",

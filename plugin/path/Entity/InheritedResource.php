@@ -53,6 +53,15 @@ class InheritedResource
     private $resource;
 
     /**
+     * Order of the inherited resource in the step.
+     *
+     * @var int
+     *
+     * @ORM\Column(name="resource_order", type="integer", options={"default" = 0})
+     */
+    protected $order;
+
+    /**
      * Get id.
      *
      * @return int
@@ -130,6 +139,30 @@ class InheritedResource
     public function setStep(Step $step = null)
     {
         $this->step = $step;
+
+        return $this;
+    }
+
+    /**
+     * Get order.
+     *
+     * @return int
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Set order.
+     *
+     * @param int $order
+     *
+     * @return InheritedResource
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
 
         return $this;
     }

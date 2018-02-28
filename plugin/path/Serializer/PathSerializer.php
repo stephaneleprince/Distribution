@@ -8,6 +8,7 @@ use Claroline\CoreBundle\API\Serializer\File\PublicFileSerializer;
 use Claroline\CoreBundle\API\Serializer\Resource\ResourceNodeSerializer;
 use Claroline\CoreBundle\Entity\File\PublicFile;
 use Innova\PathBundle\Entity\Path\Path;
+use Innova\PathBundle\Entity\SecondaryResource;
 use Innova\PathBundle\Entity\Step;
 use JMS\DiExtraBundle\Annotation as DI;
 
@@ -28,6 +29,7 @@ class PathSerializer
     private $resourceNodeSerializer;
 
     private $stepRepo;
+    private $secondaryResourceRepo;
     private $resourceNodeRepo;
 
     /**
@@ -52,6 +54,7 @@ class PathSerializer
         $this->fileSerializer = $fileSerializer;
         $this->resourceNodeSerializer = $resourceSerializer;
         $this->stepRepo = $om->getRepository('Innova\PathBundle\Entity\Step');
+        $this->secondaryResourceRepo = $om->getRepository('Innova\PathBundle\Entity\SecondaryResource');
         $this->resourceNodeRepo = $om->getRepository('Claroline\CoreBundle\Entity\Resource\ResourceNode');
     }
 
@@ -133,12 +136,29 @@ class PathSerializer
             'description' => $step->getDescription(),
             'poster' => $poster,
             'primaryResource' => $step->getResource() ? $this->resourceNodeSerializer->serialize($step->getResource()) : null,
+            'secondaryResources' => array_map(function (SecondaryResource $secondaryResource) {
+                return $this->serializeSecondaryResource($secondaryResource);
+            }, $step->getSecondaryResources()->toArray()),
             'display' => [
                 'numbering' => $step->getNumbering(),
             ],
             'children' => array_map(function (Step $child) {
                 return $this->serializeStep($child);
             }, $step->getChildren()->toArray()),
+        ];
+    }
+
+    /**
+     * @param SecondaryResource $secondaryResource
+     *
+     * @return array
+     */
+    private function serializeSecondaryResource(SecondaryResource $secondaryResource)
+    {
+        return [
+            'id' => $secondaryResource->getUuid(),
+            'inheritanceEnabled' => $secondaryResource->isInheritanceEnabled(),
+            'resource' => $this->resourceNodeSerializer->serialize($secondaryResource->getResource()),
         ];
     }
 
@@ -154,10 +174,11 @@ class PathSerializer
         $order = 0;
 
         foreach ($stepsData as $stepData) {
-            $step = $this->deserializeStep($stepData, null, $newStepsUuids, ['path' => $path, 'order' => $order]);
+            $step = $this->deserializeStep($stepData, $newStepsUuids, ['path' => $path, 'order' => $order]);
             $path->addStep($step);
             ++$order;
         }
+        /* Removes previous steps that are not used anymore */
         foreach ($oldSteps as $step) {
             if (!in_array($step->getUuid(), $newStepsUuids)) {
                 $this->om->remove($step);
@@ -167,19 +188,16 @@ class PathSerializer
 
     /**
      * @param array $data
-     * @param Step  $step
      * @param array $newStepsUuids
      * @param array $options
      *
      * @return Step
      */
-    private function deserializeStep($data, Step $step = null, array &$newStepsUuids, array $options = [])
+    private function deserializeStep($data, array &$newStepsUuids = [], array $options = [])
     {
         $newStepsUuids[] = $data['id'];
+        $step = $this->stepRepo->findOneBy(['uuid' => $data['id']]);
 
-        if (empty($step)) {
-            $step = $this->stepRepo->findOneBy(['uuid' => $data['id']]);
-        }
         if (empty($step)) {
             $step = new Step();
             $step->setUuid($data['id']);
@@ -216,6 +234,7 @@ class PathSerializer
         } else {
             $step->setLvl(0);
         }
+
         /* Set children steps */
         $step->emptyChildren();
 
@@ -228,12 +247,67 @@ class PathSerializer
                     'parent' => $step,
                     'order' => $order,
                 ];
-                $child = $this->deserializeStep($childData, null, $newStepsUuids, $childOptions);
+                $child = $this->deserializeStep($childData, $newStepsUuids, $childOptions);
                 $step->addChild($child);
                 ++$order;
             }
         }
 
+        /* Set secondary resources */
+        $oldSecondaryResources = $step->getSecondaryResources()->toArray();
+        $newSecondaryResourcesUuids = [];
+        $step->emptySecondaryResources();
+
+        if (isset($data['secondaryResources'])) {
+            $order = 0;
+
+            foreach ($data['secondaryResources'] as $resourceData) {
+                $resourceOptions = ['order' => $order];
+                $secondaryResource = $this->deserializeSecondaryResource(
+                    $resourceData,
+                    $newSecondaryResourcesUuids,
+                    $resourceOptions
+                );
+                $step->addSecondaryResource($secondaryResource);
+                ++$order;
+            }
+        }
+        /* Removes previous secondary resources that are not used anymore */
+        foreach ($oldSecondaryResources as $secRes) {
+            if (!in_array($secRes->getUuid(), $newSecondaryResourcesUuids)) {
+                $this->om->remove($secRes);
+            }
+        }
+
         return $step;
+    }
+
+    /**
+     * @param array $data
+     * @param array $newSecondaryResourcesUuids
+     * @param array $options
+     *
+     * @return SecondaryResource
+     */
+    private function deserializeSecondaryResource($data, array &$newSecondaryResourcesUuids = [], array $options = [])
+    {
+        $newSecondaryResourcesUuids[] = $data['id'];
+        $secondaryResource = $this->secondaryResourceRepo->findOneBy(['uuid' => $data['id']]);
+
+        if (empty($secondaryResource)) {
+            $secondaryResource = new SecondaryResource();
+            $secondaryResource->setUuid($data['id']);
+        }
+        $secondaryResource->setInheritanceEnabled($data['inheritanceEnabled']);
+
+        /* Set resource */
+        $resource = $this->resourceNodeRepo->findOneBy(['guid' => $data['resource']['id']]);
+        $secondaryResource->setResource($resource);
+
+        if (isset($options['order'])) {
+            $secondaryResource->setOrder($options['order']);
+        }
+
+        return $secondaryResource;
     }
 }

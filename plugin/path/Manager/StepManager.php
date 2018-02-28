@@ -50,10 +50,10 @@ class StepManager
      *     "resourceManager"      = @DI\Inject("claroline.manager.resource_manager"),
      * })
      *
-     * @param ObjectManager        $om
-     * @param SessionInterface     $session
-     * @param TranslatorInterface  $translator
-     * @param ResourceManager      $resourceManager
+     * @param ObjectManager       $om
+     * @param SessionInterface    $session
+     * @param TranslatorInterface $translator
+     * @param ResourceManager     $resourceManager
      */
     public function __construct(
         ObjectManager        $om,

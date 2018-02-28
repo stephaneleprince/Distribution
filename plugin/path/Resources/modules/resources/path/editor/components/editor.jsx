@@ -56,6 +56,8 @@ const EditorComponent = props =>
                   stepPath={getFormDataPart(step.id, props.path.steps)}
                   pickPrimaryResource={stepId => props.pickPrimaryResource(stepId, props.resourceTypes)}
                   removePrimaryResource={props.removePrimaryResource}
+                  pickSecondaryResources={stepId => props.pickSecondaryResources(stepId, props.resourceTypes)}
+                  removeSecondaryResource={props.removeSecondaryResource}
                 />
               </PathCurrent>
             )
@@ -162,6 +164,77 @@ const Editor = connect(
     },
     removePrimaryResource(stepId) {
       dispatch(actions.updatePrimaryResource(stepId, null))
+    },
+    pickSecondaryResources(stepId, resourceTypes) {
+      dispatch(modalActions.showModal(MODAL_DATA_PICKER, {
+        icon: 'fa fa-fw fa-folder-open',
+        title: trans('select_secondary_resources', {}, 'path'),
+        confirmText: trans('select', {}, 'path'),
+        name: 'resourcesPicker',
+        onlyId: false,
+        display: {
+          current: listConst.DISPLAY_TILES_SM,
+          available: Object.keys(listConst.DISPLAY_MODES)
+        },
+        definition: [
+          {
+            name: 'name',
+            type: 'string',
+            label: trans('name'),
+            displayed: true,
+            primary: true
+          },
+          {
+            name: 'resourceType',
+            label: trans('type'),
+            displayable: false,
+            displayed: false,
+            type: 'enum',
+            options: {
+              choices: resourceTypes.filter(rt => rt.name != 'directory').reduce(
+                (choices, rt) => Object.assign(choices, {[rt.name]: trans(rt.name, {}, 'resource')}),
+                {}
+              )
+            }
+          },
+          {
+            name: 'meta.type',
+            type: 'string',
+            label: trans('type'),
+            displayed: true,
+            filterable: false,
+            renderer: (rowData) => trans(rowData.meta.type, {}, 'resource')
+          },
+          {
+            name: 'workspace.name',
+            type: 'string',
+            label: trans('workspace'),
+            displayed: true
+          },
+          {
+            name: 'meta.parent.name',
+            type: 'string',
+            label: trans('parent'),
+            displayed: true
+          }
+        ],
+        card: (row) => ({
+          poster: asset(row.meta.icon),
+          icon: 'fa fa-folder-open',
+          title: row.name,
+          subtitle: trans(row.meta.type, {}, 'resource'),
+          footer:
+            <b>{row.workspace.name}</b>
+        }),
+        fetch: {
+          url: ['apiv2_resources_picker'],
+          autoload: true
+        },
+        handleSelect: (selected) => dispatch(actions.addSecondaryResources(stepId, selected))
+      }))
+    },
+    removeSecondaryResource(stepId, id) {
+      dispatch(actions.removeSecondaryResources(stepId, [id]))
     }
   })
 )(EditorComponent)
