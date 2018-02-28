@@ -2,6 +2,7 @@
 
 namespace Innova\PathBundle\Entity;
 
+use Claroline\AppBundle\Entity\Identifier\Uuid;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class InheritedResource
 {
+    use Uuid;
+
     /**
      * Unique identifier.
      *
@@ -60,6 +63,23 @@ class InheritedResource
      * @ORM\Column(name="resource_order", type="integer", options={"default" = 0})
      */
     protected $order;
+
+    /**
+     * Uuid of the original secondary resource.
+     *
+     * @var string
+     *
+     * @ORM\Column("source_uuid", type="string", length=36, nullable=true)
+     */
+    protected $sourceUuid;
+
+    /**
+     * InheritedResource constructor.
+     */
+    public function __construct()
+    {
+        $this->refreshUuid();
+    }
 
     /**
      * Get id.
@@ -163,6 +183,30 @@ class InheritedResource
     public function setOrder($order)
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get source uuid.
+     *
+     * @return string
+     */
+    public function getSourceUuid()
+    {
+        return $this->sourceUuid;
+    }
+
+    /**
+     * Set source uuid.
+     *
+     * @param string $sourceUuid
+     *
+     * @return InheritedResource
+     */
+    public function setSourceUuid($sourceUuid)
+    {
+        $this->sourceUuid = $sourceUuid;
 
         return $this;
     }

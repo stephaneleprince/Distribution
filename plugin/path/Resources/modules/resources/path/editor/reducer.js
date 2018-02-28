@@ -13,7 +13,9 @@ import {
   STEP_REMOVE,
   STEP_UPDATE_PRIMARY_RESOURCE,
   STEP_ADD_SECONDARY_RESOURCES,
-  STEP_REMOVE_SECONDARY_RESOURCES
+  STEP_REMOVE_SECONDARY_RESOURCES,
+  STEP_UPDATE_SECONDARY_RESOURCE_INHERITANCE,
+  STEP_REMOVE_INHERITED_RESOURCES
 } from '#/plugin/path/resources/path/editor/actions'
 
 const defaultState = {
@@ -27,7 +29,9 @@ const reducer = {
       [STEP_REMOVE]: () => true,
       [STEP_UPDATE_PRIMARY_RESOURCE]: () => true,
       [STEP_ADD_SECONDARY_RESOURCES]: () => true,
-      [STEP_REMOVE_SECONDARY_RESOURCES]: () => true
+      [STEP_REMOVE_SECONDARY_RESOURCES]: () => true,
+      [STEP_UPDATE_SECONDARY_RESOURCE_INHERITANCE]: () => true,
+      [STEP_REMOVE_INHERITED_RESOURCES]: () => true
     }),
     data: makeReducer(defaultState.data, {
       [STEP_ADD]: (state, action) => {

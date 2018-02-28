@@ -7,6 +7,7 @@ use Claroline\AppBundle\Persistence\ObjectManager;
 use Claroline\CoreBundle\API\Serializer\File\PublicFileSerializer;
 use Claroline\CoreBundle\API\Serializer\Resource\ResourceNodeSerializer;
 use Claroline\CoreBundle\Entity\File\PublicFile;
+use Innova\PathBundle\Entity\InheritedResource;
 use Innova\PathBundle\Entity\Path\Path;
 use Innova\PathBundle\Entity\SecondaryResource;
 use Innova\PathBundle\Entity\Step;
@@ -28,9 +29,10 @@ class PathSerializer
     /** @var ResourceNodeSerializer */
     private $resourceNodeSerializer;
 
+    private $resourceNodeRepo;
     private $stepRepo;
     private $secondaryResourceRepo;
-    private $resourceNodeRepo;
+    private $inheritedResourceRepo;
 
     /**
      * PathSerializer constructor.
@@ -53,9 +55,10 @@ class PathSerializer
         $this->om = $om;
         $this->fileSerializer = $fileSerializer;
         $this->resourceNodeSerializer = $resourceSerializer;
+        $this->resourceNodeRepo = $om->getRepository('Claroline\CoreBundle\Entity\Resource\ResourceNode');
         $this->stepRepo = $om->getRepository('Innova\PathBundle\Entity\Step');
         $this->secondaryResourceRepo = $om->getRepository('Innova\PathBundle\Entity\SecondaryResource');
-        $this->resourceNodeRepo = $om->getRepository('Claroline\CoreBundle\Entity\Resource\ResourceNode');
+        $this->inheritedResourceRepo = $om->getRepository('Innova\PathBundle\Entity\InheritedResource');
     }
 
     /**
@@ -139,6 +142,9 @@ class PathSerializer
             'secondaryResources' => array_map(function (SecondaryResource $secondaryResource) {
                 return $this->serializeSecondaryResource($secondaryResource);
             }, $step->getSecondaryResources()->toArray()),
+            'inheritedResources' => array_map(function (InheritedResource $inheritedResource) {
+                return $this->serializeInheritedResource($inheritedResource);
+            }, $step->getInheritedResources()->toArray()),
             'display' => [
                 'numbering' => $step->getNumbering(),
             ],
@@ -159,6 +165,21 @@ class PathSerializer
             'id' => $secondaryResource->getUuid(),
             'inheritanceEnabled' => $secondaryResource->isInheritanceEnabled(),
             'resource' => $this->resourceNodeSerializer->serialize($secondaryResource->getResource()),
+        ];
+    }
+
+    /**
+     * @param InheritedResource $inheritedResource
+     *
+     * @return array
+     */
+    private function serializeInheritedResource(InheritedResource $inheritedResource)
+    {
+        return [
+            'id' => $inheritedResource->getUuid(),
+            'resource' => $this->resourceNodeSerializer->serialize($inheritedResource->getResource()),
+            'lvl' => $inheritedResource->getLvl(),
+            'sourceUuid' => $inheritedResource->getSourceUuid(),
         ];
     }
 
@@ -273,9 +294,35 @@ class PathSerializer
             }
         }
         /* Removes previous secondary resources that are not used anymore */
-        foreach ($oldSecondaryResources as $secRes) {
-            if (!in_array($secRes->getUuid(), $newSecondaryResourcesUuids)) {
-                $this->om->remove($secRes);
+        foreach ($oldSecondaryResources as $oldResource) {
+            if (!in_array($oldResource->getUuid(), $newSecondaryResourcesUuids)) {
+                $this->om->remove($oldResource);
+            }
+        }
+
+        /* Set inherited resources */
+        $oldInheritedResources = $step->getInheritedResources()->toArray();
+        $newInheritedResourcesUuids = [];
+        $step->emptyInheritedResources();
+
+        if (isset($data['inheritedResources'])) {
+            $order = 0;
+
+            foreach ($data['inheritedResources'] as $resourceData) {
+                $resourceOptions = ['order' => $order];
+                $inheritedResource = $this->deserializeInheritedResource(
+                    $resourceData,
+                    $newInheritedResourcesUuids,
+                    $resourceOptions
+                );
+                $step->addInheritedResource($inheritedResource);
+                ++$order;
+            }
+        }
+        /* Removes previous inherited resources that are not used anymore */
+        foreach ($oldInheritedResources as $oldResource) {
+            if (!in_array($oldResource->getUuid(), $newInheritedResourcesUuids)) {
+                $this->om->remove($oldResource);
             }
         }
 
@@ -297,17 +344,49 @@ class PathSerializer
         if (empty($secondaryResource)) {
             $secondaryResource = new SecondaryResource();
             $secondaryResource->setUuid($data['id']);
+
+            /* Set resource */
+            $resource = $this->resourceNodeRepo->findOneBy(['guid' => $data['resource']['id']]);
+            $secondaryResource->setResource($resource);
         }
         $secondaryResource->setInheritanceEnabled($data['inheritanceEnabled']);
-
-        /* Set resource */
-        $resource = $this->resourceNodeRepo->findOneBy(['guid' => $data['resource']['id']]);
-        $secondaryResource->setResource($resource);
 
         if (isset($options['order'])) {
             $secondaryResource->setOrder($options['order']);
         }
 
         return $secondaryResource;
+    }
+
+    /**
+     * @param array $data
+     * @param array $newInheritedResourcesUuids
+     * @param array $options
+     *
+     * @return InheritedResource
+     */
+    private function deserializeInheritedResource($data, array &$newInheritedResourcesUuids = [], array $options = [])
+    {
+        $newInheritedResourcesUuids[] = $data['id'];
+        $inheritedResource = $this->inheritedResourceRepo->findOneBy(['uuid' => $data['id']]);
+
+        if (empty($inheritedResource)) {
+            $inheritedResource = new InheritedResource();
+            $inheritedResource->setUuid($data['id']);
+            $inheritedResource->setSourceUuid($data['sourceUuid']);
+
+            /* Set resource */
+            $resource = $this->resourceNodeRepo->findOneBy(['guid' => $data['resource']['id']]);
+            $inheritedResource->setResource($resource);
+
+            /* Set lvl */
+            $lvl = isset($data['lvl']) ? $data['lvl'] : 0;
+            $inheritedResource->setLvl($lvl);
+        }
+        if (isset($options['order'])) {
+            $inheritedResource->setOrder($options['order']);
+        }
+
+        return $inheritedResource;
     }
 }
