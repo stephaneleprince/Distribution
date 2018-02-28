@@ -493,6 +493,18 @@ class Step implements \JsonSerializable
     }
 
     /**
+     * Removes all inherited resources.
+     *
+     * @return Step
+     */
+    public function emptyInheritedResources()
+    {
+        $this->inheritedResources->clear();
+
+        return $this;
+    }
+
+    /**
      * Add an inherited resource.
      *
      * @param InheritedResource $inheritedResource
@@ -503,9 +515,8 @@ class Step implements \JsonSerializable
     {
         if (!$this->inheritedResources->contains($inheritedResource)) {
             $this->inheritedResources->add($inheritedResource);
+            $inheritedResource->setStep($this);
         }
-
-        $inheritedResource->setStep($this);
 
         return $this;
     }
@@ -521,9 +532,8 @@ class Step implements \JsonSerializable
     {
         if ($this->inheritedResources->contains($inheritedResource)) {
             $this->inheritedResources->removeElement($inheritedResource);
+            $inheritedResource->setStep(null);
         }
-
-        $inheritedResource->setStep(null);
 
         return $this;
     }
