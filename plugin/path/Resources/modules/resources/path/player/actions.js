@@ -1,4 +1,4 @@
-import {API_REQUEST} from '#/main/core/api'
+import {API_REQUEST} from '#/main/core/api/actions'
 import {generateUrl} from '#/main/core/api/router'
 
 export const actions = {}

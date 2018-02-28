@@ -20,6 +20,7 @@ use Innova\PathBundle\Entity\Step;
 use Innova\PathBundle\Manager\UserProgressionManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -76,7 +77,7 @@ class PathController extends AbstractCrudController
     public function stepProgressionUpdateAction(Step $step, User $user, Request $request)
     {
 //        $this->checkPermission('OPEN', $step->getPath()->getResourceNode(), [], true);
-        $status = $request->get('status');
+        $status = $this->decodeRequest($request)['status'];
         $this->userProgressionManager->update($step, $user, $status, true);
         $this->userProgressionManager->generateResourceEvaluation($step, $user, $status);
         $resourceUserEvaluation = $this->userProgressionManager->getResourceUserEvaluation($step->getPath(), $user);

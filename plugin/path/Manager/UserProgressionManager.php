@@ -262,9 +262,9 @@ class UserProgressionManager
     public function generateResourceEvaluation(Step $step, User $user, $status)
     {
         $statusData = $this->computeResourceUserEvaluation($step->getPath(), $user);
-        $stepIndex = $statusData['stepsToDo'].findIndex($step->getUuid());
+        $stepIndex = array_search($step->getUuid(), $statusData['stepsToDo']);
 
-        if ($stepIndex > -1 && ['seen', 'done'].indexOf($status) > -1) {
+        if ($stepIndex !== false && array_search($status, ['seen', 'done']) !== false) {
             ++$statusData['score'];
             array_splice($statusData['stepsToDo'], $stepIndex, 1);
         }
@@ -314,10 +314,10 @@ class UserProgressionManager
             $data = $evaluation->getData();
 
             if (isset($data['step']) && isset($data['status'])) {
-                $statusIndex = ['seen', 'done'].indexOf($data['status']);
-                $uuidIndex = $stepsUuids.indexOf($data['step']);
+                $statusIndex = array_search($data['status'], ['seen', 'done']);
+                $uuidIndex = array_search($data['step'], $stepsUuids);
 
-                if ($statusIndex > -1 && $uuidIndex > -1) {
+                if ($statusIndex !== false && $uuidIndex !== false) {
                     ++$score;
                     array_splice($stepsUuids, $uuidIndex, 1);
                 }
