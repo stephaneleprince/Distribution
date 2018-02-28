@@ -37,18 +37,30 @@ const EditorComponent = props =>
       routes={[
         {
           path: '/edit/parameters',
-          render: () => <ParametersForm path={props.path} />
+          render: () => {
+            const Parameters = <ParametersForm path={props.path} />
+
+            return Parameters
+          }
         }, {
           path: '/edit/:id',
           render: (routeProps) => {
             const step = props.steps.find(step => routeProps.match.params.id === step.id)
 
-            return (
+            const CurrentStep = (
               <PathCurrent
                 prefix="/edit"
                 current={step}
                 all={props.steps}
               >
+                <h3 className="h2 step-title">
+                  {getNumbering(props.path.display.numbering, props.path.steps, step) &&
+                  <span className="step-number">{getNumbering(props.path.display.numbering, props.path.steps, step)}</span>
+                  }
+
+                  {step.title}
+                </h3>
+
                 <StepForm
                   {...step}
                   numbering={getNumbering(props.path.display.numbering, props.path.steps, step)}
@@ -61,6 +73,8 @@ const EditorComponent = props =>
                 />
               </PathCurrent>
             )
+
+            return CurrentStep
           }
         }
       ]}

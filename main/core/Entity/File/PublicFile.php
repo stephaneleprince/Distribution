@@ -129,17 +129,17 @@ class PublicFile
 
     public function getUrl()
     {
-        // normalize the URL before returning it
-        // we should remove \ from window envs because it requires additional
-        // escaping when used in UI.
-        // It would have been better to normalize before persist,
-        // but I don't want to migrate data
-
-        return str_replace('\\', '/', $this->url);
+        return $this->url;
     }
 
     public function setUrl($url)
     {
+        // normalize the URL
+        // we should remove \ from window envs because it requires additional
+        // escaping when used in UI.
+
+        $url = str_replace('\\', '/',$url);
+
         $this->url = $url;
     }
 

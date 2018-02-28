@@ -14,7 +14,7 @@ const ContactsOptionsFormModal = props =>
     sections={[
       {
         id: 'general',
-        title: t('general'),
+        title: trans('general'),
         primary: true,
         fields: [
           {

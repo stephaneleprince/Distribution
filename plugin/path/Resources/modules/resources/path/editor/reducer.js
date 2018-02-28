@@ -42,7 +42,9 @@ const reducer = {
             id: makeId(),
             title: `${trans('step', {}, 'path')} ${newState.steps.length + 1}`,
             description: null,
-            children: []
+            display: {},
+            secondaryResources: [],
+            children: [],
           })
         } else {
           const stepPath = getStepPath(action.parentId, newState.steps, 0, [])
@@ -57,6 +59,8 @@ const reducer = {
             id: makeId(),
             title: `${name}.${step.children.length + 1}`,
             description: null,
+            display: {},
+            secondaryResources: [],
             children: []
           })
         }

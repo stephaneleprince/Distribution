@@ -8,15 +8,32 @@ import {HtmlText} from '#/main/core/layout/components/html-text.jsx'
 import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
 
 class PrimaryResource extends Component {
-  componentDidMount() {
-    window.addEventListener('message', (e) => {
-      if (typeof e.data === 'string' && e.data.indexOf('documentHeight:') > -1) {
-        // Split string from identifier
-        const height = e.data.split('documentHeight:')[1]
+  constructor(props) {
+    super(props)
 
-        this.iframe.height = parseInt(height)
-      }
-    })
+    this.resize = this.resize.bind(this)
+  }
+
+  /**
+   * Resize the iFrame DOM is modified.
+   *
+   * @param {object} e - The JS Event Object
+   */
+  resize(e) {
+    if (typeof e.data === 'string' && e.data.indexOf('documentHeight:') > -1) {
+      // Split string from identifier
+      const height = e.data.split('documentHeight:')[1]
+
+      this.iframe.height = parseInt(height)
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('message', this.resize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('message', this.resize)
   }
 
   render() {
@@ -24,9 +41,7 @@ class PrimaryResource extends Component {
       <iframe
         id="embeddedActivity"
         ref={el => this.iframe = el}
-        style={{
-          height: 0
-        }}
+        height={0}
         src={url(['claro_resource_open', {node: this.props.id, resourceType: this.props.type}], {iframe: 1})}
         allowFullScreen={true}
       />
@@ -43,12 +58,12 @@ PrimaryResource.propTypes = {
  * Renders step content.
  */
 const Step = props =>
-  <section className="current-step">
+  <div className="current-step">
     {props.poster &&
       <img className="step-poster img-responsive" alt={props.title} src={asset(props.poster.url)} />
     }
 
-    <h3 className="h2">
+    <h3 className="h2 step-title">
       {props.numbering &&
         <span className="step-number">{props.numbering}</span>
       }
@@ -68,7 +83,7 @@ const Step = props =>
         type={props.primaryResource.meta.type}
       />
     }
-  </section>
+  </div>
 
 implementPropTypes(Step, StepTypes, {
   numbering: T.string

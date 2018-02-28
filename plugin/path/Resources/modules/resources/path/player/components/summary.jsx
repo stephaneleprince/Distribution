@@ -6,34 +6,36 @@ import {NavLink} from '#/main/core/router'
 
 import {PathSummary} from '#/plugin/path/resources/path/components/summary.jsx'
 
-const SummarySteps = props =>
-  <ul>
-    {props.steps.map(step =>
-      <li key={step.id}>
-        <NavLink to={`/play/${step.id}`}>
-          {step.title}
-        </NavLink>
+const SummaryStep = props =>
+  <li className="summary-link">
+    <NavLink to={`/play/${props.step.id}`}>
+      <span className="step-progression fa fa-circle" />
 
-        {step.children && 0 !== step.children.length &&
-          <SummarySteps
-            steps={step.children}
-          />
-        }
-      </li>
-    )}
-  </ul>
+      {props.step.title}
+    </NavLink>
 
-SummarySteps.propTypes = {
-  steps: T.arrayOf(T.shape({
+    {props.step.children && 0 !== props.step.children.length &&
+      <ul className="step-children">
+        {props.step.children.map(child =>
+          <SummaryStep key={child.id} step={child} />
+        )}
+      </ul>
+    }
+  </li>
 
-  })).isRequired
+SummaryStep.propTypes = {
+  step: T.shape({
+
+  }).isRequired
 }
 
 const Summary = props =>
   <PathSummary>
-    <SummarySteps
-      steps={props.steps}
-    />
+    <ul className="summary">
+      {props.steps.map(step =>
+        <SummaryStep key={step.id} step={step} />
+      )}
+    </ul>
   </PathSummary>
 
 Summary.propTypes = {

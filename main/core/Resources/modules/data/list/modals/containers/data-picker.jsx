@@ -2,7 +2,7 @@ import React from 'react'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
 
-import {t} from '#/main/core/translation'
+import {trans} from '#/main/core/translation'
 import {BaseModal} from '#/main/core/layout/modal/components/base.jsx'
 import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
 
@@ -63,12 +63,13 @@ DataPicker.propTypes = {
   fadeModal: T.func.isRequired,
   // retrieved from store
   selected: T.array.isRequired,
+  selectedFull: T.arrayOf(T.object).isRequired,
   resetSelect: T.func.isRequired
 }
 
 DataPicker.defaultProps = {
-  title: t('objects_select_title'),
-  confirmText: t('objects_select_confirm'),
+  title: trans('objects_select_title'),
+  confirmText: trans('objects_select_confirm'),
   icon: 'fa fa-fw fa-hand-pointer-o',
   onlyId: true
 }

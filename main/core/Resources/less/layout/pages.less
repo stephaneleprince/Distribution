@@ -41,6 +41,7 @@
     border-bottom: 1px solid @page-header-border-color;
 
     .page-title {
+        order: 1;
         margin: 0;
         margin-bottom: floor(@grid-gutter-width / 2);
         padding: 0 floor(@grid-gutter-width / 2);
@@ -79,17 +80,13 @@
     background-position: center center;
     background-repeat: no-repeat;
     min-height: 300px;
-    border-color: transparent;
+    border-bottom: none;
 
     // use movie subtitles styles to make title always readable
     // maybe one day add a background checker
     .page-title,
     .page-title > small {
         .text-movie-subtitles();
-    }
-
-    .poster {
-
     }
 }
 
@@ -100,6 +97,7 @@
 }
 
 .page-actions {
+    order: 2;
     margin-left: auto;
     margin-bottom: floor(@grid-gutter-width / 2);
     padding: 0 floor(@grid-gutter-width / 2);

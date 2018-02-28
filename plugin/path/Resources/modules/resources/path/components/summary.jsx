@@ -22,7 +22,7 @@ const SummaryHeader = props =>
         <TooltipAction
           id="path-summary-pin"
           position={props.opened ? 'bottom':'right'}
-          className={classes('btn-link summary-control', {
+          className={classes('btn-link summary-control hidden-xs hidden-sm', {
             active: props.pinned
           })}
           icon="fa fa-fw fa-map-pin"

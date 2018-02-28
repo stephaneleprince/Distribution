@@ -20,7 +20,7 @@ const PlayerComponent = props =>
 
     {props.path.display.showSummary &&
       <Summary
-        steps={props.steps}
+        steps={props.path.steps}
       />
     }
 

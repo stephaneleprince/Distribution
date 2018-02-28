@@ -4,7 +4,6 @@ import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
 
 import {trans}     from '#/main/core/translation'
-import {BaseModal} from '#/main/core/layout/modal/components/base.jsx'
 import {DataFormModal} from '#/main/core/data/form/modals/components/data-form.jsx'
 
 import {t_res}     from '#/main/core/resource/translation'
@@ -72,7 +71,10 @@ class EditPropertiesModal extends Component {
               {
                 name: 'meta.description',
                 label: t_res('resource_description'),
-                type: 'html'
+                type: 'string',
+                options: {
+                  long: true
+                }
               }, {
                 name: 'meta.published',
                 label: t_res('resource_not_published'),

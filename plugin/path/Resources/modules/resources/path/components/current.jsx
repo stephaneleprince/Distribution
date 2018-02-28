@@ -48,7 +48,7 @@ PathCurrent.propTypes = {
     StepTypes.propTypes
   )),
   // the current step content
-  children: T.element
+  children: T.node
 }
 
 PathCurrent.defaultProps = {

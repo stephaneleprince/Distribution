@@ -1,25 +1,27 @@
 
-// todo : add vars
-
-.step-poster {
-    margin-top: 16px;
-    border-radius: 8px;
+.step-poster,
+.step-title {
+    margin-top: @line-height-computed - 4px; // 4px is to absorb progress bar height
 }
 
+.step-poster {
+    border-radius: 8px; // todo : add vars
+
+    + .step-title {
+        margin-top: @line-height-computed; // restore default margin
+    }
+}
+
+// todo : add vars
 .step-number {
     font-weight: bold;
     padding: 2px 6px;
     margin-right: 10px;
-    background: #C51162;
+    background: @path-progression-color;
     color: white;
     display: inline-block;
 
     &:after {
         content: ".";
     }
-}
-
-.step-title {
-    //padding-left: floor(@path-grid-spacing-x / 2) - 3px; // -3 because of the border left
-    //border-left: 3px solid @path-progression-color;
 }
