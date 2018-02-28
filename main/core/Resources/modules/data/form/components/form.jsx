@@ -93,8 +93,8 @@ class Form extends Component {
         <FormField
           {...field}
           key={field.name}
-          value={undefined !== field.calculated ? field.calculated : get(this.props.data, field.name)}
-          disabled={this.props.disabled || field.disabled}
+          value={field.calculated ? field.calculated(this.props.data) : get(this.props.data, field.name)}
+          disabled={this.props.disabled || (typeof field.disabled === 'function' ? field.disabled(this.props.data) : field.disabled)}
           validating={this.props.validating}
           error={get(this.props.errors, field.name)}
           updateProp={this.props.updateProp}
@@ -121,7 +121,7 @@ class Form extends Component {
       hDisplay = this.props.displayLevel + (this.props.title ? 1 : 0)
     }
 
-    const sections = createFormDefinition(this.props.sections)
+    const sections = createFormDefinition(this.props.sections, this.props.data)
 
     const primarySection = 1 === sections.length ? sections[0] : sections.find(section => section.primary)
     const otherSections = sections.filter(section => section !== primarySection)

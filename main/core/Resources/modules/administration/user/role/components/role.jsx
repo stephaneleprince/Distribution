@@ -65,7 +65,7 @@ const RoleForm = props =>
             name: 'access_max_users',
             type: 'boolean',
             label: t('access_max_users'),
-            calculated: props.role.restrictions && null !== props.role.restrictions.maxUsers && '' !== props.role.restrictions.maxUsers,
+            calculated: (role) => role.restrictions && null !== role.restrictions.maxUsers && '' !== role.restrictions.maxUsers,
             onChange: checked => {
               if (checked) {
                 // initialize with the current nb of users with the role

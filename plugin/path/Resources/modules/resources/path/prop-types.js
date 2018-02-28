@@ -11,6 +11,12 @@ const Step = {
     display: T.shape({
       numbering: T.string
     }).isRequired,
+    primaryResource: T.shape({
+      autoId: T.number.isRequired,
+      meta: T.shape({
+        type: T.string.isRequired
+      })
+    })
   },
   defaultProps: {
     children: []
