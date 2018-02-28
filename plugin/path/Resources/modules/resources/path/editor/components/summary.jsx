@@ -27,7 +27,7 @@ const SummaryStep = props =>
           className="btn btn-link"
           onClick={() => props.removeStep(props.step.id)}
         >
-          <span className="fa fa-fw fa-trash-o"/>
+          <span className="fa fa-fw fa-trash-o" />
         </button>
       </div>
     </div>
@@ -48,6 +48,7 @@ const SummaryStep = props =>
 
 SummaryStep.propTypes = {
   step: T.shape({
+    id: T.string.isRequired,
     title: T.string,
     children: T.array
   }).isRequired,
@@ -57,37 +58,37 @@ SummaryStep.propTypes = {
 
 const Summary = props =>
   <PathSummary>
-    <nav className="path-summary-tree">
-      <ul className="tree">
-        <li className="summary-link">
-          <div className="tree-item">
-            <NavLink to="/edit/parameters">
-              <span className="fa fa-fw fa-cog"/>
-              {trans('parameters', {}, 'platform')}
-            </NavLink>
+    <ul className="summary">
+      <li className="summary-link">
+        <div className="tree-item">
+          <NavLink to="/edit/parameters">
+            <span className="fa fa-fw fa-cog"/>
+            {trans('parameters', {}, 'platform')}
+          </NavLink>
+        </div>
+      </li>
 
-            <div className="step-actions">
-              <button
-                type="button"
-                className="btn btn-link"
-                onClick={() => props.addStep(null)}
-              >
-                <span className="fa fa-fw fa-plus"/>
-              </button>
-            </div>
-          </div>
-        </li>
+      {props.steps.map(step =>
+        <SummaryStep
+          key={`summary-step-${step.id}`}
+          step={step}
+          addStep={props.addStep}
+          removeStep={props.removeStep}
+        />
+      )}
 
-        {props.steps.map(step =>
-          <SummaryStep
-            key={`summary-step-${step.id}`}
-            step={step}
-            addStep={props.addStep}
-            removeStep={props.removeStep}
-          />
-        )}
-      </ul>
-    </nav>
+      <li>
+        <button
+          type="button"
+          className="btn btn-link"
+          onClick={() => props.addStep(null)}
+        >
+          <span className="fa fa-fw fa-plus" />
+
+          {trans('add_step', {}, 'path')}
+        </button>
+      </li>
+    </ul>
   </PathSummary>
 
 Summary.propTypes = {

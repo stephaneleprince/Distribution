@@ -13,8 +13,7 @@ import {BBBConfig} from './bbb-config.jsx'
 const BBBResource = props =>
   <ResourcePageContainer
     editor={{
-      opened: '/edit' === props.location.pathname,
-      open: '#/edit',
+      path: '/edit',
       save: {
         disabled: false,
         action: props.validateForm
@@ -64,19 +63,16 @@ function customActions(props) {
   return actions
 }
 
-function mapStateToProps(state) {
-  return {
+const ConnectedBBBResource = connect(
+  state => ({
     canEdit: state.canEdit
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
+  }),
+  dispatch => ({
     validateForm: () => dispatch(actions.validateResourceForm()),
     endBBB: () => dispatch(actions.endBBB())
-  }
+  })
+)(BBBResource)
+
+export {
+  ConnectedBBBResource as BBBResource
 }
-
-const ConnectedBBBResource = withRouter(connect(mapStateToProps, mapDispatchToProps)(BBBResource))
-
-export {ConnectedBBBResource as BBBResource}

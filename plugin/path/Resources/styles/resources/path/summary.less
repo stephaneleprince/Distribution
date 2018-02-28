@@ -18,17 +18,15 @@
     }
 
     // todo : those selectors are ugly
-    //.summary-control-pin,
     .step-actions {
         display: none;
     }
 
     .step-children {
-        padding-left: 0 !important;
+        padding-left: 0 !important; // flatten all steps
     }
 
     &.opened {
-        //.summary-control-pin,
         .summary-title,
         .step-actions {
             display: inline-block;
@@ -52,12 +50,10 @@
         }
     }
 
-    .path-summary-tree {
-        margin-top: @path-summary-header-margin-bottom;
-
-        .tree {
-            padding-left: 0;
-        }
+    .summary {
+        margin-top: @component-margin-bottom;
+        padding-left: 0;
+        list-style-type: none;
     }
 }
 
@@ -189,7 +185,7 @@
         right: 0;
 
         // hide tree when closed
-        .path-summary-tree {
+        .summary {
             display: none;
         }
 
@@ -201,7 +197,7 @@
             height: 100%; // todo : find better. it can be small if their is no content in the current step
             bottom: 0;
 
-            .path-summary-tree {
+            .summary {
                 display: block;
             }
         }
