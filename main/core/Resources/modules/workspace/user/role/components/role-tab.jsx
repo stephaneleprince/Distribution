@@ -16,9 +16,9 @@ const RoleTabActionsComponent = props =>
   <PageActions>
     <FormPageActionsContainer
       formName="roles.current"
-      target={(user, isNew) => isNew ?
+      target={(role, isNew) => isNew ?
         ['apiv2_role_create'] :
-        ['apiv2_role_update', {id: user.id}]
+        ['apiv2_role_update', {id: role.id}]
       }
       opened={!!matchPath(props.location.pathname, {path: '/roles/form'})}
       open={{
