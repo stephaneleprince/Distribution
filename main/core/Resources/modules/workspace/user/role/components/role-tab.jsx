@@ -8,9 +8,10 @@ import {navigate, matchPath, Routes, withRouter} from '#/main/core/router'
 import {PageActions} from '#/main/core/layout/page/components/page-actions.jsx'
 import {FormPageActionsContainer} from '#/main/core/data/form/containers/page-actions.jsx'
 
-import {Role}    from '#/main/core/administration/user/role/components/role.jsx'
+import {Role}    from '#/main/core/workspace/user/role/components/role.jsx'
 import {Roles}   from '#/main/core/workspace/user/role/components/role-list.jsx'
-import {actions} from '#/main/core/workspace/user/user/actions'
+import {actions} from '#/main/core/workspace/user/role/actions'
+import {select}  from '#/main/core/workspace/user/selectors'
 
 const RoleTabActionsComponent = props =>
   <PageActions>
@@ -47,7 +48,7 @@ const RoleTabComponent = props =>
       }, {
         path: '/roles/form/:id?',
         component: Role,
-        onEnter: (params) => props.openForm(params.id || null)
+        onEnter: (params) => props.openForm(params.id || null, props.workspace, props.restrictions)
       }
     ]}
   />
@@ -57,10 +58,19 @@ RoleTabComponent.propTypes = {
 }
 
 const RoleTab = connect(
-  null,
+  state => ({
+    workspace: select.workspace(state),
+    restrictions: select.restrictions(state)
+  }),
   dispatch => ({
-    openForm(id = null) {
-      dispatch(actions.open('roles.current', id))
+    openForm(id = null, workspace, restrictions) {
+
+      const defaultValue = {
+        type: 2, //workspace
+        workspace
+      }
+
+      dispatch(actions.open('roles.current', id, defaultValue))
     }
   })
 )(RoleTabComponent)
