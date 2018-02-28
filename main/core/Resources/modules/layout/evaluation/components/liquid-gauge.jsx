@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {PropTypes as T} from 'prop-types'
+import classes from 'classnames'
 
 import {easeLinear} from 'd3-ease'
 import {interpolate} from 'd3-interpolate'
@@ -38,7 +39,7 @@ const GaugeContainer = props => {
     <svg
       width={props.width}
       height={props.height}
-      className={`gauge liquid-gauge liquid-gauge-${props.type}`}
+      className={classes('gauge liquid-gauge', `liquid-gauge-${props.type}`, props.className)}
     >
       <g transform={`translate(${locationX}, ${locationY})`}>
         {props.children}
@@ -48,6 +49,7 @@ const GaugeContainer = props => {
 }
 
 GaugeContainer.propTypes = {
+  className: T.string,
   type: T.oneOf(['primary', 'success', 'warning', 'danger', 'info', 'user']).isRequired,
   width: T.oneOfType([T.string, T.number]).isRequired,
   height: T.oneOfType([T.string, T.number]).isRequired,
@@ -306,6 +308,7 @@ class LiquidGauge extends Component {
 
     return (
       <GaugeContainer
+        className={this.props.className}
         type={this.props.type}
         width={this.props.width}
         height={this.props.height}
@@ -367,6 +370,8 @@ LiquidGauge.propTypes = {
    * An unique identifier for the Gauge.
    */
   id: T.string.isRequired,
+
+  className: T.string,
 
   /**
    * The type of the Gauge (to apply correct color scheme).

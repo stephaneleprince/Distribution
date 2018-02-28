@@ -8,6 +8,9 @@ import {RoutedPage} from '#/main/core/layout/router'
 import {t_res} from '#/main/core/resource/translation'
 import {ResourcePageActions} from '#/main/core/resource/components/page-actions.jsx'
 import {ResourceNode as ResourceNodeTypes} from '#/main/core/resource/prop-types'
+import {ProgressionGauge} from '#/main/core/resource/evaluation/components/progression-gauge.jsx'
+import {UserEvaluation as UserEvaluationTypes} from '#/main/core/resource/evaluation/prop-types'
+
 import {MODAL_RESOURCE_PROPERTIES, EditPropertiesModal} from '#/main/core/resource/components/modal/edit-properties.jsx'
 import {MODAL_RESOURCE_RIGHTS,     EditRightsModal}     from '#/main/core/resource/components/modal/edit-rights.jsx'
 
@@ -53,6 +56,8 @@ class ResourcePage extends Component {
           subtitle={t_res(this.props.resourceNode.meta.type)}
           poster={this.props.resourceNode.poster ? this.props.resourceNode.poster.url : undefined}
         >
+          <ProgressionGauge userEvaluation={this.props.userEvaluation} />
+
           <ResourcePageActions
             resourceNode={this.props.resourceNode}
             editor={this.props.editor}
@@ -78,6 +83,13 @@ ResourcePage.propTypes = {
   resourceNode: T.shape(
     ResourceNodeTypes.propTypes
   ).isRequired,
+
+  /**
+   * The current user evaluation.
+   */
+  userEvaluation: T.shape(
+    UserEvaluationTypes.propTypes
+  ),
 
   customActions: T.array,
 

@@ -51,9 +51,9 @@
     }
 
     .summary {
-        margin-top: @component-margin-bottom;
+        margin-top: 10px;
+        margin-bottom: 0;
         padding-left: 0;
-        list-style-type: none;
     }
 }
 
@@ -85,52 +85,60 @@
 
     .fa {
         text-align: center;
-        width: 20px; // same as step progression
+        width: @path-summary-collapsed-width - (@path-summary-padding * 2); // same as step progression
     }
-}
-
-.summary-empty {
-    display: block;
 }
 
 .summary-link {
     list-style: none;
     font-size: @path-summary-font;
-    color: @path-summary-link-color;
-    background-color: @path-summary-link-bg;
 
-    &.active > .tree-item {
-        color: @path-summary-link-active-color;
+    .active > .tree-item {
         background-color: @path-summary-link-active-bg;
 
         .step-progression {
             color: @path-summary-link-active-color !important; // override status color
         }
     }
+
+    .fa {
+        width: @path-summary-collapsed-width - (@path-summary-padding * 2);
+        text-align: center;
+    }
+
+    a,
+    .btn-summary {
+        color: @path-summary-link-color;
+
+        &:hover {
+            color: @path-summary-link-hover-color;
+        }
+
+        &.active,
+        &:active,
+        &:focus {
+            color: @path-summary-link-active-color;
+        }
+    }
+
+    a {
+        flex: 1;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+    }
 }
 
 .tree-item {
-    font-weight: normal; // override default styles of angular-ui-tree
-    padding: 6px 0;
+    background-color: @path-summary-link-bg;
     border-bottom: 1px solid transparent;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-    line-height: 2em;
 
     &:hover {
-        color: @path-summary-link-hover-color;
         background-color: @path-summary-link-hover-bg;
-
-        .step-progression {
-            color: @path-summary-link-hover-color;
-        }
-    }
-
-    .step {
-        cursor: pointer;
-        white-space: nowrap;
     }
 }
 
@@ -139,29 +147,14 @@
     line-height: 2em;
     vertical-align: middle;
 
-    .btn {
+    .btn-summary {
         padding: 2px;
-        color: @path-summary-link-color;
-
-        &:hover:not(.disabled):not([disabled]) {
-            color: @path-summary-link-hover-color;
-        }
-
-        &:focus:not(.disabled):not([disabled]) {
-            color: @path-summary-link-active-color;
-        }
     }
 }
 
 // todo : rename it in step indicator
 .step-progression {
-    display: inline-block;
-    line-height: inherit;
-    width: @path-summary-collapsed-width - (@path-summary-padding * 2);
-    text-align: center;
     font-size: @step-status-size !important; // override font-awesome
-    color: @path-summary-link-color;
-    vertical-align: top;
 
     &.unseen    { color: @step-status-unseen-color; }
     &.seen      { color: @step-status-seen-color; }
@@ -189,10 +182,6 @@
             display: none;
         }
 
-        .summary-control-pin {
-            display: none !important;
-        }
-
         &.opened {
             height: 100%; // todo : find better. it can be small if their is no content in the current step
             bottom: 0;
@@ -204,7 +193,6 @@
 
         + .content-container {
             margin-top: @path-summary-collapsed-width;
-            //padding-top: @path-grid-spacing-v;
         }
     }
 }
@@ -226,10 +214,6 @@
         // hide title when closed
         .summary-title {
             display: none;
-        }
-
-        .summary-control-pin {
-            display: none !important;
         }
 
         &.opened {

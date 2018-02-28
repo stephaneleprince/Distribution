@@ -3,6 +3,7 @@ import {PropTypes as T} from 'prop-types'
 
 import {trans} from '#/main/core/translation'
 import {NavLink} from '#/main/core/router'
+import {TooltipAction} from '#/main/core/layout/button/components/tooltip-action.jsx'
 
 import {PathSummary} from '#/plugin/path/resources/path/components/summary.jsx'
 
@@ -10,25 +11,29 @@ const SummaryStep = props =>
   <li className="summary-link">
     <div className="tree-item">
       <NavLink to={`/edit/${props.step.id}`}>
-        <span className="fa fa-fw fa-circle"/>
+        <span className="step-progression fa fa-circle" />
+
         {props.step.title}
       </NavLink>
 
       <div className="step-actions">
-        <button
-          type="button"
-          className="btn btn-link"
-          onClick={() => props.addStep(props.step.id)}
-        >
-          <span className="fa fa-fw fa-plus"/>
-        </button>
-        <button
-          type="button"
-          className="btn btn-link"
-          onClick={() => props.removeStep(props.step.id)}
-        >
-          <span className="fa fa-fw fa-trash-o" />
-        </button>
+        <TooltipAction
+          id={`step-${props.step.id}-add`}
+          position="bottom"
+          className="btn-link btn-summary"
+          icon="fa fa-fw fa-plus"
+          label={trans('step_add_child', {}, 'path')}
+          action={() => props.addStep(props.step.id)}
+        />
+
+        <TooltipAction
+          id={`step-${props.step.id}-delete`}
+          position="bottom"
+          className="btn-link btn-summary"
+          icon="fa fa-fw fa-trash-o"
+          label={trans('delete')}
+          action={() => props.removeStep(props.step.id)}
+        />
       </div>
     </div>
 
@@ -60,12 +65,10 @@ const Summary = props =>
   <PathSummary>
     <ul className="summary">
       <li className="summary-link">
-        <div className="tree-item">
-          <NavLink to="/edit/parameters">
-            <span className="fa fa-fw fa-cog"/>
-            {trans('parameters', {}, 'platform')}
-          </NavLink>
-        </div>
+        <NavLink to="/edit/parameters">
+          <span className="fa fa-cog" />
+          {trans('parameters')}
+        </NavLink>
       </li>
 
       {props.steps.map(step =>
@@ -77,15 +80,15 @@ const Summary = props =>
         />
       )}
 
-      <li>
+      <li className="summary-link">
         <button
           type="button"
           className="btn btn-link"
           onClick={() => props.addStep(null)}
         >
-          <span className="fa fa-fw fa-plus" />
+          <span className="fa fa-plus" />
 
-          {trans('add_step', {}, 'path')}
+          {trans('step_add', {}, 'path')}
         </button>
       </li>
     </ul>

@@ -7,7 +7,6 @@ import {PropTypes as T, implementPropTypes} from '#/main/core/scaffolding/prop-t
 import {makeModal} from '#/main/core/layout/modal'
 import {Page as PageTypes} from '#/main/core/layout/page/prop-types'
 
-import {LiquidGauge} from '#/main/core/layout/evaluation/components/liquid-gauge.jsx'
 import {FlyingAlerts} from '#/main/core/layout/alert/components/flying-alerts.jsx'
 
 const PageWrapper = props => !props.embedded ?
@@ -59,6 +58,32 @@ implementPropTypes(Page, PageTypes, {
 })
 
 /**
+ * Title of the current page.
+ */
+const PageTitle = props =>
+  <h1 className="page-title">
+    {props.title}
+    {props.subtitle &&
+      <small>{props.subtitle}</small>
+    }
+  </h1>
+
+PageTitle.propTypes = {
+  /**
+   * The title of the current page.
+   */
+  title: T.string.isRequired,
+
+  /**
+   * An optional sub title.
+   *
+   * Mostly used when the current page has sub-sections
+   * example : in quizzes, we have edit/play/papers/etc. sections
+   */
+  subtitle: T.string
+}
+
+/**
  * Header of the current page.
  *
  * Contains title, actions and an optional poster image.
@@ -78,14 +103,10 @@ const PageHeader = props => {
         'page-header-poster': !!props.poster
       })}
     >
-      <LiquidGauge id="page-liquid-gauge" type="user" />
-
-      <h1 className="page-title">
-        {props.title}
-        {props.subtitle &&
-          <small>{props.subtitle}</small>
-        }
-      </h1>
+      <PageTitle
+        title={props.title}
+        subtitle={props.subtitle}
+      />
 
       {props.children}
     </header>

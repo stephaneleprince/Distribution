@@ -9,6 +9,8 @@ import {PathSummary} from '#/plugin/path/resources/path/components/summary.jsx'
 const SummaryStep = props =>
   <li className="summary-link">
     <NavLink to={`/play/${props.step.id}`}>
+      <span className="step-progression fa fa-circle" />
+
       {props.step.title}
     </NavLink>
 

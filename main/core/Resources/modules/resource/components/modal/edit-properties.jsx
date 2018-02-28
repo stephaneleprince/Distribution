@@ -71,7 +71,10 @@ class EditPropertiesModal extends Component {
               {
                 name: 'meta.description',
                 label: t_res('resource_description'),
-                type: 'html'
+                type: 'string',
+                options: {
+                  long: true
+                }
               }, {
                 name: 'meta.published',
                 label: t_res('resource_not_published'),

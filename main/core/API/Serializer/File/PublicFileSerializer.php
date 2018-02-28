@@ -35,7 +35,7 @@ class PublicFileSerializer
             'creator' => [],
             'mimeType' => $file->getMimeType(),
             'sourceType' => $file->getSourceType(),
-            'url' => str_replace('\\', '/', $file->getUrl()),
+            'url' => $file->getUrl(),
           ];
     }
 
