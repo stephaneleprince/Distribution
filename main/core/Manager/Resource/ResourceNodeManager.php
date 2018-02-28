@@ -159,10 +159,6 @@ class ResourceNodeManager
         if (isset($meta['authors'])) {
             $resourceNode->setAuthor($meta['authors']);
         }
-
-        if (isset($meta['accesses'])) {
-            $resourceNode->setAccesses($meta['accesses']);
-        }
     }
 
     private function updateDisplay(array $parameters, ResourceNode $resourceNode)
@@ -179,6 +175,14 @@ class ResourceNodeManager
 
             $resourceNode->setAccessibleFrom($dateRange[0]);
             $resourceNode->setAccessibleUntil($dateRange[1]);
+        }
+
+        if (isset($restrictions['code'])) {
+            $resourceNode->setAccessCode($restrictions['code']);
+        }
+
+        if (isset($restrictions['ips'])) {
+            $resourceNode->setAllowedIps($restrictions['ips']);
         }
     }
 
@@ -276,13 +280,7 @@ class ResourceNodeManager
 
     public function isCodeProtected(ResourceNode $resourceNode)
     {
-        $access = $resourceNode->getAccesses();
-
-        if (!empty($access['code'])) {
-            return $access['code'] ? true : false;
-        }
-
-        return false;
+        return !empty($resourceNode->getAccessCode());
     }
 
     public function requiresUnlock(ResourceNode $resourceNode)

@@ -218,7 +218,6 @@ class ResourceNodeSerializer
             'isManager' => $this->rightsManager->isManager($resourceNode), // todo : data about current user should not be here (should be in `rights` section)
             'creator' => $resourceNode->getCreator() ? $this->userSerializer->serialize($resourceNode->getCreator()) : null,
             'actions' => $this->getActions($resourceNode),
-            'accesses' => $resourceNode->getAccesses(),
             'views' => $resourceNode->getViewsCount(),
             'icon' => $resourceNode->getIcon() ? '/'.$resourceNode->getIcon()->getRelativeUrl() : null,
             'parent' => $resourceNode->getParent() ? [
@@ -249,6 +248,8 @@ class ResourceNodeSerializer
                 $resourceNode->getAccessibleFrom(),
                 $resourceNode->getAccessibleUntil()
             ),
+            'code' => $resourceNode->getAccessCode(),
+            'allowedIps' => $resourceNode->getAllowedIps()
         ];
     }
 

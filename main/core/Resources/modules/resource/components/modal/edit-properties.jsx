@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {PropTypes as T} from 'prop-types'
-import merge from 'lodash/merge'
+import cloneDeep from 'lodash/cloneDeep'
 import set from 'lodash/set'
 
 import {trans}     from '#/main/core/translation'
@@ -16,25 +16,27 @@ class EditPropertiesModal extends Component {
   constructor(props) {
     super(props)
 
+    // We locally manage a copy of current node to be able
+    // to display fields conditionality.
     this.state = {
-      resourceNode: props.resourceNode ? props.resourceNode : {}
+      resourceNode: props.resourceNode ? cloneDeep(props.resourceNode) : {}
     }
 
     this.updateProp = this.updateProp.bind(this)
+    this.onChange   = this.onChange.bind(this)
   }
 
-  /**
-   * We locally manage a copy of current node to be able
-   * to manage fields conditionality.
-   *
-   * @param {string} propName
-   * @param {*}      propValue
-   */
   updateProp(propName, propValue) {
-    const newNode = merge({}, this.state.resourceNode)
+    const newNode = cloneDeep(this.state.resourceNode)
 
     set(newNode, propName, propValue)
 
+    this.onChange(newNode)
+  }
+
+  onChange(newNode) {
+    console.log('onCHange')
+    console.log(newNode)
     this.setState({
       resourceNode: newNode
     })
@@ -45,8 +47,9 @@ class EditPropertiesModal extends Component {
       <DataFormModal
         {...this.props}
         title={t_res('edit-properties')}
-        data={this.props.resourceNode}
+        data={this.state.resourceNode}
         save={this.props.save}
+        onChange={this.onChange}
         fadeModal={this.props.fadeModal}
         sections={[
           {
@@ -93,7 +96,7 @@ class EditPropertiesModal extends Component {
             fields: [
               {
                 name: 'poster',
-                label: trans('poster'),
+                label: t_res('poster'),
                 type: 'image',
                 options: {
                   ratio: '3:1'
@@ -126,12 +129,10 @@ class EditPropertiesModal extends Component {
                 name: 'restrictions.enableDates',
                 label: trans('restrict_by_dates'),
                 type: 'boolean',
-                calculated: this.props.resourceNode.restrictions && 0 !== this.props.resourceNode.restrictions.dates.length,
+                calculated: (node) => node.restrictions.enableDates || 0 !== node.restrictions.dates.length,
                 onChange: activated => {
                   if (!activated) {
                     this.updateProp('restrictions.dates', [])
-                  } else {
-                    this.updateProp('restrictions.dates', [null, null])
                   }
                 },
                 linked: [
@@ -139,7 +140,7 @@ class EditPropertiesModal extends Component {
                     name: 'restrictions.dates',
                     type: 'date-range',
                     label: trans('access_dates'),
-                    displayed: this.props.resourceNode.restrictions && 0!== this.props.resourceNode.restrictions.dates.length,
+                    displayed: (node) => node.restrictions.enableDates || 0 !== node.restrictions.dates.length,
                     required: true,
                     options: {
                       time: true
@@ -147,37 +148,41 @@ class EditPropertiesModal extends Component {
                   }
                 ]
               }, {
-                name: 'meta.accesses.code',
+                name: 'restrictions.enableCode',
                 label: t_res('resource_access_code'),
                 type: 'boolean',
+                calculated: (node) => node.restrictions.enableCode || !!node.restrictions.code,
                 onChange: activated => {
                   if (!activated) {
-                    this.updateProp('meta.accesses.code', null)
+                    this.updateProp('restrictions.code', null)
                   }
                 },
                 linked: [
                   {
-                    name: 'props.meta.accesses.code',
+                    name: 'restrictions.code',
                     label: trans('access_code'),
+                    displayed: (node) => node.restrictions.enableCode || !!node.restrictions.code,
                     type: 'password',
                     required: true
                   }
                 ]
               }, {
-                name: 'meta.accesses.ip.activateFilters',
+                name: 'restrictions.enableIps',
                 label: t_res('resource_access_ips'),
                 type: 'boolean',
+                calculated: (node) => node.restrictions.enableIps || 0 !== node.restrictions.allowedIps.length,
                 onChange: activated => {
                   if (!activated) {
-                    this.updateProp('meta.accesses.ip.ips', [])
+                    this.updateProp('restrictions.ips', [])
                   }
                 },
                 linked: [
                   {
-                    name: 'props.meta.accesses.ip.ips',
+                    name: 'restrictions.allowedIps',
                     label: trans('resource_allowed_ip'),
                     type: 'ip',
                     required: true,
+                    displayed: (node) => node.restrictions.enableIps || 0 !== node.restrictions.allowedIps.length,
                     options: {
                       placeholder: t_res('resource_no_allowed_ip'),
                       multiple: true
