@@ -46,7 +46,7 @@ PrimaryResourceSection.propTypes = {
 
 const SecondaryResourcesSection = props =>
   <div>
-    {props.secondaryResources.map(sr =>
+    {props.secondaryResources && props.secondaryResources.map(sr =>
       <div key={`secondary-resource-${sr.id}`}>
         {sr.resource.name} [{trans(sr.resource.meta.type, {}, 'resource')}]
         <span
@@ -55,6 +55,7 @@ const SecondaryResourcesSection = props =>
         />
       </div>
     )}
+
     <button
       type="button"
       className="btn btn-primary"
@@ -77,7 +78,6 @@ const StepForm = props =>
     level={3}
     displayLevel={2}
     name="pathForm"
-    title={props.title}
     dataPart={props.stepPath}
     sections={[
       {
@@ -150,7 +150,6 @@ const StepForm = props =>
 
 implementPropTypes(StepForm, StepTypes, {
   stepPath: T.string.isRequired,
-  numbering: T.string,
   customNumbering: T.bool,
   pickPrimaryResource: T.func.isRequired,
   removePrimaryResource: T.func.isRequired,

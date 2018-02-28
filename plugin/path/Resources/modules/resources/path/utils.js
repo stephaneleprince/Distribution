@@ -41,18 +41,40 @@ function flattenSteps(steps) {
  * @return {string}
  */
 function getNumbering(type, steps, step) {
+  function buildPath(steps, step) {
+    let stepPath = []
+
+    steps.map((s, i) => {
+      if (s.id === step.id) {
+        stepPath.push(i) // add current step to the path
+      } else if (s.children && 0 !== s.children.length) {
+        const subPath = buildPath(s.children, step)
+        if (0 !== subPath.length) {
+          stepPath = stepPath.concat([i], subPath)
+        }
+      }
+    })
+
+    return stepPath
+  }
+
   switch (type) {
     /**
      * The numbering label is a letter.
      */
     case constants.NUMBERING_NUMERIC:
-      return 1 + ''
+      return '' + buildPath(steps, step)
+          // make numbering start to 1 for users
+          .map(i => i + 1)
+          .join('.')
 
     /**
      * The numbering label is a number.
      */
     case constants.NUMBERING_LITERAL:
-      return 'abcdefghijklmnopqrstuvwxyz'[0]
+      return buildPath(steps, step)
+        .map(i => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[i])
+        .join('.')
 
     /**
      * The numbering label is specified by each step.

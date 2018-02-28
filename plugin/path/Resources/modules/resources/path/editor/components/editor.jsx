@@ -49,6 +49,14 @@ const EditorComponent = props =>
                 current={step}
                 all={props.steps}
               >
+                <h3 className="h2">
+                  {getNumbering(props.path.display.numbering, props.path.steps, step) &&
+                    <span className="step-number">{getNumbering(props.path.display.numbering, props.path.steps, step)}</span>
+                  }
+
+                  {step.title}
+                </h3>
+
                 <StepForm
                   {...step}
                   numbering={getNumbering(props.path.display.numbering, props.path.steps, step)}
