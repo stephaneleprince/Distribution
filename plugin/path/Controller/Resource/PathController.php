@@ -6,6 +6,8 @@ use Claroline\CoreBundle\Entity\Resource\ResourceType;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Library\Security\Collection\ResourceCollection;
 use Innova\PathBundle\Entity\Path\Path;
+use Innova\PathBundle\Manager\UserProgressionManager;
+use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,18 +22,38 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class PathController extends Controller
 {
+
+    /** @var UserProgressionManager */
+    private $userProgressionManager;
+
+    /**
+     * PathController constructor.
+     *
+     * @DI\InjectParams({
+     *     "userProgressionManager" = @DI\Inject("innova_path.manager.user_progression")
+     * })
+     *
+     * @param UserProgressionManager $userProgressionManager
+     */
+    public function __construct(UserProgressionManager $userProgressionManager)
+    {
+        $this->userProgressionManager = $userProgressionManager;
+    }
+
     /**
      * Open resource action.
      *
      * @EXT\Route("/{id}", name="innova_path_player_wizard")
      * @EXT\Method("GET")
+     * @EXT\ParamConverter("user", converter="current_user", options={"allowAnonymous"=true})
      * @EXT\Template("InnovaPathBundle:Path:open.html.twig")
      *
      * @param Path $path
+     * @param User $user
      *
      * @return array
      */
-    public function openAction(Path $path)
+    public function openAction(Path $path, User $user = null)
     {
         $this->assertHasPermission('OPEN', $path);
         $resourceTypes = $this->hasPermission('EDIT', $path) ?
@@ -39,6 +61,7 @@ class PathController extends Controller
                 ->getRepository('ClarolineCoreBundle:Resource\ResourceType')
                 ->findBy(['isEnabled' => true]) :
             [];
+        $userEvaluation = !empty($user) ? $this->userProgressionManager->getResourceUserEvaluation($path, $user) : null;
 
         return [
             '_resource' => $path,
@@ -48,6 +71,7 @@ class PathController extends Controller
             'resourceTypes' => array_map(function (ResourceType $resourceType) {
                 return $this->get('claroline.serializer.resource_type')->serialize($resourceType);
             }, $resourceTypes),
+            'userEvaluation' => $userEvaluation,
         ];
     }
 

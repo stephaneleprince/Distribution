@@ -2,7 +2,9 @@
 
 namespace Innova\PathBundle\Manager;
 
+use Claroline\CoreBundle\Entity\Resource\AbstractResourceEvaluation;
 use Claroline\CoreBundle\Entity\User;
+use Claroline\CoreBundle\Manager\Resource\ResourceEvaluationManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Innova\PathBundle\Entity\Path\Path;
 use Innova\PathBundle\Entity\Step;
@@ -32,23 +34,32 @@ class UserProgressionManager
     protected $tokenStorage;
 
     /**
+     * @var ResourceEvaluationManager
+     */
+    private $resourceEvalManager;
+
+    /**
      * UserProgressionManager constructor.
      *
      * @DI\InjectParams({
-     *     "om"           = @DI\Inject("claroline.persistence.object_manager"),
-     *     "tokenStorage" = @DI\Inject("security.token_storage")
+     *     "om"                  = @DI\Inject("claroline.persistence.object_manager"),
+     *     "tokenStorage"        = @DI\Inject("security.token_storage"),
+     *     "resourceEvalManager" = @DI\Inject("claroline.manager.resource_evaluation_manager")
      * })
      *
-     * @param ObjectManager         $om
-     * @param TokenStorageInterface $tokenStorage
+     * @param ObjectManager             $om
+     * @param TokenStorageInterface     $tokenStorage
+     * @param ResourceEvaluationManager $resourceEvalManager
      */
     public function __construct(
-        ObjectManager         $om,
-        TokenStorageInterface $tokenStorage)
-    {
+        ObjectManager $om,
+        TokenStorageInterface $tokenStorage,
+        ResourceEvaluationManager $resourceEvalManager
+    ) {
         $this->om = $om;
         $this->repository = $this->om->getRepository('InnovaPathBundle:UserProgression');
         $this->tokenStorage = $tokenStorage;
+        $this->resourceEvalManager = $resourceEvalManager;
     }
 
     /**
@@ -232,5 +243,96 @@ class UserProgressionManager
         $this->om->flush();
 
         return $progression;
+    }
+
+    public function getResourceUserEvaluation(Path $path, User $user)
+    {
+        return $this->resourceEvalManager->getResourceUserEvaluation($path->getResourceNode(), $user);
+    }
+
+    /**
+     * Creates a ResourceEvaluation for a step.
+     *
+     * @param Step   $step
+     * @param User   $user
+     * @param string $status
+     *
+     * @return ResourceUserEvaluation
+     */
+    public function generateResourceEvaluation(Step $step, User $user, $status)
+    {
+        $statusData = $this->computeResourceUserEvaluation($step->getPath(), $user);
+        $stepIndex = $statusData['stepsToDo'].findIndex($step->getUuid());
+
+        if ($stepIndex > -1 && ['seen', 'done'].indexOf($status) > -1) {
+            ++$statusData['score'];
+            array_splice($statusData['stepsToDo'], $stepIndex, 1);
+        }
+
+        $evaluationData = [
+            'step' => $step->getUuid(),
+            'status' => $status,
+            'toDo' => $statusData['stepsToDo'],
+        ];
+
+        $this->resourceEvalManager->createResourceEvaluation(
+            $step->getPath()->getResourceNode(),
+            $user,
+            new \DateTime(),
+            $statusData['status'],
+            $statusData['score'],
+            null,
+            $statusData['scoreMax'],
+            null,
+            null,
+            null,
+            $evaluationData,
+            true
+        );
+    }
+
+    /**
+     * Computes current resource evaluation status.
+     *
+     * @param Path $path
+     * @param User $user
+     *
+     * @return array
+     */
+    public function computeResourceUserEvaluation(Path $path, User $user)
+    {
+        $steps = $path->getSteps()->toArray();
+        $stepsUuids = array_map(function (Step $step) {
+            return $step->getUuid();
+        }, $steps);
+        $resourceUserEval = $this->resourceEvalManager->getResourceUserEvaluation($path->getResourceNode(), $user);
+        $evaluations = $resourceUserEval->getEvaluations();
+        $score = 0;
+        $scoreMax = count($steps);
+
+        foreach ($evaluations as $evaluation) {
+            $data = $evaluation->getData();
+
+            if (isset($data['step']) && isset($data['status'])) {
+                $statusIndex = ['seen', 'done'].indexOf($data['status']);
+                $uuidIndex = $stepsUuids.indexOf($data['step']);
+
+                if ($statusIndex > -1 && $uuidIndex > -1) {
+                    ++$score;
+                    array_splice($stepsUuids, $uuidIndex, 1);
+                }
+
+            }
+        }
+        $status = $score >= $scoreMax ?
+            AbstractResourceEvaluation::STATUS_COMPLETED :
+            AbstractResourceEvaluation::STATUS_INCOMPLETE;
+
+        return [
+            'score' => $score,
+            'scoreMax' => $scoreMax,
+            'status' => $status,
+            'stepsToDo' => $stepsUuids,
+        ];
     }
 }
