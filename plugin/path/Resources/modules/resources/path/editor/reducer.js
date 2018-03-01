@@ -32,8 +32,6 @@ function manageInheritedResources(step, id, resource, lvl) {
     step.inheritedResources.splice(index, 1)
   }
   step.children.forEach(s => manageInheritedResources(s, id, resource, lvl))
-
-  console.log(step)
 }
 
 const defaultState = {
@@ -67,11 +65,24 @@ const reducer = {
           })
         } else {
           const stepPath = getStepPath(action.parentId, newState.steps, 0, [])
+          const inheritedResources = []
           let step = newState.steps[stepPath[0]]
           let name = `${trans('step', {}, 'path')} ${stepPath[0] + 1}`
+          step.secondaryResources.filter(sr => sr.inheritanceEnabled).forEach(sr => inheritedResources.push({
+            id: makeId(),
+            lvl: 0,
+            resource: sr.resource,
+            sourceUuid: sr.id
+          }))
 
           for (let i = 1; i < stepPath.length; ++i) {
             step = step.children[stepPath[i]]
+            step.secondaryResources.filter(sr => sr.inheritanceEnabled).forEach(sr => inheritedResources.push({
+              id: makeId(),
+              lvl: 0,
+              resource: sr.resource,
+              sourceUuid: sr.id
+            }))
             name += `.${stepPath[i] + 1}`
           }
           step.children.push({
@@ -80,7 +91,7 @@ const reducer = {
             description: null,
             display: {},
             secondaryResources: [],
-            inheritedResources: [],
+            inheritedResources: inheritedResources,
             children: []
           })
         }
@@ -147,6 +158,7 @@ const reducer = {
           const index = step.secondaryResources.findIndex(sr => sr.id === r)
 
           if (index > -1) {
+            step.children.forEach(s => manageInheritedResources(s, step.secondaryResources[index].id, null, 0))
             step.secondaryResources.splice(index, 1)
           }
         })
