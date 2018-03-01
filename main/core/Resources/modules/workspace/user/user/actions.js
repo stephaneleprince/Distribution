@@ -8,7 +8,7 @@ import {User as UserTypes} from '#/main/core/administration/user/user/prop-types
 
 export const actions = {}
 
-actions.open = (formName, id = null) => {
+actions.open = (formName, id = null, defaultProps) => {
   if (id) {
     return {
       [API_REQUEST]: {
@@ -17,7 +17,7 @@ actions.open = (formName, id = null) => {
       }
     }
   } else {
-    return formActions.resetForm(formName, UserTypes.defaultProps, true)
+    return formActions.resetForm(formName, defaultProps, true)
   }
 }
 

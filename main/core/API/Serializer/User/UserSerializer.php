@@ -390,6 +390,17 @@ class UserSerializer
             ));
         }
 
+        //only add role here. If we want to remove them, use the crud remove method instead
+        //it's usefull if we want to create a user with a list of roles
+        if (isset($data['roles'])) {
+            foreach ($data['roles'] as $role) {
+                $role = $this->om
+                  ->getRepository('Claroline\CoreBundle\Entity\Role')
+                  ->findOneBy(['id' => $role['id']]);
+                $user->addRole($role);
+            }
+        }
+
         $fieldFacets = $this->om
             ->getRepository('Claroline\CoreBundle\Entity\Facet\FieldFacet')
             ->findPlatformFieldFacets();

@@ -2,6 +2,7 @@
 
 namespace Claroline\CoreBundle\API\Serializer\User;
 
+use Claroline\AppBundle\API\Serializer\SerializerTrait;
 use Claroline\AppBundle\API\SerializerProvider;
 use Claroline\CoreBundle\Entity\Group;
 use Claroline\CoreBundle\Entity\Organization\Organization;
@@ -14,6 +15,8 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class GroupSerializer
 {
+    use SerializerTrait;
+
     /**
      * GroupSerializer constructor.
      *
@@ -66,9 +69,7 @@ class GroupSerializer
      */
     public function deserialize($data, Group $group = null, array $options = [])
     {
-        if (isset($data['name'])) {
-            $group->setName($data['name']);
-        }
+        $this->sipe('name', 'setName', $data, $group);
 
         if (isset($data['organizations'])) {
             $group->setOrganizations(
@@ -80,6 +81,17 @@ class GroupSerializer
                     );
                 }, $data['organizations'])
             );
+        }
+
+        //only add role here. If we want to remove them, use the crud remove method instead
+        //it's usefull if we want to create a user with a list of roles
+        if (isset($data['roles'])) {
+            foreach ($data['roles'] as $role) {
+                $role = $this->om
+                  ->getRepository('Claroline\CoreBundle\Entity\Role')
+                  ->findOneBy(['id' => $role['id']]);
+                $group->addRole($role);
+            }
         }
 
         return $group;

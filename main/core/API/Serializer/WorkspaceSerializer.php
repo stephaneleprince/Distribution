@@ -70,7 +70,7 @@ class WorkspaceSerializer
                 'restrictions' => $this->getRestrictions($workspace),
                 'registration' => $this->getRegistration($workspace),
                 'roles' => array_map(function (Role $role) {
-                    return ['id' => $role->getId(), 'name' => $role->getName()];
+                    return ['id' => $role->getId(), 'name' => $role->getName(), 'translationKey' => $role->getTranslationKey()];
                 }, $workspace->getRoles()->toArray()),
                 'managers' => array_map(function (User $manager) {
                     return $this->userSerializer->serialize($manager, [Options::SERIALIZE_MINIMAL]);

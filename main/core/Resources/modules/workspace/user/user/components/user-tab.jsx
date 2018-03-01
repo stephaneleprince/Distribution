@@ -11,6 +11,7 @@ import {FormPageActionsContainer} from '#/main/core/data/form/containers/page-ac
 import {User}    from '#/main/core/administration/user/user/components/user.jsx'
 import {Users}   from '#/main/core/workspace/user/user/components/users.jsx'
 import {actions} from '#/main/core/workspace/user/user/actions'
+import {select}  from '#/main/core/workspace/user/selectors'
 
 const UserTabActionsComponent = props =>
   <PageActions>
@@ -47,7 +48,12 @@ const UserTabComponent = props =>
       }, {
         path: '/users/form/:id?',
         component: User,
-        onEnter: (params) => props.openForm(params.id || null)
+        onEnter: (params) => props.openForm(
+          params.id || null,
+          props.workspace,
+          props.restrictions,
+          props.collaboratorRole
+        )
       }
     ]}
   />
@@ -57,10 +63,20 @@ UserTabComponent.propTypes = {
 }
 
 const UserTab = connect(
-  null,
+  state => ({
+    workspace: select.workspace(state),
+    restrictions: select.restrictions(state),
+    collaboratorRole: select.collaboratorRole(state)
+  }),
   dispatch => ({
-    openForm(id = null) {
-      dispatch(actions.open('users.current', id))
+    openForm(id = null, workspace, restrictions, collaboratorRole) {
+
+      const defaultValue = {
+        organization: null, //retreive it with axel stuff
+        roles: [collaboratorRole]
+      }
+
+      dispatch(actions.open('users.current', id, defaultValue))
     }
   })
 )(UserTabComponent)
