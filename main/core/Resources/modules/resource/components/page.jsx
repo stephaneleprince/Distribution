@@ -56,7 +56,9 @@ class ResourcePage extends Component {
           subtitle={t_res(this.props.resourceNode.meta.type)}
           poster={this.props.resourceNode.poster ? this.props.resourceNode.poster.url : undefined}
         >
-          <ProgressionGauge userEvaluation={this.props.userEvaluation} />
+          {this.props.userEvaluation &&
+            <ProgressionGauge userEvaluation={this.props.userEvaluation} />
+          }
 
           <ResourcePageActions
             resourceNode={this.props.resourceNode}

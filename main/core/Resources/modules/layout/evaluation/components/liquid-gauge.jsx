@@ -101,7 +101,7 @@ class GaugeText extends Component {
 
       // generates filling transition
       const value = this.props.value
-      const percentText = this.computed.percentText
+      const percentText = this.props.showPercent ? '%' : ''
 
       // append transition to text nodes
       const text = select(this.text)
@@ -142,11 +142,16 @@ GaugeText.propTypes = {
   showPercent: T.bool
 }
 
+/**
+ * @todo : finish clean code
+ * @todo : optimize
+ * @todo : restart from previous value when it updates (for now it restarts from 0)
+ */
 class LiquidGauge extends Component {
   constructor(props) {
     super(props)
 
-    this.computeConfiguration()
+    this.state = this.computeConfiguration()
   }
 
   computeConfiguration() {
@@ -196,7 +201,7 @@ class LiquidGauge extends Component {
       .range([fillCircleMargin+fillCircleRadius*2, (fillCircleMargin+textPixels*0.7)])
       .domain([0,1]);
 
-    this.computed = {
+    return {
       radius,
       fillPercent,
       waveHeightScale,
@@ -218,7 +223,7 @@ class LiquidGauge extends Component {
     }
   }
 
-  componentDidMount() {
+  updateGauge() {
     // Make the value count up.
     if (!this.props.preFilled) {
       const textTween = function(node, value, percentText) {
@@ -234,7 +239,7 @@ class LiquidGauge extends Component {
 
       // generates filling transition
       const value = this.props.value
-      const percentText = this.computed.percentText
+      const percentText = this.state.percentText
 
       // append transition to text nodes
       const text = select(this.text)
@@ -254,24 +259,24 @@ class LiquidGauge extends Component {
     const wave = select(this.wave)
     const waveDef = select(this.waveDef)
 
-    var waveGroupXPosition = this.computed.fillCircleMargin+this.computed.fillCircleRadius*2-this.computed.waveClipWidth;
+    var waveGroupXPosition = this.state.fillCircleMargin+this.state.fillCircleRadius*2-this.state.waveClipWidth;
     if (LIQUID_GAUGE_CONFIG.waveRise){
       waveDef
-        .attr('transform', 'translate('+waveGroupXPosition+','+this.computed.waveRiseScale(0)+')')
+        .attr('transform', 'translate('+waveGroupXPosition+','+this.state.waveRiseScale(0)+')')
         .transition()
         .duration(LIQUID_GAUGE_CONFIG.waveRiseTime)
-        .attr('transform', 'translate('+waveGroupXPosition+', '+this.computed.waveRiseScale(this.computed.fillPercent)+')')
+        .attr('transform', 'translate('+waveGroupXPosition+', '+this.state.waveRiseScale(this.state.fillPercent)+')')
         // This transform is necessary to get the clip wave positioned correctly when waveRise=true and waveAnimate=false.
         // The wave will not position correctly without this, but it's not clear why this is actually necessary.
         .on('start', () => wave.attr('transform', 'translate(1, 0)'))
     } else {
       waveDef
-        .attr('transform', 'translate('+waveGroupXPosition+','+this.computed.waveRiseScale(this.computed.fillPercent)+')')
+        .attr('transform', 'translate('+waveGroupXPosition+','+this.state.waveRiseScale(this.state.fillPercent)+')')
     }
 
     if (this.props.wave) {
       const waveAnimateScale = scaleLinear()
-        .range([0, this.computed.waveClipWidth-this.computed.fillCircleRadius*2]) // Push the clip area one full wave then snap back.
+        .range([0, this.state.waveClipWidth-this.state.fillCircleRadius*2]) // Push the clip area one full wave then snap back.
         .domain([0, 1]);
 
       animateWave(waveAnimateScale)
@@ -293,18 +298,31 @@ class LiquidGauge extends Component {
     }
   }
 
+  componentDidMount() {
+    this.updateGauge()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.setState(
+        this.computeConfiguration(),
+        this.updateGauge
+      )
+    }
+  }
+
   render() {
     // The clipping wave area.
     // Data for building the clip wave area.
     const data = [];
-    for (let i = 0; i <= 40*this.computed.waveClipCount; i++){
-      data.push({x: i/(40*this.computed.waveClipCount), y: (i/(40))});
+    for (let i = 0; i <= 40*this.state.waveClipCount; i++){
+      data.push({x: i/(40*this.state.waveClipCount), y: (i/(40))});
     }
 
     const clipArea = area()
-      .x(d => this.computed.waveScaleX(d.x))
-      .y0(d => this.computed.waveScaleY(Math.sin(Math.PI*2*LIQUID_GAUGE_CONFIG.waveOffset*-1 + Math.PI*2*(1-LIQUID_GAUGE_CONFIG.waveCount) + d.y*2*Math.PI)))
-      .y1(d => this.computed.fillCircleRadius*2 + this.computed.waveHeight);
+      .x(d => this.state.waveScaleX(d.x))
+      .y0(d => this.state.waveScaleY(Math.sin(Math.PI*2*LIQUID_GAUGE_CONFIG.waveOffset*-1 + Math.PI*2*(1-LIQUID_GAUGE_CONFIG.waveCount) + d.y*2*Math.PI)))
+      .y1(d => this.state.fillCircleRadius*2 + this.state.waveHeight);
 
     return (
       <GaugeContainer
@@ -312,21 +330,21 @@ class LiquidGauge extends Component {
         type={this.props.type}
         width={this.props.width}
         height={this.props.height}
-        radius={this.computed.radius}
+        radius={this.state.radius}
       >
         <GaugeBorder
-          radius={this.computed.radius}
-          thickness={this.computed.circleThickness}
+          radius={this.state.radius}
+          thickness={this.state.circleThickness}
         />
 
         <text
           ref={el => this.text = el}
           className="gauge-text"
-          fontSize={this.computed.textPixels}
+          fontSize={this.state.textPixels}
           textAnchor="middle"
-          transform={`translate(${this.computed.radius}, ${this.computed.textRiseScaleY(LIQUID_GAUGE_CONFIG.textVertPosition)})`}
+          transform={`translate(${this.state.radius}, ${this.state.textRiseScaleY(LIQUID_GAUGE_CONFIG.textVertPosition)})`}
         >
-          {Math.round(this.computed.textStartValue) + this.computed.percentText}
+          {Math.round(this.state.textStartValue) + this.state.percentText}
         </text>
 
         <defs>
@@ -345,19 +363,19 @@ class LiquidGauge extends Component {
         <g clipPath={`url(#clipWave${this.props.id})`}>
           <circle
             className="gauge-liquid"
-            cx={this.computed.radius}
-            cy={this.computed.radius}
-            r={this.computed.fillCircleRadius}
+            cx={this.state.radius}
+            cy={this.state.radius}
+            r={this.state.fillCircleRadius}
           />
 
           <text
             ref={el => this.fillingText = el}
             className="gauge-liquid-text"
             textAnchor="middle"
-            fontSize={this.computed.textPixels}
-            transform={`translate(${this.computed.radius}, ${this.computed.textRiseScaleY(LIQUID_GAUGE_CONFIG.textVertPosition)})`}
+            fontSize={this.state.textPixels}
+            transform={`translate(${this.state.radius}, ${this.state.textRiseScaleY(LIQUID_GAUGE_CONFIG.textVertPosition)})`}
           >
-            {Math.round(this.computed.textStartValue) + this.computed.percentText}
+            {Math.round(this.state.textStartValue) + this.state.percentText}
           </text>
         </g>
       </GaugeContainer>
@@ -402,7 +420,7 @@ LiquidGauge.defaultProps = {
   type: 'primary',
   width: 80,
   height: 80,
-  value: 40,
+  value: 0,
   preFilled: false,
   wave: true
 }

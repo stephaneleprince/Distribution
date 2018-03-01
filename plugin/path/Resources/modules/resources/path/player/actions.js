@@ -1,17 +1,17 @@
 import {API_REQUEST} from '#/main/core/api/actions'
-import {generateUrl} from '#/main/core/api/router'
+
+import {actions as evaluationActions} from '#/main/core/resource/evaluation/actions'
 
 export const actions = {}
 
-actions.updateProgression = (step, status = 'seen') => ({
+actions.updateProgression = (stepId, status = 'seen') => ({
   [API_REQUEST]: {
-    url: generateUrl('innova_path_step_progression_update', {id: step.id}),
+    silent: true,
+    url: ['innova_path_step_progression_update', {id: stepId}],
     request: {
       method: 'PUT',
       body: JSON.stringify({status: status})
     },
-    success: (data) => {
-      console.log(data)
-    }
+    success: (data, dispatch) => dispatch(evaluationActions.updateUserEvaluation(data))
   }
 })

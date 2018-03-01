@@ -12,6 +12,7 @@ import {PathCurrent} from '#/plugin/path/resources/path/components/current.jsx'
 import {Step} from '#/plugin/path/resources/path/player/components/step.jsx'
 import {Summary} from '#/plugin/path/resources/path/player/components/summary.jsx'
 import {getNumbering, flattenSteps} from '#/plugin/path/resources/path/utils'
+import {actions} from '#/plugin/path/resources/path/player/actions'
 
 // todo manage empty steps
 const PlayerComponent = props =>
@@ -31,6 +32,7 @@ const PlayerComponent = props =>
       routes={[
         {
           path: '/play/:id',
+          onEnter: (params) => props.updateProgression(params.id),
           render: (routeProps) => {
             const step = props.steps.find(step => routeProps.match.params.id === step.id)
 
@@ -58,13 +60,19 @@ PlayerComponent.propTypes = {
   ).isRequired,
   steps: T.arrayOf(T.shape(
     StepTypes.propTypes
-  ))
+  )),
+  updateProgression: T.func.isRequired
 }
 
 const Player = connect(
   state => ({
     path: select.path(state),
     steps: flattenSteps(select.steps(state))
+  }),
+  dispatch => ({
+    updateProgression(stepId) { // todo disable for anonymous
+      dispatch(actions.updateProgression(stepId))
+    }
   })
 )(PlayerComponent)
 
