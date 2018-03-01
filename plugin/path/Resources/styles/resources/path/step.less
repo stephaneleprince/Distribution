@@ -5,23 +5,32 @@
 }
 
 .step-poster {
-    border-radius: 8px; // todo : add vars
+    border-radius: @step-poster-border-radius;
 
     + .step-title {
         margin-top: @line-height-computed; // restore default margin
     }
 }
 
+.step-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 // todo : add vars
-.step-number {
-    font-weight: bold;
-    padding: 2px 6px;
+.step-numbering {
+    display: block;
+    font-size: @step-numbering-font;
+    font-weight: @step-numbering-weight;
+    padding: @step-numbering-padding;
     margin-right: 10px;
-    background: @path-progression-color;
-    color: white;
-    display: inline-block;
+    background: @step-numbering-bg;
+    color: @step-numbering-color;
+    border-radius: @step-numbering-border-radius;
 
     &:after {
-        content: ".";
+        content: @step-numbering-separator;
     }
 }
