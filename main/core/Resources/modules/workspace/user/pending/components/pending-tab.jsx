@@ -12,63 +12,19 @@ import {Group}   from '#/main/core/administration/user/group/components/group.js
 import {Groups}  from '#/main/core/administration/user/group/components/groups.jsx'
 import {actions} from '#/main/core/administration/user/group/actions'
 
-const PendingTabActionsComponent = props =>
-  <PageActions>
-    <FormPageActionsContainer
-      formName="groups.current"
-      target={(group, isNew) => isNew ?
-        ['apiv2_group_create'] :
-        ['apiv2_group_update', {id: group.id}]
-      }
-      opened={!!matchPath(props.location.pathname, {path: '/groups/form'})}
-      open={{
-        icon: 'fa fa-plus',
-        label: t('add_group'),
-        action: '#/groups/form'
-      }}
-      cancel={{
-        action: () => navigate('/groups')
-      }}
-    />
-  </PageActions>
-
-PendingTabActionsComponent.propTypes = {
-  location: T.shape({
-    pathname: T.string
-  }).isRequired
-}
-
-const PendingTabActions = withRouter(PendingTabActionsComponent)
-
 const PendingTabComponent = props =>
-  <Routes
-    routes={[
-      {
-        path: '/groups',
-        exact: true,
-        component: Groups
-      }, {
-        path: '/groups/form/:id?',
-        onEnter: (params) => props.openForm(params.id || null),
-        component: Group
-      }
-    ]}
-  />
+  <div>
+    Pending
+  </div>
 
 PendingTabComponent.propTypes = {
-  openForm: T.func.isRequired
 }
 
 const PendingTab = connect(
   null,
-  dispatch => ({
-    openForm(id = null) {
-      dispatch(actions.open('groups.current', id))
-    }
-  })
+  null
 )(PendingTabComponent)
 
 export {
-  PendingTabActions,
   PendingTab
 }
