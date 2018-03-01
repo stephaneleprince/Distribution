@@ -158,6 +158,7 @@ class UserSerializer
                         'type' => $role->getType(),
                         'name' => $role->getName(),
                         'translationKey' => $role->getTranslationKey(),
+                        'workspace' => $role->getWorkspace() ? ['id' => $role->getWorkspace()->getUuid()] : null,
                     ];
                 }, $user->getEntityRoles()),
                 'groups' => array_map(function (Group $group) {

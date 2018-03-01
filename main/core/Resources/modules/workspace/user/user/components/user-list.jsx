@@ -1,9 +1,12 @@
+import {connect} from 'react-redux'
+
 import {t} from '#/main/core/translation'
 
 import {UserCard} from '#/main/core/administration/user/user/components/user-card.jsx'
+import {select}  from '#/main/core/workspace/user/selectors'
 
 function getRoles(user) {
-    return 'list of roles goes here'
+    return user.roles.filter(role => true).map(role => role.translationKey).join(',')
 }
 
 const UserList = {
