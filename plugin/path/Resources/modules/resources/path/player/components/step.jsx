@@ -65,7 +65,7 @@ const Step = props =>
 
     <h3 className="h2 step-title">
       {props.numbering &&
-        <span className="step-number">{props.numbering}</span>
+        <span className="step-numbering">{props.numbering}</span>
       }
 
       {props.title}
