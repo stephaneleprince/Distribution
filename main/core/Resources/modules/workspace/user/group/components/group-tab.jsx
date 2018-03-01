@@ -10,7 +10,7 @@ import {FormPageActionsContainer} from '#/main/core/data/form/containers/page-ac
 
 import {Group}    from '#/main/core/administration/user/group/components/group.jsx'
 import {Groups}   from '#/main/core/workspace/user/group/components/group-list.jsx'
-import {actions} from '#/main/core/workspace/user/user/actions'
+import {actions} from '#/main/core/workspace/user/group/actions'
 import {select}  from '#/main/core/workspace/user/selectors'
 
 const GroupTabActionsComponent = props =>
@@ -48,7 +48,7 @@ const GroupTabComponent = props =>
       }, {
         path: '/groups/form/:id?',
         component: Group,
-        onEnter: (params) => props.openForm(params.id || null, props.workspace, props.restrictions)
+        onEnter: (params) => props.openForm(params.id || null, props.workspace, props.restrictions, props.collaboratorRole)
       }
     ]}
   />
@@ -70,6 +70,8 @@ const GroupTab = connect(
         organization: null, //retreive it with axel stuff
         roles: [collaboratorRole]
       }
+
+      dispatch(actions.open('groups.current', id, defaultValue))
     }
   })
 )(GroupTabComponent)
