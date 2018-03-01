@@ -245,13 +245,49 @@ class UserProgressionManager
         return $progression;
     }
 
+    /**
+     * Fetch resource user evaluation with up-to-date status.
+     *
+     * @param Path $path
+     * @param User $user
+     *
+     * @return ResourceUserEvaluation
+     */
+    public function getUpdatedResourceUserEvaluation(Path $path, User $user)
+    {
+        $resourceUserEvaluation = $this->resourceEvalManager->getResourceUserEvaluation($path->getResourceNode(), $user);
+        $data = $this->computeResourceUserEvaluation($path, $user);
+
+        if ($data['score'] !== $resourceUserEvaluation->getScore() ||
+           $data['scoreMax'] !== $resourceUserEvaluation->getScoreMax() ||
+           $data['status'] !== $resourceUserEvaluation->getStatus()
+        ) {
+            $resourceUserEvaluation->setScore($data['score']);
+            $resourceUserEvaluation->setScoreMax($data['scoreMax']);
+            $resourceUserEvaluation->setStatus($data['status']);
+            $resourceUserEvaluation->setDate(new \DateTime());
+            $this->om->persist($resourceUserEvaluation);
+            $this->om->flush();
+        }
+
+        return $resourceUserEvaluation;
+    }
+
+    /**
+     * Fetch or create resource user evaluation.
+     *
+     * @param Path $path
+     * @param User $user
+     *
+     * @return ResourceUserEvaluation
+     */
     public function getResourceUserEvaluation(Path $path, User $user)
     {
         return $this->resourceEvalManager->getResourceUserEvaluation($path->getResourceNode(), $user);
     }
 
     /**
-     * Creates a ResourceEvaluation for a step.
+     * Create a ResourceEvaluation for a step.
      *
      * @param Step   $step
      * @param User   $user
@@ -292,7 +328,7 @@ class UserProgressionManager
     }
 
     /**
-     * Computes current resource evaluation status.
+     * Compute current resource evaluation status.
      *
      * @param Path $path
      * @param User $user
@@ -321,7 +357,6 @@ class UserProgressionManager
                     ++$score;
                     array_splice($stepsUuids, $uuidIndex, 1);
                 }
-
             }
         }
         $status = $score >= $scoreMax ?

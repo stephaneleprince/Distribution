@@ -11,6 +11,7 @@ use Innova\PathBundle\Entity\InheritedResource;
 use Innova\PathBundle\Entity\Path\Path;
 use Innova\PathBundle\Entity\SecondaryResource;
 use Innova\PathBundle\Entity\Step;
+use Innova\PathBundle\Manager\PathManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -29,6 +30,9 @@ class PathSerializer
     /** @var ResourceNodeSerializer */
     private $resourceNodeSerializer;
 
+    /** @var PathManager */
+    private $pathManager;
+
     private $resourceNodeRepo;
     private $stepRepo;
     private $secondaryResourceRepo;
@@ -40,21 +44,25 @@ class PathSerializer
      * @DI\InjectParams({
      *     "om"                 = @DI\Inject("claroline.persistence.object_manager"),
      *     "fileSerializer"     = @DI\Inject("claroline.serializer.public_file"),
-     *     "resourceSerializer" = @DI\Inject("claroline.serializer.resource_node")
+     *     "resourceSerializer" = @DI\Inject("claroline.serializer.resource_node"),
+     *     "pathManager"        = @DI\Inject("innova_path.manager.path")
      * })
      *
      * @param ObjectManager          $om
      * @param PublicFileSerializer   $fileSerializer
      * @param ResourceNodeSerializer $resourceSerializer
+     * @param PathManager            $pathManager
      */
     public function __construct(
         ObjectManager $om,
         PublicFileSerializer $fileSerializer,
-        ResourceNodeSerializer $resourceSerializer)
-    {
+        ResourceNodeSerializer $resourceSerializer,
+        PathManager $pathManager
+    ) {
         $this->om = $om;
         $this->fileSerializer = $fileSerializer;
         $this->resourceNodeSerializer = $resourceSerializer;
+        $this->pathManager = $pathManager;
         $this->resourceNodeRepo = $om->getRepository('Claroline\CoreBundle\Entity\Resource\ResourceNode');
         $this->stepRepo = $om->getRepository('Innova\PathBundle\Entity\Step');
         $this->secondaryResourceRepo = $om->getRepository('Innova\PathBundle\Entity\SecondaryResource');
@@ -110,6 +118,7 @@ class PathSerializer
         if (isset($data['steps'])) {
             $this->deserializeSteps($data['steps'], $path);
         }
+        $this->pathManager->updateResourcesRights($path);
 
         return $path;
     }
