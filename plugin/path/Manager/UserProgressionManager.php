@@ -265,6 +265,7 @@ class UserProgressionManager
             $resourceUserEvaluation->setScore($data['score']);
             $resourceUserEvaluation->setScoreMax($data['scoreMax']);
             $resourceUserEvaluation->setStatus($data['status']);
+            $resourceUserEvaluation->setDate(new \DateTime());
             $this->om->persist($resourceUserEvaluation);
             $this->om->flush();
         }
