@@ -61,7 +61,9 @@ class PathController extends Controller
                 ->getRepository('ClarolineCoreBundle:Resource\ResourceType')
                 ->findBy(['isEnabled' => true]) :
             [];
-        $userEvaluation = !empty($user) ? $this->userProgressionManager->getResourceUserEvaluation($path, $user) : null;
+        $userEvaluation = !empty($user) ?
+            $this->userProgressionManager->getUpdatedResourceUserEvaluation($path, $user) :
+            null;
 
         return [
             '_resource' => $path,

@@ -36,7 +36,7 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "$ref": "https://github.com/claroline/Distribution/tree/master/plugin/path/Resources/schema/step.json"
+        "$ref": "https://github.com/claroline/Distribution/tree/master/plugin/path/Resources/schemas/step.json"
       }
     }
   },
