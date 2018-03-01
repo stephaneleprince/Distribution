@@ -1,5 +1,6 @@
 {
     "close_summary": "Close summary",
+    "inherited_resources": "Inherited resources",
     "no_primary_resource": "There is no primary resource in this step.",
     "no_secondary_resources": "There is no secondary resource in this step.",
     "no_step_selected": "There is no selected step. Please select one in the contents of the path.",

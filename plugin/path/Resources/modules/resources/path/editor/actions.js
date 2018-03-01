@@ -19,6 +19,6 @@ actions.updatePrimaryResource = makeActionCreator(STEP_UPDATE_PRIMARY_RESOURCE, 
 
 actions.addSecondaryResources = makeActionCreator(STEP_ADD_SECONDARY_RESOURCES, 'stepId', 'resources')
 actions.removeSecondaryResources = makeActionCreator(STEP_REMOVE_SECONDARY_RESOURCES, 'stepId', 'resources')
-actions.updateSecondaryResourceInheritance = makeActionCreator(STEP_UPDATE_SECONDARY_RESOURCE_INHERITANCE, 'id', 'value')
+actions.updateSecondaryResourceInheritance = makeActionCreator(STEP_UPDATE_SECONDARY_RESOURCE_INHERITANCE, 'stepId', 'id', 'value')
 
 actions.removeInheritedResources = makeActionCreator(STEP_REMOVE_INHERITED_RESOURCES, 'stepId', 'resources')

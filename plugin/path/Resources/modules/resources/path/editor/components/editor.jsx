@@ -70,6 +70,8 @@ const EditorComponent = props =>
                   removePrimaryResource={props.removePrimaryResource}
                   pickSecondaryResources={stepId => props.pickSecondaryResources(stepId, props.resourceTypes)}
                   removeSecondaryResource={props.removeSecondaryResource}
+                  updateSecondaryResourceInheritance={props.updateSecondaryResourceInheritance}
+                  removeInheritedResource={props.removeInheritedResource}
                 />
               </PathCurrent>
             )
@@ -249,6 +251,12 @@ const Editor = connect(
     },
     removeSecondaryResource(stepId, id) {
       dispatch(actions.removeSecondaryResources(stepId, [id]))
+    },
+    updateSecondaryResourceInheritance(stepId, id, value) {
+      dispatch(actions.updateSecondaryResourceInheritance(stepId, id, value))
+    },
+    removeInheritedResource(stepId, id) {
+      dispatch(actions.removeInheritedResources(stepId, [id]))
     }
   })
 )(EditorComponent)

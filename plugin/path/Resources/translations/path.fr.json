@@ -1,5 +1,6 @@
 {
     "close_summary": "Fermer le sommaire",
+    "inherited_resources": "Ressources héritées",
     "no_primary_resource": "Il n'y a aucune ressource principale sur cette étape.",
     "no_secondary_resources": "Il n'y a aucune ressource complémentaire sur cette étape.",
     "no_step_selected": "Il n'y a aucune étape sélectionnée. Veuillez en sélectionner une dans le sommaire du parcours.",

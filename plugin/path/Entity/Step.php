@@ -121,8 +121,8 @@ class Step implements \JsonSerializable
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Innova\PathBundle\Entity\InheritedResource", mappedBy="step", indexBy="id", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"lvl" = "ASC"})
+     * @ORM\OneToMany(targetEntity="Innova\PathBundle\Entity\InheritedResource", mappedBy="step", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"order" = "ASC"})
      */
     protected $inheritedResources;
 

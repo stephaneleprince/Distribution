@@ -50,12 +50,15 @@ const SecondaryResourcesSection = props =>
       <div key={`secondary-resource-${sr.id}`}>
         {sr.resource.name} [{trans(sr.resource.meta.type, {}, 'resource')}]
         <span
+          className={`fa fa-fw pointer-hand ${sr.inheritanceEnabled ? 'fa-eye-slash' : 'fa-eye'}`}
+          onClick={() => props.updateSecondaryResourceInheritance(props.stepId, sr.id, !sr.inheritanceEnabled)}
+        />
+        <span
           className="fa fa-fw fa-trash-o pointer-hand"
           onClick={() => props.removeSecondaryResource(props.stepId, sr.id)}
         />
       </div>
     )}
-
     <button
       type="button"
       className="btn btn-primary"
@@ -70,7 +73,27 @@ SecondaryResourcesSection.propTypes = {
   stepId: T.string.isRequired,
   secondaryResources: T.array,
   pickSecondaryResources: T.func.isRequired,
-  removeSecondaryResource: T.func.isRequired
+  removeSecondaryResource: T.func.isRequired,
+  updateSecondaryResourceInheritance: T.func.isRequired
+}
+
+const InheritedResourcesSection = props =>
+  <div>
+    {props.inheritedResources && props.inheritedResources.map(ir =>
+      <div key={`inherited-resource-${ir.id}`}>
+        {ir.resource.name} [{trans(ir.resource.meta.type, {}, 'resource')}]
+        <span
+          className="fa fa-fw fa-trash-o pointer-hand"
+          onClick={() => props.removeInheritedResource(props.stepId, ir.id)}
+        />
+      </div>
+    )}
+  </div>
+
+InheritedResourcesSection.propTypes = {
+  stepId: T.string.isRequired,
+  inheritedResources: T.array,
+  removeInheritedResource: T.func.isRequired
 }
 
 const StepForm = props =>
@@ -143,8 +166,23 @@ const StepForm = props =>
           secondaryResources={props.secondaryResources}
           pickSecondaryResources={props.pickSecondaryResources}
           removeSecondaryResource={props.removeSecondaryResource}
+          updateSecondaryResourceInheritance={props.updateSecondaryResourceInheritance}
         />
       </FormSection>
+      {props.inheritedResources.length > 0 &&
+        <FormSection
+          id="inherited-resources"
+          className="embedded-list-section"
+          icon="fa fa-fw fa-folder-open"
+          title={trans('inherited_resources', {}, 'path')}
+        >
+          <InheritedResourcesSection
+            stepId={props.id}
+            inheritedResources={props.inheritedResources}
+            removeInheritedResource={props.removeInheritedResource}
+          />
+        </FormSection>
+      }
     </FormSections>
   </FormContainer>
 
@@ -154,7 +192,9 @@ implementPropTypes(StepForm, StepTypes, {
   pickPrimaryResource: T.func.isRequired,
   removePrimaryResource: T.func.isRequired,
   pickSecondaryResources: T.func.isRequired,
-  removeSecondaryResource: T.func.isRequired
+  removeSecondaryResource: T.func.isRequired,
+  updateSecondaryResourceInheritance: T.func.isRequired,
+  removeInheritedResource: T.func.isRequired
 }, {
   customNumbering: false
 })
