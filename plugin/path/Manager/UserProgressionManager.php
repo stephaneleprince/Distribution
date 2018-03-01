@@ -357,7 +357,6 @@ class UserProgressionManager
                     ++$score;
                     array_splice($stepsUuids, $uuidIndex, 1);
                 }
-
             }
         }
         $status = $score >= $scoreMax ?

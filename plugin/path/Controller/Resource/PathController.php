@@ -22,7 +22,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class PathController extends Controller
 {
-
     /** @var UserProgressionManager */
     private $userProgressionManager;
 
