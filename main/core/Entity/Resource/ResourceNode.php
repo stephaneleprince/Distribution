@@ -981,7 +981,7 @@ class ResourceNode
     {
         $this->accesses['ip'] = [
             'activateFilters' => !empty($ips),
-            'ips' => $ips
+            'ips' => $ips,
         ];
     }
 

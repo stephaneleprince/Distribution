@@ -60,6 +60,7 @@ class ResourceNodeController extends AbstractCrudController
 
         return new JsonResponse($result);
     }
+
     /**
      * @Route("/resourcespicker", name="apiv2_resources_picker", options={ "method_prefix" = false })
      *

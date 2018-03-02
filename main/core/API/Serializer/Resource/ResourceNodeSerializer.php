@@ -2,9 +2,9 @@
 
 namespace Claroline\CoreBundle\API\Serializer\Resource;
 
+use Claroline\AppBundle\API\Serializer\SerializerTrait;
 use Claroline\AppBundle\Event\StrictDispatcher;
 use Claroline\AppBundle\Persistence\ObjectManager;
-use Claroline\AppBundle\API\Serializer\SerializerTrait;
 use Claroline\CoreBundle\API\Serializer\File\PublicFileSerializer;
 use Claroline\CoreBundle\API\Serializer\User\UserSerializer;
 use Claroline\CoreBundle\Entity\File\PublicFile;
@@ -249,7 +249,7 @@ class ResourceNodeSerializer
                 $resourceNode->getAccessibleUntil()
             ),
             'code' => $resourceNode->getAccessCode(),
-            'allowedIps' => $resourceNode->getAllowedIps()
+            'allowedIps' => $resourceNode->getAllowedIps(),
         ];
     }
 

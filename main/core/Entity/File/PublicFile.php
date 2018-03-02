@@ -138,7 +138,7 @@ class PublicFile
         // we should remove \ from window envs because it requires additional
         // escaping when used in UI.
 
-        $url = str_replace('\\', '/',$url);
+        $url = str_replace('\\', '/', $url);
 
         $this->url = $url;
     }

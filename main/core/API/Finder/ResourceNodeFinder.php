@@ -65,9 +65,9 @@ class ResourceNodeFinder implements FinderInterface
                 case 'meta.type':
                 case 'resourceType':
                     if (is_array($filterValue)) {
-                        $qb->andWhere("ort.name IN (:resourceType)");
+                        $qb->andWhere('ort.name IN (:resourceType)');
                     } else {
-                        $qb->andWhere("ort.name LIKE :resourceType");
+                        $qb->andWhere('ort.name LIKE :resourceType');
                     }
                     $qb->setParameter('resourceType', $filterValue);
                     break;
