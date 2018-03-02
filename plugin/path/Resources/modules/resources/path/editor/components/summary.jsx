@@ -5,6 +5,7 @@ import {trans} from '#/main/core/translation'
 import {NavLink} from '#/main/core/router'
 import {TooltipAction} from '#/main/core/layout/button/components/tooltip-action.jsx'
 
+import {Step as StepTypes} from '#/plugin/path/resources/path/prop-types'
 import {PathSummary} from '#/plugin/path/resources/path/components/summary.jsx'
 
 const SummaryStep = props =>
@@ -27,6 +28,29 @@ const SummaryStep = props =>
         />
 
         <TooltipAction
+          id={`step-${props.step.id}-copy`}
+          position="bottom"
+          className="btn-link btn-summary"
+          icon="fa fa-fw fa-files-o"
+          label={trans('copy_step', {}, 'path')}
+          action={() => props.copyStep(props.step)}
+        />
+
+        {props.copy &&
+          <TooltipAction
+            id={`step-${props.step.id}-paste`}
+            position="bottom"
+            className="btn-link btn-summary"
+            icon="fa fa-fw fa-clipboard"
+            label={trans('add_copied_step', {}, 'path')}
+            action={() => {
+              props.pasteStep(props.step.id, props.copy)
+              props.resetStepCopy()
+            }}
+          />
+        }
+
+        <TooltipAction
           id={`step-${props.step.id}-delete`}
           position="bottom"
           className="btn-link btn-summary"
@@ -43,8 +67,12 @@ const SummaryStep = props =>
           <SummaryStep
             key={`summary-step-${child.id}`}
             step={child}
+            copy={props.copy}
             addStep={props.addStep}
             removeStep={props.removeStep}
+            copyStep={props.copyStep}
+            pasteStep={props.pasteStep}
+            resetStepCopy={props.resetStepCopy}
           />
         )}
       </ul>
@@ -52,13 +80,13 @@ const SummaryStep = props =>
   </li>
 
 SummaryStep.propTypes = {
-  step: T.shape({
-    id: T.string.isRequired,
-    title: T.string,
-    children: T.array
-  }).isRequired,
+  step: T.shape(StepTypes.propTypes).isRequired,
+  copy: T.shape(StepTypes.propTypes),
   addStep: T.func.isRequired,
-  removeStep: T.func.isRequired
+  removeStep: T.func.isRequired,
+  copyStep: T.func.isRequired,
+  pasteStep: T.func.isRequired,
+  resetStepCopy: T.func.isRequired
 }
 
 const Summary = props =>
@@ -75,8 +103,12 @@ const Summary = props =>
         <SummaryStep
           key={`summary-step-${step.id}`}
           step={step}
+          copy={props.copy}
           addStep={props.addStep}
           removeStep={props.removeStep}
+          copyStep={props.copyStep}
+          pasteStep={props.pasteStep}
+          resetStepCopy={props.resetStepCopy}
         />
       )}
 
@@ -90,14 +122,32 @@ const Summary = props =>
 
           {trans('step_add', {}, 'path')}
         </button>
+
+        {props.copy &&
+          <TooltipAction
+            id="step-paste"
+            position="bottom"
+            className="btn-link btn-summary"
+            icon="fa fa-fw fa-clipboard"
+            label={trans('add_copied_step', {}, 'path')}
+            action={() => {
+              props.pasteStep(null, props.copy)
+              props.resetStepCopy()
+            }}
+          />
+        }
       </li>
     </ul>
   </PathSummary>
 
 Summary.propTypes = {
   steps: T.array.isRequired,
+  copy: T.shape(StepTypes.propTypes),
   addStep: T.func.isRequired,
-  removeStep: T.func.isRequired
+  removeStep: T.func.isRequired,
+  copyStep: T.func.isRequired,
+  pasteStep: T.func.isRequired,
+  resetStepCopy: T.func.isRequired
 }
 
 export {

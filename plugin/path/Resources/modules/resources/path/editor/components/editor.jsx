@@ -26,8 +26,12 @@ const EditorComponent = props =>
 
     <Summary
       steps={props.path.steps}
+      copy={props.copy}
       addStep={props.addStep}
       removeStep={props.removeStep}
+      copyStep={props.copyStep}
+      pasteStep={props.pasteStep}
+      resetStepCopy={props.resetStepCopy}
     />
 
     <Routes
@@ -91,17 +95,22 @@ EditorComponent.propTypes = {
   steps: T.arrayOf(T.shape(
     StepTypes.propTypes
   )),
+  copy: T.shape(StepTypes.propTypes),
   addStep: T.func.isRequired,
   removeStep: T.func.isRequired,
   pickPrimaryResource: T.func.isRequired,
-  removePrimaryResource: T.func.isRequired
+  removePrimaryResource: T.func.isRequired,
+  copyStep: T.func.isRequired,
+  pasteStep: T.func.isRequired,
+  resetStepCopy: T.func.isRequired
 }
 
 const Editor = connect(
   state => ({
     resourceTypes: select.resourceTypes(state),
     path: select.path(state),
-    steps: flattenSteps(select.steps(state))
+    steps: flattenSteps(select.steps(state)),
+    copy: select.stepCopy(state)
   }),
   dispatch => ({
     addStep(parentId) {
@@ -257,6 +266,15 @@ const Editor = connect(
     },
     removeInheritedResource(stepId, id) {
       dispatch(actions.removeInheritedResources(stepId, [id]))
+    },
+    copyStep(step) {
+      dispatch(actions.copyStep(step))
+    },
+    pasteStep(parentId, step) {
+      dispatch(actions.pasteStep(parentId, step))
+    },
+    resetStepCopy() {
+      dispatch(actions.resetStepCopy())
     }
   })
 )(EditorComponent)

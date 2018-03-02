@@ -1,5 +1,7 @@
 {
+    "add_copied_step": "Ajouter l'étape copiée",
     "close_summary": "Fermer le sommaire",
+    "copy_step": "Copier l'étape",
     "inherited_resources": "Ressources héritées",
     "no_primary_resource": "Il n'y a aucune ressource principale sur cette étape.",
     "no_secondary_resources": "Il n'y a aucune ressource complémentaire sur cette étape.",
@@ -22,6 +24,7 @@
     "resource_show_parent": "Afficher dans cette étape",
     "resources_replace": "Remplacer",
     "secondary_resources": "Ressources complémentaires",
+    "select": "Sélectionner",
     "select_primary_resource": "Sélectionner la ressource principale",
     "select_secondary_resources": "Sélectionner des ressources complémentaires",
     "show_overview": "Afficher la page d'accueil du parcours",
@@ -32,6 +35,7 @@
     "step": "Étape",
     "step_add": "Ajouter une étape",
     "step_add_child": "Ajouter une sous-étape",
+    "step_copy": "Copie",
     "step_delete_confirm": "Êtes-vous sur de vouloir supprimer cette étape (ainsi que toutes les étapes enfants associées) ?",
     "step_delete_title": "Supprimer l'étape",
     "step_drag": "Déplacer l'étape",

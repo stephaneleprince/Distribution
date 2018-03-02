@@ -6,7 +6,12 @@ import {makeReducer} from '#/main/core/scaffolding/reducer'
 import {makeFormReducer} from '#/main/core/data/form/reducer'
 import {makeListReducer} from '#/main/core/data/list/reducer'
 
-import {getStepPath} from '#/plugin/path/resources/path/editor/utils'
+import {
+  getStepPath,
+  manageInheritedResources,
+  generateCopy,
+  updateCopyBeforeAdding
+} from '#/plugin/path/resources/path/editor/utils'
 
 import {
   STEP_ADD,
@@ -15,27 +20,15 @@ import {
   STEP_ADD_SECONDARY_RESOURCES,
   STEP_REMOVE_SECONDARY_RESOURCES,
   STEP_UPDATE_SECONDARY_RESOURCE_INHERITANCE,
-  STEP_REMOVE_INHERITED_RESOURCES
+  STEP_REMOVE_INHERITED_RESOURCES,
+  STEP_COPY,
+  STEP_PASTE,
+  STEP_COPY_RESET
 } from '#/plugin/path/resources/path/editor/actions'
 
-function manageInheritedResources(step, id, resource, lvl) {
-  const index = step.inheritedResources.findIndex(ir => ir.sourceUuid === id)
-
-  if (index === -1 && resource) {
-    step.inheritedResources.push({
-      id: makeId(),
-      resource: resource,
-      lvl: lvl,
-      sourceUuid: id
-    })
-  } else if (index > -1 && !resource) {
-    step.inheritedResources.splice(index, 1)
-  }
-  step.children.forEach(s => manageInheritedResources(s, id, resource, lvl))
-}
-
 const defaultState = {
-  data: []
+  data: [],
+  copy: null
 }
 
 const reducer = {
@@ -47,7 +40,7 @@ const reducer = {
       [STEP_ADD_SECONDARY_RESOURCES]: () => true,
       [STEP_REMOVE_SECONDARY_RESOURCES]: () => true,
       [STEP_UPDATE_SECONDARY_RESOURCE_INHERITANCE]: () => true,
-      [STEP_REMOVE_INHERITED_RESOURCES]: () => true
+      [STEP_PASTE]: () => true
     }),
     data: makeReducer(defaultState.data, {
       [STEP_ADD]: (state, action) => {
@@ -79,7 +72,7 @@ const reducer = {
             step = step.children[stepPath[i]]
             step.secondaryResources.filter(sr => sr.inheritanceEnabled).forEach(sr => inheritedResources.push({
               id: makeId(),
-              lvl: 0,
+              lvl: i,
               resource: sr.resource,
               sourceUuid: sr.id
             }))
@@ -203,6 +196,46 @@ const reducer = {
         })
 
         return newState
+      },
+      [STEP_PASTE]: (state, action) => {
+        const newState = cloneDeep(state)
+
+        if (!action.parentId) {
+          newState.steps.push(action.step)
+        } else {
+          const stepPath = getStepPath(action.parentId, newState.steps, 0, [])
+          const inheritedResources = []
+          let step = newState.steps[stepPath[0]]
+          step.secondaryResources.filter(sr => sr.inheritanceEnabled).forEach(sr => inheritedResources.push({
+            id: makeId(),
+            lvl: 0,
+            resource: sr.resource,
+            sourceUuid: sr.id
+          }))
+
+          for (let i = 1; i < stepPath.length; ++i) {
+            step = step.children[stepPath[i]]
+            step.secondaryResources.filter(sr => sr.inheritanceEnabled).forEach(sr => inheritedResources.push({
+              lvl: i,
+              resource: sr.resource,
+              sourceUuid: sr.id
+            }))
+          }
+          const copy = cloneDeep(action.step)
+          updateCopyBeforeAdding(copy, stepPath.length, inheritedResources)
+          step.children.push(copy)
+        }
+
+        return newState
+      }
+    }),
+    copy: makeReducer(defaultState.copy, {
+      [STEP_COPY_RESET]: () => defaultState.copy,
+      [STEP_COPY]: (state, action) => {
+        const copy = cloneDeep(action.step)
+        generateCopy(copy, 0, {})
+
+        return copy
       }
     })
   }),
