@@ -2063,4 +2063,23 @@ class ResourceManager
 
         return $this->getResourceFromNode($target);
     }
+
+    /**
+     * Find all content for a given user and the replace him by another.
+     *
+     * @param User $from
+     * @param User $to
+     */
+    public function replaceCreator(User $from, User $to)
+    {
+        $posts = $this->resourceNodeRepo->findByCreator($from);
+
+        foreach ($posts as $post) {
+            $post->setCreator($to);
+        }
+
+        $this->om->flush();
+
+        return count($posts);
+    }
 }

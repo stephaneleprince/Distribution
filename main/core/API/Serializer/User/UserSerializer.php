@@ -178,7 +178,7 @@ class UserSerializer
             ]);
 
             if ($user->getMainOrganization()) {
-                $serialized['mainOrganization'] = $this->container->get('claroline.api.serializer')->serialize($user->getMainOrganization());
+                $serializedUser['mainOrganization'] = $this->container->get('claroline.api.serializer')->serialize($user->getMainOrganization());
             }
         }
 
@@ -199,7 +199,7 @@ class UserSerializer
 
     /**
      * Dispatches an event to let plugins add some custom data to the serialized user.
-     * For example: .
+     * For example: CasBundle adds CAS Id to the serialized user.
      *
      * @param User  $user           - the original user entity
      * @param array $serializedUser - the serialized version of the user
@@ -321,6 +321,7 @@ class UserSerializer
             'personalWorkspace' => (bool) $user->getPersonalWorkspace(),
             'removed' => $user->isRemoved(),
             'locale' => $locale,
+            'loggedIn' => $user === $this->tokenStorage->getToken()->getUser(),
         ];
     }
 

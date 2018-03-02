@@ -5,6 +5,7 @@ namespace Claroline\CoreBundle\Manager\Resource;
 use Claroline\CoreBundle\API\Serializer\Resource\ResourceNodeSerializer;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Claroline\CoreBundle\Entity\Role;
+use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Event\StrictDispatcher;
 use Claroline\CoreBundle\Manager\ResourceManager;
 use Claroline\CoreBundle\Manager\RightsManager;
@@ -307,5 +308,18 @@ class ResourceNodeManager
         $this->om->flush();
 
         return $node;
+    }
+
+    /**
+     * Replace a user by another in every resource.
+     *
+     * @param User $from
+     * @param User $to
+     *
+     * @return int The number of updated resources
+     */
+    public function replaceCreator(User $from, User $to)
+    {
+        return $this->resourceManager->replaceCreator($from, $to);
     }
 }

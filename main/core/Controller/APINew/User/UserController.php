@@ -19,6 +19,7 @@ use Claroline\CoreBundle\Controller\APINew\Model\HasOrganizationsTrait;
 use Claroline\CoreBundle\Controller\APINew\Model\HasRolesTrait;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Event\StrictDispatcher;
+use Claroline\CoreBundle\Event\User\MergeUsersEvent;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -202,29 +203,34 @@ class UserController extends AbstractCrudController
      *    "/{keep}/{remove}/merge",
      *    name="apiv2_user_merge"
      * )
-     * @Method("POST")
+     * @Method("PUT")
      * @ParamConverter("keep", options={"mapping": {"keep": "uuid"}})
      * @ParamConverter("remove", options={"mapping": {"remove": "uuid"}})
      */
     public function mergeUsersAction(User $keep, User $remove)
     {
-        // Change ownership of resource nodes
-
-        // Dispatch event
-        /** @var MergeUserEvent $event */
+        // Dispatching an event for letting plugins and core do what they need to do
+        /** @var MergeUsersEvent $event */
         $event = $this->eventDispatcher->dispatch(
-            'merge_user',
-            'User\MergeUser',
+            'merge_users',
+            'User\MergeUsers',
             [
                 $keep,
                 $remove,
             ]
         );
 
-        // Fetch success and error messages
-
         // Delete old user
+        // TODO: USE CRUD
+        $this->container->get('claroline.manager.user_manager')->deleteUser($remove);
 
+        $keep_username = $keep->getUsername();
+        $remove_username = $remove->getUsername();
+
+        $event->addMessage("[CoreBundle] user removed: $remove_username");
+        $event->addMessage("[CoreBundle] user kept: $keep_username");
+
+        // Todo: return error or success message
         return new JsonResponse($event->getMessages());
     }
 }
