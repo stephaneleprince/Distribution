@@ -54,7 +54,7 @@ const reducer = {
             display: {},
             secondaryResources: [],
             inheritedResources: [],
-            children: [],
+            children: []
           })
         } else {
           const stepPath = getStepPath(action.parentId, newState.steps, 0, [])

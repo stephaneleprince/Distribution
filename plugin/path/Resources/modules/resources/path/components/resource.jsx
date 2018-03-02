@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 
 import {trans} from '#/main/core/translation'
+import {select as resourceSelect} from '#/main/core/resource/selectors'
 import {select as formSelect} from '#/main/core/data/form/selectors'
 import {actions as formActions} from '#/main/core/data/form/actions'
 import {RoutedPageContent} from '#/main/core/layout/router'
@@ -76,7 +77,7 @@ const Resource = props => {
 
 Resource.propTypes = {
   path: T.object.isRequired,
-  editorOpened: T.bool.isRequired,
+  canEdit: T.bool.isRequired,
   saveEnabled: T.bool.isRequired,
 
   saveForm: T.func.isRequired
@@ -85,7 +86,7 @@ Resource.propTypes = {
 const PathResource = connect(
   (state) => ({
     path: select.path(state),
-    editorOpened: !isEmpty(formSelect.data(formSelect.form(state, 'pathForm'))),
+    canEdit: resourceSelect.editable(state),
     saveEnabled: formSelect.saveEnabled(formSelect.form(state, 'pathForm'))
   }),
   (dispatch) => ({

@@ -66,9 +66,6 @@ class PathController extends Controller
 
         return [
             '_resource' => $path,
-            'editEnabled' => $this->get('innova_path.manager.path')->canEdit($path),
-            'userProgression' => $this->get('innova_path.manager.user_progression')->getUserProgression($path),
-            'totalProgression' => $this->get('innova_path.manager.user_progression')->calculateUserProgressionInPath($path),
             'resourceTypes' => array_map(function (ResourceType $resourceType) {
                 return $this->get('claroline.serializer.resource_type')->serialize($resourceType);
             }, $resourceTypes),

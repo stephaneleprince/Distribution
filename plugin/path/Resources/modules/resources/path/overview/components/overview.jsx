@@ -43,8 +43,7 @@ const Overview = connect(
   (state) => ({
     path: select.path(state),
     empty: select.empty(state)
-  }),
-  (dispatch) => ({})
+  })
 )(OverviewComponent)
 
 export {

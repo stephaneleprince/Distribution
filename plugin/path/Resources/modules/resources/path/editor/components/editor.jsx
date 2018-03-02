@@ -100,6 +100,10 @@ EditorComponent.propTypes = {
   removeStep: T.func.isRequired,
   pickPrimaryResource: T.func.isRequired,
   removePrimaryResource: T.func.isRequired,
+  pickSecondaryResources: T.func.isRequired,
+  removeSecondaryResource: T.func.isRequired,
+  updateSecondaryResourceInheritance: T.func.isRequired,
+  removeInheritedResource: T.func.isRequired,
   copyStep: T.func.isRequired,
   pasteStep: T.func.isRequired,
   resetStepCopy: T.func.isRequired
