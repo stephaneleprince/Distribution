@@ -2,9 +2,9 @@
 
 namespace Claroline\CoreBundle\API\Crud\File;
 
-use Claroline\CoreBundle\Event\Crud\CreateEvent;
+use Claroline\AppBundle\Event\Crud\CreateEvent;
+use Claroline\AppBundle\Persistence\ObjectManager;
 use Claroline\CoreBundle\Library\Utilities\FileUtilities;
-use Claroline\CoreBundle\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -59,11 +59,17 @@ class PublicFile
         $options = $event->getOptions();
         $tmpFile = $options['file'];
 
-        $fileName = $tmpFile->getFilename();
+        $fileName = empty($tmpFile->getClientOriginalName()) ?
+            $tmpFile->getFileName() :
+            $tmpFile->getClientOriginalName();
         $directoryName = $this->fileUtils->getActiveDirectoryName();
         $size = filesize($tmpFile);
-        $mimeType = $tmpFile->getMimeType();
-        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $mimeType = empty($tmpFile->getClientMimeType()) ?
+            $tmpFile->getMimeType() :
+            $tmpFile->getClientMimeType();
+        $extension = empty($tmpFile->getClientOriginalExtension()) ?
+            $tmpFile->guessExtension() :
+            $tmpFile->getClientOriginalExtension();
         $hashName = Uuid::uuid4()->toString().'.'.$extension;
         $prefix = 'data'.DIRECTORY_SEPARATOR.$directoryName;
         $url = $prefix.DIRECTORY_SEPARATOR.$hashName;
@@ -75,7 +81,7 @@ class PublicFile
         $publicFile->setCreationDate(new \DateTime());
         $publicFile->setUrl($url);
 
-        if ($this->tokenStorage->getToken() && $user = $this->tokenStorage->getToken()->getUser() !== 'anon.') {
+        if ($this->tokenStorage->getToken() && $user = 'anon.' !== $this->tokenStorage->getToken()->getUser()) {
             $user = $this->tokenStorage->getToken()->getUser();
             $publicFile->setCreator($user);
         }

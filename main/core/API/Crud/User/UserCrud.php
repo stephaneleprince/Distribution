@@ -2,11 +2,11 @@
 
 namespace Claroline\CoreBundle\API\Crud\User;
 
-use Claroline\CoreBundle\API\Options;
+use Claroline\AppBundle\API\Options;
+use Claroline\AppBundle\Event\Crud\CreateEvent;
+use Claroline\AppBundle\Event\Crud\DeleteEvent;
+use Claroline\AppBundle\Event\Crud\UpdateEvent;
 use Claroline\CoreBundle\Entity\User;
-use Claroline\CoreBundle\Event\Crud\CreateEvent;
-use Claroline\CoreBundle\Event\Crud\DeleteEvent;
-use Claroline\CoreBundle\Event\Crud\UpdateEvent;
 use Claroline\CoreBundle\Library\Configuration\PlatformDefaults;
 use Claroline\CoreBundle\Security\PlatformRoles;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -97,10 +97,12 @@ class UserCrud
             $this->userManager->setPersonalWorkspace($user, isset($extra['model']) ? $extra['model'] : null);
         }
 
+        $token = $this->container->get('security.token_storage')->getToken();
+
         if (null === $user->getMainOrganization()) {
             //we want a min organization
-            if (isset($user->getOrganizations()[0])) {
-                $user->setMainOrganization($user->getOrganizations()[0]);
+            if ($token && $token->getUser() instanceof User) {
+                $user->setMainOrganization($token->getUser()->getMainOrganization());
             } else {
                 $user->setMainOrganization($this->container->get('claroline.manager.organization.organization_manager')->getDefault());
             }
