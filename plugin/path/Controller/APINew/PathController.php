@@ -15,6 +15,7 @@ use Claroline\AppBundle\Annotations\ApiMeta;
 use Claroline\AppBundle\API\SerializerProvider;
 use Claroline\AppBundle\Controller\AbstractCrudController;
 use Claroline\CoreBundle\Entity\User;
+use Claroline\CoreBundle\Library\Security\Collection\ResourceCollection;
 use Innova\PathBundle\Entity\Step;
 use Innova\PathBundle\Manager\UserProgressionManager;
 use JMS\DiExtraBundle\Annotation as DI;
