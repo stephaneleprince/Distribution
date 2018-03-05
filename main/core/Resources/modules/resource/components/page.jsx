@@ -57,7 +57,11 @@ class ResourcePage extends Component {
           poster={this.props.resourceNode.poster ? this.props.resourceNode.poster.url : undefined}
         >
           {this.props.userEvaluation &&
-            <ProgressionGauge userEvaluation={this.props.userEvaluation} />
+            <ProgressionGauge
+              userEvaluation={this.props.userEvaluation}
+              width={70}
+              height={70}
+            />
           }
 
           <ResourcePageActions

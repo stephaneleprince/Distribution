@@ -13,12 +13,16 @@ const ProgressionGauge = props =>
     id={`user-progression`}
     type="user"
     value={props.userEvaluation.score ? (props.userEvaluation.score / props.userEvaluation.scoreMax)*100 : 0}
+    width={props.width}
+    height={props.height}
   />
 
 ProgressionGauge.propTypes = {
   userEvaluation: T.shape(
     UserEvaluationTypes.propTypes
-  ).isRequired
+  ).isRequired,
+  width: T.number,
+  height: T.number
 }
 
 export {
