@@ -42,6 +42,7 @@ const Pendings = connect(
     register(users, workspace) {
       dispatch(
         modalActions.showModal(MODAL_REGISTER_USER_WORKSPACE, {
+          //make a user id list after that
           register: (users, workspace) => dispatch(pendingActions.register(users, workspace)),
           users: users,
           workspace: workspace

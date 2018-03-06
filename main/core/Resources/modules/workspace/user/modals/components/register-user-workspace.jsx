@@ -10,13 +10,12 @@ const RegisterUserWorkspaceModal = props =>
   <ConfirmModal
     {...props}
     icon="fa fa-fw fa-lock"
-    title={trans('register')}
+    title={trans('user_registration')}
     confirmButtonText={trans('register')}
     dangerous={false}
-    question={trans('register_users')}
+    question={trans('workspace_user_register_validation_message', {'users': props.users.map(user => user.username).join(',')})}
     isHtml={false}
-    handleConfirm={() => {alert('okay')}}
-    fadeModal={() => {alert('pas okay')}}
+    handleConfirm={() => props.register(props.users, props.workspace)}
   />
 
 RegisterUserWorkspaceModal.propTypes = {

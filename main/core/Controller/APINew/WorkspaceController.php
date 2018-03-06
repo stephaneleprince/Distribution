@@ -75,7 +75,7 @@ class WorkspaceController extends AbstractCrudController
      *    "/{id}/registration/validate",
      *    name="apiv2_workspace_registration_validate"
      * )
-     * @Method("GET")
+     * @Method("PATCH")
      * @ParamConverter("workspace", options={"mapping": {"id": "uuid"}})
      *
      * @param Workspace $workspace
@@ -84,7 +84,20 @@ class WorkspaceController extends AbstractCrudController
      */
     public function validateRegistration(Request $request, Workspace $workspace)
     {
-        throw new \Exception('noom');
+        $query = $request->query->all();
+        $users = $this->om->findList('Claroline\CoreBundle\Entity\User', 'uuid', $query['ids']);
+
+        foreach ($users as $user) {
+            $pending = $this->om->getRepository('Claroline\CoreBundle\Entity\Workspace\WorkspaceRegistrationQueue')
+              ->findOneBy(['user' => $user, 'workspace' => $workspace]);
+            $this->container->get('claroline.manager.workspace_user_queue_manager')->validateRegistration($pending);
+            $this->container->get('claroline.manager.workspace_user_queue_manager')->removeRegistrationQueue($pending);
+        }
+
+        return new JsonResponse($this->finder->search(
+            'Claroline\CoreBundle\Entity\Workspace\WorkspaceRegistrationQueue',
+            ['hiddenFilters' => ['workspace' => $workspace->getUuid()]]
+        ));
     }
 
     /**

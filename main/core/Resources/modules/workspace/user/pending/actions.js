@@ -7,13 +7,13 @@ export const actions = {}
 
 actions.register = (users, workspace) => ({
   [API_REQUEST]: {
-    url: url(['apiv2_workspace_registration_validate', {id: workspace.id}], {ids: users}),
+    url: url(['apiv2_workspace_registration_validate', {id: workspace.uuid}]) + '?'+ users.map(user => 'ids[]='+user.id).join('&'),
     request: {
       method: 'PATCH'
     },
     success: (data, dispatch) => {
       dispatch(listActions.invalidateData('users.list'))
-      dispatch(listActions.invalidateData('users.pending'))
+      dispatch(listActions.invalidateData('pendings.list'))
     }
   }
 })
