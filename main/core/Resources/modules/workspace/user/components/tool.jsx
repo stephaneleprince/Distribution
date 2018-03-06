@@ -6,47 +6,74 @@ import {UserTab, UserTabActions} from '#/main/core/workspace/user/user/component
 import {GroupTab, GroupTabActions} from '#/main/core/workspace/user/group/components/group-tab.jsx'
 import {RoleTab, RoleTabActions} from '#/main/core/workspace/user/role/components/role-tab.jsx'
 import {PendingTab} from '#/main/core/workspace/user/pending/components/pending-tab.jsx'
+import {connect} from 'react-redux'
+import {currentUser} from '#/main/core/user/current'
+import {select}  from '#/main/core/workspace/user/selectors'
+import {READ_ONLY, ADMIN, getPermissionLevel} from  '#/main/core/workspace/user/restrictions'
 
-const Tool = () =>
-  <TabbedPageContainer
+const Tool = (props) => {
+  const permLevel = getPermissionLevel(currentUser(), props.workspace)
+  const tabs = [
+    {
+      icon: 'fa fa-user',
+      title: trans('users'),
+      path: '/users',
+      content: UserTab,
+      //perm check here for creation
+      actions: permLevel === ADMIN ? UserTabActions: null
+    },
+    {
+      icon: 'fa fa-users',
+      title: trans('groups'),
+      path: '/groups',
+      content: GroupTab,
+      //perm check here for creation
+      actions: permLevel === ADMIN ? GroupTabActions: null
+    },
+    {
+      icon: 'fa fa-id-badge',
+      title: trans('roles'),
+      path: '/roles',
+      content: RoleTab,
+      actions: RoleTabActions
+    },
+    {
+      icon: 'fa fa-book',
+      title: trans('pending'),
+      path: '/pendings',
+      content: PendingTab
+    }
+  ]
+
+  if (permLevel === READ_ONLY) {
+    const irole = tabs.findIndex(tab => tab.path === '/roles')
+    tabs.splice(irole, 1)
+    const ipending = tabs.findIndex(tab => tab.path === '/pendings')
+    tabs.splice(ipending, 1)
+  }
+
+  if (props.workspace.meta.model) {
+    const igroup = tabs.findIndex(tab => tab.path === '/groups')
+    tabs.splice(igroup, 1)
+    const iuser = tabs.findIndex(tab => tab.path === '/users')
+    tabs.splice(iuser, 1)
+  }
+
+  return (<TabbedPageContainer
     title={trans('workspace_management', {}, 'tools')}
     redirect={[
       {from: '/', exact: true, to: '/users'}
     ]}
-
-    tabs={[
-      {
-        icon: 'fa fa-user',
-        title: trans('users'),
-        path: '/users',
-        content: UserTab,
-        //perm check here for creation
-        actions: UserTabActions
-      },
-      {
-        icon: 'fa fa-users',
-        title: trans('groups'),
-        path: '/groups',
-        content: GroupTab,
-        //perm check here for creation
-        actions: GroupTabActions
-      },
-      {
-        icon: 'fa fa-id-badge',
-        title: trans('roles'),
-        path: '/roles',
-        content: RoleTab,
-        actions: RoleTabActions
-      },
-      {
-        icon: 'fa fa-book',
-        title: trans('pending'),
-        path: '/pendings',
-        content: PendingTab
-      }
-    ]}
+    tabs={tabs}
   />
+)}
+
+const UserTool = connect(
+  state => ({
+    workspace: select.workspace(state)
+  })
+)(Tool)
 
 export {
-  Tool as UserTool
+  UserTool
 }

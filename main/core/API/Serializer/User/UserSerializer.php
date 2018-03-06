@@ -169,9 +169,15 @@ class UserSerializer
                 }, $user->getGroups()->toArray()),
             ]);
 
+            $serializer = $this->container->get('claroline.api.serializer');
+
             if ($user->getMainOrganization()) {
-                $serialized['mainOrganization'] = $this->container->get('claroline.api.serializer')->serialize($user->getMainOrganization());
+                $serialized['mainOrganization'] = $serializer->serialize($user->getMainOrganization());
             }
+
+            $serialized['administratedOrganizations'] = array_map(function ($organization) use ($serializer) {
+                return $serializer->serialize($organization);
+            }, $user->getAdministratedOrganizations()->toArray());
         }
 
         if (in_array(Options::SERIALIZE_FACET, $options)) {
