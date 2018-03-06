@@ -1590,5 +1590,8 @@
     "resource_allowed_ip": "IPs authorisées",
     "summary": "Sommaire",
     "overview": "Page d'accueil",
-    "poster": "Image de couverture"
+    "poster": "Image de couverture",
+    "external": "Externe",
+    "internal": "Interne",
+    "force_organization_creation": "Forcer l'ajout d'une organization à l'utilisateur lors de l'inscription"
 }
