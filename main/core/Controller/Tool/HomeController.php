@@ -24,6 +24,11 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Controller of the workspace/desktop home page.
+ *
+ * @EXT\Route(
+ *     "/home",
+ *     options = {"expose"=true}
+ * )
  */
 class HomeController extends Controller
 {
@@ -31,6 +36,8 @@ class HomeController extends Controller
     private $eventDispatcher;
 
     /**
+     * HomeController constructor.
+     *
      * @DI\InjectParams({
      *     "authorization"   = @DI\Inject("security.authorization_checker"),
      *     "eventDispatcher" = @DI\Inject("event_dispatcher")
@@ -43,36 +50,18 @@ class HomeController extends Controller
     }
 
     /**
-     * @EXT\Route(
-     *     "/desktop/home/display/tab/{tabId}",
-     *     name="claro_desktop_home_display",
-     *     options = {"expose"=true}
-     * )
-     * @EXT\ParamConverter("user", options={"authenticatedUser" = true})
-     * @EXT\Template("ClarolineCoreBundle:Tool\desktop\home:desktopHome.html.twig")
+     * Displays the desktop home.
      *
-     * Displays the desktop
+     * @EXT\Route("/desktop")
+     * @EXT\Template("ClarolineCoreBundle:Tool:home.html.twig")
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return array
      */
-    public function desktopHomeDisplayAction($tabId = -1)
+    public function displayDesktopAction()
     {
-        return ['tabId' => $tabId];
-    }
+        return [
 
-    /**
-     * @EXT\Route(
-     *     "/desktop/tab/{tabId}",
-     *     name="claro_display_desktop_home_tab",
-     *     options = {"expose"=true}
-     * )
-     * @EXT\ParamConverter("user", options={"authenticatedUser" = true})
-     *
-     * @param int $tabId
-     */
-    public function displayDesktopHomeTabAction($tabId)
-    {
-        return $this->redirectToRoute('claro_desktop_home_display', ['tabId' => $tabId]);
+        ];
     }
 
     /**

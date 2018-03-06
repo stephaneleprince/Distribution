@@ -1,0 +1,29 @@
+{% extends 'ClarolineCoreBundle:Desktop:layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" type="text/css" href="{{ themeAsset('claroline-distribution-main-core-home-tool.css') }}" />
+{% endblock %}
+
+{# Title of the Page #}
+{% block title %}
+    {{ parent() ~ ' - ' ~ "home" | trans({}, "tools") | striptags | raw }}
+{% endblock %}
+
+{# Content of the Page #}
+{% block content %}
+    <div
+        class="page-container home-container"
+    ></div>
+{% endblock %}
+
+{% block javascripts %}
+    {# Claroline JS #}
+    {{ parent() }}
+
+    {# Translations #}
+    <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'home' }) }}"></script>
+
+    <script src="{{ hotAsset('dist/claroline-distribution-main-core-home-tool.js') }}"></script>
+{% endblock %}

@@ -60,7 +60,7 @@ class HomeListener
      */
     public function onDisplayDesktopHome(DisplayToolEvent $event)
     {
-        $params = ['_controller' => 'ClarolineCoreBundle:Tool\Home:desktopHomeDisplay'];
+        $params = ['_controller' => 'ClarolineCoreBundle:Tool\Home:displayDesktop'];
         $subRequest = $this->container->get('request')->duplicate([], null, $params);
         $response = $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
 
