@@ -21,7 +21,7 @@ const Tool = () =>
         path: '/users',
         content: UserTab,
         //perm check here for creation
-        actions: true !== true ? UserTabActions: null
+        actions: UserTabActions
       },
       {
         icon: 'fa fa-users',
@@ -29,7 +29,7 @@ const Tool = () =>
         path: '/groups',
         content: GroupTab,
         //perm check here for creation
-        actions: true !== true ? GroupTabActions: null
+        actions: GroupTabActions
       },
       {
         icon: 'fa fa-id-badge',
@@ -41,7 +41,7 @@ const Tool = () =>
       {
         icon: 'fa fa-book',
         title: trans('pending'),
-        path: '/pending',
+        path: '/pendings',
         content: PendingTab
       }
     ]}

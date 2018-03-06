@@ -52,6 +52,43 @@ class WorkspaceController extends AbstractCrudController
 
     /**
      * @Route(
+     *    "/{id}/pending",
+     *    name="apiv2_workspace_list_pending"
+     * )
+     * @Method("GET")
+     * @ParamConverter("workspace", options={"mapping": {"id": "uuid"}})
+     *
+     * @param Workspace $workspace
+     *
+     * @return JsonResponse
+     */
+    public function pendingListAction(Request $request, Workspace $workspace)
+    {
+        return new JsonResponse($this->finder->search(
+            'Claroline\CoreBundle\Entity\Workspace\WorkspaceRegistrationQueue',
+            ['hiddenFilters' => ['workspace' => $workspace->getUuid()]]
+        ));
+    }
+
+    /**
+     * @Route(
+     *    "/{id}/registration/validate",
+     *    name="apiv2_workspace_registration_validate"
+     * )
+     * @Method("GET")
+     * @ParamConverter("workspace", options={"mapping": {"id": "uuid"}})
+     *
+     * @param Workspace $workspace
+     *
+     * @return JsonResponse
+     */
+    public function validateRegistration(Request $request, Workspace $workspace)
+    {
+        throw new \Exception('noom');
+    }
+
+    /**
+     * @Route(
      *    "/{id}/managers",
      *    name="apiv2_workspace_list_managers"
      * )
