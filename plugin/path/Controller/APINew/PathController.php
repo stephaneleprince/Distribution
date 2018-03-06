@@ -15,13 +15,15 @@ use Claroline\AppBundle\Annotations\ApiMeta;
 use Claroline\AppBundle\API\SerializerProvider;
 use Claroline\AppBundle\Controller\AbstractCrudController;
 use Claroline\CoreBundle\Entity\User;
-//use Claroline\CoreBundle\Security\PermissionCheckerTrait;
+use Claroline\CoreBundle\Library\Security\Collection\ResourceCollection;
 use Innova\PathBundle\Entity\Step;
 use Innova\PathBundle\Manager\UserProgressionManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @ApiMeta(class="Innova\PathBundle\Entity\Path\Path")
@@ -29,7 +31,10 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PathController extends AbstractCrudController
 {
-//    use PermissionCheckerTrait;
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorization;
 
     /** @var SerializerProvider */
     protected $serializer;
@@ -43,15 +48,21 @@ class PathController extends AbstractCrudController
      * PathController constructor.
      *
      * @DI\InjectParams({
+     *     "authorization"          = @DI\Inject("security.authorization_checker"),
      *     "serializer"             = @DI\Inject("claroline.api.serializer"),
      *     "userProgressionManager" = @DI\Inject("innova_path.manager.user_progression")
      * })
      *
-     * @param SerializerProvider     $serializer
-     * @param UserProgressionManager $userProgressionManager
+     * @param AuthorizationCheckerInterface $authorization
+     * @param SerializerProvider            $serializer
+     * @param UserProgressionManager        $userProgressionManager
      */
-    public function __construct(SerializerProvider $serializer, UserProgressionManager $userProgressionManager)
-    {
+    public function __construct(
+        AuthorizationCheckerInterface $authorization,
+        SerializerProvider $serializer,
+        UserProgressionManager $userProgressionManager
+    ) {
+        $this->authorization = $authorization;
         $this->serializer = $serializer;
         $this->userProgressionManager = $userProgressionManager;
     }
@@ -76,7 +87,11 @@ class PathController extends AbstractCrudController
      */
     public function stepProgressionUpdateAction(Step $step, User $user, Request $request)
     {
-//        $this->checkPermission('OPEN', $step->getPath()->getResourceNode(), [], true);
+        $node = $step->getPath()->getResourceNode();
+
+        if (!$this->authorization->isGranted('OPEN', new ResourceCollection([$node]))) {
+            throw new AccessDeniedException('Operation "OPEN" cannot be done on object'.get_class($node));
+        }
         $status = $this->decodeRequest($request)['status'];
         $this->userProgressionManager->update($step, $user, $status, true);
         $this->userProgressionManager->generateResourceEvaluation($step, $user, $status);
