@@ -1389,7 +1389,7 @@
     "workspace_creator": "Créateur de l'espace",
     "workspace_delete": "Supprimer l'espace d'activités",
     "workspace_delete_confirm_message": "Etes-vous sûr de vouloir supprimer cet espace d'activités ?",
-    "workspace_delete_confirm_title": "Confirmation de suppression",
+    "workspace_delete_confirm_title": "Supprimer l'espace d'activité",
     "workspace_delete_success_message": "L'espace d'activités \"%workspaceName%\" été supprimé.",
     "workspace_display": "Affichage",
     "workspace_home_tab_creation": "Création d'un onglet pour les espaces d'activités",

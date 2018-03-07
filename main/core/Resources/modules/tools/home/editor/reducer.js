@@ -1,8 +1,6 @@
-import {makeReducer} from '#/main/core/scaffolding/reducer'
+import {makeFormReducer} from '#/main/core/data/form/reducer'
 
-const reducer = makeReducer({}, {
-
-})
+const reducer = makeFormReducer('editor')
 
 export {
   reducer

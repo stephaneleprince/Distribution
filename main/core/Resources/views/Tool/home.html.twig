@@ -11,6 +11,19 @@
     {{ parent() ~ ' - ' ~ "home" | trans({}, "tools") | striptags | raw }}
 {% endblock %}
 
+{# Override breadcrumbs #}
+{% block breadcrumb %}
+    {{
+        macros.breadcrumbs([{
+            'name': 'desktop'|trans({}, 'platform'),
+            'href': path('claro_desktop_open')
+        }, {
+            'name': 'home'|trans({}, 'tools'),
+            'href': ''
+        }])
+    }}
+{% endblock %}
+
 {# Content of the Page #}
 {% block content %}
     <div

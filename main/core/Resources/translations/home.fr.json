@@ -42,5 +42,11 @@
     "unpublish_link": "Cliquez ici pour modifier les paramètres.",
     "unpublish_page": "Cette page web n'est pas publiée!",
     "weeks_ago": "Il y a %count% semaine|Il y a %count% semaines",
-    "years_ago": "Il y a %count% an|Il y a %count% ans"
+    "years_ago": "Il y a %count% an|Il y a %count% ans",
+
+    "add_widget": "Ajouter un widget",
+    "edit_widget": "Modifier le widget",
+    "add_widget_before": "Insérer un widget",
+    "widget_delete_confirm_title": "Supprimer le widget",
+    "widget_delete_confirm_message": "Êtes-vous sûr de vouloir supprimer ce widget ?"
 }
