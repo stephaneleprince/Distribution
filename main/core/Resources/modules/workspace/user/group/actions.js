@@ -4,8 +4,6 @@ import {API_REQUEST} from '#/main/core/api/actions'
 import {actions as listActions} from '#/main/core/data/list/actions'
 import {actions as formActions} from '#/main/core/data/form/actions'
 
-import {User as UserTypes} from '#/main/core/administration/user/user/prop-types'
-
 export const actions = {}
 
 actions.open = (formName, id = null, defaultProps) => {
@@ -30,6 +28,18 @@ actions.addRoles = (id, roles) => ({
     success: (data, dispatch) => {
       dispatch(listActions.invalidateData('groups.list'))
       dispatch(listActions.invalidateData('groups.current.roles'))
+    }
+  }
+})
+
+actions.unregister = (groups, workspace) => ({
+  [API_REQUEST]: {
+    url: url(['apiv2_workspace_unregister_groups', {id: workspace.uuid}]) + '?'+ groups.map(group => 'ids[]='+group.id).join('&'),
+    request: {
+      method: 'DELETE'
+    },
+    success: (data, dispatch) => {
+      dispatch(listActions.invalidateData('groups.list'))
     }
   }
 })

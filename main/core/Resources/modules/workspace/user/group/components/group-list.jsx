@@ -2,16 +2,12 @@ import React from 'react'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
 
-import {t, Translator} from '#/main/core/translation'
-import {generateUrl} from '#/main/core/api/router'
+import {trans} from '#/main/core/translation'
 
 import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
-import Configuration from '#/main/core/library/Configuration/Configuration'
-
+import {actions} from '#/main/core/workspace/group/action'
 import {actions as modalActions} from '#/main/core/layout/modal/actions'
-import {MODAL_CHANGE_PASSWORD} from '#/main/core/user/modals/components/change-password.jsx'
-import {MODAL_URL} from '#/main/core/layout/modal'
-
+import {MODAL_DELETE_CONFIRM} from '#/main/core/layout/modal'
 import {select} from '#/main/core/workspace/user/selectors'
 import {GroupList} from '#/main/core/administration/user/group/components/group-list.jsx'
 
@@ -23,17 +19,35 @@ const GroupsList = props =>
       url: ['apiv2_workspace_list_groups', {id: props.workspace.uuid}],
       autoload: true
     }}
-    actions={[]}
+    actions={[
+      {
+        icon: 'fa fa-fw fa-trash-o',
+        label: trans('unregister'),
+        action: (rows) => props.unregister(rows, props.workspace),
+        dangerous: true
+      }]}
     definition={GroupList.definition}
     card={GroupList.card}
   />
 
 GroupsList.propTypes = {
+  workspace: T.object,
+  unregister: T.function
 }
 
 const Groups = connect(
   state => ({workspace: select.workspace(state)}),
-  null
+  dispatch => ({
+    unregister(users, workspace) {
+      dispatch(
+        modalActions.showModal(MODAL_DELETE_CONFIRM, {
+          title: trans('unregister_groups'),
+          question: trans('unregister_groups'),
+          handleConfirm: () => dispatch(actions.unregister(users, workspace))
+        })
+      )
+    }
+  })
 )(GroupsList)
 
 export {

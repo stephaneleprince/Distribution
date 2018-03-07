@@ -82,7 +82,7 @@ class WorkspaceController extends AbstractCrudController
      *
      * @return JsonResponse
      */
-    public function validateRegistration(Request $request, Workspace $workspace)
+    public function validateRegistrationAction(Request $request, Workspace $workspace)
     {
         $query = $request->query->all();
         $users = $this->om->findList('Claroline\CoreBundle\Entity\User', 'uuid', $query['ids']);
@@ -98,6 +98,38 @@ class WorkspaceController extends AbstractCrudController
             'Claroline\CoreBundle\Entity\Workspace\WorkspaceRegistrationQueue',
             ['hiddenFilters' => ['workspace' => $workspace->getUuid()]]
         ));
+    }
+
+    /**
+     * @Route(
+     *    "/{id}/users/unregistrate",
+     *    name="apiv2_workspace_unregister_users"
+     * )
+     * @Method("DELETE")
+     * @ParamConverter("workspace", options={"mapping": {"id": "uuid"}})
+     *
+     * @param Workspace $workspace
+     *
+     * @return JsonResponse
+     */
+    public function unregisterUsersAction(Request $request, Workspace $workspace)
+    {
+    }
+
+    /**
+     * @Route(
+     *    "/{id}/groups/unregistrate",
+     *    name="apiv2_workspace_unregister_groups"
+     * )
+     * @Method("DELETE")
+     * @ParamConverter("workspace", options={"mapping": {"id": "uuid"}})
+     *
+     * @param Workspace $workspace
+     *
+     * @return JsonResponse
+     */
+    public function unregisterGroupsAction(Request $request, Workspace $workspace)
+    {
     }
 
     /**

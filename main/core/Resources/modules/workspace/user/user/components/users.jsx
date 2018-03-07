@@ -2,15 +2,14 @@ import React from 'react'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
 
-import {t, Translator} from '#/main/core/translation'
-import {generateUrl} from '#/main/core/api/router'
+import {trans} from '#/main/core/translation'
 
 import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
-import Configuration from '#/main/core/library/Configuration/Configuration'
 
 import {actions as modalActions} from '#/main/core/layout/modal/actions'
-import {MODAL_ADD_ROLES} from '#/main/core/workspace/user/modals/components/add-roles.jsx'
+import {MODAL_DELETE_CONFIRM} from '#/main/core/layout/modal'
 import {UserList} from '#/main/core/workspace/user/user/components/user-list.jsx'
+import {actions} from '#/main/core/workspace/user/action'
 
 import {select} from '#/main/core/workspace/user/selectors'
 
@@ -24,25 +23,29 @@ const UsersList = props =>
     }}
   actions={[
     {
-      icon: 'fa fa-fw fa-id-card-o',
-      label: t('add_role'),
-      action: (rows) => props.addRoles(rows, props.workspace.roles)
+      icon: 'fa fa-fw fa-trash-o',
+      label: trans('unregister'),
+      action: (rows) => props.unregister(rows, props.workspace),
+      dangerous: true
     }]}
     definition={UserList.definition}
     card={UserList.card}
   />
 
 UsersList.propTypes = {
+  workspace: T.object,
+  unregister: T.function
 }
 
 const Users = connect(
   state => ({workspace: select.workspace(state)}),
   dispatch => ({
-    addRoles(users, roles) {
+    unregister(users, workspace) {
       dispatch(
-        modalActions.showModal(MODAL_ADD_ROLES, {
-          addRoles: (roles) => dispatch(userActions.addRoles(users, roles)),
-          roles: roles
+        modalActions.showModal(MODAL_DELETE_CONFIRM, {
+          title: trans('unregister_users'),
+          question: trans('unregister_users'),
+          handleConfirm: () => dispatch(actions.unregister(users, workspace))
         })
       )
     }
