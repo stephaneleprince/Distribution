@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import {trans} from '#/main/core/translation'
 
 import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
-import {actions} from '#/main/core/workspace/group/action'
+import {actions} from '#/main/core/workspace/user/group/actions'
 import {actions as modalActions} from '#/main/core/layout/modal/actions'
 import {MODAL_DELETE_CONFIRM} from '#/main/core/layout/modal'
 import {select} from '#/main/core/workspace/user/selectors'

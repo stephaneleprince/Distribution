@@ -9,7 +9,7 @@ import {DataListContainer} from '#/main/core/data/list/containers/data-list.jsx'
 import {actions as modalActions} from '#/main/core/layout/modal/actions'
 import {MODAL_DELETE_CONFIRM} from '#/main/core/layout/modal'
 import {UserList} from '#/main/core/workspace/user/user/components/user-list.jsx'
-import {actions} from '#/main/core/workspace/user/action'
+import {actions} from '#/main/core/workspace/user/user/actions'
 
 import {select} from '#/main/core/workspace/user/selectors'
 

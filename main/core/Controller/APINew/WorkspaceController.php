@@ -90,6 +90,7 @@ class WorkspaceController extends AbstractCrudController
         foreach ($users as $user) {
             $pending = $this->om->getRepository('Claroline\CoreBundle\Entity\Workspace\WorkspaceRegistrationQueue')
               ->findOneBy(['user' => $user, 'workspace' => $workspace]);
+            //maybe use the crud instead ? I don't know yet
             $this->container->get('claroline.manager.workspace_user_queue_manager')->validateRegistration($pending);
             $this->container->get('claroline.manager.workspace_user_queue_manager')->removeRegistrationQueue($pending);
         }
@@ -114,6 +115,18 @@ class WorkspaceController extends AbstractCrudController
      */
     public function unregisterUsersAction(Request $request, Workspace $workspace)
     {
+        $query = $request->query->all();
+        $users = $this->om->findList('Claroline\CoreBundle\Entity\User', 'uuid', $query['ids']);
+
+        $this->om->startFlushSuite();
+
+        foreach ($users as $user) {
+            $this->container->get('claroline.manager.workspace_manager')->unregister($user, $workspace);
+        }
+
+        $this->om->endFlushSuite();
+
+        return new JsonResponse('success');
     }
 
     /**
@@ -130,6 +143,18 @@ class WorkspaceController extends AbstractCrudController
      */
     public function unregisterGroupsAction(Request $request, Workspace $workspace)
     {
+        $query = $request->query->all();
+        $groups = $this->om->findList('Claroline\CoreBundle\Entity\Group', 'uuid', $query['ids']);
+
+        $this->om->startFlushSuite();
+
+        foreach ($groups as $group) {
+            $this->container->get('claroline.manager.workspace_manager')->unregister($group, $workspace);
+        }
+
+        $this->om->endFlushSuite();
+
+        return new JsonResponse('success');
     }
 
     /**
