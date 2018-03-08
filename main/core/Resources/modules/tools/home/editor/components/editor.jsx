@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {PropTypes as T} from 'prop-types'
 import {connect} from 'react-redux'
 
@@ -12,6 +12,8 @@ import {MODAL_EDIT_WIDGET} from '#/main/core/tools/home/editor/components/modal/
 import {Widget} from '#/main/core/tools/home/components/widget'
 import {actions} from '#/main/core/tools/home/editor/actions'
 
+import {getWidget} from '#/main/core/widgets'
+
 const WidgetEditor = props =>
   <div className="widget-container">
     <div className="widget-actions text-right">
@@ -19,7 +21,7 @@ const WidgetEditor = props =>
         id={`add-before-${props.id}`}
         className="btn-link-default"
         icon="fa fa-fw fa-plus"
-        label={trans('add_widget_before')}
+        label={trans('add_widget_before', {}, 'home')}
         action={props.insert}
       />
 
@@ -54,31 +56,75 @@ WidgetEditor.propTypes = {
   delete: T.func.isRequired
 }
 
-const EditorComponent = props =>
-  <div>
-    <WidgetEditor
-      id="id1"
-      title="My widget title 1"
-      insert={() => props.add(0)}
-      edit={props.edit}
-      delete={props.delete}
-    />
+class EditorComponent extends Component {
+  componentDidMount() {
+    getWidget()
+  }
 
-    <WidgetEditor
-      id="id2"
-      title="My widget title 2"
-      insert={() => props.add(1)}
-      edit={props.edit}
-      delete={props.delete}
-    />
+  render() {
+    return (
+      <div>
+        <WidgetEditor
+          id="id1"
+          title="My widget title 1"
+          insert={() => this.props.add(0)}
+          edit={this.props.edit}
+          delete={this.props.delete}
+        />
 
-    <button
-      className="btn btn-block btn-primary btn-add"
-      onClick={props.add}
-    >
-      {trans('add_widget', {}, 'home')}
-    </button>
-  </div>
+        <WidgetEditor
+          id="id2"
+          title="My widget title 2"
+          insert={() => props.add(1)}
+          edit={this.props.edit}
+          delete={this.props.delete}
+        />
+
+        <button
+          className="btn btn-block btn-primary btn-add"
+          onClick={this.props.add}
+        >
+          {trans('add_widget', {}, 'home')}
+        </button>
+
+        <div className="simple-widget" />
+      </div>
+    )
+  }
+}
+
+/*const EditorComponent = props => {
+  getWidget()
+
+  return (
+    <div>
+      <WidgetEditor
+        id="id1"
+        title="My widget title 1"
+        insert={() => props.add(0)}
+        edit={props.edit}
+        delete={props.delete}
+      />
+
+      <WidgetEditor
+        id="id2"
+        title="My widget title 2"
+        insert={() => props.add(1)}
+        edit={props.edit}
+        delete={props.delete}
+      />
+
+      <button
+        className="btn btn-block btn-primary btn-add"
+        onClick={props.add}
+      >
+        {trans('add_widget', {}, 'home')}
+      </button>
+
+      <div className="simple-widget" />
+    </div>
+  )
+}*/
 
 EditorComponent.propTypes = {
   widgets: T.arrayOf(T.shape({
@@ -96,7 +142,25 @@ const Editor = connect(
   dispatch => ({
     add(position) {
       dispatch(modalActions.showModal(MODAL_ADD_WIDGET, {
-        selectType: (widgetType) => dispatch(actions.addWidget(widgetType, position))
+        availableWidgets: [
+          {
+            name: 'Simple text',
+            categories: ['media']
+          }, {
+            name: 'Profile',
+            categories: ['user']
+          }, {
+            name: 'Users list',
+            categories: ['user']
+          }, {
+            name: 'Calendar',
+            categories: ['event']
+          }, {
+            name: 'Timeline',
+            categories: ['event']
+          }
+        ],
+        add: (widgetType) => dispatch(actions.addWidget(widgetType, position))
       }))
     },
     edit() {

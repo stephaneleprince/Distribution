@@ -12,10 +12,11 @@ const collectedEntries = entries.collectEntries()
 Encore
   .setOutputPath(paths.output())
   //localhost***1080 doesn't work properly
-  .setPublicPath('/dist')
+  //.setOutputPath(paths.output())
+  .setPublicPath('')
   .autoProvidejQuery()
   .enableReactPreset()
-  .setManifestKeyPrefix('/dist')
+  //.setManifestKeyPrefix('/dist')
   .enableSourceMaps(true)//false si plus rapide
   //.cleanupOutputBeforeBuild()
   .enableBuildNotifications()
@@ -35,6 +36,9 @@ Encore
   })
   .configureBabel(babelConfig => {
       babelConfig.compact = false
+
+      // for webpack dynamic import (compile `import()` and generate targeted chunks)
+      babelConfig.plugins.push('syntax-dynamic-import')
   })
   .addLoader({test: /\.html$/, loader: 'html-loader'})
 
@@ -54,6 +58,11 @@ config.resolve.mainFields = ['main', 'browser']
 config.resolve.aliasFields = ['browser']
 config.resolve.alias = shared.aliases()
 config.externals = shared.externals()
+
+// for webpack dynamic import
+// override name for non entry chunk files
+//config.output.chunkFilename = '[name].[chunkhash].js'
+config.output.chunkFilename = '[name].js'
 
 // export the final configuration
 module.exports = config

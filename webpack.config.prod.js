@@ -17,6 +17,9 @@ Encore
     .setManifestKeyPrefix('/dist')
     .enableSourceMaps(false)
     //.cleanupOutputBeforeBuild()
+    .configureFilenames({
+      chunkFilename: '[name].bundle.js'
+    })
     .enableBuildNotifications()
     .enableVersioning(true)
     .configureManifestPlugin(options => options.fileName = 'manifest.lib.json')

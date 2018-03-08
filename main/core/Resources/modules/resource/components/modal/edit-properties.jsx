@@ -47,9 +47,7 @@ class EditPropertiesModal extends Component {
         {...this.props}
         title={t_res('edit-properties')}
         data={this.state.resourceNode}
-        save={this.props.save}
         onChange={this.onChange}
-        fadeModal={this.props.fadeModal}
         sections={[
           {
             id: 'general',
