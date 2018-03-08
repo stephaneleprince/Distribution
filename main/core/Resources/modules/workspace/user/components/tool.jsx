@@ -5,6 +5,7 @@ import {TabbedPageContainer} from '#/main/core/layout/tabs'
 import {UserTab, UserTabActions} from '#/main/core/workspace/user/user/components/user-tab.jsx'
 import {GroupTab, GroupTabActions} from '#/main/core/workspace/user/group/components/group-tab.jsx'
 import {RoleTab, RoleTabActions} from '#/main/core/workspace/user/role/components/role-tab.jsx'
+import {ParametersTab, ParametersTabActions} from '#/main/core/workspace/user/parameters/components/parameters-tab.jsx'
 import {PendingTab} from '#/main/core/workspace/user/pending/components/pending-tab.jsx'
 import {connect} from 'react-redux'
 import {currentUser} from '#/main/core/user/current'
@@ -42,6 +43,13 @@ const Tool = (props) => {
       title: trans('pending'),
       path: '/pendings',
       content: PendingTab
+    },
+    {
+      icon: 'fa fa-cog',
+      title: trans('parameters'),
+      path: '/parameters',
+      content: ParametersTab,
+      actions: ParametersTabActions
     }
   ]
 
@@ -50,6 +58,8 @@ const Tool = (props) => {
     tabs.splice(irole, 1)
     const ipending = tabs.findIndex(tab => tab.path === '/pendings')
     tabs.splice(ipending, 1)
+    const iparam = tabs.findIndex(tab => tab.path === '/parameters')
+    tabs.splice(iparam, 1)
   }
 
   if (props.workspace.meta.model) {

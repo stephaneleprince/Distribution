@@ -21,7 +21,11 @@ bootstrap(
   (initialData) => {
     return {
       workspace: initialData.workspace,
-      restrictions: initialData.restrictions
+      restrictions: initialData.restrictions,
+      parameters: {
+        data: initialData.workspace,
+        originalData: initialData.workspace
+      }
     }
   }
 )
