@@ -2065,4 +2065,9 @@ class ResourceManager
 
         return $this->getResourceFromNode($target);
     }
+
+    public function getNotDeletableResourcesByWorkspace(Workspace $workspace)
+    {
+        return $this->resourceNodeRepo->findBy(['workspace' => $workspace, 'deletable' => false]);
+    }
 }

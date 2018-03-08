@@ -1384,6 +1384,7 @@
     "workspace_max_users": "Maximum number of users",
     "workspaces_max_users": "Maximum number of users per workspace",
     "workspace_model_invalid": "The model %model% doesn't exist (line %line%).",
+    "workspace_not_deletable_resources_error_message": "Workspace \"%workspaceName%\" could not be deleted because it contains not deletable resources.",
     "workspace_order_tool_edit_form_name": "Name",
     "workspace_queue_cancel_confirm_message": "Are you sure you want to cancel the registration request to this workspace ?",
     "workspace_queue_cancel_confirm_title": "Cancel registration request",

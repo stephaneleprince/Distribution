@@ -1403,6 +1403,7 @@
     "workspace_max_users": "Nombre d'utilisateurs maximum",
     "workspaces_max_users": "Nombre maximal d'utilisateurs par espace d'activités",
     "workspace_model_invalid": "Le modèle %model% n'existe pas à la ligne %line%.",
+    "workspace_not_deletable_resources_error_message": "L'espace d'activités \"%workspaceName%\" n'a pas pu être supprimé parce qu'il contient des ressources non supprimables.",
     "workspace_not_exists": "L'espace d'activités %code% n'existe pas à la ligne %line%.",
     "workspace_order_tool_edit_form_name": "Nom",
     "workspace_queue_cancel_confirm_message": "Voulez-vous vraiment annuler votre demande d'inscription à cet espace d'activités ?",
